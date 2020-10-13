@@ -61,10 +61,25 @@ public class Commands extends ListenerAdapter {
 
     private void say(GuildMessageReceivedEvent e) 
     {
-        String out = e.getMessage().getContentRaw().toString();
-        out = out.replace("!say ", "");
-        e.getMessage().delete().queue();
-        e.getChannel().sendMessage(out).queue();
+
+        if (e.getAuthor().getIdLong() == 312743142828933130l)
+        {
+            String out = e.getMessage().getContentRaw().toString();
+            out = out.replace("!say ", "");
+            e.getMessage().delete().queue();
+            e.getChannel().sendMessage(out).queue();
+        }
+        
+        else if (e.getMember().getPermissions().contains(Permission.ADMINISTRATOR))
+        {
+            EmbedBuilder em = new EmbedBuilder();
+            em.setFooter(e.getAuthor().getName(), e.getAuthor().getAvatarUrl());
+            em.setTitle("Announcement");
+            String out = e.getMessage().getContentRaw().toString();
+            out = out.replace("!say ", "");
+            em.setDescription(out);
+            e.getChannel().sendMessage(em.build()).queue();
+        }
     }
 
     private void rank(GuildMessageReceivedEvent e) 

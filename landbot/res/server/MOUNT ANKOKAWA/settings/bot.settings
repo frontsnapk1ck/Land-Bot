@@ -1,0 +1,4 @@
+prefix:!
+starting balance:1000
+cooldown:10
+role assign on buy:false

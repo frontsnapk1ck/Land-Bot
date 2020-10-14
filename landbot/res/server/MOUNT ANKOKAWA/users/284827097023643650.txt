@@ -1,0 +1,14 @@
+2223
+shack>0
+apartment>0
+townhome>0
+bungalow>0
+ranch style house>0
+cottage>0
+cabin>0
+chalet>0
+carriage house>0
+craftsman home>0
+mansion>0
+contemporary mansion>0
+castle>0

@@ -30,4 +30,4 @@ buildNumber.properties
 #
 #Custom
 #
-res/*
+# res/*

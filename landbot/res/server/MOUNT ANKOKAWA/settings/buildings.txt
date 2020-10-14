@@ -1,0 +1,13 @@
+shack:2500:0
+apartment:7500:0
+townhome:14500:0
+bungalow:18000:0
+ranch style house:23500:0
+cottage:25750:0
+cabin:29500:0
+chalet:35000:0
+carriage house:42000:0
+craftsman home:57500:0
+mansion:69000:0
+contemporary mansion:100000:0
+castle:150000:0

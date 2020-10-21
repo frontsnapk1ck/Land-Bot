@@ -13,7 +13,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class UpdateManager extends ListenerAdapter {
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
+    {
         this.checkFileSystem(e);
     }
 

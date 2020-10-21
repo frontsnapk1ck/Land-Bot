@@ -5,6 +5,7 @@ import javax.security.auth.login.LoginException;
 import landbot.commands.AdminCommands;
 import landbot.commands.BuildingCommands;
 import landbot.commands.Commands;
+import landbot.commands.SpamCommands;
 import landbot.commands.UpdateManager;
 import landbot.io.FileReader;
 import net.dv8tion.jda.api.JDA;
@@ -37,6 +38,7 @@ public class Main {
         jda.addEventListener(new Commands());
         jda.addEventListener(new BuildingCommands());
         jda.addEventListener(new AdminCommands());
+        jda.addEventListener(new SpamCommands());
 
     }
 

@@ -11,9 +11,7 @@ import landbot.io.Saver;
 import landbot.player.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -31,7 +29,8 @@ public class Commands extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
+    {
         if (e.getAuthor().isBot())
             return;
 
@@ -58,72 +57,8 @@ public class Commands extends ListenerAdapter {
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "say"))
             say(e);
 
-        else if (args[0].equalsIgnoreCase(s.getPrefix() + "spam"))
-            spam(e, args);
+
     }
-
-    private void spam(GuildMessageReceivedEvent e, String[] args) {
-        Server s = ServerBuilder.buildServer(e.getGuild());
-        List<GuildChannel> channels = e.getGuild().getChannels();
-
-        Runnable r = new Runnable() {
-            private boolean stop;
-
-            @Override
-            public void run() {
-                boolean valid = false;
-                int num = -1;
-                String message = "";
-                valid = args.length >= 2;
-                if (!valid)
-                    return;
-
-                try {
-                    num = Integer.parseInt(args[1]);
-                } catch (NumberFormatException ex) {
-                    e.getChannel().sendMessage("please enter a number");
-                }
-
-                if (!e.getMember().getPermissions().contains(Permission.ADMINISTRATOR)
-                        && e.getAuthor().getIdLong() != 312743142828933130l)
-                    num = num > 5 ? 5 : num;
-
-                valid = num >= 1 && valid;
-                if (!valid)
-                    return;
-
-                for (int i = 2; i < args.length; i++)
-                    message += args[i] + " ";
-
-                valid = false;
-                for (int i = 0; i < num; i++) {
-                    if (this.stop)
-                        return;
-
-                    TextChannel channel = null;
-                    for (GuildChannel c : channels) {
-                        if (c.getIdLong() == s.getSpamChannel())
-                            channel = (TextChannel) c;
-                    }
-
-                    channel.sendMessage(message).queue();
-
-                    try 
-                    {
-                        Thread.sleep(100);
-                    } 
-                    catch (InterruptedException e1) 
-                    {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        };
-        Thread t = new Thread(r, "Spam Manager");
-        t.setDaemon(true);
-        t.start();
-        
-        }
 
     private void say(GuildMessageReceivedEvent e) 
     {

@@ -15,6 +15,7 @@ import landbot.player.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -70,7 +71,6 @@ public class AdminCommands extends ListenerAdapter {
         Server s = ServerBuilder.buildServer(e.getGuild());
         this.guildname = e.getGuild().getName();
 
-
         if (args[0].equalsIgnoreCase(s.getPrefix() + "prefix"))
             prefixCommand(e, args);
 
@@ -93,11 +93,11 @@ public class AdminCommands extends ListenerAdapter {
             resetWorkOptions(e);
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "add-work"))
-            addWorkOption( e , args );
-        
+            addWorkOption(e, args);
+
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "rm-work"))
             removeWorkOption(e);
-        
+
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "view-work"))
             viewWorkOptions(e);
 
@@ -105,19 +105,19 @@ public class AdminCommands extends ListenerAdapter {
             day(e);
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "buy-roles"))
-            buyRoles(e , args );
-        
-        else if (args[0].equalsIgnoreCase(s.getPrefix() + "admin-cooldown"))
-            adminCooldown(e , args);
+            buyRoles(e, args);
 
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "admin-cooldown"))
+            adminCooldown(e, args);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "spam-channel"))
+            setSpam(e, args);
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "help"))
             help(e);
 
-        else if ((  this.removeBuilding || 
-                    this.buildingB || 
-                    this.removeWorkOption)  && e.getAuthor().equals(this.buildingConstrucort)
-                                            && args[0].contains("cancel"))
+        else if ((this.removeBuilding || this.buildingB || this.removeWorkOption)
+                && e.getAuthor().equals(this.buildingConstrucort) && args[0].contains("cancel"))
             cancelProgress(e);
 
         else if (this.removeBuilding && e.getAuthor().equals(this.buildingConstrucort))
@@ -125,13 +125,55 @@ public class AdminCommands extends ListenerAdapter {
 
         else if (this.buildingB && e.getAuthor().equals(this.buildingConstrucort))
             buildBuilding(args[0], e);
-        
+
         else if (this.removeWorkOption && e.getAuthor().equals(this.buildingConstrucort))
             selectWorkOptionRemove(e);
 
         else
             cancelProgress(e);
 
+    }
+
+    private void setSpam(GuildMessageReceivedEvent e, String[] args) {
+        cancelProgress(e);
+        Server s = ServerBuilder.buildServer(e.getGuild());
+
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+
+        if (args.length == 1) {
+            e.getChannel().sendTyping().queue();
+            EmbedBuilder eb = new EmbedBuilder();
+
+            eb.setTitle("Spam Channel");
+            eb.addField(new Field("The Spam Channel is Currently", "<#" + s.getSpamChannel() + ">", true));
+            e.getChannel().sendMessage(eb.build()).queue();
+        }
+
+        else {
+            String spam = args[1];
+            spam = spam.replace("<#", "");
+            spam = spam.replace(">", "");
+            boolean valid = false;
+            List<GuildChannel> channels = e.getGuild().getChannels();
+            for (GuildChannel c : channels) 
+            {
+                if (c.getId().equals(spam))
+                    valid = true;
+            }
+
+            if (valid)
+            {
+                s.changeSpamChannel(Long.parseLong(spam));
+                EmbedBuilder eb = new EmbedBuilder();
+
+                eb.setTitle("Spam Channel");
+                eb.addField(new Field("The Spam Channel is now", "<#" + s.getSpamChannel() + ">", true));
+                e.getChannel().sendMessage(eb.build()).queue();
+            }
+            else
+                e.getChannel().sendMessage("Please enter a valid channel").queue();;
+        }
     }
 
     private void adminCooldown(GuildMessageReceivedEvent e, String[] args) 
@@ -156,7 +198,7 @@ public class AdminCommands extends ListenerAdapter {
         else
         {
             boolean valid = false;
-            while (!valid) {
+            if (!valid) {
                 try {
                     boolean b = Boolean.parseBoolean(args[1]);
                     valid = true;

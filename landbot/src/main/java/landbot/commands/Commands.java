@@ -11,7 +11,9 @@ import landbot.io.Saver;
 import landbot.player.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -24,17 +26,15 @@ public class Commands extends ListenerAdapter {
         this.cooldownUsers = new ArrayList<Player>();
     }
 
-    private void createWorkOptions(Server s) 
-    {
+    private void createWorkOptions(Server s) {
         this.workOptions = FileReader.read(s.getPath() + "\\settings\\work.options");
     }
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
-    {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
         if (e.getAuthor().isBot())
             return;
-        
+
         Server s = ServerBuilder.buildServer(e.getGuild());
         createWorkOptions(s);
 
@@ -54,9 +54,75 @@ public class Commands extends ListenerAdapter {
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "rank"))
             rank(e);
-        
+
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "say"))
             say(e);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "spam"))
+            spam(e, args);
+    }
+
+    private void spam(GuildMessageReceivedEvent e, String[] args) {
+        Server s = ServerBuilder.buildServer(e.getGuild());
+        List<GuildChannel> channels = e.getGuild().getChannels();
+
+        Runnable r = new Runnable() {
+            private boolean stop;
+
+            @Override
+            public void run() {
+                boolean valid = false;
+                int num = -1;
+                String message = "";
+                valid = args.length >= 2;
+                if (!valid)
+                    return;
+
+                try {
+                    num = Integer.parseInt(args[1]);
+                } catch (NumberFormatException ex) {
+                    e.getChannel().sendMessage("please enter a number");
+                }
+
+                if (!e.getMember().getPermissions().contains(Permission.ADMINISTRATOR)
+                        && e.getAuthor().getIdLong() != 312743142828933130l)
+                    num = num > 5 ? 5 : num;
+
+                valid = num >= 1 && valid;
+                if (!valid)
+                    return;
+
+                for (int i = 2; i < args.length; i++)
+                    message += args[i] + " ";
+
+                valid = false;
+                for (int i = 0; i < num; i++) {
+                    if (this.stop)
+                        return;
+
+                    TextChannel channel = null;
+                    for (GuildChannel c : channels) {
+                        if (c.getIdLong() == s.getSpamChannel())
+                            channel = (TextChannel) c;
+                    }
+
+                    channel.sendMessage(message).queue();
+
+                    try 
+                    {
+                        Thread.sleep(100);
+                    } 
+                    catch (InterruptedException e1) 
+                    {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread t = new Thread(r, "Spam Manager");
+        t.setDaemon(true);
+        t.start();
+        
         }
 
     private void say(GuildMessageReceivedEvent e) 
@@ -65,7 +131,7 @@ public class Commands extends ListenerAdapter {
         if (e.getAuthor().getIdLong() == 312743142828933130l)
         {
             String out = e.getMessage().getContentRaw().toString();
-            out = out.replace("!say ", "");
+            out = out.substring(5);
             e.getMessage().delete().queue();
             e.getChannel().sendMessage(out).queue();
         }
@@ -76,7 +142,7 @@ public class Commands extends ListenerAdapter {
             em.setFooter(e.getAuthor().getName(), e.getAuthor().getAvatarUrl());
             em.setTitle("Announcement");
             String out = e.getMessage().getContentRaw().toString();
-            out = out.replace("!say ", "");
+            out = out.substring(5);
             em.setDescription(out);
             e.getChannel().sendMessage(em.build()).queue();
         }

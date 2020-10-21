@@ -18,14 +18,16 @@ public class ServerBuilder {
         String coolString = loadSetting(Server.COOLDOWN, splitSettings);
         String boolString1 = loadSetting(Server.ROLE_ASSIGN_ON_BUY, splitSettings);
         String boolString2 = loadSetting(Server.ADMIN_BYPASS_COOLDOWN, splitSettings);
+        String spamString = loadSetting(Server.SPAM_CHANNEL, splitSettings);
 
 
         int start = Integer.parseInt(startString);
         int cool = Integer.parseInt(coolString);
         boolean roleAssign = Boolean.parseBoolean(boolString1);
         boolean adminBypass = Boolean.parseBoolean(boolString2);
+        Long spamChannel = Long.parseLong(spamString);
 
-        Server s = new Server(prefix, start, cool , path , roleAssign , adminBypass);
+        Server s = new Server(prefix, start, cool , path , roleAssign , adminBypass , spamChannel);
 
         return s;
     }

@@ -22,8 +22,8 @@ buildNumber.properties
 # Visual Studio Code
 #
 .settings/
-.classpath
-.factorypath
+#.classpath
+#.factorypath
 .project
 .vscode/
 
@@ -31,3 +31,4 @@ buildNumber.properties
 #Custom
 #
 # res/*
+landbot/res/key.token

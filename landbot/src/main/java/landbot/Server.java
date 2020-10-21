@@ -10,6 +10,7 @@ public class Server {
     public static final String COOLDOWN = "cooldown";
     public static final String ROLE_ASSIGN_ON_BUY = "role assign on buy";
     public static final String ADMIN_BYPASS_COOLDOWN = "admin bypass cooldown";
+    public static final String SPAM_CHANNEL = "spam channel";
 
     private String prefix;
     private int startingBalance;
@@ -17,8 +18,10 @@ public class Server {
     private String path;
     private boolean roleAssignOnBuy;
     private boolean adminBypassCooldown;
+    private long spamChannel;
 
-    public Server(String prefix , int startingBalace , int cooldown , String path , boolean roleAssignOnBuy , boolean adminBypassCooldown) 
+    public Server(  String prefix , int startingBalace , int cooldown , String path , 
+                    boolean roleAssignOnBuy , boolean adminBypassCooldown , long spamChannel) 
     {
         this.cooldown = cooldown;
         this.startingBalance = startingBalace;
@@ -26,6 +29,7 @@ public class Server {
         this.path = path;
         this.roleAssignOnBuy = roleAssignOnBuy;
         this.adminBypassCooldown = adminBypassCooldown;
+        this.spamChannel = spamChannel;
     }
 
     public void changePrefix(String p)
@@ -66,7 +70,8 @@ public class Server {
             STARTING_BALANCE +      ":" + startingBalance ,
             COOLDOWN +              ":" + cooldown ,
             ROLE_ASSIGN_ON_BUY +    ":" + roleAssignOnBuy ,
-            ADMIN_BYPASS_COOLDOWN + ":" + adminBypassCooldown 
+            ADMIN_BYPASS_COOLDOWN + ":" + adminBypassCooldown ,
+            SPAM_CHANNEL +          ":" + spamChannel
         };
         Saver.saveOverwite(this.path + "\\settings\\bot.settings", out );
     }
@@ -94,6 +99,17 @@ public class Server {
     public void changeAdminCooldownBypass(boolean b) 
     {
         this.adminBypassCooldown = b;
+        this.saveSettings();
+    }
+
+    public long getSpamChannel() 
+    {
+        return spamChannel;
+    }
+
+    public void changeSpamChannel(long spamChannel) 
+    {
+        this.spamChannel = spamChannel;
         this.saveSettings();
     }
 }

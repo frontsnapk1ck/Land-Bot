@@ -1,5 +1,5 @@
 prefix:!
 starting balance:1000
 cooldown:10
-role assign on buy:true
-admin bypass cooldown:true
+role assign on buy:false
+spam channel:746466823830110374

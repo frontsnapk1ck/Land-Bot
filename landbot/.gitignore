@@ -30,5 +30,5 @@ buildNumber.properties
 #
 #Custom
 #
-# res/*
-landbot/res/key.token
+res/*
+landbot/res/*

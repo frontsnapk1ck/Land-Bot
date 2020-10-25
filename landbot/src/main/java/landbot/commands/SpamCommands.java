@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import landbot.Server;
-import landbot.builder.ServerBuilder;
+import landbot.builder.loaders.ServerLoaderText;
 import landbot.utility.SpamRunnable;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -27,13 +28,19 @@ public class SpamCommands extends ListenerAdapter {
         if (e.getAuthor().isBot())
             return;
 
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         String[] args = e.getMessage().getContentRaw().split(" ");
 
         if (args[0].equalsIgnoreCase(s.getPrefix() + "spam"))
             spam(e, args);
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "stop-spam"))
-           stopSpam(e, args);
+            stopSpam(e, args);
+    }
+
+    private String getGuildPath(Guild guild) 
+    {
+        return "landbot\\res\\servers\\" + guild.getName();
     }
 
     private void stopSpam(GuildMessageReceivedEvent e, String[] args) 
@@ -100,13 +107,14 @@ public class SpamCommands extends ListenerAdapter {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setFooter(e.getAuthor().getAsTag(), e.getAuthor().getAvatarUrl());
             eb.setTitle("ID to stop this spam");
-            eb.setDescription("to stop this spam, use the command `!stop-spam " + num + "`");
+            eb.setDescription("to stop this spam, use the command \n`!stop-spam " + num + "`");
             return eb.build();
         }
 
         private TextChannel getChannel(GuildMessageReceivedEvent e) 
         {
-            Server s = ServerBuilder.buildServer(e.getGuild());
+            ServerLoaderText slt = new ServerLoaderText();
+            Server s = slt.load(getGuildPath(e.getGuild()));
             List<GuildChannel> channels = e.getGuild().getChannels();
 
             long spamID = s.getSpamChannel();
@@ -150,6 +158,7 @@ public class SpamCommands extends ListenerAdapter {
                     return false;
             } catch (NumberFormatException ex) {
                 e.getChannel().sendMessage("please enter a number");
+                return false;
             }
             return true;
         }

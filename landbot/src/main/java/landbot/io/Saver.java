@@ -79,4 +79,27 @@ public class Saver {
         }
         f.delete();
     }
+
+    public static void copyFrom(String path1, String path2) 
+    {
+        String[] out = FileReader.read(path1);
+        saveOverwite(path2, out);
+	}
+
+    public static boolean newFolder(String path) 
+    {
+        File dir = new File(path);
+        if (!dir.exists())
+        {
+            dir.mkdir();
+            return true;
+        }
+        return false;
+	}
+
+    public static void saveNewFile(String path, String[] save) 
+    {
+        saveNewFile(path);
+        saveOverwite(path, save);
+	}
 }

@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import landbot.Server;
-import landbot.builder.PlayerBuilder;
-import landbot.builder.ServerBuilder;
+import landbot.builder.loaders.PlayerLoaderText;
+import landbot.builder.loaders.ServerLoaderText;
 import landbot.io.FileReader;
-import landbot.io.Saver;
 import landbot.player.Player;
+import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class Commands extends ListenerAdapter {
+public class Commands extends PlayerCommand {
 
     String[] workOptions;
     private List<Player> cooldownUsers;
@@ -29,18 +29,15 @@ public class Commands extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
-    {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
         if (e.getAuthor().isBot())
             return;
 
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         createWorkOptions(s);
 
         String[] args = e.getMessage().getContentRaw().split(" ");
-
-        if (!args[0].startsWith(s.getPrefix()) || e.getAuthor().isBot())
-            return;
 
         if (args[0].equalsIgnoreCase(s.getPrefix() + "work"))
             work(e);
@@ -57,22 +54,18 @@ public class Commands extends ListenerAdapter {
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "say"))
             say(e);
 
-
     }
 
-    private void say(GuildMessageReceivedEvent e) 
-    {
+    private void say(GuildMessageReceivedEvent e) {
 
-        if (e.getAuthor().getIdLong() == 312743142828933130l)
-        {
+        if (e.getAuthor().getIdLong() == 312743142828933130l) {
             String out = e.getMessage().getContentRaw().toString();
             out = out.substring(5);
             e.getMessage().delete().queue();
             e.getChannel().sendMessage(out).queue();
         }
-        
-        else if (e.getMember().getPermissions().contains(Permission.ADMINISTRATOR))
-        {
+
+        else if (e.getMember().getPermissions().contains(Permission.ADMINISTRATOR)) {
             EmbedBuilder em = new EmbedBuilder();
             em.setFooter(e.getAuthor().getName(), e.getAuthor().getAvatarUrl());
             em.setTitle("Announcement");
@@ -83,76 +76,86 @@ public class Commands extends ListenerAdapter {
         }
     }
 
-    private void rank(GuildMessageReceivedEvent e) 
-    {
-        Server s = ServerBuilder.buildServer(e.getGuild());
+    private void rank(GuildMessageReceivedEvent e) {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         long id = e.getAuthor().getIdLong();
 
-        checkUserFile( id , s );
+        checkUserFile(id, s);
 
-        Player p = PlayerBuilder.load(e.getAuthor().getIdLong() , e.getGuild().getName());
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
+        Player p = plt.load(path);
 
-        for (Player player : cooldownUsers) 
-        {
-            if (player.equals(p))
-            {
+        for (Player player : cooldownUsers) {
+            if (player.equals(p)) {
                 sendTooFast(e);
                 return;
-            }    
+            }
         }
 
-        e.getChannel().sendMessage("https://tenor.com/view/rank-talk-selfie-man-eyeglasses-gif-17817029").queue();
-        cooldown( e, s.getCooldown() );
+        String[] ranks = { "https://tenor.com/view/rank-talk-selfie-man-eyeglasses-gif-17817029",
+                "https://tenor.com/view/rank-hair-long-weird-beat-box-gif-17161979",
+                "https://tenor.com/view/rank-funny-face-black-man-gif-18421232",
+                "https://tenor.com/view/rank-conner-when-rank-hedoberankindoe-gif-18818063",
+                "https://tenor.com/view/timotainment-tim-entertainment-rank-discord-gif-18070842" };
+
+        int i = (int) (Math.random() * ranks.length);
+        String rankMessage = ranks[i];
+
+        e.getChannel().sendMessage(rankMessage).queue();
+        cooldown(e, s.getCooldown());
     }
 
-    private void checkBalance(GuildMessageReceivedEvent e, String[] args) 
-    {
-        Server s = ServerBuilder.buildServer(e.getGuild());
+    private void checkBalance(GuildMessageReceivedEvent e, String[] args) {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         long id = e.getMember().getIdLong();
 
-        if (args.length != 1 )
-        {
-            if (args[1].contains("<@!") && args[1].contains(">"))
-            {
+        if (args.length != 1) {
+            if (args[1].contains("<@!") && args[1].contains(">")) {
                 String tmp = args[1].replace("<@!", "");
                 tmp = tmp.replace(">", "");
                 id = Long.parseLong(tmp);
             }
         }
 
-        checkUserFile( id , s );
-        Player p = PlayerBuilder.load(id , e.getGuild().getName());
+        checkUserFile(id, s);
+
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
+        Player p = plt.load(path);
         EmbedBuilder eb = new EmbedBuilder();
         String ping = "<@!" + id + ">";
-        
+
         eb.setTitle("Balance");
-        eb.addField(new Field("$" + p.getBal(),
-                ping + " your current balcance is $" + p.getBal(), true));
+        eb.addField(new Field("$" + p.getBal(), ping + " your current balcance is $" + p.getBal(), true));
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-    private void work(GuildMessageReceivedEvent e) 
-    {
-        Server s = ServerBuilder.buildServer(e.getGuild());
+    private void work(GuildMessageReceivedEvent e) {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         long id = e.getAuthor().getIdLong();
 
-        checkUserFile( id , s );
+        checkUserFile(id, s);
 
-        Player p = PlayerBuilder.load(e.getAuthor().getIdLong() , e.getGuild().getName());
-        for (Player player : cooldownUsers) 
-        {
-            if (player.equals(p))
-            {
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
+        Player p = plt.load(path);
+        for (Player player : cooldownUsers) {
+            if (player.equals(p)) {
                 sendTooFast(e);
                 return;
-            }    
+            }
         }
 
         int num = (int) (Math.random() * this.workOptions.length);
         int bal = (int) (Math.random() * 120 + 30);
 
         EmbedBuilder eb = new EmbedBuilder();
-        eb.addField(new Field("Work", e.getAuthor().getAsMention() + ", " + workOptions[num] + " you make $" + bal, true));
+        eb.addField(
+                new Field("Work", e.getAuthor().getAsMention() + ", " + workOptions[num] + " you make $" + bal, true));
         e.getChannel().sendMessage(eb.build()).queue();
         p.addBal(bal);
 
@@ -161,26 +164,31 @@ public class Commands extends ListenerAdapter {
 
     private void sendTooFast(GuildMessageReceivedEvent e) {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.addField(new Field("Slow Down", "You went a little too fast there, " + e.getAuthor().getAsMention() + ", please slow down", true));
-        e.getChannel().sendMessage(eb.build()).queue();;
+        eb.addField(new Field("Slow Down",
+                "You went a little too fast there, " + e.getAuthor().getAsMention() + ", please slow down", true));
+        e.getChannel().sendMessage(eb.build()).queue();
+        ;
     }
 
-    private void cooldown(GuildMessageReceivedEvent e, int cooldown) 
-    {
+    private void cooldown(GuildMessageReceivedEvent e, int cooldown) {
+        Long id = e.getAuthor().getIdLong();
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         List<Player> cdUsers = this.cooldownUsers;
-        Player p = PlayerBuilder.load(e.getAuthor().getIdLong() , e.getGuild().getName());
-        Server s = ServerBuilder.buildServer(e.getGuild());
 
-        boolean v1 = e.getMember().getPermissions().contains(Permission.ADMINISTRATOR);
-        boolean v2 = s.getAdminCooldownBypass();
-        if (v1 && v2)
+        checkUserFile(id, s);
+
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
+        Player p = plt.load(path);
+
+        boolean valid = e.getMember().getPermissions().contains(Permission.ADMINISTRATOR) && s.getAdminCooldownBypass();
+        if (valid)
             return;
 
-
-        Runnable timer = new Runnable(){
+        Runnable timer = new Runnable() {
             @Override
-            public void run() 
-            {
+            public void run() {
                 cdUsers.add(p);
                 try {
                     Thread.sleep(cooldown * 1000);
@@ -195,40 +203,29 @@ public class Commands extends ListenerAdapter {
         cooldownThread.start();
     }
 
-    private void checkUserFile(long ID , Server s) 
+    private String getGuildPath(Guild guild) 
     {
-        String path = s.getPath() + "\\users\\" + ID + ".txt";
-        if (Saver.saveNewFile(path))
-        {
-            String[] out = {
-            "" + s.getStartingBalance()
-            };
-
-            Saver.saveOverwite(path, out);
-        }
+        return "landbot\\res\\servers\\" + guild.getName();
     }
 
-    private void help(GuildMessageReceivedEvent e) 
+    @Override
+    protected void help(GuildMessageReceivedEvent e) 
     {
         EmbedBuilder eb = new EmbedBuilder();
+        String message = loadHelpMessage();
         eb.setTitle("Commands");
-
-        String names =  "work \n " +
-                        "bal\n" + 
-                        "me\n" + 
-                        "buy\n" + 
-                        "buildings";
-
-        String functions =  "generates a random amount of money\n" + 
-                            "shows your current balance\n" +
-                            "shows your balance and your owned buildings\n" +
-                            "use to buy a building\n" + 
-                            "shows a list of all the buildings";
-
-        eb.addField(new Field("Name", names, true));
-        eb.addField(new Field("Functions", functions, true));
+        eb.setDescription(message);
 
         e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    private String loadHelpMessage() 
+    {
+        String out = "";
+        String[] message = FileReader.read("landbot\\res\\globals\\help\\help.msg");
+        for (String string : message)
+            out += string + "\n";
+        return out;
     }
     
 }

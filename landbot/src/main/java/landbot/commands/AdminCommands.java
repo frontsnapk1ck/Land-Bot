@@ -5,37 +5,40 @@ import java.util.EnumSet;
 import java.util.List;
 
 import landbot.Server;
-import landbot.builder.BuildingBuilder;
-import landbot.builder.PlayerBuilder;
-import landbot.builder.ServerBuilder;
+import landbot.builder.loaders.BuildingLoaderText;
+import landbot.builder.loaders.PlayerLoaderText;
+import landbot.builder.loaders.ServerLoaderText;
 import landbot.io.FileReader;
 import landbot.io.Saver;
 import landbot.player.Building;
 import landbot.player.Player;
+import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.MessageEmbed.Field;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class AdminCommands extends ListenerAdapter {
+public class AdminCommands extends PlayerCommand {
 
     private String[] building;
     private boolean buildingB;
     private User buildingConstrucort;
     private boolean removeBuilding;
-    private String guildname;
     private boolean removeWorkOption;
+    private List<Guild> guilds;
 
-    public AdminCommands() {
+    public AdminCommands() 
+    {
         Runnable day = new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    try {
+                    try 
+                    {
                         Thread.sleep(24 * // hours
                         60 * // mins
                         60 * // secs
@@ -56,10 +59,17 @@ public class AdminCommands extends ListenerAdapter {
         t.start();
     }
 
-    protected void day() {
-        List<Player> players = PlayerBuilder.getAllPlayers(this.guildname);
-        for (Player p : players)
-            p.day();
+    protected void day() 
+    {
+        for (Guild g : guilds) 
+        {
+            String path = getGuildPath(g) + "\\users";
+            PlayerLoaderText plt = new PlayerLoaderText();
+            List<Player> players = plt.loadALl(path);
+            for (Player p : players)
+                p.day();
+        }
+
     }
 
     @Override
@@ -68,8 +78,8 @@ public class AdminCommands extends ListenerAdapter {
             return;
 
         String[] args = e.getMessage().getContentRaw().split(" ");
-        Server s = ServerBuilder.buildServer(e.getGuild());
-        this.guildname = e.getGuild().getName();
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         if (args[0].equalsIgnoreCase(s.getPrefix() + "prefix"))
             prefixCommand(e, args);
@@ -107,7 +117,7 @@ public class AdminCommands extends ListenerAdapter {
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "buy-roles"))
             buyRoles(e, args);
 
-        else if (args[0].equalsIgnoreCase(s.getPrefix() + "admin-cooldown"))
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "admin-bypass"))
             adminCooldown(e, args);
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "spam-channel"))
@@ -115,6 +125,9 @@ public class AdminCommands extends ListenerAdapter {
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "help"))
             help(e);
+
+        else if (args[0].equalsIgnoreCase("<@!762825892006854676>"))
+            viewPrefix(e);
 
         else if ((this.removeBuilding || this.buildingB || this.removeWorkOption)
                 && e.getAuthor().equals(this.buildingConstrucort) && args[0].contains("cancel"))
@@ -134,9 +147,16 @@ public class AdminCommands extends ListenerAdapter {
 
     }
 
+    private String getGuildPath(Guild guild) 
+    {
+        //landbot\res\servers\example guild
+        return "landbot\\res\\servers\\" + guild.getName();
+    }
+
     private void setSpam(GuildMessageReceivedEvent e, String[] args) {
         cancelProgress(e);
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
@@ -179,7 +199,8 @@ public class AdminCommands extends ListenerAdapter {
     private void adminCooldown(GuildMessageReceivedEvent e, String[] args) 
     {
         cancelProgress(e);
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
@@ -222,9 +243,11 @@ public class AdminCommands extends ListenerAdapter {
 
     private void selectWorkOptionRemove(GuildMessageReceivedEvent e) 
     {
-        try {
+        try 
+        {
             int rm = Integer.parseInt(e.getMessage().getContentRaw());
-            Server s = ServerBuilder.buildServer(e.getGuild());
+            ServerLoaderText slt = new ServerLoaderText();
+            Server s = slt.load(getGuildPath(e.getGuild()));
             String path = s.getPath() + "\\settings\\work.options";
             String[] options = FileReader.read(path);
 
@@ -264,13 +287,14 @@ public class AdminCommands extends ListenerAdapter {
 
         this.buildingConstrucort = e.getAuthor();
         this.removeWorkOption = true;
-        viewWorkOptions(e);
+        viewWorkOptions(e , false);
 
     }
 
     private void resetWorkOptions(GuildMessageReceivedEvent e) 
     {
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         cancelProgress(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR , true))
@@ -287,13 +311,15 @@ public class AdminCommands extends ListenerAdapter {
         viewWorkOptions(e);
     }
 
-    private void viewWorkOptions(GuildMessageReceivedEvent e) 
+    private void viewWorkOptions(GuildMessageReceivedEvent e , boolean b)
     {
-        cancelProgress(e);
+        if (b)
+            cancelProgress(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
 
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("All availible work options");
@@ -318,13 +344,24 @@ public class AdminCommands extends ListenerAdapter {
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
+
+    private void viewWorkOptions(GuildMessageReceivedEvent e) 
+    {
+        viewWorkOptions(e, true);
+    }
+
     private void addWorkOption(GuildMessageReceivedEvent e, String[] args) 
     {
         cancelProgress(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
 
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        if (args.length == 1)
+            informOnWork(e);
+
+
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         String out = "";
         for (int i = 1; i < args.length; i++) 
             out += args[i] + " ";
@@ -333,10 +370,19 @@ public class AdminCommands extends ListenerAdapter {
         Saver.saveAppend(path, out);
     }
 
+    private void informOnWork(GuildMessageReceivedEvent e) 
+    {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Add Work");
+        eb.setDescription("Use this command to add options to the random work messages in this server\n\nbe sure to put the option you want after the command (e.g. `!add-work you work at walmart`)");
+        e.getChannel().sendMessage(eb.build()).queue();
+    }
+
     private void buyRoles(GuildMessageReceivedEvent e, String[] args) 
     {
         cancelProgress(e);
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
@@ -379,7 +425,8 @@ public class AdminCommands extends ListenerAdapter {
 
     private void cooldown(GuildMessageReceivedEvent e, String[] args) {
         cancelProgress(e);
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
         if (args.length == 1) {
             e.getChannel().sendTyping().queue();
             EmbedBuilder eb = new EmbedBuilder();
@@ -413,52 +460,38 @@ public class AdminCommands extends ListenerAdapter {
         }
     }
 
-    private void help(GuildMessageReceivedEvent e) {
+    @Override
+    protected void help(GuildMessageReceivedEvent e) 
+    {
+        viewPrefix(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR, false))
             return;
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Admin Only Commands");
 
-        String names =  "Prefix \n " + 
-                        "cooldown\n" + 
-                        "rm-Buildings\n" + 
-                        "reset-buildings\n" + 
-                        "add-building\n" + 
-                        "reset-work\n" + 
-                        "add-work\n" + 
-                        "rm-work\n" +
-                        "view-work\n" +
-                        "day\n" +
-                        "buy-roles\n" + 
-                        "admin-cooldown\n" + 
-                        "help";
-
-        String functions =  "Change the prfix for this bot\n" + 
-                            "Change the defualt cooldown for the work command\n"+ 
-                            "remove a building\n" + 
-                            "resets all buildings and refunds the purchaser\n" + 
-                            "adds a building to the economy\n" + 
-                            "resets the work options to default\n" + 
-                            "adds an option to the work command\n" + 
-                            "removes an options form the work commands\n" + 
-                            "shows all the optinos for the `work` command\n" + 
-                            "increments the day paying out all building owner - use sparingly\n" + 
-                            "toggles giving roles to users when they buy buildings\n" + 
-                            "toggles admins bypassing the cooldown\n" + 
-                            "shows this message";
-
-        eb.addField(new Field("Name", names, true));
-        eb.addField(new Field("Functions", functions, true));
+        String message = loadHelpMessage();
+        eb.setDescription(message);
 
         e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    private String loadHelpMessage() 
+    {
+        String out = "";
+        String[] message = FileReader.read("landbot\\res\\globals\\help\\adminHelp.msg");
+        for (String string : message)
+            out += string + "\n";
+        return out;
     }
 
     private void day(GuildMessageReceivedEvent e) {
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
 
-        List<Player> players = PlayerBuilder.getAllPlayers(e.getGuild().getName());
+        String path = getGuildPath(e.getGuild()) + "\\users";
+        PlayerLoaderText plt = new PlayerLoaderText();
+        List<Player> players = plt.loadALl(path);
         for (Player p : players)
             p.day();
 
@@ -483,78 +516,121 @@ public class AdminCommands extends ListenerAdapter {
 
     private void startingBalanceCommand(GuildMessageReceivedEvent e, String[] args) {
         cancelProgress(e);
-        Server s = ServerBuilder.buildServer(e.getGuild());
-
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
 
-        if (args.length == 1) {
-            e.getChannel().sendTyping().queue();
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle("Starting Balance");
-            eb.addField(new Field("The Starting Balance is Currently $", "" + s.getStartingBalance(), true));
-            e.getChannel().sendMessage(eb.build()).queue();
-        }
-
-        else {
-            e.getChannel().sendTyping().queue();
-            s.changePrefix(args[1]);
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle("Prefix");
-            eb.addField(new Field("The Prefix is Now", s.getPrefix(), true));
-            e.getChannel().sendMessage(eb.build()).queue();
-        }
+        if (args.length == 1)
+            viewStartingBalance(e);
+        else 
+            changeStartingBalance(e , args);
     }
 
-    private void prefixCommand(GuildMessageReceivedEvent e, String[] args) {
+    private void changeStartingBalance(GuildMessageReceivedEvent e, String[] args) 
+    {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        e.getChannel().sendTyping().queue();
+        s.changePrefix(args[1]);
+
+        viewStartingBalance(e , "The Starting Balance is now $");
+    }
+
+    private void viewStartingBalance(GuildMessageReceivedEvent e) 
+    {
+        viewStartingBalance(e , "The Starting Balance is Currently $");
+    }
+
+    private void viewStartingBalance(GuildMessageReceivedEvent e, String m) 
+    {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        EmbedBuilder eb = new EmbedBuilder();
+
+        e.getChannel().sendTyping().queue();
+        eb.setTitle("Starting Balance");
+        eb.addField(new Field(m, "" + s.getStartingBalance(), true));
+        e.getChannel().sendMessage(eb.build()).queue();
+
+    }
+
+    private void prefixCommand(GuildMessageReceivedEvent e, String[] args) 
+    {
         cancelProgress(e);
-        Server s = ServerBuilder.buildServer(e.getGuild());
 
-        if (args.length == 1) {
-            e.getChannel().sendTyping().queue();
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle("Prefix");
-            eb.addField(new Field("The Prefix is Currently", s.getPrefix(), true));
-            e.getChannel().sendMessage(eb.build()).queue();
-        }
+        if (args.length == 1)
+            viewPrefix(e);
 
-        else {
-            if (!hasPerm(e, Permission.ADMINISTRATOR, true))
-                return;
-
-            e.getChannel().sendTyping().queue();
-            s.changePrefix(args[1]);
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle("Prefix");
-            eb.addField(new Field("The Prefix is Now", s.getPrefix(), true));
-            e.getChannel().sendMessage(eb.build()).queue();
-        }
+        else if (hasPerm(e, Permission.ADMINISTRATOR, true))
+            changePrefix(e , args);
     }
 
-    private boolean hasPerm(GuildMessageReceivedEvent e, Permission p, boolean b) {
+    private void viewPrefix(GuildMessageReceivedEvent e) 
+    {
+        viewPrefix(e , "The Prefix is Currently" );
+    }
+
+    private void changePrefix(GuildMessageReceivedEvent e, String[] args) 
+    {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        s.changePrefix(args[1]);
+        viewPrefix(e, "The Prefix is now");
+    }
+
+    private void viewPrefix(GuildMessageReceivedEvent e , String message) 
+    {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        EmbedBuilder eb = new EmbedBuilder();
+
+        e.getChannel().sendTyping().queue();
+        eb.setTitle("Prefix");
+        eb.addField(new Field( message , s.getPrefix(), true));
+        e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+
+    private boolean hasPerm(GuildMessageReceivedEvent e, Permission p, boolean b) 
+    {
         EnumSet<Permission> authorRoles = e.getMember().getPermissions();
         boolean valid = authorRoles.contains(p); // || e.getAuthor().getIdLong() == 312743142828933130l;
-        if (!valid && b) {
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle("Insufficent Permisions");
-            eb.addField(new Field("you can only use this command if you have the `" + p.getName() + "` permission", "",
-                    true));
-            e.getChannel().sendMessage(eb.build()).queue();
-        }
+        if (!valid && b) 
+            sendInvalidPerms( e , p );
         return valid;
     }
 
-    private void selectRemoveBuilding(GuildMessageReceivedEvent e) {
-        try {
-            List<Building> buildings = BuildingBuilder.loadBuildings(e.getGuild().getName());
+    private void sendInvalidPerms(GuildMessageReceivedEvent e, Permission p) 
+    {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Insufficent Permisions");
+        String message = "you can only use this command if you have the `" + p.getName() + "` permission";
+        eb.addField(new Field( message , "",true));
+        e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    private void selectRemoveBuilding(GuildMessageReceivedEvent e) 
+    {
+        //landbot\res\servers\example guild\settings\buildings.txt
+        try 
+        {
+            BuildingLoaderText blt = new BuildingLoaderText();
+            String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+            List<Building> buildings = blt.loadALl(bPath);
             int rm = Integer.parseInt(e.getMessage().getContentRaw());
             Building b;
-            Server s = ServerBuilder.buildServer(e.getGuild());
+            ServerLoaderText slt = new ServerLoaderText();
+            Server s = slt.load(getGuildPath(e.getGuild()));
 
-            if (rm > 0 && rm <= buildings.size()) {
+            if (rm > 0 && rm <= buildings.size()) 
+            {
                 b = buildings.remove(rm - 1);
-                this.removeBuildingFromPlayers(PlayerBuilder.getAllPlayers(e.getGuild().getName()), b, e);
-            } else
+                String path = getGuildPath(e.getGuild()) + "\\users";
+                PlayerLoaderText plt = new PlayerLoaderText();
+                List<Player> players = plt.loadALl(path);
+                this.removeBuildingFromPlayers( players , b, e);
+            } 
+            else
                 e.getChannel().sendMessage("Please enter a valid number");
 
             this.writeBuildings(organizeBuildings(buildings), s);
@@ -568,15 +644,19 @@ public class AdminCommands extends ListenerAdapter {
 
     private void removeBuildingFromPlayers(List<Player> users, Building b, GuildMessageReceivedEvent e) 
     {
-        Role roll = e.getGuild().getRolesByName(b.getName(), true).get(0);
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         for (Player p : users) 
         {
             p.removeBuilding(b);
-            e.getGuild().removeRoleFromMember(e.getMember() , roll).queue();
+            if (s.getRoleAssignOnBuy())
+            {
+                Role roll = e.getGuild().getRolesByName(b.getName(), true).get(0);
+                e.getGuild().removeRoleFromMember(e.getMember() , roll).queue();
+                roll.delete().queue();
+            }
         }
-
-        roll.delete();
     }
 
     private List<Building> organizeBuildings(List<Building> buildings) 
@@ -595,8 +675,12 @@ public class AdminCommands extends ListenerAdapter {
         this.buildingConstrucort = e.getAuthor();
 
         EmbedBuilder eb = new EmbedBuilder();
+        BuildingLoaderText blt = new BuildingLoaderText();
+        String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+        List<Building> buildings = blt.loadALl(bPath);
+
         eb.setTitle("Choose Building to remove");
-        embedBuildingListNumbered( eb , BuildingBuilder.loadBuildings(e.getGuild().getName()) );
+        embedBuildingListNumbered( eb , buildings );
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
@@ -610,7 +694,8 @@ public class AdminCommands extends ListenerAdapter {
 
 	private void buildBuilding(String args, GuildMessageReceivedEvent e) 
     {
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         if (this.building[0] == "")
             this.building[0] = args;
@@ -671,11 +756,22 @@ public class AdminCommands extends ListenerAdapter {
 
     private void writeBuilding(Server s) 
     {
-        String save = BuildingBuilder.loadBuilding(this.building).toString();
+        Building b = loadBuilding(this.building);
+        String save = b.toString();
         String path = s.getPath() + "\\settings\\buildings.txt";
 
         Saver.saveAppend(path, save);
     }
+
+    public static Building loadBuilding(String[] str) 
+    {
+		String name = str[0];
+        int cost = Integer.parseInt(str[1]);
+        int generation = Integer.parseInt(str[2]);
+
+        Building b = new Building(name, cost, generation);
+        return b;
+	}
 
     private void writeBuildings(List<Building> list , Server s) 
     {
@@ -690,7 +786,9 @@ public class AdminCommands extends ListenerAdapter {
 
     private List<Building> organizeBuildings(GuildMessageReceivedEvent e) 
     {
-        List<Building> buildings = BuildingBuilder.loadBuildings(e.getGuild().getName());
+        BuildingLoaderText blt = new BuildingLoaderText();
+        String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+        List<Building> buildings = blt.loadALl(bPath);
         return this.organizeBuildings(buildings);
     }
 
@@ -711,8 +809,10 @@ public class AdminCommands extends ListenerAdapter {
         String names = "";
         String costs = "";
         String gener = "";
-        List<Building> buildings = BuildingBuilder.loadBuildings(e.getGuild().getName());
-        buildings.add (BuildingBuilder.loadBuilding(this.building));
+        BuildingLoaderText blt = new BuildingLoaderText();
+        String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+        List<Building> buildings = blt.loadALl(bPath);
+        buildings.add (loadBuilding(this.building));
         
         for (Building b : buildings) 
         {
@@ -730,16 +830,33 @@ public class AdminCommands extends ListenerAdapter {
 
     private void resetBuildings(GuildMessageReceivedEvent e) 
     {
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         cancelProgress(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR , true))
             return;
-        
-        List<Building> bs = BuildingBuilder.loadBuildings(e.getGuild().getName());
-        List<Player> players = PlayerBuilder.getAllPlayers(e.getGuild().getName());
 
-        for (Building b : bs) 
+        removeAllBuildings(e);
+
+        e.getChannel().sendTyping().queue();
+        String path1 = "landbot\\res\\globals\\defualt\\buildings.txt";
+        String path2 = s.getPath() + "\\settings\\buildings.txt";
+        
+        Saver.copyFrom( path1 , path2 );
+        viewBuildings(e);
+    }
+
+    private void removeAllBuildings(GuildMessageReceivedEvent e) 
+    {
+        BuildingLoaderText blt = new BuildingLoaderText();
+        String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+        List<Building> buildings = blt.loadALl(bPath);
+        String path = getGuildPath(e.getGuild()) + "\\users";
+        PlayerLoaderText plt = new PlayerLoaderText();
+        List<Player> players = plt.loadALl(path);
+
+        for (Building b : buildings) 
         {
             for (Player p : players)
                 p.removeBuilding(b);
@@ -747,28 +864,9 @@ public class AdminCommands extends ListenerAdapter {
             if (rolls.size() > 0)
                 rolls.get(0).delete().queue();
         }
-
-        e.getChannel().sendTyping().queue();
-        String[] out =  {  "shack:2500:15" ,
-                            "apartment:7500:50" ,
-                            "townhome:14500:110" ,
-                            "bungalow:18000:175" ,
-                            "ranch style house:23500:215" ,
-                            "cottage:25750:250" ,
-                            "cabin:29500:300" ,
-                            "chalet:35000:375" ,
-                            "carriage house:42000:500" ,
-                            "craftsman home:57500:750" ,
-                            "mansion:69000:1000" ,
-                            "contemporary mansion:100000:1500" ,
-                            "castle:150000:2000"    };
-        
-        String path = s.getPath() + "\\settings\\buildings.txt";
-        Saver.saveOverwite(path, out);
-        viewBuildings(e);
     }
 
-    private void embedCurrentBuilding (GuildMessageReceivedEvent e)
+    private void embedCurrentBuilding(GuildMessageReceivedEvent e)
     {
         e.getChannel().sendTyping().queue();
         EmbedBuilder eb = new EmbedBuilder();
@@ -788,8 +886,12 @@ public class AdminCommands extends ListenerAdapter {
     private void viewBuildings(GuildMessageReceivedEvent e) 
     {
         EmbedBuilder eb = new EmbedBuilder();
+        BuildingLoaderText blt = new BuildingLoaderText();
+        String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+        List<Building> buildings = blt.loadALl(bPath);
+
         eb.setTitle("All availible buildings");
-        embedBuildingList(eb, BuildingBuilder.loadBuildings(e.getGuild().getName()));
+        embedBuildingList(eb, buildings );
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
@@ -829,5 +931,10 @@ public class AdminCommands extends ListenerAdapter {
         eb.addField(new Field( "#" ,    numbr , true));
         eb.addField(new Field( "Name" , names , true));
     }
+
+    public void setGuilds(List<Guild> guilds) 
+    {
+        this.guilds = guilds;
+	}
 
 }

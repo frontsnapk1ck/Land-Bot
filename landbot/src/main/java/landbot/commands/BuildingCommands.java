@@ -4,23 +4,27 @@ import java.util.HashMap;
 import java.util.List;
 
 import landbot.Server;
-import landbot.builder.BuildingBuilder;
-import landbot.builder.PlayerBuilder;
-import landbot.builder.ServerBuilder;
+import landbot.builder.loaders.BuildingLoaderText;
+import landbot.builder.loaders.PlayerLoaderText;
+import landbot.builder.loaders.ServerLoaderText;
 import landbot.player.Building;
 import landbot.player.Player;
+import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.RoleAction;
 
-public class BuildingCommands extends ListenerAdapter {
+public class BuildingCommands extends PlayerCommand {
+
+    public static final String IMMAGE_ADRESS = "https://i.imgur.com/5YhU4SF.png";
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
-        Server s = ServerBuilder.buildServer(e.getGuild());
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         if (e.getAuthor().isBot())
             return;
@@ -38,17 +42,34 @@ public class BuildingCommands extends ListenerAdapter {
     }
 
     private void showStats(GuildMessageReceivedEvent e) {
-        Player p = PlayerBuilder.load(e.getAuthor().getIdLong(), e.getGuild().getName());
+        long id = e.getAuthor().getIdLong();
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        checkUserFile(id, s);
+
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
+        Player p = plt.load(path);
 
         EmbedBuilder eb = new EmbedBuilder();
+        String bal = "$" + p.getBal();
+        String message = e.getAuthor().getAsMention() + " your current balcance is " + bal;
+
         eb.setTitle(e.getAuthor().getAsTag());
-        eb.addField(new Field("$" + p.getBal(),
-                e.getAuthor().getAsMention() + " your current balcance is $" + p.getBal(), false));
+        eb.addField(new Field(bal, message, false));
         embedOwned(eb, p);
+        eb.setImage(IMMAGE_ADRESS);
+
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-    private void embedOwned(EmbedBuilder eb, Player p) {
+    private String getGuildPath(Guild guild) 
+    {
+        return "landbot\\res\\servers\\" + guild.getName();
+    }
+
+    private void embedOwned(EmbedBuilder eb, Player p) 
+    {
         String name = "";
         String gene = "";
         String numb = "";
@@ -73,7 +94,8 @@ public class BuildingCommands extends ListenerAdapter {
 
     }
 
-    private void buyBuilding(GuildMessageReceivedEvent e, String[] args) {
+    private void buyBuilding(GuildMessageReceivedEvent e, String[] args) 
+    {
 
         if (args.length == 1) {
             EmbedBuilder eb = new EmbedBuilder();
@@ -85,8 +107,15 @@ public class BuildingCommands extends ListenerAdapter {
         }
 
         long playerID = e.getAuthor().getIdLong();
-        Player p = PlayerBuilder.load(playerID, e.getGuild().getName());
-        Building b = BuildingBuilder.loadBuilding(args[1], e.getGuild().getName());
+        Building b = loadBuilding(args[1] , e );
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        checkUserFile(playerID, s);
+
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getGuildPath(e.getGuild()) + "\\users\\" + playerID;
+        Player p = plt.load(path);
 
         if (b == null) {
             EmbedBuilder eb = new EmbedBuilder();
@@ -100,13 +129,12 @@ public class BuildingCommands extends ListenerAdapter {
             String name = b.getName();
             String numType = "" + p.getNumType(b);
             String totalNum = "" + p.getTotalOwned();
+            String message = "you have bought a(n) " + name + " bringing your total nubmer of owned " + name + " to " + numType + " and your total number of owned to " + totalNum;
+            String header = "Congradulations on your Purchace";
 
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Succsess!");
-            eb.addField(new Field("Congradulations on your Purchace",
-                    "you have bought a(n) " + name + " bringing your total nubmer of owned " + name + " to " + numType
-                            + " and your total number of owned to " + totalNum,
-                    true));
+            eb.addField(new Field( header , message , true));
             e.getChannel().sendMessage(eb.build()).queue();
 
             updateRoles(e, b);
@@ -122,9 +150,27 @@ public class BuildingCommands extends ListenerAdapter {
 
     }
 
+    private Building loadBuilding(String name, GuildMessageReceivedEvent e) 
+    {
+        BuildingLoaderText blt = new BuildingLoaderText();
+        String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+        List<Building> buildings = blt.loadALl(bPath);
+
+        for (Building b : buildings) 
+        {
+            if (b.getName().equalsIgnoreCase(name));
+                return b;
+        }
+        
+        return null;
+    }
+
     private void updateRoles(GuildMessageReceivedEvent e, Building b) 
     {
-        if (!ServerBuilder.buildServer(e.getGuild()).getRoleAssignOnBuy())
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        if (!s.getRoleAssignOnBuy())
             return;
         
         checkServerRoles(e, b);
@@ -185,8 +231,13 @@ public class BuildingCommands extends ListenerAdapter {
     private void viewBuildings(GuildMessageReceivedEvent e) 
     {
         EmbedBuilder eb = new EmbedBuilder();
+        BuildingLoaderText blt = new BuildingLoaderText();
+        String bPath = getGuildPath(e.getGuild()) + "\\settings\\buildings.txt";
+        List<Building> buildings = blt.loadALl(bPath);
+
+        eb.setImage(IMMAGE_ADRESS);
         eb.setTitle("All availible buildings");
-        embedBuildingList(eb, BuildingBuilder.loadBuildings(e.getGuild().getName()));
+        embedBuildingList(eb, buildings);
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
@@ -207,6 +258,12 @@ public class BuildingCommands extends ListenerAdapter {
         eb.addField(new Field( "Name" ,         names , true));
         eb.addField(new Field( "Cost" ,         costs , true));
         eb.addField(new Field( "Generation" ,   gener , true));
+
+    }
+
+    @Override
+    protected void help(GuildMessageReceivedEvent e) {
+        // TODO Auto-generated method stub
 
     }
 

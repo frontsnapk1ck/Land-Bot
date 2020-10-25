@@ -1,6 +1,8 @@
 package landbot.player;
 
-public class Building implements Comparable<Building> {
+import landbot.utility.GameObject;
+
+public class Building extends GameObject implements Comparable<Building> {
 
     private int cost;
     private int generation;
@@ -47,4 +49,10 @@ public class Building implements Comparable<Building> {
 	public Building copy() {
 		return new Building ( this.name , this.cost , this.generation );
 	}
+
+    /**
+     * Cannot save buildings directly
+     */
+    @Override
+    protected void save() {}
 }

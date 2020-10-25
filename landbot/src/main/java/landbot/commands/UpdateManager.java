@@ -2,9 +2,12 @@ package landbot.commands;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import landbot.io.FileReader;
 import landbot.io.Saver;
+import landbot.utility.ServerJoinListener;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateNameEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -12,7 +15,14 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class UpdateManager extends ListenerAdapter {
 
-    @Override
+    private List<ServerJoinListener> listeners;
+
+    public UpdateManager() 
+    {
+        this.listeners = new ArrayList<ServerJoinListener>();
+	}
+
+	@Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
     {
         this.checkFileSystem(e);
@@ -26,14 +36,14 @@ public class UpdateManager extends ListenerAdapter {
     @Override
     public void onGuildUpdateName(GuildUpdateNameEvent e) {
         this.checkFileSystem(e.getNewName(), e.getGuild().getDefaultChannel());
-        File settings = new File("landbot\\res\\server\\" + e.getOldName() + "\\settings");
-        File users = new File("landbot\\res\\server\\" + e.getOldName() + "\\users");
+        File settings = new File("landbot\\res\\servers\\" + e.getOldName() + "\\settings");
+        File users = new File("landbot\\res\\servers\\" + e.getOldName() + "\\users");
 
         String[] files = FileReader.readFolderContents(users);
         for (String name : files) {
             name.replace(users.getPath(), "");
-            String pathN = "landbot\\res\\server\\" + e.getNewName() + "\\users\\" + name;
-            String pathO = "landbot\\res\\server\\" + e.getOldName() + "\\users\\" + name;
+            String pathN = "landbot\\res\\servers\\" + e.getNewName() + "\\users\\" + name;
+            String pathO = "landbot\\res\\servers\\" + e.getOldName() + "\\users\\" + name;
             String[] tmp = FileReader.read(pathO);
             Saver.saveNewFile(pathN);
             Saver.saveOverwite(pathN, tmp);
@@ -42,31 +52,32 @@ public class UpdateManager extends ListenerAdapter {
         files = FileReader.readFolderContents(settings);
         for (String name : files) {
             name.toString().replace(users.getPath(), "");
-            String pathN = "landbot\\res\\server\\" + e.getNewName() + "\\settings\\" + name;
-            String pathO = "landbot\\res\\server\\" + e.getOldName() + "\\settings\\" + name;
+            String pathN = "landbot\\res\\servers\\" + e.getNewName() + "\\settings\\" + name;
+            String pathO = "landbot\\res\\servers\\" + e.getOldName() + "\\settings\\" + name;
             String[] tmp = FileReader.read(pathO);
             Saver.saveNewFile(pathN);
             Saver.saveOverwite(pathN, tmp);
         }
 
-        Saver.deleteFiles("landbot\\res\\server\\" + e.getOldName());
+        Saver.deleteFiles("landbot\\res\\servers\\" + e.getOldName());
     }
 
     private void checkFileSystem(String nameN, TextChannel defaultChannel) 
     {
-        String name = nameN;
-        File dir = new File("landbot\\res\\server\\" + name);
-        if (!dir.exists()) {
+        File dir = new File("landbot\\res\\servers\\" + nameN);
+        if (!dir.exists()) 
+        {
             dir.mkdir();
-            File u = new File(dir.getPath() + "\\users");
-            File s = new File(dir.getPath() + "\\settings");
-            File buS = new File(s.getPath() + "\\buildings.txt");
-            File boS = new File(s.getPath() + "\\bot.settings");
-            File woO = new File(s.getPath() + "\\work.options");
+            File u = new File( dir.getPath() + "\\users");
+            File s = new File( dir.getPath() + "\\settings");
+            File buS = new File( s.getPath() + "\\buildings.txt");
+            File boS = new File( s.getPath() + "\\bot.settings");
+            File woO = new File( s.getPath() + "\\work.options");
 
             u.mkdir();
             s.mkdir();
-            try {
+            try 
+            {
                 buS.createNewFile();
                 boS.createNewFile();
                 woO.createNewFile();
@@ -93,7 +104,20 @@ public class UpdateManager extends ListenerAdapter {
             catch (IOException ex) {
                 ex.printStackTrace();
             }
+            
+            for (ServerJoinListener l : listeners) 
+                l.onServerJoin();
         }
+    }
+
+    public void setListener(ServerJoinListener l) 
+    {
+        this.listeners.add(l);
+    }
+    
+    public boolean removeListener(ServerJoinListener l)
+    {
+        return this.listeners.remove(l);
     }
 
 }

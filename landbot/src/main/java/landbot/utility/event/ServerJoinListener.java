@@ -1,7 +1,9 @@
-package landbot.utility;
+package landbot.utility.event;
 
 public interface ServerJoinListener {
 
     public void onServerJoin();
+
+    public void onServerLeave();
     
 }

@@ -1,4 +1,6 @@
-package landbot;
+package landbot.gameobjects;
+
+import java.util.List;
 
 import landbot.io.Saver;
 
@@ -11,6 +13,8 @@ public class Server {
     public static final String ROLE_ASSIGN_ON_BUY = "role assign on buy";
     public static final String ADMIN_BYPASS_COOLDOWN = "admin bypass cooldown";
     public static final String SPAM_CHANNEL = "spam channel";
+    public static final String BALCKLISTED_CHANNENLS = "blacklisted";
+    public static final String XP_COOLDOWN = "xp cooldown";
 
     private String prefix;
     private int startingBalance;
@@ -19,9 +23,11 @@ public class Server {
     private boolean roleAssignOnBuy;
     private boolean adminBypassCooldown;
     private long spamChannel;
+    private List<Long> blacklistedChannels;
+    private int xpCooldown;
 
     public Server(  String prefix , int startingBalace , int cooldown , String path , 
-                    boolean roleAssignOnBuy , boolean adminBypassCooldown , long spamChannel) 
+                    boolean roleAssignOnBuy , boolean adminBypassCooldown , long spamChannel , List<Long> blacklist , int xpCooldown ) 
     {
         this.cooldown = cooldown;
         this.startingBalance = startingBalace;
@@ -30,6 +36,8 @@ public class Server {
         this.roleAssignOnBuy = roleAssignOnBuy;
         this.adminBypassCooldown = adminBypassCooldown;
         this.spamChannel = spamChannel;
+        this.blacklistedChannels = blacklist;
+        this.xpCooldown = xpCooldown;
     }
 
     public void changePrefix(String p)
@@ -52,10 +60,15 @@ public class Server {
         return startingBalance;
     }
 
-    public int getCooldown() 
+    public int getWorkCooldown() 
     {
 		return cooldown;
-	}
+    }
+    
+    public int getXPCooldown()
+    {
+        return this.xpCooldown;
+    }
 
     public void changeCooldown(int cooldown) 
     {
@@ -65,15 +78,29 @@ public class Server {
     
     private void saveSettings() 
     {
-        String[] out = new String[] {
+        String blacklistedChannels = getBlacklistedChannelsString();
+        String[] out = new String[] 
+        {
             PREFIX +                ":" + prefix ,
             STARTING_BALANCE +      ":" + startingBalance ,
             COOLDOWN +              ":" + cooldown ,
             ROLE_ASSIGN_ON_BUY +    ":" + roleAssignOnBuy ,
             ADMIN_BYPASS_COOLDOWN + ":" + adminBypassCooldown ,
-            SPAM_CHANNEL +          ":" + spamChannel
+            SPAM_CHANNEL +          ":" + spamChannel , 
+            BALCKLISTED_CHANNENLS + ":" + blacklistedChannels , 
+            XP_COOLDOWN +           ":" + xpCooldown
+
         };
         Saver.saveOverwite(this.path + "\\settings\\bot.settings", out );
+    }
+
+    private String getBlacklistedChannelsString() 
+    {
+        String out = "";
+        for (Long l : blacklistedChannels) 
+            out += "" + l + ":";
+        
+        return out;
     }
 
     public String getPath() {
@@ -110,6 +137,30 @@ public class Server {
     public void changeSpamChannel(long spamChannel) 
     {
         this.spamChannel = spamChannel;
+        this.saveSettings();
+    }
+
+    public List<Long> getBlacklistedChannels() 
+    {
+		return this.blacklistedChannels;
+    }
+
+    public boolean removeBlackListedChannel( long l )
+    {
+        boolean b = this.blacklistedChannels.remove(l);
+        this.saveSettings();
+        return b;
+    }
+    
+    public void addBlacklistedChanel( long l )
+    {
+        this.blacklistedChannels.add(l);
+        this.saveSettings();
+    }
+    
+    public void changeXPCooldown(int time)
+    {
+        this.xpCooldown = time;
         this.saveSettings();
     }
 }

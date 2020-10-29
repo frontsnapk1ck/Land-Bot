@@ -4,14 +4,14 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
-import landbot.Server;
 import landbot.builder.loaders.BuildingLoaderText;
 import landbot.builder.loaders.PlayerLoaderText;
 import landbot.builder.loaders.ServerLoaderText;
+import landbot.gameobjects.Server;
+import landbot.gameobjects.player.Building;
+import landbot.gameobjects.player.Player;
 import landbot.io.FileReader;
 import landbot.io.Saver;
-import landbot.player.Building;
-import landbot.player.Player;
 import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -31,14 +32,12 @@ public class AdminCommands extends PlayerCommand {
     private boolean removeWorkOption;
     private List<Guild> guilds;
 
-    public AdminCommands() 
-    {
+    public AdminCommands() {
         Runnable day = new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    try 
-                    {
+                    try {
                         Thread.sleep(24 * // hours
                         60 * // mins
                         60 * // secs
@@ -59,10 +58,8 @@ public class AdminCommands extends PlayerCommand {
         t.start();
     }
 
-    protected void day() 
-    {
-        for (Guild g : guilds) 
-        {
+    protected void day() {
+        for (Guild g : guilds) {
             String path = getGuildPath(g) + "\\users";
             PlayerLoaderText plt = new PlayerLoaderText();
             List<Player> players = plt.loadALl(path);
@@ -74,6 +71,7 @@ public class AdminCommands extends PlayerCommand {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
+        super.onGuildMessageReceived(e);
         if (e.getAuthor().isBot())
             return;
 
@@ -126,6 +124,18 @@ public class AdminCommands extends PlayerCommand {
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "help"))
             help(e);
 
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "xp-set"))
+            setXP(e, args);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "xp-blacklist-add"))
+            blacklistAdd(e, args);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "xp-blacklist-rm"))
+            blacklistRemove(e, args);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "xp-cooldown"))
+            xpCooldown(e, args);
+
         else if (args[0].equalsIgnoreCase("<@!762825892006854676>"))
             viewPrefix(e);
 
@@ -142,15 +152,189 @@ public class AdminCommands extends PlayerCommand {
         else if (this.removeWorkOption && e.getAuthor().equals(this.buildingConstrucort))
             selectWorkOptionRemove(e);
 
-        else
+        else if (e.getAuthor() == this.buildingConstrucort)
             cancelProgress(e);
 
     }
 
-    private String getGuildPath(Guild guild) 
+    private void xpCooldown(GuildMessageReceivedEvent e, String[] args) 
     {
-        //landbot\res\servers\example guild
-        return "landbot\\res\\servers\\" + guild.getName();
+        if (args.length == 1)
+            showXPCooldown(e);
+        else
+            changeXPCooldown(e, args);
+    }
+
+    private void changeXPCooldown(GuildMessageReceivedEvent e, String[] args) 
+    {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        if (args.length == 1 || !validInt(args[1]))
+            return;
+        
+        int newCooldown = Integer.parseInt(args[1]);
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        s.changeXPCooldown(newCooldown);
+
+        showXPCooldown(e);
+
+    }
+
+    private void showXPCooldown(GuildMessageReceivedEvent e) 
+    {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("XP Cooldown Time");
+        eb.setDescription("the cooldown time for xp is currently `" +  s.getXPCooldown() + '`' );
+        e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    private void blacklistAdd(GuildMessageReceivedEvent e, String[] args) 
+    {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        if (args.length == 1)
+            showBlacklisted(e);
+        else
+            addXPBlacklist(e, args);
+    }
+
+    private void addXPBlacklist(GuildMessageReceivedEvent e, String[] args) 
+    {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        
+        if (args.length < 2 || !validChannel(args[1]))
+            return;
+
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        String channel = args[1].replace( "<#", "" );
+        channel = channel.replace( ">", ""  );
+        long id = Long.parseLong(channel);
+
+        s.addBlacklistedChanel(id);
+
+        showBlacklisted(e);
+    }
+
+    private boolean validChannel(String channel) 
+    {
+        channel = channel.replace( "<#", "" );
+        channel = channel.replace( ">", ""  );
+
+        try 
+        {
+            Long.parseLong(channel);
+            return true;
+        }
+        catch (NumberFormatException e) 
+        {
+            return false;
+        }
+    }
+
+    private void showBlacklisted(GuildMessageReceivedEvent e) 
+    {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        if (s.getBlacklistedChannels() == null || s.getBlacklistedChannels().size() == 0)
+        {
+            displayEmptyBlackList(e.getChannel());
+            return;
+        }
+
+        String out = "";
+        for (long l : s.getBlacklistedChannels()) 
+            out += "<#" + l + ">\n";
+        
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Blacklisted Channels");
+        eb.setDescription(out);
+
+        e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    private void displayEmptyBlackList(TextChannel channel) 
+    {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Blacklisted Channels");
+        eb.setDescription("there are currently no channels blacklisted for users gaining XP");
+
+        channel.sendMessage(eb.build()).queue();
+    }
+
+    private void blacklistRemove(GuildMessageReceivedEvent e, String[] args) 
+    {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        if (args.length == 1)
+            showBlacklisted(e);
+        else 
+            rmXPBlacklist(e , args);
+    }
+
+    private void rmXPBlacklist(GuildMessageReceivedEvent e, String[] args) 
+    {
+        if (args.length < 2 || !validChannel(args[1]))
+            return;
+
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        String channel = args[1].replace( "<#", "" );
+        channel = channel.replace( ">", ""  );
+        long id = Long.parseLong(channel);
+
+        s.removeBlackListedChannel(id);
+
+        showBlacklisted(e);
+    }
+
+    private void setXP(GuildMessageReceivedEvent e, String[] args) 
+    {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        if (args.length < 3 )
+            return;
+        if ( !validInt(args[1]) || !validUser(args[2]) )
+            return;
+
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getUserPath(e, args[2]);
+        Player p = plt.load(path);
+
+        int xp = Integer.parseInt(args[1]);
+
+        p.setXP(xp);
+
+    }
+
+    private boolean validInt(String string) 
+    {
+        try 
+        {
+            Integer.parseInt(string);
+            return true;
+        } 
+        catch (Exception e) 
+        {
+            return false;
+        }
     }
 
     private void setSpam(GuildMessageReceivedEvent e, String[] args) {
@@ -431,7 +615,7 @@ public class AdminCommands extends PlayerCommand {
             e.getChannel().sendTyping().queue();
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Cooldown");
-            eb.addField(new Field("The Cooldown is Currently", "" + s.getCooldown(), true));
+            eb.addField(new Field("The Cooldown is Currently", "" + s.getWorkCooldown(), true));
             e.getChannel().sendMessage(eb.build()).queue();
         }
 
@@ -455,7 +639,7 @@ public class AdminCommands extends PlayerCommand {
 
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Cooldown");
-            eb.addField(new Field("The Cooldown is Now", "" + s.getCooldown(), true));
+            eb.addField(new Field("The Cooldown is Now", "" + s.getWorkCooldown(), true));
             e.getChannel().sendMessage(eb.build()).queue();
         }
     }
@@ -463,7 +647,6 @@ public class AdminCommands extends PlayerCommand {
     @Override
     protected void help(GuildMessageReceivedEvent e) 
     {
-        viewPrefix(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR, false))
             return;
 

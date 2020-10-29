@@ -1,6 +1,6 @@
-package landbot.player;
+package landbot.gameobjects.player;
 
-import landbot.utility.GameObject;
+import landbot.gameobjects.GameObject;
 
 public class Building extends GameObject implements Comparable<Building> {
 

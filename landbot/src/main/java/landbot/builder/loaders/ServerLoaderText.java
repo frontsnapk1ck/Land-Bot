@@ -1,7 +1,10 @@
 package landbot.builder.loaders;
 
-import landbot.Server;
+import java.util.ArrayList;
+import java.util.List;
+
 import landbot.builder.DataLoader;
+import landbot.gameobjects.Server;
 import landbot.io.FileReader;
 
 public class ServerLoaderText extends DataLoader<Server, String> {
@@ -20,6 +23,8 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         String boolString1 = loadSetting(Server.ROLE_ASSIGN_ON_BUY, serverArray);
         String boolString2 = loadSetting(Server.ADMIN_BYPASS_COOLDOWN, serverArray);
         String spamString = loadSetting(Server.SPAM_CHANNEL, serverArray);
+        String combinedBlackList = loadSetting(Server.BALCKLISTED_CHANNENLS, serverArray);
+        String xpCooldownString = loadSetting(Server.XP_COOLDOWN, serverArray);
 
 
         int start = Integer.parseInt(startString);
@@ -27,10 +32,26 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         boolean roleAssign = Boolean.parseBoolean(boolString1);
         boolean adminBypass = Boolean.parseBoolean(boolString2);
         Long spamChannel = Long.parseLong(spamString);
+        List<Long> blacklist = loadBlacklist(combinedBlackList);
+        int xpCooldown = Integer.parseInt(xpCooldownString);
 
-        Server s = new Server(prefix, start, cool , path , roleAssign , adminBypass , spamChannel);
+        Server s = new Server(prefix, start, cool , path , roleAssign , adminBypass , spamChannel , blacklist , xpCooldown);
 
         return s;
+    }
+
+    private List<Long> loadBlacklist(String combinedBlackList) 
+    {
+        List<Long> out = new ArrayList<Long>();
+
+        if (combinedBlackList == null)
+            return out;
+
+        String[] channels = combinedBlackList.split(":");
+        for (String s : channels) 
+            out.add(Long.parseLong(s));
+        
+        return out;
     }
 
     private String[][] configureServerArray(String[] args) 
@@ -63,7 +84,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
     {
         for (String[] strings : sArgs) 
         {
-            if (strings[0].equalsIgnoreCase(s))
+            if (strings[0].equalsIgnoreCase(s) && strings.length > 1)
                 return strings[1];
         }
         return null;

@@ -5,10 +5,11 @@ import javax.security.auth.login.LoginException;
 import landbot.commands.AdminCommands;
 import landbot.commands.BuildingCommands;
 import landbot.commands.Commands;
+import landbot.commands.RankCommands;
 import landbot.commands.SpamCommands;
 import landbot.commands.UpdateManager;
 import landbot.io.FileReader;
-import landbot.utility.ServerJoinListener;
+import landbot.utility.event.ServerJoinListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -26,6 +27,7 @@ public class Main implements ServerJoinListener {
     private BuildingCommands buildingCommands;
     private Commands commands;
     private UpdateManager updateManager;
+    private RankCommands rankCommands;
 
     public static void main(String[] args) {
         main = new Main();
@@ -47,6 +49,7 @@ public class Main implements ServerJoinListener {
         this.buildingCommands = new BuildingCommands();
         this.adminCommands = new AdminCommands();
         this.spamCommands = new SpamCommands();
+        this.rankCommands = new RankCommands();
 
         this.updateManager.setListener(this);
 
@@ -55,42 +58,26 @@ public class Main implements ServerJoinListener {
         jda.addEventListener(this.buildingCommands);
         jda.addEventListener(this.adminCommands);
         jda.addEventListener(this.spamCommands);
+        jda.addEventListener(this.rankCommands);
 
-        this.buildChecker();
+        updateActivtyRunable();
 
     }
 
-    private void buildChecker() {
-        Runnable r = new Runnable() 
-        {
+    private void updateActivtyRunable() {
+        Runnable r = new Runnable() {
             @Override
-            public void run() 
-            {
-                cooldown(1000);
-                while (true)
-                {
-                    updateActivty();
-                    cooldown(
-                        10 * // mins
-                        60 * // secs
-                        1000 // millis
-                    );
-                }
-            }
-
-            private void cooldown(int millis) {
-                try 
-                {
-                    Thread.sleep(millis);
-                } 
-                catch (InterruptedException e) 
-                {
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                updateActivty();
             }
         };
 
-        Thread t = new Thread( r , "Server Count Checker");
+        Thread t = new Thread(r , "stupid wait for the server to update");
         t.setDaemon(true);
         t.start();
     }
@@ -112,6 +99,15 @@ public class Main implements ServerJoinListener {
     public void onServerJoin() 
     {
         this.adminCommands.setGuilds(jda.getGuilds());
+
+        this.updateActivty();
     }
-    
+
+    @Override
+    public void onServerLeave() 
+    {
+        this.adminCommands.setGuilds(jda.getGuilds());
+
+        this.updateActivty();
+    }
 }

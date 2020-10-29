@@ -3,15 +3,14 @@ package landbot.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import landbot.Server;
 import landbot.builder.loaders.PlayerLoaderText;
 import landbot.builder.loaders.ServerLoaderText;
+import landbot.gameobjects.Server;
+import landbot.gameobjects.player.Player;
 import landbot.io.FileReader;
-import landbot.player.Player;
 import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -29,7 +28,9 @@ public class Commands extends PlayerCommand {
     }
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
+    {
+        super.onGuildMessageReceived(e);
         if (e.getAuthor().isBot())
             return;
 
@@ -48,7 +49,7 @@ public class Commands extends PlayerCommand {
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "help"))
             help(e);
 
-        else if (args[0].equalsIgnoreCase(s.getPrefix() + "rank"))
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "!rank"))
             rank(e);
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "say"))
@@ -81,8 +82,6 @@ public class Commands extends PlayerCommand {
         Server s = slt.load(getGuildPath(e.getGuild()));
         long id = e.getAuthor().getIdLong();
 
-        checkUserFile(id, s);
-
         PlayerLoaderText plt = new PlayerLoaderText();
         String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
         Player p = plt.load(path);
@@ -104,12 +103,11 @@ public class Commands extends PlayerCommand {
         String rankMessage = ranks[i];
 
         e.getChannel().sendMessage(rankMessage).queue();
-        cooldown(e, s.getCooldown());
+        cooldown(e, s.getWorkCooldown());
     }
 
-    private void checkBalance(GuildMessageReceivedEvent e, String[] args) {
-        ServerLoaderText slt = new ServerLoaderText();
-        Server s = slt.load(getGuildPath(e.getGuild()));
+    private void checkBalance(GuildMessageReceivedEvent e, String[] args) 
+    {
         long id = e.getMember().getIdLong();
 
         if (args.length != 1) {
@@ -119,8 +117,6 @@ public class Commands extends PlayerCommand {
                 id = Long.parseLong(tmp);
             }
         }
-
-        checkUserFile(id, s);
 
         PlayerLoaderText plt = new PlayerLoaderText();
         String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
@@ -137,8 +133,6 @@ public class Commands extends PlayerCommand {
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
         long id = e.getAuthor().getIdLong();
-
-        checkUserFile(id, s);
 
         PlayerLoaderText plt = new PlayerLoaderText();
         String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
@@ -159,7 +153,7 @@ public class Commands extends PlayerCommand {
         e.getChannel().sendMessage(eb.build()).queue();
         p.addBal(bal);
 
-        cooldown(e, s.getCooldown());
+        cooldown(e, s.getWorkCooldown());
     }
 
     private void sendTooFast(GuildMessageReceivedEvent e) {
@@ -175,8 +169,6 @@ public class Commands extends PlayerCommand {
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
         List<Player> cdUsers = this.cooldownUsers;
-
-        checkUserFile(id, s);
 
         PlayerLoaderText plt = new PlayerLoaderText();
         String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
@@ -198,14 +190,9 @@ public class Commands extends PlayerCommand {
                 cdUsers.remove(p);
             }
         };
-        Thread cooldownThread = new Thread(timer, "cooldown " + p.getId());
+        Thread cooldownThread = new Thread(timer, "Work cooldown " + e.getAuthor().getAsTag());
         cooldownThread.setDaemon(true);
         cooldownThread.start();
-    }
-
-    private String getGuildPath(Guild guild) 
-    {
-        return "landbot\\res\\servers\\" + guild.getName();
     }
 
     @Override

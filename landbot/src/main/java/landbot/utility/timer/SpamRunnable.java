@@ -1,5 +1,10 @@
-package landbot.utility;
+package landbot.utility.timer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import landbot.utility.event.SpamFinishEvent;
+import landbot.utility.event.SpamFinishListener;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class SpamRunnable implements Runnable {
@@ -9,10 +14,13 @@ public class SpamRunnable implements Runnable {
     private int reps;
     private String message;
     private TextChannel channel;
+    private List<SpamFinishListener> listners;
 
 
     public SpamRunnable(int reps, String message, TextChannel c) 
     {
+        this.listners = new ArrayList<SpamFinishListener>();
+
         this.reps = reps;
         this.message = message;
         this.channel = c;
@@ -24,11 +32,25 @@ public class SpamRunnable implements Runnable {
         for (int i = 0; i < this.reps; i++) 
         {
             if (this.stop)
+            {
+                this.alertListeners();
                 return;
+            }
 
             this.channel.sendMessage(message).queue();
 
             cooldown();
+        }
+        this.alertListeners();
+    }
+
+    private void alertListeners() 
+    {
+        for (SpamFinishListener l : listners) 
+        {
+            SpamFinishEvent e = new SpamFinishEvent();
+            e.setRunnable(this);
+            l.onSpamFinishEvent(e);
         }
     }
 
@@ -42,6 +64,16 @@ public class SpamRunnable implements Runnable {
         {
             e.printStackTrace();
         }
+    }
+
+    public void addListener( SpamFinishListener l)
+    {
+        this.listners.add(l);
+    }
+
+    public boolean removeListener( SpamFinishListener l)
+    {
+        return this.listners.remove(l);
     }
 
     public Long getID() 

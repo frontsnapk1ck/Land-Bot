@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.lang.model.element.Element;
 
-import landbot.Server;
 import landbot.builder.DataLoader;
+import landbot.gameobjects.Server;
 
 public class ServerLoaderXML extends DataLoader<Server, Element> {
 

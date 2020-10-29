@@ -5,7 +5,7 @@ import java.util.List;
 import javax.lang.model.element.Element;
 
 import landbot.builder.DataLoader;
-import landbot.player.Player;
+import landbot.gameobjects.player.Player;
 
 public class PlayerLoaderXML extends DataLoader<Player, Element> {
 

@@ -1,19 +1,40 @@
 package landbot.builder.loaders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import landbot.builder.DataLoader;
+import landbot.gameobjects.player.Rank;
 import landbot.io.FileReader;
-import landbot.player.Rank;
 
 public class RankLoaderText extends DataLoader<Rank, String> {
 
     @Override
-    public Rank load(String file) 
+    public List<Rank> loadALl(String file) 
     {
-        String[] args = FileReader.read(file);
-        String[][] rankArray = configureRankArray(args);
+        List<Rank> ranks = new ArrayList<Rank>();
+        String[] arr = FileReader.read(file);
+        String[][] rankArray = configureRankArray(arr); 
 
-        Rank r = new Rank( file );
-        
+        for (String[] s : rankArray) 
+            ranks.add(load(s));    
+
+        return ranks;
+    }
+
+    private Rank load(String[] s) 
+    {
+
+        String levelString = s[0];
+        String neededXPString = s[1];
+        String totalXPString = s[2];
+
+        int level =    Integer.parseInt(levelString);
+        int xp = Integer.parseInt(neededXPString);
+        int totalXP =  Integer.parseInt(totalXPString);
+
+        Rank r = new Rank(level, xp, totalXP);
+
         return r;
     }
 
@@ -23,19 +44,12 @@ public class RankLoaderText extends DataLoader<Rank, String> {
 
         int i = 0;
         for (String s : args)
-            sArgs[i] = s.split(">");
+        {
+            sArgs[i] = s.split(":");
+            i++;
+        }
         
         return sArgs;
-    }
-
-    private static String loadSetting(String s, String[][] accountArray) 
-    {
-        for (String[] strings : accountArray) 
-        {
-            if (strings[0].equalsIgnoreCase(s))
-                return strings[1];
-        }
-        return null;
     }
     
 }

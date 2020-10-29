@@ -1,25 +1,25 @@
-package landbot.player;
+package landbot.gameobjects.player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import landbot.gameobjects.GameObject;
 import landbot.io.Saver;
-import landbot.utility.GameObject;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Comparable<Player> {
 
     private long id;
     private HashMap<String , List<Building>> owned;
     private List<String> buildingTypes;
     private Account account;
-    private Rank rank;
+    private int xp;
     private String path;
 
-    public Player ( long id , Account account , String path , Rank rank)
+    public Player ( long id , Account account , String path , int xp)
     {
         this.account = account;
-        this.rank = rank;
+        this.xp = xp;
         this.id = id;
         this.path = path;
 
@@ -49,27 +49,6 @@ public class Player extends GameObject {
     public long getId() {
         return id;
     }
-
-    // private void save ()
-    // {
-        // String[] out = new String[this.buildingTypes.size() + 1];
-        // out[0] = "" + this.account.getBal();
-        // 
-        // for (int i = 0; i < this.buildingTypes.size(); i++)
-        // {
-            // String s = this.buildingTypes.get(i);
- 
-            // String tmp = "";
-            // tmp += s;
-            // tmp += ">";
-            // tmp += this.owned.get(s).size();
- 
-            // out[i+1] = tmp;            
-        // }
- 
-        // String path = "landbot\\res\\server\\" + guildname + "\\users\\" + this.id + ".txt";
-        // Saver.saveOverwite(path, out);
-    // }
 
     public void setHash(HashMap<String, List<Building>> owned2) 
     {
@@ -181,8 +160,23 @@ public class Player extends GameObject {
     protected void save() 
     {
         this.account.save();
-        this.rank.save();
         
+        saveBuildings();
+        saveXP();
+                
+    }
+
+    private void saveXP() 
+    {
+        String path = this.path + "\\rank.txt";
+        String[] out = new String[1];
+        out[0] = "" + this.xp;
+
+        Saver.saveOverwite(path, out);
+    }
+
+    private void saveBuildings() 
+    {
         String buildingPath = this.path + "\\buildings.txt";
 
         int size = this.buildingTypes.size();
@@ -201,6 +195,37 @@ public class Player extends GameObject {
         }
 
         Saver.saveOverwite(buildingPath, out);
-                
     }
+
+    public int getXP() 
+    {
+		return this.xp;
+	}
+
+    public Player copy() 
+    {
+		return new Player(id, account, path, xp);
+	}
+
+    @Override
+    public int compareTo(Player o) 
+    {
+        if (o.getXP() > this.xp)
+            return 1;
+        else if (o.getXP() < this.xp)
+            return -1;
+        return 0;
+    }
+
+    public void addXP(int xp) 
+    {
+        this.xp += xp;
+        this.save();
+	}
+
+    public void setXP(int xp) 
+    {
+        this.xp = xp;
+        this.save();
+	}
 }

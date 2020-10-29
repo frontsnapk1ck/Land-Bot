@@ -1,7 +1,7 @@
-package landbot.player;
+package landbot.gameobjects.player;
 
+import landbot.gameobjects.GameObject;
 import landbot.io.Saver;
-import landbot.utility.GameObject;
 
 public class Account extends GameObject {
 

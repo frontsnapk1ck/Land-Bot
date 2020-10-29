@@ -7,7 +7,10 @@ import java.util.List;
  */
 public abstract class DataLoader< T , F >  {
 
-    public abstract T load( F file );
+    public T load( F file )
+    {
+        return null;
+    }
 
     public List<T> loadALl( F file)
     {

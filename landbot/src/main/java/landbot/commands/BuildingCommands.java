@@ -3,16 +3,16 @@ package landbot.commands;
 import java.util.HashMap;
 import java.util.List;
 
-import landbot.Server;
 import landbot.builder.loaders.BuildingLoaderText;
 import landbot.builder.loaders.PlayerLoaderText;
 import landbot.builder.loaders.ServerLoaderText;
-import landbot.player.Building;
-import landbot.player.Player;
+import landbot.gameobjects.Server;
+import landbot.gameobjects.player.Building;
+import landbot.gameobjects.player.Player;
+import landbot.io.FileReader;
 import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.RoleAction;
@@ -22,12 +22,15 @@ public class BuildingCommands extends PlayerCommand {
     public static final String IMMAGE_ADRESS = "https://i.imgur.com/5YhU4SF.png";
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
-        ServerLoaderText slt = new ServerLoaderText();
-        Server s = slt.load(getGuildPath(e.getGuild()));
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
+    {
 
+        super.onGuildMessageReceived(e);
         if (e.getAuthor().isBot())
             return;
+
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
 
         String[] args = e.getMessage().getContentRaw().split(" ");
 
@@ -39,14 +42,13 @@ public class BuildingCommands extends PlayerCommand {
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "me"))
             showStats(e);
+        
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "help"))
+            help(e);
     }
 
     private void showStats(GuildMessageReceivedEvent e) {
         long id = e.getAuthor().getIdLong();
-        ServerLoaderText slt = new ServerLoaderText();
-        Server s = slt.load(getGuildPath(e.getGuild()));
-        checkUserFile(id, s);
-
         PlayerLoaderText plt = new PlayerLoaderText();
         String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
         Player p = plt.load(path);
@@ -63,10 +65,6 @@ public class BuildingCommands extends PlayerCommand {
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-    private String getGuildPath(Guild guild) 
-    {
-        return "landbot\\res\\servers\\" + guild.getName();
-    }
 
     private void embedOwned(EmbedBuilder eb, Player p) 
     {
@@ -108,10 +106,6 @@ public class BuildingCommands extends PlayerCommand {
 
         long playerID = e.getAuthor().getIdLong();
         Building b = loadBuilding(args[1] , e );
-        ServerLoaderText slt = new ServerLoaderText();
-        Server s = slt.load(getGuildPath(e.getGuild()));
-
-        checkUserFile(playerID, s);
 
         PlayerLoaderText plt = new PlayerLoaderText();
         String path = getGuildPath(e.getGuild()) + "\\users\\" + playerID;
@@ -262,9 +256,24 @@ public class BuildingCommands extends PlayerCommand {
     }
 
     @Override
-    protected void help(GuildMessageReceivedEvent e) {
-        // TODO Auto-generated method stub
+    protected void help(GuildMessageReceivedEvent e) 
+    {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Rank Commands");
 
+        String message = loadHelpMessage();
+        eb.setDescription(message);
+
+        e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    private String loadHelpMessage() 
+    {
+        String out = "";
+        String[] message = FileReader.read("landbot\\res\\globals\\help\\buildingHelp.msg");
+        for (String string : message)
+            out += string + "\n";
+        return out;
     }
 
 }

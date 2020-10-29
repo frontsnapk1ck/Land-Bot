@@ -1,4 +1,4 @@
-package landbot.utility;
+package landbot.gameobjects;
 
 public abstract class GameObject {
 

@@ -1,14 +1,34 @@
 package landbot.utility;
 
-import landbot.Server;
+
+import landbot.builder.loaders.ServerLoaderText;
+import landbot.gameobjects.Server;
+import landbot.gameobjects.player.Account;
 import landbot.io.Saver;
-import landbot.player.Account;
-import landbot.player.Rank;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public abstract class PlayerCommand extends ListenerAdapter {
+public abstract class PlayerCommand extends AlloyCommandListener {
 
+    @Override
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
+    {
+        super.onGuildMessageReceived(e);
+
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        long id = 0l;
+
+        try 
+        {
+            id = e.getAuthor().getIdLong();    
+        } catch (Exception ex) 
+        {
+            ex.printStackTrace();
+        }
+
+        checkUserFile(id, s);
+
+    }
 
     protected abstract void help(GuildMessageReceivedEvent e);
 
@@ -19,7 +39,7 @@ public abstract class PlayerCommand extends ListenerAdapter {
      * @param s server in which said user is a member of
      * @return true if a new file is created
      */
-    public boolean checkUserFile(Long id , Server s) 
+    protected boolean checkUserFile(Long id , Server s) 
     {
         String path = s.getPath() + "\\users\\" + id;
         if (Saver.newFolder(path))
@@ -41,7 +61,7 @@ public abstract class PlayerCommand extends ListenerAdapter {
         };
 
         String[] rank = {
-            Rank.XP + ">" + 0
+            "" + 0
         };
 
         Saver.saveNewFile(accountPath, acc);
@@ -49,4 +69,30 @@ public abstract class PlayerCommand extends ListenerAdapter {
         Saver.saveNewFile(buildingPath);
     }
     
+    protected boolean validUser(String s)
+    {
+        try 
+        {
+            s = s.replace("<@!", "");
+            s = s.replace(">", "");
+
+            Long.parseLong(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    protected String getUserPath(GuildMessageReceivedEvent e, String id) 
+    {
+
+        id = id.replace("<@!", "");
+        id = id.replace(">", "");
+
+        String out = getGuildPath(e.getGuild());
+        out += "\\users\\";
+        out += id;
+
+        return out;
+    }
 }

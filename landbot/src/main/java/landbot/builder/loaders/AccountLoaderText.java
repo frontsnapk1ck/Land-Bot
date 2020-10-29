@@ -1,8 +1,8 @@
 package landbot.builder.loaders;
 
 import landbot.builder.DataLoader;
+import landbot.gameobjects.player.Account;
 import landbot.io.FileReader;
-import landbot.player.Account;
 
 public class AccountLoaderText extends DataLoader<Account, String> {
 

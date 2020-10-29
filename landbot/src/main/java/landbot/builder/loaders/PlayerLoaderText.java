@@ -6,31 +6,35 @@ import java.util.HashMap;
 import java.util.List;
 
 import landbot.builder.DataLoader;
+import landbot.gameobjects.player.Account;
+import landbot.gameobjects.player.Building;
+import landbot.gameobjects.player.Player;
 import landbot.io.FileReader;
-import landbot.player.Account;
-import landbot.player.Building;
-import landbot.player.Player;
-import landbot.player.Rank;
 
 public class PlayerLoaderText extends DataLoader<Player, String> {
 
     @Override
     public Player load(String file) {
         AccountLoaderText alt = new AccountLoaderText();
-        RankLoaderText rlt = new RankLoaderText();
 
         String accountPath = file + "\\account.txt";
-        String rankPath = file + "\\rank.txt";
         String buildingPath = file +"\\buildings.txt";
 
         Account a = alt.load(accountPath);
-        Rank r = rlt.load(rankPath);
+        int xp = loadXP(file);
         long id = parseID(file);
 
-        Player p = new Player(id, a, file, r);
+        Player p = new Player(id, a, file, xp);
         p.setHash(configureHashMap(buildingPath));
 
         return p;
+    }
+
+    private int loadXP(String file) 
+    {
+        String path = file +"\\rank.txt";
+        String[] xp = FileReader.read(path);
+        return Integer.parseInt(xp[0]);
     }
 
     private HashMap<String, List<Building>> configureHashMap(String path) 

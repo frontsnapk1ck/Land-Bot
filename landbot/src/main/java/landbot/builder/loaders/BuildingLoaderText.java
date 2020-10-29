@@ -4,18 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import landbot.builder.DataLoader;
+import landbot.gameobjects.player.Building;
 import landbot.io.FileReader;
-import landbot.player.Building;
 
 public class BuildingLoaderText extends DataLoader<Building, String> {
-
-
-    @Override
-    public Building load(String file) 
-    {
-        // TODO figure out what i want to do with this method
-        return null;
-    }
 
     @Override
     public List<Building> loadALl(String file) 

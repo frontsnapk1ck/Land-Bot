@@ -10,6 +10,8 @@ import landbot.utility.AlloyCommandListener;
 import landbot.utility.event.ServerJoinListener;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateNameEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -59,7 +61,8 @@ public class UpdateManager extends AlloyCommandListener {
     }
 
     @Override
-    public void onGuildUpdateName(GuildUpdateNameEvent e) {
+    public void onGuildUpdateName(GuildUpdateNameEvent e) 
+    {
         this.checkFileSystem(e.getNewName(), e.getGuild().getDefaultChannel());
         File settings = new File("landbot\\res\\servers\\" + e.getOldName() + "\\settings");
         File users = new File("landbot\\res\\servers\\" + e.getOldName() + "\\users");
@@ -95,6 +98,20 @@ public class UpdateManager extends AlloyCommandListener {
     public boolean removeListener(ServerJoinListener l)
     {
         return this.listeners.remove(l);
+    }
+
+    @Override
+    public void onGuildMemberRemove(GuildMemberRemoveEvent event) 
+    {
+        String path = getGuildPath(event.getGuild());
+        path += "\\users\\" + event.getUser().getIdLong();
+        Saver.deleteFiles(path);    
+    }
+
+    @Override
+    public void onGuildMemberJoin(GuildMemberJoinEvent event) 
+    {
+        super.onGuildMemberJoin(event);
     }
 
 }

@@ -7,10 +7,5 @@ import landbot.gameobjects.player.Rank;
 
 public class RankLoaderXML extends DataLoader<Rank, Element> {
 
-    @Override
-    public Rank load(Element file) {
-        // TODO Auto-generated method stub
-        return null;
-    }
     
 }

@@ -30,7 +30,7 @@ public class SpamCommands extends AlloyCommandListener implements SpamFinishList
         super.onGuildMessageReceived(e);
         if (e.getAuthor().isBot())
             return;
-        
+
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
         String[] args = e.getMessage().getContentRaw().split(" ");

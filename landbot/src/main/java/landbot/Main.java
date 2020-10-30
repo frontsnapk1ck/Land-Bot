@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class Main implements ServerJoinListener {
 
@@ -37,7 +38,9 @@ public class Main implements ServerJoinListener {
     private void start() {
         loadKey();
         try {
-            jda = JDABuilder.createDefault(key).build();
+            jda = JDABuilder.createDefault(key)
+                            .enableIntents(GatewayIntent.GUILD_MEMBERS)
+                            .build();
         } catch (LoginException e) {
             e.printStackTrace();
         }

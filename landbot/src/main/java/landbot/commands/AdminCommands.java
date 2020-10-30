@@ -7,6 +7,7 @@ import java.util.List;
 import landbot.builder.loaders.BuildingLoaderText;
 import landbot.builder.loaders.PlayerLoaderText;
 import landbot.builder.loaders.ServerLoaderText;
+import landbot.gameobjects.RankUp;
 import landbot.gameobjects.Server;
 import landbot.gameobjects.player.Building;
 import landbot.gameobjects.player.Player;
@@ -17,6 +18,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -58,7 +60,7 @@ public class AdminCommands extends PlayerCommand {
         t.start();
     }
 
-    protected void day() {
+    private void day() {
         for (Guild g : guilds) {
             String path = getGuildPath(g) + "\\users";
             PlayerLoaderText plt = new PlayerLoaderText();
@@ -124,7 +126,7 @@ public class AdminCommands extends PlayerCommand {
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "help"))
             help(e);
 
-        else if (args[0].equalsIgnoreCase(s.getPrefix() + "xp-set"))
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "set-xp"))
             setXP(e, args);
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "xp-blacklist-add"))
@@ -135,6 +137,15 @@ public class AdminCommands extends PlayerCommand {
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "xp-cooldown"))
             xpCooldown(e, args);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "rankup-add"))
+            addRankup(e, args);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "rankup-rm"))
+            rmRankup(e, args);
+
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "rankup-view"))
+            viewRankup(e);
 
         else if (args[0].equalsIgnoreCase("<@!762825892006854676>"))
             viewPrefix(e);
@@ -157,23 +168,171 @@ public class AdminCommands extends PlayerCommand {
 
     }
 
-    private void xpCooldown(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void viewRankup(GuildMessageReceivedEvent e) {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        List<RankUp> rankups = s.getRankups();
+        String out = "";
+        for (RankUp rankUp : rankups)
+            out += rankUp.toString() + "\n";
+
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Rank Up Messages");
+        if (out == "")
+            out = "nothing has been added yet";
+
+        eb.setDescription(out);
+
+        e.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    private void rmRankup(GuildMessageReceivedEvent e, String[] args) {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        if (args.length == 1)
+            viewRankup(e);
+        else
+            rmRankupFromGuild(e, args);
+    }
+
+    private void rmRankupFromGuild(GuildMessageReceivedEvent e, String[] args) {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        if (!validInt(args[1])) {
+            error(e.getChannel(), "invalid number for level");
+            return;
+        }
+
+        int level = Integer.parseInt(args[1]);
+        List<RankUp> rankups = s.getRankups();
+        RankUp toRm = null;
+
+        for (RankUp rankUp : rankups) {
+            if (rankUp.getLevel() == level)
+                toRm = rankUp;
+        }
+        if (toRm != null)
+            s.removeRankUp(toRm);
+        viewRankup(e);
+    }
+
+    private void addRankup(GuildMessageReceivedEvent e, String[] args) {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        if (args.length == 1)
+            viewRankup(e);
+        else
+            addRankuptoGuildWithRole(e, args);
+    }
+
+    private void addRankuptoGuildWithRole(GuildMessageReceivedEvent e, String[] args) {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        boolean numB = validInt(args[1]);
+        boolean roleB = validRole(args[2]);
+
+        if (!numB) {
+            error(e.getChannel(), "invalid number for level");
+            return;
+        }
+
+        if (!roleB) {
+            addRankuptoGuild(e, args);
+            return;
+        }
+
+        String role = args[2];
+        role = role.replace("<@&", "");
+        role = role.replace(">", "");
+
+        int level = Integer.parseInt(args[1]);
+        long id = Long.parseLong(role);
+
+        if (rankUpDuplicate(level, s)) {
+            error(e.getChannel(), "Duplicate Level");
+            return;
+        }
+
+        String out = "";
+        for (int i = 2; i < args.length; i++)
+            out += args[i] + " ";
+
+        RankUp ru = new RankUp(level, id, out);
+
+        s.addRankUp(ru);
+
+        viewRankup(e);
+    }
+
+    private void addRankuptoGuild(GuildMessageReceivedEvent e, String[] args) {
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+        if (!validInt(args[1]))
+            return;
+
+        int level = Integer.parseInt(args[1]);
+
+        if (rankUpDuplicate(level, s)) {
+            error(e.getChannel(), "Duplicate Level");
+            return;
+        }
+
+        String out = "";
+        for (int i = 2; i < args.length; i++)
+            out += args[i] + " ";
+
+        RankUp ru = new RankUp(level, 0l, out);
+
+        s.addRankUp(ru);
+        viewRankup(e);
+
+    }
+
+    private void error(TextChannel c, String s) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Something Went Wrong");
+        eb.setDescription(s);
+
+        c.sendMessage(eb.build()).queue();
+    }
+
+    private boolean rankUpDuplicate(int level, Server s) {
+        boolean b = false;
+        for (RankUp ru : s.getRankups()) {
+            if (ru.getLevel() == level)
+                b = true;
+        }
+
+        return b;
+    }
+
+    private void xpCooldown(GuildMessageReceivedEvent e, String[] args) {
         if (args.length == 1)
             showXPCooldown(e);
         else
             changeXPCooldown(e, args);
     }
 
-    private void changeXPCooldown(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void changeXPCooldown(GuildMessageReceivedEvent e, String[] args) {
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
         cancelProgress(e);
 
         if (args.length == 1 || !validInt(args[1]))
             return;
-        
+
         int newCooldown = Integer.parseInt(args[1]);
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
@@ -184,19 +343,17 @@ public class AdminCommands extends PlayerCommand {
 
     }
 
-    private void showXPCooldown(GuildMessageReceivedEvent e) 
-    {
+    private void showXPCooldown(GuildMessageReceivedEvent e) {
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("XP Cooldown Time");
-        eb.setDescription("the cooldown time for xp is currently `" +  s.getXPCooldown() + '`' );
+        eb.setDescription("the cooldown time for xp is currently `" + s.getXPCooldown() + '`');
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-    private void blacklistAdd(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void blacklistAdd(GuildMessageReceivedEvent e, String[] args) {
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
         cancelProgress(e);
@@ -207,20 +364,25 @@ public class AdminCommands extends PlayerCommand {
             addXPBlacklist(e, args);
     }
 
-    private void addXPBlacklist(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void addXPBlacklist(GuildMessageReceivedEvent e, String[] args) {
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
         cancelProgress(e);
 
-        
-        if (args.length < 2 || !validChannel(args[1]))
+        if (args.length < 2) {
+            error(e.getChannel(), "please suply a channel to blacklist");
             return;
+        }
+
+        if (!validChannel(args[1])) {
+            error(e.getChannel(), "please suply a valid channel to blacklist");
+            return;
+        }
 
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
-        String channel = args[1].replace( "<#", "" );
-        channel = channel.replace( ">", ""  );
+        String channel = args[1].replace("<#", "");
+        channel = channel.replace(">", "");
         long id = Long.parseLong(channel);
 
         s.addBlacklistedChanel(id);
@@ -228,37 +390,31 @@ public class AdminCommands extends PlayerCommand {
         showBlacklisted(e);
     }
 
-    private boolean validChannel(String channel) 
-    {
-        channel = channel.replace( "<#", "" );
-        channel = channel.replace( ">", ""  );
+    private boolean validChannel(String channel) {
+        channel = channel.replace("<#", "");
+        channel = channel.replace(">", "");
 
-        try 
-        {
+        try {
             Long.parseLong(channel);
             return true;
-        }
-        catch (NumberFormatException e) 
-        {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
 
-    private void showBlacklisted(GuildMessageReceivedEvent e) 
-    {
+    private void showBlacklisted(GuildMessageReceivedEvent e) {
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
 
-        if (s.getBlacklistedChannels() == null || s.getBlacklistedChannels().size() == 0)
-        {
+        if (s.getBlacklistedChannels() == null || s.getBlacklistedChannels().size() == 0) {
             displayEmptyBlackList(e.getChannel());
             return;
         }
 
         String out = "";
-        for (long l : s.getBlacklistedChannels()) 
+        for (long l : s.getBlacklistedChannels())
             out += "<#" + l + ">\n";
-        
+
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Blacklisted Channels");
         eb.setDescription(out);
@@ -266,8 +422,7 @@ public class AdminCommands extends PlayerCommand {
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-    private void displayEmptyBlackList(TextChannel channel) 
-    {
+    private void displayEmptyBlackList(TextChannel channel) {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Blacklisted Channels");
         eb.setDescription("there are currently no channels blacklisted for users gaining XP");
@@ -275,27 +430,32 @@ public class AdminCommands extends PlayerCommand {
         channel.sendMessage(eb.build()).queue();
     }
 
-    private void blacklistRemove(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void blacklistRemove(GuildMessageReceivedEvent e, String[] args) {
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
         cancelProgress(e);
 
         if (args.length == 1)
             showBlacklisted(e);
-        else 
-            rmXPBlacklist(e , args);
+        else
+            rmXPBlacklist(e, args);
     }
 
-    private void rmXPBlacklist(GuildMessageReceivedEvent e, String[] args) 
-    {
-        if (args.length < 2 || !validChannel(args[1]))
+    private void rmXPBlacklist(GuildMessageReceivedEvent e, String[] args) {
+        if (args.length < 2) {
+            error(e.getChannel(), "please suply a channel to blacklist");
             return;
+        }
+
+        if (!validChannel(args[1])) {
+            error(e.getChannel(), "please suply a valid channel to blacklist");
+            return;
+        }
 
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
-        String channel = args[1].replace( "<#", "" );
-        channel = channel.replace( ">", ""  );
+        String channel = args[1].replace("<#", "");
+        channel = channel.replace(">", "");
         long id = Long.parseLong(channel);
 
         s.removeBlackListedChannel(id);
@@ -303,16 +463,24 @@ public class AdminCommands extends PlayerCommand {
         showBlacklisted(e);
     }
 
-    private void setXP(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void setXP(GuildMessageReceivedEvent e, String[] args) {
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
         cancelProgress(e);
 
-        if (args.length < 3 )
+        if (args.length < 3) {
+            error(e.getChannel(), "please enter all parameters");
             return;
-        if ( !validInt(args[1]) || !validUser(args[2]) )
+        }
+        if (!validInt(args[1])) {
+            error(e.getChannel(), "please suply a valid integer");
             return;
+        }
+
+        if (!validUser(args[2])) {
+            error(e.getChannel(), "please suply a valid user");
+            return;
+        }
 
         PlayerLoaderText plt = new PlayerLoaderText();
         String path = getUserPath(e, args[2]);
@@ -324,15 +492,22 @@ public class AdminCommands extends PlayerCommand {
 
     }
 
-    private boolean validInt(String string) 
-    {
-        try 
-        {
+    private boolean validInt(String string) {
+        try {
             Integer.parseInt(string);
             return true;
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean validRole(String string) {
+        string = string.replace("<@&", "");
+        string = string.replace(">", "");
+        try {
+            Long.parseLong(string);
+            return true;
+        } catch (Exception e) {
             return false;
         }
     }
@@ -360,28 +535,25 @@ public class AdminCommands extends PlayerCommand {
             spam = spam.replace(">", "");
             boolean valid = false;
             List<GuildChannel> channels = e.getGuild().getChannels();
-            for (GuildChannel c : channels) 
-            {
+            for (GuildChannel c : channels) {
                 if (c.getId().equals(spam))
                     valid = true;
             }
 
-            if (valid)
-            {
+            if (valid) {
                 s.changeSpamChannel(Long.parseLong(spam));
                 EmbedBuilder eb = new EmbedBuilder();
 
                 eb.setTitle("Spam Channel");
                 eb.addField(new Field("The Spam Channel is now", "<#" + s.getSpamChannel() + ">", true));
                 e.getChannel().sendMessage(eb.build()).queue();
-            }
-            else
-                e.getChannel().sendMessage("Please enter a valid channel").queue();;
+            } else
+                e.getChannel().sendMessage("Please enter a valid channel").queue();
+            ;
         }
     }
 
-    private void adminCooldown(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void adminCooldown(GuildMessageReceivedEvent e, String[] args) {
         cancelProgress(e);
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
@@ -393,15 +565,14 @@ public class AdminCommands extends PlayerCommand {
             e.getChannel().sendTyping().queue();
             EmbedBuilder eb = new EmbedBuilder();
 
-            String state = s.getAdminCooldownBypass() ? "on" : "off"; 
+            String state = s.getAdminCooldownBypass() ? "on" : "off";
 
             eb.setTitle("Admin Cooldown Bypass");
             eb.addField(new Field("The Admin Bypass Cooldown is Currently", "`" + state + "`", true));
             e.getChannel().sendMessage(eb.build()).queue();
         }
 
-        else
-        {
+        else {
             boolean valid = false;
             if (!valid) {
                 try {
@@ -417,7 +588,7 @@ public class AdminCommands extends PlayerCommand {
 
             EmbedBuilder eb = new EmbedBuilder();
 
-            String state = s.getAdminCooldownBypass() ? "on" : "off"; 
+            String state = s.getAdminCooldownBypass() ? "on" : "off";
 
             eb.setTitle("Admin Cooldown Bypass");
             eb.addField(new Field("The Admin Bypass Cooldown is Currently", "`" + state + "`", true));
@@ -425,34 +596,27 @@ public class AdminCommands extends PlayerCommand {
         }
     }
 
-    private void selectWorkOptionRemove(GuildMessageReceivedEvent e) 
-    {
-        try 
-        {
+    private void selectWorkOptionRemove(GuildMessageReceivedEvent e) {
+        try {
             int rm = Integer.parseInt(e.getMessage().getContentRaw());
             ServerLoaderText slt = new ServerLoaderText();
             Server s = slt.load(getGuildPath(e.getGuild()));
             String path = s.getPath() + "\\settings\\work.options";
             String[] options = FileReader.read(path);
 
-
-            if (rm > 0 && rm <= options.length) 
-            {
-                options[rm-1] = null;
-                String[] newOp = new String[options.length -1 ];
+            if (rm > 0 && rm <= options.length) {
+                options[rm - 1] = null;
+                String[] newOp = new String[options.length - 1];
 
                 int i = 0;
-                for (String st : options) 
-                {
-                    if (st != null)
-                    {
+                for (String st : options) {
+                    if (st != null) {
                         newOp[i] = st;
                         i++;
                     }
                 }
-                Saver.saveOverwite( path , newOp );
-            } 
-            else
+                Saver.saveOverwite(path, newOp);
+            } else
                 e.getChannel().sendMessage("Please enter a valid number");
 
             this.viewWorkOptions(e);
@@ -463,40 +627,33 @@ public class AdminCommands extends PlayerCommand {
         }
     }
 
-    private void removeWorkOption(GuildMessageReceivedEvent e) 
-    {
+    private void removeWorkOption(GuildMessageReceivedEvent e) {
         cancelProgress(e);
-        if (!hasPerm(e, Permission.ADMINISTRATOR , true))
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
 
         this.buildingConstrucort = e.getAuthor();
         this.removeWorkOption = true;
-        viewWorkOptions(e , false);
+        viewWorkOptions(e, false);
 
     }
 
-    private void resetWorkOptions(GuildMessageReceivedEvent e) 
-    {
+    private void resetWorkOptions(GuildMessageReceivedEvent e) {
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
 
         cancelProgress(e);
-        if (!hasPerm(e, Permission.ADMINISTRATOR , true))
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
-        
-        String[] out = {
-            "you work at mcdonalds" ,
-            "you work at burger king" ,
-            "you work at walmart" 
-        };
+
+        String[] out = { "you work at mcdonalds", "you work at burger king", "you work at walmart" };
 
         String path = s.getPath() + "\\settings\\work.options";
         Saver.saveOverwite(path, out);
         viewWorkOptions(e);
     }
 
-    private void viewWorkOptions(GuildMessageReceivedEvent e , boolean b)
-    {
+    private void viewWorkOptions(GuildMessageReceivedEvent e, boolean b) {
         if (b)
             cancelProgress(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
@@ -507,7 +664,7 @@ public class AdminCommands extends PlayerCommand {
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("All availible work options");
-    
+
         String path = s.getPath() + "\\settings\\work.options";
         String[] wO = FileReader.read(path);
 
@@ -515,8 +672,7 @@ public class AdminCommands extends PlayerCommand {
         String name = "";
 
         int i = 1;
-        for (String string : wO) 
-        {
+        for (String string : wO) {
             num += i + "\n";
             name += string + "\n";
             i++;
@@ -528,14 +684,11 @@ public class AdminCommands extends PlayerCommand {
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-
-    private void viewWorkOptions(GuildMessageReceivedEvent e) 
-    {
+    private void viewWorkOptions(GuildMessageReceivedEvent e) {
         viewWorkOptions(e, true);
     }
 
-    private void addWorkOption(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void addWorkOption(GuildMessageReceivedEvent e, String[] args) {
         cancelProgress(e);
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
@@ -543,27 +696,25 @@ public class AdminCommands extends PlayerCommand {
         if (args.length == 1)
             informOnWork(e);
 
-
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
         String out = "";
-        for (int i = 1; i < args.length; i++) 
+        for (int i = 1; i < args.length; i++)
             out += args[i] + " ";
-        
+
         String path = s.getPath() + "\\settings\\work.options";
         Saver.saveAppend(path, out);
     }
 
-    private void informOnWork(GuildMessageReceivedEvent e) 
-    {
+    private void informOnWork(GuildMessageReceivedEvent e) {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Add Work");
-        eb.setDescription("Use this command to add options to the random work messages in this server\n\nbe sure to put the option you want after the command (e.g. `!add-work you work at walmart`)");
+        eb.setDescription(
+                "Use this command to add options to the random work messages in this server\n\nbe sure to put the option you want after the command (e.g. `!add-work you work at walmart`)");
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-    private void buyRoles(GuildMessageReceivedEvent e, String[] args) 
-    {
+    private void buyRoles(GuildMessageReceivedEvent e, String[] args) {
         cancelProgress(e);
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
@@ -575,15 +726,14 @@ public class AdminCommands extends PlayerCommand {
             e.getChannel().sendTyping().queue();
             EmbedBuilder eb = new EmbedBuilder();
 
-            String state = s.getRoleAssignOnBuy() ? "on" : "off"; 
+            String state = s.getRoleAssignOnBuy() ? "on" : "off";
 
             eb.setTitle("Auto Assign Roles");
             eb.addField(new Field("The Auto Assign Roles is Currently", "`" + state + "`", true));
             e.getChannel().sendMessage(eb.build()).queue();
         }
 
-        else
-        {
+        else {
             boolean valid = false;
             while (!valid) {
                 try {
@@ -599,7 +749,7 @@ public class AdminCommands extends PlayerCommand {
 
             EmbedBuilder eb = new EmbedBuilder();
 
-            String state = s.getRoleAssignOnBuy() ? "on" : "off"; 
+            String state = s.getRoleAssignOnBuy() ? "on" : "off";
 
             eb.setTitle("Auto Assign Roles");
             eb.addField(new Field("The Auto Assign Roles is Now", "`" + state + "`", true));
@@ -651,12 +801,24 @@ public class AdminCommands extends PlayerCommand {
             return;
 
         EmbedBuilder eb = new EmbedBuilder();
+        PrivateChannel c = e.getAuthor().openPrivateChannel().complete();
+
         eb.setTitle("Admin Only Commands");
+        eb.setDescription(loadHelpMessage());
+        c.sendMessage(eb.build()).queue();
 
-        String message = loadHelpMessage();
-        eb.setDescription(message);
+        eb.setTitle("Admin Only Rank Commands");
+        eb.setDescription(loadRankHelpMessage());
+        c.sendMessage(eb.build()).queue();
+    }
 
-        e.getChannel().sendMessage(eb.build()).queue();
+    private String loadRankHelpMessage() 
+    {
+        String out = "";
+        String[] message = FileReader.read("landbot\\res\\globals\\help\\adminRankHelp.msg");
+        for (String string : message)
+            out += string + "\n";
+        return out;
     }
 
     private String loadHelpMessage() 
@@ -1118,6 +1280,6 @@ public class AdminCommands extends PlayerCommand {
     public void setGuilds(List<Guild> guilds) 
     {
         this.guilds = guilds;
-	}
+    }
 
 }

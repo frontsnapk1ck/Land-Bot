@@ -7,10 +7,5 @@ import landbot.gameobjects.player.Account;
 
 public class AccountLoaderXML extends DataLoader<Account, Element> {
 
-    @Override
-    public Account load(Element file) {
-        // TODO Auto-generated method stub
-        return null;
-    }
     
 }

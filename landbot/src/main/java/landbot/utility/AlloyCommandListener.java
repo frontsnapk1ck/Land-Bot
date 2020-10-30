@@ -31,6 +31,7 @@ public class AlloyCommandListener extends ListenerAdapter {
             File buS = new File( s.getPath() + "\\buildings.txt");
             File boS = new File( s.getPath() + "\\bot.settings");
             File woO = new File( s.getPath() + "\\work.options");
+            File luA = new File( s.getPath() + "\\rank.ups");
 
             u.mkdir();
             s.mkdir();
@@ -39,6 +40,7 @@ public class AlloyCommandListener extends ListenerAdapter {
                 buS.createNewFile();
                 boS.createNewFile();
                 woO.createNewFile();
+                luA.createNewFile();
 
                 String defaultChannelS = defaultChannel.getId();
                 String[] boSS = {   Server.PREFIX + ":!" , 

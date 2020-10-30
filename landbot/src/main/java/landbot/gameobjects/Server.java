@@ -15,6 +15,7 @@ public class Server {
     public static final String SPAM_CHANNEL = "spam channel";
     public static final String BALCKLISTED_CHANNENLS = "blacklisted";
     public static final String XP_COOLDOWN = "xp cooldown";
+    public static final String RANKUPS = "rankups";
 
     private String prefix;
     private int startingBalance;
@@ -25,10 +26,10 @@ public class Server {
     private long spamChannel;
     private List<Long> blacklistedChannels;
     private int xpCooldown;
+    private List<RankUp> rankups;
 
     public Server(  String prefix , int startingBalace , int cooldown , String path , 
-                    boolean roleAssignOnBuy , boolean adminBypassCooldown , long spamChannel , List<Long> blacklist , int xpCooldown ) 
-    {
+                    boolean roleAssignOnBuy , boolean adminBypassCooldown , long spamChannel , List<Long> blacklist , int xpCooldown , List<RankUp> rankups )     {
         this.cooldown = cooldown;
         this.startingBalance = startingBalace;
         this.prefix = prefix;
@@ -38,6 +39,7 @@ public class Server {
         this.spamChannel = spamChannel;
         this.blacklistedChannels = blacklist;
         this.xpCooldown = xpCooldown;
+        this.rankups = rankups;
     }
 
     public void changePrefix(String p)
@@ -79,6 +81,7 @@ public class Server {
     private void saveSettings() 
     {
         String blacklistedChannels = getBlacklistedChannelsString();
+        String[] rankups = getRankupsSave();
         String[] out = new String[] 
         {
             PREFIX +                ":" + prefix ,
@@ -92,13 +95,29 @@ public class Server {
 
         };
         Saver.saveOverwite(this.path + "\\settings\\bot.settings", out );
+        Saver.saveOverwite(this.path + "\\settings\\rank.ups", rankups );
+        
+    }
+
+    private String[] getRankupsSave() 
+    {
+        String[] out = new String[this.rankups.size()];
+
+        int i = 0;
+        for (RankUp r : this.rankups) 
+        {
+            out[i] = r.toSave();
+            i++;    
+        }
+
+        return out;
     }
 
     private String getBlacklistedChannelsString() 
     {
         String out = "";
         for (Long l : blacklistedChannels) 
-            out += "" + l + ":";
+            out += "" + l + ";";
         
         return out;
     }
@@ -161,6 +180,24 @@ public class Server {
     public void changeXPCooldown(int time)
     {
         this.xpCooldown = time;
+        this.saveSettings();
+    }
+
+    public List<RankUp> getRankups() 
+    {
+        return rankups;
+    }
+
+    public boolean removeRankUp(RankUp r)
+    {
+        boolean b = this.rankups.remove(r);
+        this.saveSettings();
+        return b;
+    }
+
+    public void addRankUp(RankUp r)
+    {
+        this.rankups.add(r);
         this.saveSettings();
     }
 }

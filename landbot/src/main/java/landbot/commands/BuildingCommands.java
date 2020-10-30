@@ -13,6 +13,7 @@ import landbot.io.FileReader;
 import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.RoleAction;
@@ -258,13 +259,14 @@ public class BuildingCommands extends PlayerCommand {
     @Override
     protected void help(GuildMessageReceivedEvent e) 
     {
+        PrivateChannel c = e.getAuthor().openPrivateChannel().complete();
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Rank Commands");
+        eb.setTitle("Building Commands");
 
         String message = loadHelpMessage();
         eb.setDescription(message);
 
-        e.getChannel().sendMessage(eb.build()).queue();
+        c.sendMessage(eb.build()).queue();
     }
 
     private String loadHelpMessage() 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import landbot.builder.DataLoader;
+import landbot.gameobjects.RankUp;
 import landbot.gameobjects.Server;
 import landbot.io.FileReader;
 
@@ -13,6 +14,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
     @Override
     public Server load(String file) 
     {
+        RankupLoaderText rult = new RankupLoaderText();
         String path = "landbot\\res\\servers\\" + getGuildName(file);
         String[] arr = FileReader.read(path +  "\\settings\\bot.settings");
         String[][] serverArray = configureServerArray(arr);
@@ -34,8 +36,9 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         Long spamChannel = Long.parseLong(spamString);
         List<Long> blacklist = loadBlacklist(combinedBlackList);
         int xpCooldown = Integer.parseInt(xpCooldownString);
+        List<RankUp> rankUps = rult.loadALl(path + "\\settings\\rank.ups");
 
-        Server s = new Server(prefix, start, cool , path , roleAssign , adminBypass , spamChannel , blacklist , xpCooldown);
+        Server s = new Server(prefix, start, cool , path , roleAssign , adminBypass , spamChannel , blacklist , xpCooldown , rankUps);
 
         return s;
     }
@@ -47,7 +50,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         if (combinedBlackList == null)
             return out;
 
-        String[] channels = combinedBlackList.split(":");
+        String[] channels = combinedBlackList.split(";");
         for (String s : channels) 
             out.add(Long.parseLong(s));
         
@@ -80,9 +83,9 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         return name;
     }
 
-    private static String loadSetting(String s, String[][] sArgs) 
+    private static String loadSetting(String s, String[][] serverArray) 
     {
-        for (String[] strings : sArgs) 
+        for (String[] strings : serverArray) 
         {
             if (strings[0].equalsIgnoreCase(s) && strings.length > 1)
                 return strings[1];

@@ -12,6 +12,7 @@ import landbot.utility.PlayerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class Commands extends PlayerCommand {
@@ -51,10 +52,80 @@ public class Commands extends PlayerCommand {
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "!rank"))
             rank(e);
+        
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "dead-chat"))
+            deadchat(e);
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "say"))
             say(e);
+        
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "invite"))
+            invite(e);
+        
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "info"))
+            info(e);
 
+    }
+
+    private void info(GuildMessageReceivedEvent e) 
+    {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setFooter("frontsnapk1ck", "https://cdn.discordapp.com/avatars/312743142828933130/7c63b41c5ed601b3314c1dce0d0e0065.png");
+        eb.setTitle("My name is alloy");
+        eb.setDescription("I am Alloy and i am a got frontsnapk1ck has been working on for a little while now. if you have any question feel free to reach out to him and join the offical Alloy Support Server here https://discord.gg/7UNxyXRxBh \n\nthanks!");
+
+        e.getChannel().sendMessage(eb.build()).queue();        
+    }
+
+    private void invite(GuildMessageReceivedEvent e) 
+    {
+        String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=762825892006854676&permissions=435678326&scope=bot";
+        String rickroll = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        EmbedBuilder eb = new EmbedBuilder();
+
+        eb.setTitle("Click here to invite me", rickroll);
+        eb.setDescription("thanks for thinking of me");
+        e.getChannel().sendMessage(eb.build()).queue();
+
+        eb.setTitle("This is your actual invite");
+        eb.setDescription("my creator will never miss an opertunity to rick roll someone\n\n" + inviteLink);
+        PrivateChannel c = e.getAuthor().openPrivateChannel().complete();
+        c.sendMessage(eb.build()).queue();
+
+    }
+
+    private void deadchat(GuildMessageReceivedEvent e) 
+    {        
+        ServerLoaderText slt = new ServerLoaderText();
+        Server s = slt.load(getGuildPath(e.getGuild()));
+        long id = e.getAuthor().getIdLong();
+
+        PlayerLoaderText plt = new PlayerLoaderText();
+        String path = getGuildPath(e.getGuild()) + "\\users\\" + id;
+        Player p = plt.load(path);
+
+        for (Player player : cooldownUsers) 
+        {
+            if (player.equals(p)) 
+            {
+                sendTooFast(e);
+                return;
+            }
+        }
+
+        String[] chats = {
+            "https://tenor.com/view/dead-chat-xd-gif-18749255" , 
+            "https://tenor.com/view/dead-chat-dead-discord-death-gif-18239566" ,
+            "https://tenor.com/view/dead-chat-gif-18800792"
+        };
+
+        int i = (int) (Math.random() * chats.length);
+        String rankMessage = chats[i];
+
+        e.getMessage().delete().queue();
+
+        e.getChannel().sendMessage(rankMessage).queue();
+        cooldown(e, s.getWorkCooldown());
     }
 
     private void say(GuildMessageReceivedEvent e) {
@@ -93,11 +164,13 @@ public class Commands extends PlayerCommand {
             }
         }
 
-        String[] ranks = { "https://tenor.com/view/rank-talk-selfie-man-eyeglasses-gif-17817029",
+        String[] ranks = { 
+                "https://tenor.com/view/rank-talk-selfie-man-eyeglasses-gif-17817029",
                 "https://tenor.com/view/rank-hair-long-weird-beat-box-gif-17161979",
                 "https://tenor.com/view/rank-funny-face-black-man-gif-18421232",
                 "https://tenor.com/view/rank-conner-when-rank-hedoberankindoe-gif-18818063",
-                "https://tenor.com/view/timotainment-tim-entertainment-rank-discord-gif-18070842" };
+                "https://tenor.com/view/timotainment-tim-entertainment-rank-discord-gif-18070842" 
+            };
 
         int i = (int) (Math.random() * ranks.length);
         String rankMessage = ranks[i];
@@ -198,12 +271,14 @@ public class Commands extends PlayerCommand {
     @Override
     protected void help(GuildMessageReceivedEvent e) 
     {
+        PrivateChannel c = e.getAuthor().openPrivateChannel().complete();
         EmbedBuilder eb = new EmbedBuilder();
         String message = loadHelpMessage();
         eb.setTitle("Commands");
         eb.setDescription(message);
 
-        e.getChannel().sendMessage(eb.build()).queue();
+        c.sendMessage(eb.build()).queue();
+        e.getChannel().sendMessage("DM sent");
     }
 
     private String loadHelpMessage() 

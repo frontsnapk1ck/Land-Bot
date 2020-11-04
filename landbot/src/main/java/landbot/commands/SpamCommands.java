@@ -20,7 +20,9 @@ public class SpamCommands extends AlloyCommandListener implements SpamFinishList
 
     private List<SpamRunnable> spams;
 
-    public SpamCommands() {
+    public SpamCommands() 
+    {
+        super(SpamCommands.class.getName());
         spams = new ArrayList<SpamRunnable>();
     }
 
@@ -58,11 +60,12 @@ public class SpamCommands extends AlloyCommandListener implements SpamFinishList
     }
 
     private boolean validID(String[] args) {
-        try {
+        try 
+        {
             Long.parseLong(args[1]);
             return true;
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) 
+        {
         }
         return false;
     }

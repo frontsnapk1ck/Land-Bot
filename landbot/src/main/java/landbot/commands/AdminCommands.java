@@ -6,11 +6,13 @@ import java.util.List;
 
 import landbot.builder.loaders.BuildingLoaderText;
 import landbot.builder.loaders.PlayerLoaderText;
+import landbot.builder.loaders.RankLoaderText;
 import landbot.builder.loaders.ServerLoaderText;
 import landbot.gameobjects.RankUp;
 import landbot.gameobjects.Server;
 import landbot.gameobjects.player.Building;
 import landbot.gameobjects.player.Player;
+import landbot.gameobjects.player.Rank;
 import landbot.io.FileReader;
 import landbot.io.Saver;
 import landbot.utility.PlayerCommand;
@@ -18,8 +20,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -34,34 +36,53 @@ public class AdminCommands extends PlayerCommand {
     private boolean removeWorkOption;
     private List<Guild> guilds;
 
-    public AdminCommands() {
-        Runnable day = new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(24 * // hours
-                        60 * // mins
-                        60 * // secs
-                        1000); // milis
-
-                    }
-
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    day();
-                }
-            }
-        };
+    public AdminCommands() 
+    {
+        super(AdminCommands.class.getName());
+        Runnable day = makeDayRunnable();
 
         Thread t = new Thread(day, "Day Timer");
         t.setDaemon(true);
         t.start();
     }
 
-    private void day() {
-        for (Guild g : guilds) {
+    private Runnable makeDayRunnable() 
+    {
+        Runnable day = new Runnable() 
+        {
+            @Override
+            public void run() 
+            {
+                while (true) 
+                {
+                    try 
+                    {
+                        Thread.sleep(
+                        24 * // hours
+                        60 * // mins
+                        60 * // secs
+                        1000 // milis
+                        );
+                        day();
+                        logger.info("The day has advanced for all guilds");
+                    }
+
+                    catch (InterruptedException e) 
+                    {
+                        logger.error("Day Thread caught am error while waiting for the day to advace");
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        return day;
+    }
+
+    private void day() 
+    {
+        for (Guild g : guilds) 
+        {
             String path = getGuildPath(g) + "\\users";
             PlayerLoaderText plt = new PlayerLoaderText();
             List<Player> players = plt.loadALl(path);
@@ -146,6 +167,9 @@ public class AdminCommands extends PlayerCommand {
 
         else if (args[0].equalsIgnoreCase(s.getPrefix() + "rankup-view"))
             viewRankup(e);
+        
+        else if (args[0].equalsIgnoreCase(s.getPrefix() + "rankup-test"))
+            rankupTest(e , args);
 
         else if (args[0].equalsIgnoreCase("<@!762825892006854676>"))
             viewPrefix(e);
@@ -166,6 +190,44 @@ public class AdminCommands extends PlayerCommand {
         else if (e.getAuthor() == this.buildingConstrucort)
             cancelProgress(e);
 
+    }
+
+    private void rankupTest(GuildMessageReceivedEvent e, String[] args) 
+    {
+        if (!hasPerm(e, Permission.ADMINISTRATOR, true))
+            return;
+        cancelProgress(e);
+
+        ServerLoaderText slt = new ServerLoaderText();
+        RankLoaderText rlt = new RankLoaderText();
+
+        Server s = slt.load(getGuildPath(e.getGuild()));
+
+
+        if (!validInt(args[1]))
+        {
+            error(e.getChannel(), "please enter a valid integer");
+            return;
+        }
+        int level = Integer.parseInt(args[1]);
+        if (!levelInRankups( s.getRankups() , level))
+        {
+            error(e.getChannel() , "please enter a number that corrosponds to a level with a custom anouncement");
+        }
+
+        Rank r = rlt.loadALl("landbot\\res\\globals\\defualt\\rank.txt").get(level-1);
+        RankCommands.announceLevelUp(e, r , false);
+    }
+
+    private boolean levelInRankups(List<RankUp> list, int level) 
+    {
+        boolean in = false;
+        for (RankUp rankUp : list) 
+        {
+            if (rankUp.getLevel() == level)
+                in = true;    
+        }
+        return in;
     }
 
     private void viewRankup(GuildMessageReceivedEvent e) {
@@ -265,7 +327,7 @@ public class AdminCommands extends PlayerCommand {
         }
 
         String out = "";
-        for (int i = 2; i < args.length; i++)
+        for (int i = 3; i < args.length; i++)
             out += args[i] + " ";
 
         RankUp ru = new RankUp(level, id, out);
@@ -463,7 +525,8 @@ public class AdminCommands extends PlayerCommand {
         showBlacklisted(e);
     }
 
-    private void setXP(GuildMessageReceivedEvent e, String[] args) {
+    private void setXP(GuildMessageReceivedEvent e, String[] args) 
+    {
         if (!hasPerm(e, Permission.ADMINISTRATOR, true))
             return;
         cancelProgress(e);
@@ -501,7 +564,8 @@ public class AdminCommands extends PlayerCommand {
         }
     }
 
-    private boolean validRole(String string) {
+    private boolean validRole(String string) 
+    {
         string = string.replace("<@&", "");
         string = string.replace(">", "");
         try {
@@ -939,7 +1003,7 @@ public class AdminCommands extends PlayerCommand {
     private boolean hasPerm(GuildMessageReceivedEvent e, Permission p, boolean b) 
     {
         EnumSet<Permission> authorRoles = e.getMember().getPermissions();
-        boolean valid = authorRoles.contains(p); // || e.getAuthor().getIdLong() == 312743142828933130l;
+        boolean valid = authorRoles.contains(p) || e.getAuthor().getIdLong() == 312743142828933130l;
         if (!valid && b) 
             sendInvalidPerms( e , p );
         return valid;

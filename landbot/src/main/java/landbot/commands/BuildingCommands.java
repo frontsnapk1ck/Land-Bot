@@ -20,6 +20,11 @@ import net.dv8tion.jda.api.requests.restaction.RoleAction;
 
 public class BuildingCommands extends PlayerCommand {
 
+    public BuildingCommands() 
+    {
+        super(BuildingCommands.class.getName());
+    }
+
     public static final String IMMAGE_ADRESS = "https://i.imgur.com/5YhU4SF.png";
 
     @Override

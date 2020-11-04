@@ -20,7 +20,9 @@ public class Commands extends PlayerCommand {
     String[] workOptions;
     private List<Player> cooldownUsers;
 
-    public Commands() {
+    public Commands() 
+    {
+        super(Commands.class.getName());
         this.cooldownUsers = new ArrayList<Player>();
     }
 
@@ -75,6 +77,8 @@ public class Commands extends PlayerCommand {
         eb.setDescription("I am Alloy and i am a got frontsnapk1ck has been working on for a little while now. if you have any question feel free to reach out to him and join the offical Alloy Support Server here https://discord.gg/7UNxyXRxBh \n\nthanks!");
 
         e.getChannel().sendMessage(eb.build()).queue();        
+
+        logger.debug("Invite link to support server sent in " + e.getGuild().getName());
     }
 
     private void invite(GuildMessageReceivedEvent e) 
@@ -92,6 +96,7 @@ public class Commands extends PlayerCommand {
         PrivateChannel c = e.getAuthor().openPrivateChannel().complete();
         c.sendMessage(eb.build()).queue();
 
+        logger.debug("Invite link for bot sent to " + e.getAuthor().getAsTag());
     }
 
     private void deadchat(GuildMessageReceivedEvent e) 
@@ -148,7 +153,8 @@ public class Commands extends PlayerCommand {
         }
     }
 
-    private void rank(GuildMessageReceivedEvent e) {
+    private void rank(GuildMessageReceivedEvent e) 
+    {
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
         long id = e.getAuthor().getIdLong();

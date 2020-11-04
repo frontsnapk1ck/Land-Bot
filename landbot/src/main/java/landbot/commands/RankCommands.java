@@ -25,7 +25,9 @@ public class RankCommands extends PlayerCommand {
 
     List<Player> cooldownUsers;
 
-    public RankCommands() {
+    public RankCommands() 
+    {
+        super(RankCommands.class.getName());
         cooldownUsers = new ArrayList<Player>();
     }
 
@@ -96,18 +98,25 @@ public class RankCommands extends PlayerCommand {
         String path = "";
         long id = 0l;
 
-        if (args.length == 1) {
+        if (args.length == 1) 
+        {
             path = getUserPath(e);
             id = e.getAuthor().getIdLong();
-        } else if (validUser(args[1])) {
+        } 
+        
+        else if (validUser(args[1])) 
+        {
             String user = args[1];
             user = user.replace("<@!", "");
+            user = user.replace("<@", "");
             user = user.replace(">", "");
 
             path = getUserPath(e.getGuild(), args[1]);
             id = Long.parseLong(user);
 
-        } else {
+        } 
+        else 
+        {
             path = getUserPath(e);
             id = e.getAuthor().getIdLong();
         }
@@ -154,6 +163,7 @@ public class RankCommands extends PlayerCommand {
 
     private String getUserPath(Guild guild, String user) {
         user = user.replace("<@!", "");
+        user = user.replace("<@", "");
         user = user.replace(">", "");
 
         long id = Long.parseLong(user);
@@ -210,16 +220,23 @@ public class RankCommands extends PlayerCommand {
         }
     }
 
-    private void announceLevelUp(GuildMessageReceivedEvent e, Rank rank) {
+    private void announceLevelUp(GuildMessageReceivedEvent e, Rank rank) 
+    {
+        announceLevelUp(e, rank , true);
+    }
+
+    public static void announceLevelUp(GuildMessageReceivedEvent e, Rank rank, boolean addLevel) 
+    {
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
 
         List<RankUp> rankups = s.getRankups();
 
         for (RankUp rankup : rankups) {
-            if (rank.getLevel() == rankup.getLevel()) {
+            if (rank.getLevel() == rankup.getLevel()) 
+            {
                 announceLevelUp(e, replace(e, rankup.getMessage(), rankup));
-                if (rankup.getId() != 0l)
+                if (rankup.getId() != 0l && addLevel)
                     addRank(e, rankup.getId());
                 return;
             }
@@ -229,24 +246,25 @@ public class RankCommands extends PlayerCommand {
         announceLevelUp(e, message);
     }
 
-    private void addRank(GuildMessageReceivedEvent e, long id) 
+    private static void addRank(GuildMessageReceivedEvent e, long id) 
     {
         Role role = e.getGuild().getRoleById(id);
         long userID = e.getAuthor().getIdLong();
         e.getGuild().addRoleToMember( userID , role).queue();
     }
 
-    private void announceLevelUp(GuildMessageReceivedEvent e, String message) 
+    private static void announceLevelUp(GuildMessageReceivedEvent e, String message) 
     {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Rank up");
         eb.setDescription(message);
         eb.setFooter(e.getAuthor().getAsTag(), e.getAuthor().getAvatarUrl());
 
+        e.getChannel().sendMessage(e.getAuthor().getAsMention()).queue();
         e.getChannel().sendMessage(eb.build()).queue();
     }
 
-    private String replace(GuildMessageReceivedEvent e, String message, RankUp rankup) 
+    private static String replace(GuildMessageReceivedEvent e, String message, RankUp rankup) 
     {
         message = message.replace(RankUp.USER, e.getAuthor().getAsTag());
         message = message.replace(RankUp.USER_PING, e.getAuthor().getAsMention());

@@ -3,6 +3,9 @@ package landbot.utility.timer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import landbot.utility.event.SpamFinishEvent;
 import landbot.utility.event.SpamFinishListener;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -15,11 +18,13 @@ public class SpamRunnable implements Runnable {
     private String message;
     private TextChannel channel;
     private List<SpamFinishListener> listners;
+    private Logger logger;
 
 
     public SpamRunnable(int reps, String message, TextChannel c) 
     {
         this.listners = new ArrayList<SpamFinishListener>();
+        this.logger = LoggerFactory.getLogger(SpamRunnable.class);
 
         this.reps = reps;
         this.message = message;
@@ -62,6 +67,7 @@ public class SpamRunnable implements Runnable {
         } 
         catch (InterruptedException e) 
         {
+            logger.error("There was an error on the spam timer");
             e.printStackTrace();
         }
     }

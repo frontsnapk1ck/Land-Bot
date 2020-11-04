@@ -9,10 +9,18 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public abstract class PlayerCommand extends AlloyCommandListener {
 
+    public PlayerCommand(String name) 
+    {
+        super(name);
+    }
+
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
     {
         super.onGuildMessageReceived(e);
+
+        if (e.getAuthor().isBot())
+            return;
 
         ServerLoaderText slt = new ServerLoaderText();
         Server s = slt.load(getGuildPath(e.getGuild()));
@@ -74,6 +82,7 @@ public abstract class PlayerCommand extends AlloyCommandListener {
         try 
         {
             s = s.replace("<@!", "");
+            s = s.replace("<@", "");
             s = s.replace(">", "");
 
             Long.parseLong(s);
@@ -87,6 +96,7 @@ public abstract class PlayerCommand extends AlloyCommandListener {
     {
 
         id = id.replace("<@!", "");
+        id = id.replace("<@", "");
         id = id.replace(">", "");
 
         String out = getGuildPath(e.getGuild());

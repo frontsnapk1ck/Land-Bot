@@ -71,8 +71,12 @@ public class Saver {
 
     public static void deleteFiles(String path) 
     {
+        // landbot\res\servers\frontsnapk1ck's bot testing server\\users\762826500100587582
+        // landbot\res\servers\frontsnapk1ck's bot testing server\\users\762826500100587582
+        
         File f = new File(path);
-        for (File f2 : f.listFiles()) 
+        File[] sub = f.listFiles();
+        for (File f2 : sub) 
         {
             if (!f2.delete())
                 deleteFiles(f2.getPath());

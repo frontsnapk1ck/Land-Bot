@@ -3,6 +3,9 @@ package landbot.utility;
 import java.io.File;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import landbot.gameobjects.Server;
 import landbot.io.Saver;
 import net.dv8tion.jda.api.entities.Guild;
@@ -10,7 +13,14 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class AlloyCommandListener extends ListenerAdapter {
+public abstract class AlloyCommandListener extends ListenerAdapter {
+
+    protected Logger logger;
+
+    public AlloyCommandListener(String name) 
+    {
+        this.logger = LoggerFactory.getLogger(name);
+    }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
@@ -74,7 +84,7 @@ public class AlloyCommandListener extends ListenerAdapter {
         }
     }
 
-    protected String getGuildPath(Guild guild)
+    protected static String getGuildPath(Guild guild)
     {
         return "landbot\\res\\servers\\" + guild.getName();
     }

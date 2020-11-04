@@ -70,10 +70,14 @@ public class Main implements ServerJoinListener {
     private void updateActivtyRunable() {
         Runnable r = new Runnable() {
             @Override
-            public void run() {
-                try {
+            public void run() 
+            {
+                try 
+                {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
+                } 
+                catch (InterruptedException e) 
+                {
                     e.printStackTrace();
                 }
                 updateActivty();

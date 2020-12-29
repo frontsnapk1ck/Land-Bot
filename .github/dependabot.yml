@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "maven" # See documentation for possible values
-    directory: "alloy/pom.xml" # Location of package manifests
+    directory: "alloy/" # Location of package manifests
     schedule:
       interval: "daily"
       

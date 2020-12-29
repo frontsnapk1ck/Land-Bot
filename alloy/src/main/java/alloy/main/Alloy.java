@@ -93,7 +93,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     }
 
     private String loadKey() {
-        String[] keyA = FileReader.read(AlloyUtil.KEY_FILE_2);
+        String[] keyA = FileReader.read(AlloyUtil.KEY_FILE);
         return keyA[0];
     }
 

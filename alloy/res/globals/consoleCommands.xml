@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands>
+
+    
+    <!-- ===================== COMMANDS =============================== -->
+        
+        <command name = "invite" type = "CONSOLE" >
+            <trigger text = "invite"  />
+                    
+            <subcommand text = ""
+                        description = "gets an invite to all of the servers i am in"/>
+        </command>
+
+        <command name = "members" type = "CONSOLE" >
+            <trigger text = "members"  />
+                    
+            <subcommand text = "{guild id}"
+                        description = "gets a list of all the members in a server"/>
+        </command>
+
+        <command name = "name" type = "CONSOLE" >
+            <trigger text = "name"  />
+                    
+            <subcommand text = "{guild id}"
+                        description = "gets the name of a server with a given id"/>
+            
+            <subcommand text = "{guild id} {member id}"
+                        description = "gets the name of a member with the given ids"/>
+            
+        </command>
+
+        <command name = "roles" type = "CONSOLE" >
+            <trigger text = ""  />
+                    
+            <subcommand text = "strip {guild id} {member id}"
+                        description = "removes all roles from a member that can be removed by me"/>
+
+            <subcommand text = "add {guild id} {member id} {role id}"
+                        description = "adds a given role to a given member"/>
+            
+            <subcommand text = "remove {guild id} {member id} {role id}"
+                        description = "removes a given role to a given member"/>
+
+            <subcommand text = "roles {guild id}"
+                        description = "gets a list of roles in a server"/>
+                    
+            <subcommand text = "selfPerms {guild id}"
+                        description = "shows my permissions in a given server"/>
+
+            <subcommand text = "userPerms {guild id} {member id}"
+                        description = "shows the persmissinos of a given user in a given server"/>
+        </command>
+
+    <!-- ===================== COMMAND MAP =============================== -->
+            
+        <mapping command =  "invite" 	        action = 	"invite"    />
+        <mapping command =  "members"           action =    "members"   />
+        <mapping command =  "name"              action =    "name"      />
+        <mapping command =  "roles"             action =    "roles"     />
+
+    </commands>

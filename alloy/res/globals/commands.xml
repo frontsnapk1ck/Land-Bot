@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands>
+
+    
+    <!-- ===================== COMMANDS =============================== -->
+        
+        <!-- ADMINISTRATION COMMAND -->
+        <command name = "purge" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD" >
+            <trigger text = "purge"  />
+            <trigger text = "clear"  />
+            <trigger text = "delete" />
+
+            <subcommand text = "" 
+                        description = "deletes up to {MAX_BULK_SIZE} non-pinned messages" />
+            
+            <subcommand text = "{num}"
+                        description = "deletes {num} (max {MAX_DELETE_COUNT} ) non-pinned messages"/>
+
+            <subcommand text = "{time}"
+                        description = "deletes messages newer than now - (input) you can use dhms and combinations"/>
+
+            <subcommand text = "{user} {num}" 
+                        description = "deletes {num} mesages from {user}" />
+
+            <subcommand text = "matches {regex}" 
+                        description = "deletes messages matching {regex}"/>
+
+            <subcommand text = "match {regex}" 
+                        description = "deletes messages matching {regex}"/>
+
+            <subcommand text = "notmatches" 
+                        description = "delete messages NOT matching {regex}"/>
+
+            <subcommand text = "commands"
+                        description = "delete command related messages" />
+                    
+            <subcommand text = "bots {num}"
+                        description = "deletes bot messages"/>
+        </command>
+
+        <command name = "ban" permission = "BAN_MEMEBERS" cooldown = "false" type = "DISCORD">
+            <trigger text = "ban" />
+
+            <subcommand text = ""
+                        description = "bans a memeber from your guild" />
+        </command>
+
+        <command name = "case" permission ="MESSAGE_MANAGE" cooldown = "false" type = "DISCORD">
+            <trigger text = "case"/>
+            <subcommand text = "reason {id} {message}" 
+                        description = "sets/modifies the reason of a case" /> 
+
+            <subcommand text = "user {user}" 
+                        description = "shows a list of cases for this user" />
+
+            <subcommand text = "show {id}" 
+                        description = "shows case" />
+        </command>
+
+        <command name = "kick" permission = "KICK_MEMBERS" cooldown = "false" type = "DISCORD">
+            <trigger text = "kick" />
+            <subcommand text = ""
+                        description = "kicks a member from your guild" />
+        </command>
+
+        <command name = "mute" permission = "MESSAGE_MANAGE" cooldown = "false" type = "DISCORD">
+            <trigger text = "mute" />
+            <subcommand text = ""
+                        description = "mutes a member in the server" />
+        </command>
+
+        <command name = "unmute" permission = "MESSAGE_MANAGE" cooldown = "false" type = "DISCORD">
+            <trigger text = "unmute" />
+            <subcommand text = ""
+                        description = "unmutes a member in the server" />
+        </command>
+        
+        <command name = "warn" permission = "MESSAGE_MANAGE" cooldown = "false" type = "DISCORD">
+            <trigger text = "warn" />
+
+            <subcommand text = "{user} {message}" 
+                        description = "use this command to warn memeber in ther server" />
+
+            <subcommand text = "del {id}"
+                        description = "deletes a warning from a given ID"/> 
+        </command>
+
+        <command name = "warnings" permission = "MESSAGE_MANAGE" cooldown = "false" type = "DISCORD">
+            <trigger text = "warnings" />
+            <subcommand text = "{user}"
+                        description = "show the warnings the following member has"/>
+        </command>
+
+        <!-- CONFIGURATION COMMANDS-->
+        <command name = "building" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "building" />
+            
+            <subcommand text = "add {name} {cost} {generation}"
+                        description = "adds a building into the economy that members can buy"/>
+            
+            <subcommand text = "remove {index}"
+                        description = "removes a building from the economy from a given number"/>
+            
+            <subcommand text = "reset" 
+                        description = "resets the buildings in this economy to the defualt buildings"/>
+        </command>
+
+        <command name = "workC" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "work" />
+
+            <subcommand text = "add {message}"
+                        description = "adds an option to be read out when a user uses the work command" />
+            
+            <subcommand text = "remove {index}" 
+                        description = "removes an option for work from the economy at the given index"/>
+
+            <subcommand text = "reset"
+                        description = "resets the work options in the economy the defualt work options" />
+        </command>
+
+        <command name = "view" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "view" />
+
+            <subcommand text = "building"
+                        description = "view a list of all of the buildings in this economy"/>
+                
+            <subcommand text = "work" 
+                        description = "view a list of all of the work options in this economy"/>
+        </command>
+
+        <command name = "starting-balance" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "starting-balance" />
+
+            <subcommand text = "{bal}"
+                        description = "changed the starting balance in this server"/>
+
+        </command>
+
+        <command name = "blacklist" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "blacklist" />
+
+            <subcommand text = "add {channel}"
+                        description = "changed the starting balance in this server"/>
+                        
+            <subcommand text = "add {channel}"
+                        description = "changed the starting balance in this server"/>
+
+        </command>
+
+        <command name = "set" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "set" />
+
+            <subcommand text = "spam {channel}"
+                        description = "changed the starting balance in this server"/>
+            
+            <subcommand text = "xp {user} {xp}"
+                        description = "changed the starting balance in this server"/>
+            
+
+        </command>
+
+        <command name = "cooldown" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "cooldown" />
+
+            <subcommand text = "{time}"
+                        description = "changes the cooldown time in this server"/>
+            
+            <subcommand text = "xp {time}"
+                        description = "changed the time between members generatring xp"/>
+        </command>
+
+        <command name = "prefix" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "prefix" />
+
+            <subcommand text = "" 
+                        description = "shows the prefix in this server"/>
+
+            <subcommand text = "set {prefix}"
+                        description = "changes the prefix in this server"/>
+        </command>
+
+        <!-- ECONOMY COMMNADS-->
+        <command name = "bank" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "bank" />
+            <trigger text = "bal" />
+
+            <subcommand text = "" 
+                        description = "shows current balance"/>
+            
+            <subcommand text = "{user}"
+                        description = "see the balance of another user"/>
+
+        </command>
+
+        <command name = "pay" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "pay" />
+            <trigget text = "send" />
+
+            <subcommand text = "{user} {amount}"
+                        description = "sends a given amount to a given user"/>
+                    
+            <subcommand text = "{user} {amount} {message}"
+                        description = "sends a given amount to a given user with a given message"/>
+        </command>
+
+        <command name = "buy" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "buy" />
+
+            <subcommand text = "{building_name}"
+                        description = "buys a building if you have enough money"/>
+        </command>
+
+        <command name = "day" permission = "ADMINISTRATOR" cooldown = "true" type = "DISCORD">
+            <trigger text = "day" />
+
+            <subcommand text = ""
+                        description = "advanced the day in this server by 1"/>
+        </command>
+
+        <command name = "me" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "me" />
+
+            <subcommand text = ""
+                        description = "shows the currently owned buidlings" />
+        </command>
+
+        <command name = "work" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD" >
+            <trigger text = "work" />
+            <subcommand text = "" 
+                        description = "work somewhere and make a little bit of money"/>
+        </command>
+
+        <!-- FUN COMMANDS-->
+        <command name = "dead-chat" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "dead-chat" />
+            <trigger text = "dc" />
+
+            <subcommand text = ""
+                        description = "sends a random dead chat gif"/>
+        </command>
+
+        <command name = "!rank" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "!rank" />
+            
+            <subcommand text = ""
+                        description = "sends a random !rank gif"/>
+
+        </command>
+
+        <command name = "say" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "say"  />
+            <trigger text = "echo" />
+
+            <subcommand text = "{message}"
+                        description = "sends a given message"/>
+        </command>
+
+        <command name = "spam" permission = "MESSAGE_MANAGE" cooldown = "true" type = "DISCORD">
+            <trigger text = "spam" />
+
+            <subcommand text = "{num} {message}"
+                        description = "spams a message a given number of times" />
+            
+            <subcommand text = "stop {id}" 
+                        description = "stops a spam with a given ID" />
+        </command>
+    
+        <!-- INFO COMMANDS-->
+        <command name = "help" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "help"/>
+
+            <subcommand text = ""
+                        description = "sends a dm to the user with all of the command in this bot that they are currently able to use" />
+
+        </command>
+
+        <command name = "help" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "help"/>
+
+            <subcommand text = ""
+                        description = "sends a dm to the user with all of the command in this bot that they are currently able to use" />
+
+        </command>
+
+        <command name = "invite" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "invite" />
+
+            <subcommand text = ""
+                        description = "sends an invite to the requested user - read carfully" />
+
+        </command>
+
+        <command name = "ping" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
+            <trigger text = "ping" />
+
+            <subcommand text = ""
+                        description = "shows the latency of the bot" />
+
+        </command>
+
+        <command name = "prefixShow" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "prefix" />
+
+            <subcommand text = ""
+                        description = "shows the current prefix for the bot in this server" />
+
+        </command>
+
+        <command name = "info" permission = "MESSAGE_WRITE" cooldown = "flase" type = "DISCORD">
+            <trigger text = "info" />
+
+            <subcommand text = ""
+                        description = "shows information about this bot" />
+
+            <subcommand text = "server"
+                        description = "shows information about this server" />
+            
+            <subcommand text = "role {role}"
+                        description = "shows information about a role in this server"/>
+            
+            <subcommand text = "user {user}"
+                        description = "shows information about a user in this server" /> 
+        </command>
+
+        <command name = "uptime" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "uptime" />
+
+            <subcommand text = ""
+                        description = "shows the bot's uptime" />
+            
+        </command>
+
+        <!-- LEVEL COMMANDS-->
+        <command name = "rank" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "rank" />
+
+            <subcommand text = ""
+                        description = "shows your current rank" />
+                        
+            <subcommand text = "{user}"
+                        description = "shows the user's current rank" />
+        </command>
+
+        <command name = "rankup" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "rankup" />
+
+            <subcommand text = "add {level} {role} {message} "
+                        description = "creates a rankup that adds a role" />
+                    
+            <subcommand text = "add {level} {message}"
+                        description = "creates a rankup at a level" />
+
+            <subcommand text = "remove {level}"
+                        description = "removes a rankup at a given level" />
+
+            <subcommand text = "view"
+                        description = "shows a list of all rankups" />
+
+            <subcommand text = "test {level}"
+                        description = "tests a rankup" />
+            
+        </command>
+
+        <command name = "leaderboard" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "leaderboard" />
+            <trigger text = "lb" />
+
+            <subcommand text = ""
+                        description = "shows the top ten players" />
+            
+        </command>
+
+
+    <!-- ===================== COMMAND MAP =============================== -->
+        
+        <mapping command =  "purge" 	        action = 	"purge" />
+        <mapping command =  "ban"               action =    "ban"   />
+        <mapping command =  "case"              action =    "case"  />
+        <mapping command =  "kick"              action =    "kick"  />
+        <mapping command =  "unmute"            action =    "unmute" />
+        <mapping command =  "warn"              action =    "warn" />
+        <mapping command =  "mute"              action =    "mute" />
+        <mapping command =  "warnings"          action =    "warnings" />
+       
+        <mapping command =  "building"          action =    "building" />
+        <mapping command =  "work"              action =    "workC" />
+        <mapping command =  "view"              action =    "view" />
+        <mapping command =  "starting-balance"  action =    "starting-balance" />
+        <mapping command =  "cooldown"          action =    "cooldown" />
+        <mapping command =  "prefix"            action =    "prefix" />
+       
+        <mapping command =  "bank"              action =    "bank" />
+        <mapping command =  "buy"               action =    "buy" />
+        <mapping command =  "pay"               action =    "pay" />
+        <mapping command =  "day"               action =    "day" />
+        <mapping command =  "me"                action =    "me" />
+        <mapping command =  "work"              action =    "work" />
+       
+        <mapping command =  "dead-chat"         action =    "dead-chat" />
+        <mapping command =  "!rank"             action =    "!rank" />
+        <mapping command =  "say"               action =    "say" />
+        <mapping command =  "spam"              action =    "spam" />
+        
+        <mapping command =  "help"              action =    "help" />
+        <mapping command =  "invite"            action =    "invite" />
+        <mapping command =  "ping"              action =    "ping" />
+        <mapping command =  "prefixShow"        action =    "prefixShow" />
+        <mapping command =  "info"              action =    "info" />
+        <mapping command =  "uptime"            action =    "uptime" />
+
+        <!-- CONSOLE COMMANDS-->
+       
+        
+    </commands>

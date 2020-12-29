@@ -1,0 +1,29 @@
+~~~rn~~~
+
+~~~rn-ish~~~
+catch some more errors
+make it so that it rickrolls peopel on !invite
+make it so that it sets the usage for all of the commands on startup
+fix the map of actions
+clean up console feedback - roles
+make feed back nicer
+have a way to do dms
+make it so it can upload files - backend only
+make it so it tells when servers join/leave in console
+make it so that it actaully displays information to the user about the server/role/user
+no duplicate building names
+make it so that the image shows up when admind do !say
+
+~~~much later~~~
+clean up help messages
+    spelling...
+make it so you can set the rank, not just xp
+make it so that you can see the total amount of xp youve earned
+make it so that spam runnables queue all of the send messages at once, instead of makring a different thread for each of them
+
+~~~BUGS~~~
+why does it not allow commands to be put in when it is starting??? - random times, maybe read the error next time
+
+~~~work on next~~~
+emulate discord
+reaction roles

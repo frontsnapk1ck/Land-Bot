@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Launcher",
+            "request": "launch",
+            "mainClass": "alloy.main.Launcher",
+            "projectName": "landbot"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Main",
+            "request": "launch",
+            "mainClass": "alloy.Main",
+            "projectName": "alloy"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -14,7 +28,7 @@
             "type": "java",
             "name": "Debug (Launch)-Main<landbot>",
             "request": "launch",
-            "mainClass": "landbot.Main",
+            "mainClass": "alloy.Main",
             "projectName": "landbot"
         }
     ]

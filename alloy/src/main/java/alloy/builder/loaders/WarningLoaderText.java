@@ -18,6 +18,9 @@ public class WarningLoaderText extends DataLoader<Warning, String> {
         List<Warning> warnings = new ArrayList<Warning>();
 
         File f = new File(file);
+
+        if (!f.exists())
+            f.mkdir();
             
         for (File sub : f.listFiles())
         {

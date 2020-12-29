@@ -124,8 +124,11 @@ public class RankHandeler {
 
         Collections.sort(players);
 
-        for (Player player : players) 
-            positions.add(getLBRank(player));
+        for (Player player : players)
+        {
+            if (positions.size() <= MAX_LB_LENGTH)
+                positions.add(getLBRank(player));
+        }
         
         return positions;
     }

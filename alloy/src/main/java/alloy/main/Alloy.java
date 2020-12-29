@@ -72,11 +72,6 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         data = new AlloyData(jda, this, this);
     }
 
-    public Alloy(boolean b) {
-        // TESTING ONLY ... I THINK
-        // TODO DELETE THIS
-    }
-
     private void makeMentions() {
         this.mentionMe = "<@" + this.jda.getSelfUser().getId() + ">";
         this.mentionMeAlias = "<@!" + this.jda.getSelfUser().getId() + ">";

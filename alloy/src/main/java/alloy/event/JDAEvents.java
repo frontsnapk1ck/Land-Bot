@@ -1,9 +1,15 @@
 package alloy.event;
 
+import java.io.File;
+import java.io.IOException;
+
+import alloy.gameobjects.Server;
 import alloy.input.discord.AlloyInput;
 import alloy.input.discord.AlloyInputEvent;
 import alloy.main.Alloy;
 import alloy.main.handler.AlloyHandler;
+import alloy.utility.discord.AlloyUtil;
+import io.Saver;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -73,35 +79,52 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
-    {
-        Guild        g = e.getGuild();
-        TextChannel  c = e.getChannel();
-        User         u = e.getAuthor();
-        Message      m = e.getMessage();
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
+        Guild g = e.getGuild();
+        TextChannel c = e.getChannel();
+        User u = e.getAuthor();
+        Message m = e.getMessage();
 
-        AlloyInputEvent event = new AlloyInputEvent( g , c , u , m , e);
+        AlloyInputEvent event = new AlloyInputEvent(g, c, u, m, e);
 
         AlloyInput in = new AlloyInput("USER", event);
-        bot.handleMessage( in );
+        bot.handleMessage(in);
     }
 
     @Override
-    public void onPrivateMessageReceived(PrivateMessageReceivedEvent e) 
-    {
-        bot.handlePrivateMessage(e.getChannel() , e.getAuthor() , e.getMessage());
+    public void onPrivateMessageReceived(PrivateMessageReceivedEvent e) {
+        bot.handlePrivateMessage(e.getChannel(), e.getAuthor(), e.getMessage());
     }
 
     @Override
-    public void onGuildMemberUpdateNickname(GuildMemberUpdateNicknameEvent event) 
-    {
+    public void onGuildMemberUpdateNickname(GuildMemberUpdateNicknameEvent event) {
         super.onGuildMemberUpdateNickname(event);
     }
 
     @Override
-    public void onGuildMemberJoin(GuildMemberJoinEvent event) 
-    {
-        super.onGuildMemberJoin(event);
+    public void onGuildMemberJoin(GuildMemberJoinEvent e) {
+        String path = AlloyUtil.getGuildPath(e.getGuild());
+        path += AlloyUtil.USER_FOLDER + AlloyUtil.SUB;
+        path += e.getMember().getId();
+        File top = new File(path);
+        File warn = new File(path + AlloyUtil.WARNINGS_FOLDER);
+        File acc = new File(path + AlloyUtil.SUB + AlloyUtil.ACCOUNT_FILE);
+        File build = new File(path + AlloyUtil.SUB + AlloyUtil.BUILDING_FILE);
+        File rank = new File(path + AlloyUtil.SUB + AlloyUtil.RANK_FILE);
+
+        top.mkdir();
+        warn.mkdir();
+        try {
+            acc.createNewFile();
+            build.createNewFile();
+            rank.createNewFile();
+        } catch (IOException ex) 
+        {
+            ex.printStackTrace();
+        }
+        Server s = AlloyUtil.loadServer(e.getGuild());
+        Saver.saveOverwite(acc.getAbsolutePath(), new String[]{ "bal>" + s.getStartingBalance()});
+        Saver.saveOverwite(rank.getAbsolutePath(), new String[]{ "0" });
     }
 
     @Override

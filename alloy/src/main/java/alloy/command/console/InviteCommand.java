@@ -5,6 +5,7 @@ import java.util.List;
 import alloy.command.util.AbstractConsoleCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
+import utility.StringUtil;
 
 public class InviteCommand extends AbstractConsoleCommand {
 
@@ -12,13 +13,21 @@ public class InviteCommand extends AbstractConsoleCommand {
     public void execute(List<String> args , JDA jda) 
     {
         List<Guild> guilds = jda.getGuilds();
+        String[][] out = new String[guilds.size()][2];
+
+        int i = 0;
         for (Guild g : guilds) 
         {
             String code = "CANNOT MAKE INVITE";
             try {
                 code = g.getDefaultChannel().createInvite().complete().getCode();
             } catch (Exception e) {}
-            System.out.println(g.getName() + "\t\tdiscord.gg/" + code);
+            out[i] = new String[]{ g.getName() ,"discord.gg/" + code };
+
+            i++;
         }
+        String[] headers = new String[] {"~~~guild~~~" , "~~~code~~~"};
+        String table = StringUtil.makeTable(out, headers);
+        System.err.println(table);
     }
 }

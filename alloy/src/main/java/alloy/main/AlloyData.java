@@ -48,7 +48,6 @@ public class AlloyData {
             long id = server.getId();
             Guild g = AlloyUtil.getGuild(server , jda);
 
-            //TODO DELEYE THIS, THIS IS FOR TESTING ONLY
             if (g == null)
                 continue;
 

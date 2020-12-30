@@ -21,20 +21,20 @@ public class RankupHandler {
 
     public static boolean hasRole(String[] args, Guild g) 
     {
-        if (args.length > 2 )
-            return DisUtil.isRole(args[1] , g);
+        if (args.length > 3 )
+            return DisUtil.isRole(args[2] , g);
         return false;
 	}
 
     public static void addRankupRole(String[] args, Sendable bot, TextChannel channel, Guild g) 
     {
         Server s = AlloyUtil.loadServer(g);
-        boolean vNum = Util.validInt(args[0]);
-        boolean vRole = DisUtil.isRole(args[1] , g);
+        boolean vNum = Util.validInt(args[1]);
+        boolean vRole = DisUtil.isRole(args[2] , g);
 
         if (!vNum)
         {
-            Template t = Templates.invalidNumberFormat(args[0]);
+            Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RankupHandler");
@@ -45,7 +45,7 @@ public class RankupHandler {
 
         if (!vRole)
         {
-            Template t = Templates.invalidRole(args[1]);
+            Template t = Templates.invalidRole(args[2]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RankupHandler");
@@ -54,9 +54,9 @@ public class RankupHandler {
             return;
         }
 
-        String role = DisUtil.trimMention(args[1]);
+        String role = DisUtil.trimMention(args[2]);
         long id = Long.parseLong(role);
-        int level = Integer.parseInt(args[0]);
+        int level = Integer.parseInt(args[1]);
 
         if (isDuplicateRankup(level , s))
         {
@@ -69,7 +69,7 @@ public class RankupHandler {
             return;
         }
         
-        String message = StringUtil.joinStrings(args, 2);
+        String message = StringUtil.joinStrings(args, 3);
 
         RankUpSettings settings = new RankUpSettings();
         settings.setId(id)
@@ -95,11 +95,11 @@ public class RankupHandler {
     public static void addRankup(String[] args, Sendable bot, TextChannel channel, Guild g) 
     {
         Server s = AlloyUtil.loadServer(g);
-        boolean vNum = Util.validInt(args[0]);
+        boolean vNum = Util.validInt(args[1]);
 
         if (!vNum)
         {
-            Template t = Templates.invalidNumberFormat(args[0]);
+            Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RankupHandler");
@@ -108,7 +108,7 @@ public class RankupHandler {
             return;
         }
 
-        int level = Integer.parseInt(args[0]);
+        int level = Integer.parseInt(args[1]);
 
         if (isDuplicateRankup(level , s))
         {
@@ -199,12 +199,15 @@ public class RankupHandler {
         return s.getRankups();
 	}
 
-	public static Rank getRank(Guild g, int level) {
-		return null;
-	}
-
-	public static Rank getRank(int level) {
-		return null;
+    public static Rank getRank(Guild g, int level) 
+    {
+        List<Rank> ranks = AlloyUtil.loadAllRanks(g);
+        for (Rank rank : ranks) 
+        {
+            if (rank.getLevel() == level)    
+                return rank;
+        }
+        return null;
 	}
     
 }

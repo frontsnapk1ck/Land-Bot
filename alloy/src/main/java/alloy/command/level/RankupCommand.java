@@ -39,7 +39,7 @@ public class RankupCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (DisPermUtil.checkPermission( m , getPermission()))
+        if (!DisPermUtil.checkPermission( m , getPermission()))
         {
             Template t = Templates.noPermission(getPermission() , author);
             SendableMessage sm = new SendableMessage();
@@ -94,7 +94,7 @@ public class RankupCommand extends AbstractCommand {
 
     private void remove (String[] args, Sendable bot, TextChannel channel, Guild g)
     {
-        if (args.length < 1)
+        if (args.length < 2)
         {
             Template t = Templates.argumentsNotSupplied(args, getUsage() );
             SendableMessage sm = new SendableMessage();
@@ -105,7 +105,7 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        if (Util.validInt(args[0]))
+        if (!Util.validInt(args[1]))
         {
             Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
@@ -116,7 +116,7 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        int level = Integer.parseInt(args[0]);
+        int level = Integer.parseInt(args[1]);
 
         if (!RankupHandler.containsLevel( g , level))
         {
@@ -147,7 +147,7 @@ public class RankupCommand extends AbstractCommand {
 
     private void test (String[] args, Sendable bot, TextChannel channel, Guild g , Member m)
     {
-        if (args.length < 1)
+        if (args.length < 2)
         {
             Template t = Templates.argumentsNotSupplied(args, getUsage() );
             SendableMessage sm = new SendableMessage();
@@ -158,7 +158,7 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        if (Util.validInt(args[0]))
+        if (!Util.validInt(args[1]))
         {
             Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
@@ -169,13 +169,8 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        int level = Integer.parseInt(args[0]);
-        Rank r;
-
-        if (!RankupHandler.containsLevel(g, level))
-            r = RankupHandler.getRank( level );
-        else 
-            r = RankupHandler.getRank( g , level );
+        int level = Integer.parseInt(args[1]);
+        Rank r = RankupHandler.getRank( g , level);
         
         RankHandeler.anounceRankUp( r , m , false, bot , channel);
 

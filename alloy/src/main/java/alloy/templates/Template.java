@@ -69,12 +69,18 @@ public class Template {
     public void addFeild(String name, String value, boolean inline) 
     {
         Field f = new Field(name, value, inline);
-        this.fields.add(f);
+        this.addFeild(f);
 	}
 
-    public void setTitle(String string, String rickroll) 
+    public void addFeild(Field f) 
     {
+        this.fields.add(f);
+    }
 
+    public void setTitle(String title, String url) 
+    {
+        this.titleURL = url;
+        this.title = title;
 	}
     
 }

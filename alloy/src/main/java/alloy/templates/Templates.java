@@ -1,5 +1,6 @@
 package alloy.templates;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,19 +13,29 @@ import alloy.gameobjects.player.Player;
 import alloy.handler.BankHandeler;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.perm.DisPerm;
+import alloy.utility.discord.perm.DisPermUtil;
 import alloy.utility.job.SpamRunnable;
 import io.FileReader;
+import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import utility.StringUtil;
+import utility.TimeUtil;
 
 public class Templates {
+
+	public static final int MAX_ROLE_SHOW = 15;
+	public static final int MAX_SERVER_ROLE_SHOW = 30;
+	public static final int MAX_ROLE_MEMEBERS_SHOW = 30;
 
 	public static Template noPermission(DisPerm p , User u)
     {
@@ -437,14 +448,215 @@ public class Templates {
 
 	public static Template infoUser(Member m)
     {
-		Template t = new Template("User Info", "coming soon");
+		String perm = loadPermString(m);
+		String nick = (m.getNickname() == null ? "none" : m.getNickname() );
+		String username = "```txt\n" + m.getUser().getAsTag() + "\n```";
+		String nickname = "```txt\n" + nick + "\n```";
+		String isBot = "```txt\n" + (m.getUser().isBot() ? "yes" : "no") + "\n```";
+		String userID = "```txt\n" + m.getId() + "\n```";
+
+		String joinOn = "```txt\n" +TimeUtil.getTimeAgo(m.getTimeJoined()) + "\n```";
+		String createOn = "```txt\n" + TimeUtil.getTimeAgo(m.getUser().getTimeCreated()) + "\n```";
+
+
+		Field userF 	= new Field("Username", username , true );
+		Field userIDF 	= new Field("User ID", userID , true	);
+
+		Field roles 	= loadRolesField(m);
+
+		Field nickF 	= new Field("Nickname", nickname, true );
+		Field botF 		= new Field("Is Bot", isBot, true  );
+		
+		Field permF 	= new Field("Global Permissions", perm , false );
+
+		Field joinF 	= new Field("Joined this server on (MM/DD/YYYY)", joinOn, false );
+		Field createF 	= new Field("Account created on  (MM/DD/YYYY)", createOn, false );
+
+
+		Template t = new Template("User Info", "");
+		t.addFeild(userF);
+		t.addFeild(userIDF);
+
+		t.addFeild(roles);
+
+		t.addFeild(nickF);
+		t.addFeild(botF);
+
+		t.addFeild(permF);
+
+		t.addFeild(joinF);
+		t.addFeild(createF);
+
 		return t;
+	}
+
+	private static Field loadRolesField(Member m) 
+	{
+		String roleOut = "```txt\n";
+		List<Role> roles = m.getRoles();
+
+		int i = 0;
+		for (Role r : roles)
+		{
+			if ( i < MAX_ROLE_SHOW)
+			{
+				roleOut += r.getName() + "\n";
+				i++;
+			}
+		}
+		roleOut += "```";
+
+		String name = "Roles [" + i + "] (shows up to " + MAX_ROLE_SHOW + ")";
+
+		Field f = new Field(name, roleOut, false);
+		return f;
+	}
+
+	private static String loadPermString(Member m) 
+	{
+		String permOut = "```txt\n";
+		List<DisPerm> perms = DisPermUtil.parsePerms(m.getPermissions());
+		for (DisPerm p : perms)
+			permOut += "✅ " + p.getName() + "\n";
+		permOut += "```";
+		return permOut;
 	}
 
 	public static Template infoServer(Guild g)
     {
-		Template t = new Template("Server Info", "coming soon");
+		String name = "```txt\n" +  g.getName() + "\n```";
+		String owner = "```txt\n" +  g.getOwner().getUser().getAsTag() + "\n```";
+		String id = "```txt\n" +  g.getId() + "\n```";
+		String region = "```txt\n" +  g.getRegionRaw() + "\n```";
+		String boost = "```txt\n" +  g.getBoostTier() + "\n```";
+		String boosts = "```txt\n" +  g.getBoostCount() + "\n```";
+		String created = "```txt\n" +  TimeUtil.getTimeAgo(g.getTimeCreated()) + "\n```";
+
+		Field nameF = new Field("Server name", name, true);
+		Field ownerF = new Field("Server owner", owner, true);
+
+		Field membersF = loadMembersFeild(g);
+
+		Field idF = new Field("Server ID", id , true);
+		Field regionf = new Field("Server Region" , region , true);
+
+		Field channels = loadChannelsFeild(g);
+
+		Field emojis = loadEmojis(g);
+
+		Field boostF = new Field("Server boost Level", boost, true);
+		Field boostsF = new Field("Server boost amount", boosts, true);
+
+		Field rolesF = loadGuildRoles(g);
+
+		Field createdF = new Field("Server created on (MM/DD/YYYY)", created, false);
+
+
+		Template t = new Template("Server Info", "");
+
+		t.addFeild(nameF);
+		t.addFeild(ownerF);
+
+		t.addFeild(membersF);
+
+		t.addFeild(idF);
+		t.addFeild(regionf);
+
+		t.addFeild(channels);
+
+		t.addFeild(emojis);
+
+		t.addFeild(boostF);
+		t.addFeild(boostsF);
+
+		t.addFeild(rolesF);
+
+		t.addFeild(createdF);
+
 		return t;
+	}
+
+	private static Field loadGuildRoles(Guild g) 
+	{
+		List<Role> roles = g.getRoles();
+		String roleOut = "```txt\n";
+
+		int i = 0;
+		for (Role r : roles)
+		{
+			boolean last = 	i == MAX_SERVER_ROLE_SHOW - 1 || 
+							i == roles.size() -1;
+			boolean stop = 	i >= MAX_SERVER_ROLE_SHOW ||
+							i >= roles.size();
+			if (last)
+				roleOut += r.getName();
+			else if (!stop)
+				roleOut += r.getName() + ", ";
+			i++;
+		}
+		roleOut += "\n```";
+		String name = "Server roles [" + roles.size() + "] (shows up to " + MAX_SERVER_ROLE_SHOW + ")";
+		return new Field( name , roleOut, false);
+	}
+
+	private static Field loadEmojis(Guild g) 
+	{
+		List<Emote> emojis = g.getEmotes();
+		int animated = 0;
+		int normal = 0;
+		for (Emote e : emojis) 
+		{
+			if (e.isAnimated())
+				animated++;
+			else	
+				normal++;
+		}
+		String name = "Server emojis [" + emojis.size() + "]";
+		String value = "```txt\nNormal: " + normal + "\t|\tAnimated: " + animated +"\n```";
+		return new Field(name, value, false);
+	}
+
+	private static Field loadChannelsFeild(Guild g) 
+	{
+		List<GuildChannel> channels = g.getChannels();
+		List<Category> catagories = g.getCategories();
+		int text = 0;
+		int voice = 0;
+		int anouncement = 0;
+		for (GuildChannel c : channels) 
+		{
+			if (c instanceof TextChannel )
+			{
+				text ++;
+				TextChannel chan = (TextChannel) c;
+				if (chan.isNews())
+					anouncement++;
+			}
+			else if (c instanceof VoiceChannel)
+				voice ++;
+		}
+		String name = "Server categories and channels [" + channels.size() + "]";
+		String value = "```txt\nCategories: " + catagories.size() + "\t|\tText: " + text + "\t|\tVoice: " + voice + "\t|\tAnouncement: " + anouncement +"\n```";
+		
+		return new Field(name, value, false);
+	}
+
+	private static Field loadMembersFeild(Guild g) 
+	{
+		List<Member> members = g.getMembers();
+		int user = 0;
+		int bot = 0;
+		for (Member member : members) 
+		{
+			if (member.getUser().isBot())
+				bot++;
+			else
+				user++;
+		}
+
+		String name = "Server members [" + members.size() + "]";
+		String value = "```txt\nMember: " + user + "\t|\tBots: " + bot + "\n```";
+		return new Field(name, value, false);
 	}
 
 	public static Template roleNotFound(String role)
@@ -455,13 +667,96 @@ public class Templates {
 
 	public static Template infoRole(Role r)
     {
-		Template t = new Template("Role Info", "coming soon");
+		Guild g = r.getGuild();
+
+		String name = "```txt\n" + r.getName() + "\n```";
+		String id = "```txt\n" + r.getId() + "\n```";
+		String perms = loadRolePerms(r);
+		String memberC = "```txt\n" + g.getMembersWithRoles(r).size() + "\n```";
+		String rolePos = "```txt\n" + g.getRoles().indexOf(r) + "\n```";
+		String roleCol = "```txt\n" + getRoleColor(r) + "\n```";
+		String createdOn = "```txt\n" + TimeUtil.getTimeAgo(r.getTimeCreated()) + "\n```";
+
+		Field nameF = new Field("Role name", name, true);
+		Field idF = new Field("Role ID", id, true);
+
+		Field permsF = new Field("Permissions the role has" , perms , false);
+
+		Field memmerCF = new Field("Member Count" , memberC , true );
+		Field rolePosF = new Field("Role position", rolePos, true );
+		Field colorF = new Field("Role color", roleCol, true);
+
+		Field members = loadRoleMembers(r);
+
+		Field createdF = new Field("Role created on (MM/DD/YYYY)", createdOn, false);
+
+
+		Template t = new Template("Role Info", "");
+
+		t.addFeild(nameF);
+		t.addFeild(idF);
+
+		t.addFeild(permsF);
+
+		t.addFeild(memmerCF);
+		t.addFeild(rolePosF);
+		t.addFeild(colorF);
+
+		t.addFeild(members);
+
+		t.addFeild(createdF);
+
 		return t;
+	}
+
+	private static String getRoleColor(Role role) 
+	{
+		Color c = role.getColor();
+		int r = c.getRed();
+		int g = c.getGreen();
+		int b = c.getBlue();
+
+		String hex = String.format("#%02x%02x%02x", r, g, b);  
+		return hex;
+	}
+
+	private static Field loadRoleMembers(Role r) 
+	{
+		Guild g = r.getGuild();
+		List<Member> members = g.getMembersWithRoles(r);
+		String out = "```txt\n";
+
+		int i = 0;
+		for (Member member : members) 
+		{
+			boolean stop = 	i >= MAX_ROLE_MEMEBERS_SHOW ||
+							i >= members.size();
+			boolean last = 	i == MAX_ROLE_MEMEBERS_SHOW -1 ||
+							i == members.size() -1;
+
+			if (last)
+				out += member.getEffectiveName();
+			else if (!stop)
+				out += member.getEffectiveName() + ", ";
+		}
+		out += "\n```";
+		String name = "Member with Role [" + members.size() + "] (shows up to " + MAX_ROLE_MEMEBERS_SHOW + ")";
+		return new Field(name, out, false);
+	}
+
+	private static String loadRolePerms(Role r) 
+	{
+		List<DisPerm> perms = DisPermUtil.parsePerms(r.getPermissions());
+		String permOut = "```txt\n";
+		for (DisPerm p : perms)
+			permOut += "✅ " + p.getName() + "\n";
+		permOut += "```";
+		return permOut;
 	}
 
 	public static Template invite()
     {
-		Template t = new Template("TODO", "Thanks for thinking of me");
+		Template t = new Template("Invite", "Thanks for thinking of me");
 		String rickroll = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 		t.setTitle("CLick here to invite me" , rickroll);
 		return t;
@@ -477,7 +772,9 @@ public class Templates {
 
 	public static Template uptime(String realitiveTime)
     {
-		Template t = new Template("Uptime" , "i have been up for `" + realitiveTime + "`");
+		String date = TimeUtil.date();
+		String time = TimeUtil.time();
+		Template t = new Template("Uptime" , "i have been up for `" + realitiveTime + "`\nthe time on my host is `" + date + "`\t`" + time +"`");
 		return t;
 	}
 

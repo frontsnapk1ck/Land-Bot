@@ -65,11 +65,8 @@ public class InfoCommand extends AbstractCommand {
     {
         Guild g = channel.getGuild();
         User u = DisUtil.parseUser(user);
-        Member m = g.getMember(u);
 
-        Member target = DisUtil.findMember(g, user );
-
-        if (target == null)
+        if (u == null)
         {
             Template t = Templates.userNotFound( user );
             SendableMessage sm = new SendableMessage();
@@ -79,6 +76,8 @@ public class InfoCommand extends AbstractCommand {
             bot.send(sm);
             return;
         }
+
+        Member m = g.getMember(u);
         
         Template t = Templates.infoUser(m);
         SendableMessage sm = new SendableMessage();

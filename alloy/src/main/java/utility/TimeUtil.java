@@ -1,6 +1,7 @@
 package utility;
 
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,5 +96,95 @@ public class TimeUtil {
         else if (diff < 14 * DAY_MILLIS || !shortText)
             return diff / DAY_MILLIS + (shortText ? "d" : " day" + (diff == 1 ? "" : "s") + " " + chronology);
         return ">2w";
-    } 
+    }
+
+    public static String getTimeAgo(OffsetDateTime time) 
+    {
+        int month = time.getMonthValue();
+        int day = time.getDayOfMonth();
+        int year = time.getYear();
+
+        int hour = time.getHour();
+        int min = time.getMinute();
+
+        String monthS = fixHangingZero(month);
+        String dayS = fixHangingZero(day);
+        String hourS = fixHangingZero(hour);
+        String minS = fixHangingZero(min);
+
+        OffsetDateTime now = OffsetDateTime.now();
+        int monthNow = now.getMonthValue();
+        int dayNow = now.getDayOfMonth();
+        int yearNow = now.getYear();
+
+        int hourNow = now.getHour();
+        int minNow = now.getMinute();
+
+        int yearDiff = yearNow - year;
+        int monthDiff = monthNow - month;
+        int dayDiff = dayNow - day;
+
+        int hourDiff = hourNow - hour;
+        int minDiff = minNow - min;
+
+        String date = monthS + "/" + dayS + "/" + year + "\t" + hourS + ":" + minS;
+        String diff = "";
+
+        if (yearDiff > 1)
+            diff += yearDiff + " year" + (yearDiff == 1 ? " " : "s ");
+        if (monthDiff > 1)
+            diff += monthDiff + " month" + (monthDiff == 1 ? " " : "s ");
+        if (dayDiff > 1)
+            diff += dayDiff + " day" + (dayDiff == 1 ? " " : "s ");
+        if (hourDiff > 1)
+            diff += hourDiff + " hour" + (hourDiff == 1 ? " " : "s ");
+        if (dayDiff > 1)
+            diff += minDiff + " minute" + (minDiff == 1 ? " " : "s ");
+        
+        String out = date + "\t(" + diff + "ago)";
+        return out;
+	}
+
+    private static String fixHangingZero(int num) 
+    {
+        if (("" + num).length() == 1)
+            return "0" + num;
+        return "" + num;
+    }
+
+    public static String now() 
+    {
+        return date() + "\t" + time();
+	}
+
+    public static String date() 
+    {
+		OffsetDateTime time = OffsetDateTime.now();
+		int month = time.getMonthValue();
+        int day = time.getDayOfMonth();
+        int year = time.getYear();
+
+        String monthS = fixHangingZero(month);
+        String dayS = fixHangingZero(day);
+
+        String date = monthS + "/" + dayS + "/" + year;
+
+        return date;
+	}
+
+    public static String time() 
+    {
+        OffsetDateTime time = OffsetDateTime.now();
+
+        int hour = time.getHour();
+        int min = time.getMinute();
+        int sec = time.getSecond();
+
+        String hourS = fixHangingZero(hour);
+        String minS = fixHangingZero(min);
+        String secS = fixHangingZero(sec);
+
+        String date = hourS + ":" + minS + ":" + secS;
+        return date;
+	}
 }

@@ -163,10 +163,6 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         jda.getPresence().setActivity(Activity.playing(message));
     }
 
-    public void log(String commandUsed, User author, TextChannel channel, Server s) {
-        // TODO
-    }
-
     @Override
     public TextChannel getModLogChannel(long gid) {
         return data.getModLogChannel(gid);

@@ -563,5 +563,13 @@ public class DisPermUtil {
 
         return b;
     }
+
+    public static List<DisPerm> parsePerms(EnumSet<Permission> permissions) 
+    {
+        List<DisPerm> perms = new ArrayList<DisPerm>();
+        for (Permission p : permissions) 
+            perms.add(parse(p));
+        return perms;
+	}
     
 } 

@@ -59,11 +59,18 @@ public class DisUtil {
         return null;
 	}
 
-    public static User parseUser(String user) throws InvalidUserFormat
+    public static User parseUser(String user) throws InvalidUserFormat, NumberFormatException 
     {
         String id = user.replace("<@!", "");
         id = id.replace("<@", "");
         id = id.replace(">","");
+
+        try {
+            Long.parseLong(id);
+        } catch (NumberFormatException  e) 
+        {
+            return null;
+        }
 
         User u = User.fromId(id);
         if (u == null)

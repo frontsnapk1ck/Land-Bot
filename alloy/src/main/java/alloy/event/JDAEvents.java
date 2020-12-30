@@ -57,15 +57,33 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildJoin(GuildJoinEvent e) {
+    public void onGuildJoin(GuildJoinEvent e) 
+    {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] JOINED SERVER! " + g.getName());
+
+        String path = AlloyUtil.getGuildPath(g);
+
+        File top = new File(path);
+        File users = new File(path + AlloyUtil.USER_FOLDER);
+        File settings = new File(path + AlloyUtil.SETTINGS_FOLDER);
+        File cases = new File(path + AlloyUtil.CASE_FOLDER);
+
+        top.mkdir();
+        users.mkdir();
+        settings.mkdir();
+        cases.mkdir();
+
     }
 
     @Override
-    public void onGuildLeave(GuildLeaveEvent e) {
+    public void onGuildLeave(GuildLeaveEvent e) 
+    {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] LEFT SERVER! " + g.getName());
+
+        String path = AlloyUtil.getGuildPath(g);
+        Saver.deleteFiles(path);
     }
 
     @Override
@@ -128,9 +146,13 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMemberRemove(GuildMemberRemoveEvent event) 
+    public void onGuildMemberRemove(GuildMemberRemoveEvent e) 
     {
-        super.onGuildMemberRemove(event);
+        String path = AlloyUtil.getGuildPath(e.getGuild());
+        path += AlloyUtil.USER_FOLDER + AlloyUtil.SUB;
+        path += e.getMember().getId();
+
+        Saver.deleteFiles(path);
     }
 
     @Override

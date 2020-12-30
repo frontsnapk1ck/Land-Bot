@@ -1,19 +1,11 @@
 ~~~rn~~~
-make sure that rankups work
-make it so that it makes the needed files when it joins a new server
-make it so that it deletes the needed files on user leave
-make it so that it deletes the needed files on server leave
-
 
 ~~~rn-ish~~~
 catch some more errors
 make it so that it rickrolls peopel on !invite
 make it so that it sets the usage for all of the commands on startup
-fix the map of actions
-clean up console feedback - roles
 make feed back nicer
-have a way to do dms
-make it so it can upload files - backend only
+    console feedback - roles
 make it so it tells when servers join/leave in console
 make it so that it actaully displays information to the user about the server/role/user
 no duplicate building names
@@ -32,4 +24,6 @@ why does it not allow commands to be put in when it is starting??? - random time
 
 ~~~work on next~~~
 emulate discord
+    have a way to do dms
+    make it so it can upload files - backend only
 reaction roles

@@ -1,17 +1,16 @@
 package alloy.event;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.List;
 
-import alloy.gameobjects.Server;
+import alloy.handler.EventHandler;
 import alloy.input.discord.AlloyInput;
 import alloy.input.discord.AlloyInputEvent;
 import alloy.main.Alloy;
 import alloy.main.handler.AlloyHandler;
-import alloy.utility.discord.AlloyUtil;
-import io.Saver;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.StatusChangeEvent;
@@ -57,33 +56,21 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildJoin(GuildJoinEvent e) 
-    {
+    public void onGuildJoin(GuildJoinEvent e) {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] JOINED SERVER! " + g.getName());
+        EventHandler.onGuildJoinEvent(g);
 
-        String path = AlloyUtil.getGuildPath(g);
-
-        File top = new File(path);
-        File users = new File(path + AlloyUtil.USER_FOLDER);
-        File settings = new File(path + AlloyUtil.SETTINGS_FOLDER);
-        File cases = new File(path + AlloyUtil.CASE_FOLDER);
-
-        top.mkdir();
-        users.mkdir();
-        settings.mkdir();
-        cases.mkdir();
-
+        List<Member> members = g.getMembers();
+        for (Member member : members) 
+            EventHandler.onMemberJoinEvent(member);
     }
 
     @Override
-    public void onGuildLeave(GuildLeaveEvent e) 
-    {
+    public void onGuildLeave(GuildLeaveEvent e) {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] LEFT SERVER! " + g.getName());
-
-        String path = AlloyUtil.getGuildPath(g);
-        Saver.deleteFiles(path);
+        EventHandler.onGuildLeaveEvent(g);
     }
 
     @Override
@@ -110,8 +97,12 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onPrivateMessageReceived(PrivateMessageReceivedEvent e) {
-        bot.handlePrivateMessage(e.getChannel(), e.getAuthor(), e.getMessage());
+    public void onPrivateMessageReceived(PrivateMessageReceivedEvent e) 
+    {
+        PrivateChannel c = e.getChannel();
+        User a = e.getAuthor();
+        Message msg = e.getMessage();
+        bot.handlePrivateMessage(c,a,msg);
     }
 
     @Override
@@ -120,39 +111,17 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMemberJoin(GuildMemberJoinEvent e) {
-        String path = AlloyUtil.getGuildPath(e.getGuild());
-        path += AlloyUtil.USER_FOLDER + AlloyUtil.SUB;
-        path += e.getMember().getId();
-        File top = new File(path);
-        File warn = new File(path + AlloyUtil.WARNINGS_FOLDER);
-        File acc = new File(path + AlloyUtil.SUB + AlloyUtil.ACCOUNT_FILE);
-        File build = new File(path + AlloyUtil.SUB + AlloyUtil.BUILDING_FILE);
-        File rank = new File(path + AlloyUtil.SUB + AlloyUtil.RANK_FILE);
-
-        top.mkdir();
-        warn.mkdir();
-        try {
-            acc.createNewFile();
-            build.createNewFile();
-            rank.createNewFile();
-        } catch (IOException ex) 
-        {
-            ex.printStackTrace();
-        }
-        Server s = AlloyUtil.loadServer(e.getGuild());
-        Saver.saveOverwite(acc.getAbsolutePath(), new String[]{ "bal>" + s.getStartingBalance()});
-        Saver.saveOverwite(rank.getAbsolutePath(), new String[]{ "0" });
+    public void onGuildMemberJoin(GuildMemberJoinEvent e) 
+    {
+        Member m = e.getMember();
+        EventHandler.onMemberJoinEvent(m);
     }
 
     @Override
     public void onGuildMemberRemove(GuildMemberRemoveEvent e) 
     {
-        String path = AlloyUtil.getGuildPath(e.getGuild());
-        path += AlloyUtil.USER_FOLDER + AlloyUtil.SUB;
-        path += e.getMember().getId();
-
-        Saver.deleteFiles(path);
+        Member m = e.getMember();
+        EventHandler.onMemberLeaveEvent(m);
     }
 
     @Override

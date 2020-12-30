@@ -1,7 +1,5 @@
 package alloy.utility.discord;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +15,9 @@ import alloy.utility.discord.paths.AlloyExtentions;
 import alloy.utility.discord.paths.AlloyImages;
 import alloy.utility.discord.paths.AlloyPaths;
 import io.FileReader;
-import io.Saver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
 
@@ -32,51 +28,6 @@ public class AlloyUtil implements AlloyPaths, AlloyExtentions, AlloyImages {
         String bPath = getGuildPath(g) + "\\settings\\buildings.txt";
         List<Building> buildings = blt.loadALl(bPath);
         return buildings;
-    }
-
-    public static void checkFileSystem(long guildID, TextChannel defaultChannel) {
-        File dir = new File(AlloyUtil.ALLOY_PATH + "res\\servers\\" + guildID);
-        if (!dir.exists()) {
-            dir.mkdir();
-            File u = new File(dir.getPath() + "\\users");
-            File s = new File(dir.getPath() + "\\settings");
-            File c = new File(dir.getPath() + "\\cases");
-
-            File buS = new File(s.getPath() + "\\buildings.txt");
-            File boS = new File(s.getPath() + "\\bot.settings");
-            File woO = new File(s.getPath() + "\\work.options");
-            File luA = new File(s.getPath() + "\\rank.ups");
-
-            u.mkdir();
-            s.mkdir();
-            c.mkdir();
-            try {
-                buS.createNewFile();
-                boS.createNewFile();
-                woO.createNewFile();
-                luA.createNewFile();
-
-                String defaultChannelS = defaultChannel.getId();
-                String[] boSS = { Server.PREFIX + ":!", Server.STARTING_BALANCE + ":1000", Server.COOLDOWN + ":10",
-                        Server.ROLE_ASSIGN_ON_BUY + ":false", Server.SPAM_CHANNEL + ":" + defaultChannelS,
-                        Server.BALCKLISTED_CHANNENLS + ":", Server.XP_COOLDOWN + ":4", Server.ID + ":" + guildID,
-                        Server.MOD_LOG_CHANNEL + ":", Server.USER_LOG_CHANNEL + ":", Server.MUTE_ROLE_ID + ":", };
-
-                Saver.saveOverwite(boS.getPath(), boSS);
-
-                String globalBuildings = AlloyUtil.ALLOY_PATH + "res\\globals\\defualt\\buildings.txt";
-                Saver.copyFrom(globalBuildings, buS.getPath());
-
-                String globalWork = AlloyUtil.ALLOY_PATH + "res\\globals\\defualt\\workOptions.txt";
-                Saver.copyFrom(globalWork, woO.getPath());
-
-            }
-
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
-
-        }
     }
 
     public static Server loadServer(Guild guild) {
@@ -96,10 +47,6 @@ public class AlloyUtil implements AlloyPaths, AlloyExtentions, AlloyImages {
         long id = p.getId();
         User u = User.fromId(id);
         return g.getMember(u);
-    }
-
-    public static void checkFileSystem(Guild g) {
-        checkFileSystem(g.getIdLong(), g.getDefaultChannel());
     }
 
     public static List<Long> getWhitelisted() {

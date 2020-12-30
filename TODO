@@ -22,6 +22,7 @@ make it so that the image shows up when admind do !say
 ~~~much later~~~
 clean up help messages
     spelling...
+music bot
 make it so you can set the rank, not just xp
 make it so that you can see the total amount of xp youve earned
 make it so that spam runnables queue all of the send messages at once, instead of makring a different thread for each of them

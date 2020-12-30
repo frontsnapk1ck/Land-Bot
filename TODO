@@ -1,5 +1,9 @@
 ~~~rn~~~
 make sure that rankups work
+make it so that it makes the needed files when it joins a new server
+make it so that it deletes the needed files on user leave
+make it so that it deletes the needed files on server leave
+
 
 ~~~rn-ish~~~
 catch some more errors

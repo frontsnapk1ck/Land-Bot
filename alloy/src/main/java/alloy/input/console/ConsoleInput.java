@@ -13,11 +13,13 @@ public class ConsoleInput extends Input {
         this.jda = jda;
     }
 
-    public JDA getJda() {
+    public JDA getJda()
+    {
         return jda;
     }
 
-    public void setJda(JDA jda) {
+    public void setJda(JDA jda)
+    {
         this.jda = jda;
     }
     

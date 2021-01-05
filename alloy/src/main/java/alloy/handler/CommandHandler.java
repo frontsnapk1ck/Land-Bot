@@ -15,7 +15,8 @@ public class CommandHandler {
 
     private static InputSystem system;
 
-    public static boolean isCommand(String msg, String mentionMe, String mentionMeAlias, Server s) {
+    public static boolean isCommand(String msg, String mentionMe, String mentionMeAlias, Server s)
+    {
         boolean b = msg.startsWith(s.getPrefix()) || msg.startsWith(mentionMe) || msg.startsWith(mentionMeAlias);
         return b;
     }

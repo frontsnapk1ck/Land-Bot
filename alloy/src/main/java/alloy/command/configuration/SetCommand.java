@@ -22,7 +22,8 @@ import utility.Util;
 public class SetCommand extends AbstractCommand {
 
     @Override
-    public DisPerm getPermission() {
+    public DisPerm getPermission()
+    {
         return DisPerm.ADMINISTRATOR;
     }
     

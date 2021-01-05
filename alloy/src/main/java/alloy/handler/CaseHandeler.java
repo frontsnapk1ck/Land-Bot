@@ -25,16 +25,19 @@ public class CaseHandeler {
         return last.getNum() + 1;
     }
 
-    private static String getGuildPath(Guild g) {
+    private static String getGuildPath(Guild g)
+    {
         return AlloyUtil.ALLOY_PATH + "res\\servers\\" + g.getId();
     }
 
-    private static String getGuildPath(long idLong) {
+    private static String getGuildPath(long idLong)
+    {
         return AlloyUtil.ALLOY_PATH + "res\\servers\\" + idLong;
     }
 
     public static Case buildCase(int caseID, User author, PunishType punishType, String message, Member targetUser,
-            Message msg) {
+            Message msg)
+    {
         if (message.equals(""))
             message = "No reason provided";
 
@@ -47,7 +50,8 @@ public class CaseHandeler {
         return new Case(settings);
     }
 
-    private static String getCasePath(Guild guild, int caseID) {
+    private static String getCasePath(Guild guild, int caseID)
+    {
         String path = AlloyUtil.getGuildPath(guild);
         path += AlloyUtil.CASE_FOLDER;
         path += AlloyUtil.SUB;
@@ -56,7 +60,8 @@ public class CaseHandeler {
         return path;
     }
 
-    public static MessageEmbed toEmbed(Case c) {
+    public static MessageEmbed toEmbed(Case c)
+    {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Case " + c.getNum());
         eb.addField(c.getPunishType().getKeyword(), "", true);
@@ -65,7 +70,8 @@ public class CaseHandeler {
         return eb.build();
     }
 
-    public static Case getCase(long idLong, String caseId) {
+    public static Case getCase(long idLong, String caseId)
+    {
         try {
             int num = Integer.parseInt(caseId);
             CaseLoaderText clt = new CaseLoaderText();

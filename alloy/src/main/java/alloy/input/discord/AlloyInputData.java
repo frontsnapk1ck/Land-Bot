@@ -87,11 +87,13 @@ public class AlloyInputData {
 		return this.event.getUser();
     }
     
-    public Moderator getModerator() {
+    public Moderator getModerator()
+    {
         return moderator;
     }
 
-    public Queueable getQueue() {
+    public Queueable getQueue()
+    {
         return queue;
     }
 
@@ -185,7 +187,8 @@ public class AlloyInputData {
         this.event.setTrigger(trigger);
 	}
 
-    public void setQueue(Queueable queue) {
+    public void setQueue(Queueable queue)
+    {
         this.queue = queue;
     }
 

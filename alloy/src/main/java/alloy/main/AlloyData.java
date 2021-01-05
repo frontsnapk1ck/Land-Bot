@@ -70,7 +70,8 @@ public class AlloyData {
         return cooldownUsers;
     }
     
-    public Map<Long, List<Long>> getXpCooldownUsers() {
+    public Map<Long, List<Long>> getXpCooldownUsers()
+    {
         return xpCooldownUsers;
     }
 
@@ -79,7 +80,8 @@ public class AlloyData {
 		return this.cooldownUsers.get(g.getIdLong());
     }
 
-    public List<Long> getXpCooldownUsers(Guild g) {
+    public List<Long> getXpCooldownUsers(Guild g)
+    {
         return xpCooldownUsers.get(g.getIdLong() );
     }
     

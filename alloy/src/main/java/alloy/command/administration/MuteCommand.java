@@ -14,12 +14,14 @@ import net.dv8tion.jda.api.entities.Role;
 public class MuteCommand extends AbstractModerationCommand {
 
     @Override
-    protected PunishType getPunishType() {
+    protected PunishType getPunishType()
+    {
         return PunishType.MUTE;
     }
 
     @Override
-    protected DisPerm getRequiredPermission() {
+    protected DisPerm getRequiredPermission()
+    {
         return DisPerm.MANAGE_ROLES;
     }
     

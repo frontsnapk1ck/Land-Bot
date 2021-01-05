@@ -16,27 +16,33 @@ public class SendableMessage {
         this.from = "NO CHANNEL PROVIDED";
     }
 
-    public MessageChannel getChannel() {
+    public MessageChannel getChannel()
+    {
         return channel;
     }
 
-    public String getFrom() {
+    public String getFrom()
+    {
         return from;
     }
 
-    public MessageEmbed getMessageE() {
+    public MessageEmbed getMessageE()
+    {
         return messageE;
     }
 
-    public String getMessageS() {
+    public String getMessageS()
+    {
         return messageS;
     }
 
-    public void setChannel(MessageChannel channel) {
+    public void setChannel(MessageChannel channel)
+    {
         this.channel = channel;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(String from)
+    {
         this.from = from;
     }
 

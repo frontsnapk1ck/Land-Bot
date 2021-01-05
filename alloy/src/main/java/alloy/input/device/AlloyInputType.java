@@ -5,7 +5,8 @@ import input.device.InputType;
 
 public class AlloyInputType extends InputType {
 
-    protected AlloyInputType(String id) {
+    protected AlloyInputType(String id)
+    {
         super(id);
     }
 

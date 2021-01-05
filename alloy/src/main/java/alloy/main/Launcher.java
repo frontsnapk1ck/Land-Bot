@@ -13,7 +13,8 @@ public class Launcher {
     private static Alloy alloy;
     private static BotCord botCord;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Launcher.init();
         try {
             alloy = new Alloy();

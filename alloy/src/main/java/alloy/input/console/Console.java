@@ -24,15 +24,18 @@ public class Console implements DeviceListener  {
         t.start();
     }
 
-    public ConsoleHandler getConsoleHandler() {
+    public ConsoleHandler getConsoleHandler()
+    {
         return consoleHandler;
     }
 
-    public UncaughtExceptionHandler getExceptionHandler() {
+    public UncaughtExceptionHandler getExceptionHandler()
+    {
         return exceptionHandler;
     }
 
-    public void setHandler(ConsoleHandler consoleHandler) {
+    public void setHandler(ConsoleHandler consoleHandler)
+    {
         this.consoleHandler = consoleHandler;
     }
 

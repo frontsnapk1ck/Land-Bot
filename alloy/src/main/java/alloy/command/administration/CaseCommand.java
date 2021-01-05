@@ -27,17 +27,20 @@ import utility.Util;
 public class CaseCommand extends AbstractCommand {
 
     @Override
-    public String getDescription() {
+    public String getDescription()
+    {
         return "Moderate the mod-cases";
     }
 
     @Override
-    public String getCommand() {
+    public String getCommand()
+    {
         return "case";
     }
 
     @Override
-    public String[] getUsage() {
+    public String[] getUsage()
+    {
         return new String[] { 
                 "case reason <id> <message>  //sets/modifies the reason of a case",
                 "case reason last <message>  //sets/modified the reason of the last added case by you",
@@ -46,7 +49,8 @@ public class CaseCommand extends AbstractCommand {
     }
 
     @Override
-    public String[] getAliases() {
+    public String[] getAliases()
+    {
         return new String[] {};
     }
 

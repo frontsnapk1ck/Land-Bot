@@ -63,19 +63,23 @@ public class Template {
         return out;
     }
 
-    public String getFooterName() {
+    public String getFooterName()
+    {
         return footerName;
     }
 
-    public String getFooterURL() {
+    public String getFooterURL()
+    {
         return footerURL;
     }
 
-    public void setFooterName(String footerName) {
+    public void setFooterName(String footerName)
+    {
         this.footerName = footerName;
     }
 
-    public void setFooterURL(String footerURL) {
+    public void setFooterURL(String footerURL)
+    {
         this.footerURL = footerURL;
     }
 
@@ -96,7 +100,8 @@ public class Template {
         this.title = title;
 	}
     
-    public void setImageURL(String imageURL) {
+    public void setImageURL(String imageURL)
+    {
         this.imageURL = imageURL;
     }
 }

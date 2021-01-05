@@ -23,19 +23,23 @@ public class DebugEvent {
         this.time = System.currentTimeMillis();
     }
     
-    public String getClassname() {
+    public String getClassname()
+    {
         return classname;
     }
 
-    public Throwable getError() {
+    public Throwable getError()
+    {
         return error;
     }
 
-    public Level getLevel() {
+    public Level getLevel()
+    {
         return level;
     }
 
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 
@@ -44,27 +48,33 @@ public class DebugEvent {
         return time;
     }
 
-    public Thread getThread() {
+    public Thread getThread()
+    {
         return thread;
     }
 
-    public void setClassname(String classname) {
+    public void setClassname(String classname)
+    {
         this.classname = classname;
     }
 
-    public void setError(Throwable error) {
+    public void setError(Throwable error)
+    {
         this.error = error;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(Level level)
+    {
         this.level = level;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(String message)
+    {
         this.message = message;
     }
 
-    public void setThread(Thread thread) {
+    public void setThread(Thread thread)
+    {
         this.thread = thread;
     }
     

@@ -28,18 +28,22 @@ public class AlloyInputEvent {
         this.event = e;
     }
     
-    public AlloyInputEvent() {
+    public AlloyInputEvent()
+    {
 	}
 
-	public TextChannel getChannel() {
+	public TextChannel getChannel()
+    {
         return channel;
     }
 
-    public GuildMessageReceivedEvent getEvent() {
+    public GuildMessageReceivedEvent getEvent()
+    {
         return event;
     }
 
-    public Guild getGuild() {
+    public Guild getGuild()
+    {
         return guild;
     }
 
@@ -48,11 +52,13 @@ public class AlloyInputEvent {
         return message;
     }
 
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 
-    public JDA getJda() {
+    public JDA getJda()
+    {
         return jda;
     }
 
@@ -66,23 +72,28 @@ public class AlloyInputEvent {
         this.user = author;
     }
     
-    public void setChannel(TextChannel channel) {
+    public void setChannel(TextChannel channel)
+    {
         this.channel = channel;
     }
 
-    public void setEvent(GuildMessageReceivedEvent event) {
+    public void setEvent(GuildMessageReceivedEvent event)
+    {
         this.event = event;
     }
 
-    public void setMessageActual(Message message) {
+    public void setMessageActual(Message message)
+    {
         this.messageActual = message;
     }
 
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 
-    public void setJda(JDA jda) {
+    public void setJda(JDA jda)
+    {
         this.jda = jda;
     }
 

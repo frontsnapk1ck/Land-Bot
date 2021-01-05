@@ -17,7 +17,8 @@ import io.FileReader;
 public class PlayerLoaderText extends DataLoader<Player, String> {
 
     @Override
-    public Player load(String file) {
+    public Player load(String file)
+    {
         AccountLoaderText alt = new AccountLoaderText();
         WarningLoaderText wlt = new WarningLoaderText();
 

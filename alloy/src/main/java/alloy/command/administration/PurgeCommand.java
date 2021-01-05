@@ -35,17 +35,20 @@ public class PurgeCommand extends AbstractCommand {
     public static final int MAX_BULK_SIZE = 100;
 
     @Override
-    public String getDescription() {
+    public String getDescription()
+    {
         return "deletes non-pinned messages";
     }
 
     @Override
-    public String getCommand() {
+    public String getCommand()
+    {
         return "purge";
     }
 
     @Override
-    public String[] getUsage() {
+    public String[] getUsage()
+    {
         return new String[] { 
                 "//deletes up to " + MAX_BULK_SIZE + " non-pinned messages", 
                 "purge",
@@ -77,7 +80,8 @@ public class PurgeCommand extends AbstractCommand {
     }
 
     @Override
-    public String[] getAliases() {
+    public String[] getAliases()
+    {
         return new String[] { "clear", "delete" };
     }
 
@@ -229,14 +233,16 @@ public class PurgeCommand extends AbstractCommand {
             boolean matches = false;
             boolean notmatches = false;
 
-            try {
+            try 
+            {
                 all = (hasManageMessages || (msg.getAuthor() != null && msg.getAuthor().getId().equals(msg.getJDA().getSelfUser().getId())));
                 bot = (hasManageMessages && msg.getAuthor() != null && msg.getAuthor().isBot()) || msg.getAuthor() != null && msg.getAuthor().isBot();
                 user = finalToDeleteFrom != null && msg.getAuthor() != null && msg.getAuthor().getId().equals(finalToDeleteFrom.getUser().getId());
                 command = (msg.getContentRaw().startsWith(cmdPrefix) && hasManageMessages) || (msg.getAuthor() == null || msg.getAuthor().getId().equals(msg.getJDA().getSelfUser().getId()));
                 matches = hasManageMessages && msg.getContentRaw().contains(finalDeletePattern);
                 notmatches = hasManageMessages && !msg.getContentRaw().contains(finalDeletePattern);
-            } catch (Exception ignored) {
+            }
+            catch (Exception ignored){
             }
 
             if (finalStyle == PurgeStyle.ALL && all)

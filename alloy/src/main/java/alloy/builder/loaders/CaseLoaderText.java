@@ -10,6 +10,9 @@ import alloy.gameobjects.Case;
 import alloy.utility.settings.CaseSettings;
 import io.FileReader;
 
+/**
+ * loader for loading cases
+ */
 public class CaseLoaderText extends DataLoader<Case, String> {
 
     @Override
@@ -44,7 +47,12 @@ public class CaseLoaderText extends DataLoader<Case, String> {
 
         
     }
-    
+
+    /**
+     * 
+     * @param args the array of newlines from the file
+     * @return a {@link String}[][] that is properly split up   
+     */
     private String[][] configureCaseArray(String[] args) 
     {
         String[][] sArgs = new String[args.length][];
@@ -59,6 +67,12 @@ public class CaseLoaderText extends DataLoader<Case, String> {
         return sArgs;
     }
 
+    /**
+     * 
+     * @param s settings that is being searched for
+     * @param caseArray array of things that is being searched in
+     * @return the corrisponding value for the string passed
+     */
     private static String loadSetting(String s, String[][] caseArray) 
     {
         for (String[] strings : caseArray) 

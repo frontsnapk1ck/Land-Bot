@@ -16,29 +16,42 @@ public class Template {
     private String footerURL;
     private String titleURL;
     private List<Field> fields;
+    private String imageURL;
 
 
     public Template(String title, String s) 
     {
         this.title = title;
         this.titleURL = "";
+        this.imageURL = "";
         this.message = s;
         this.fields = new ArrayList<Field>();
     }
 
     public MessageEmbed getEmbed()
     {
+        //make builder
         EmbedBuilder eb = new EmbedBuilder();
+
+        //check to see if they need to add a link to the title
         if (titleURL == "")
             eb.setTitle(title);
         else
             eb.setTitle(title, titleURL);
+        
+        //check to see if you need to add an image
+        if (this.imageURL != "")
+            eb.setThumbnail(this.imageURL);
+        
+        //set descriptions
         eb.setDescription(message);
         eb.setFooter(footerName, footerURL);
 
+        //add all fields in the list
         for (Field field : fields)
             eb.addField(field);
         
+        //finally build and return the thing
         return eb.build();
     }
 
@@ -83,4 +96,7 @@ public class Template {
         this.title = title;
 	}
     
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 }

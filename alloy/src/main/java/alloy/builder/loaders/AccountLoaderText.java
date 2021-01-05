@@ -5,6 +5,9 @@ import alloy.gameobjects.player.Account;
 import alloy.utility.settings.AccountSettings;
 import io.FileReader;
 
+/**
+ * loader for loading accounts
+ */
 public class AccountLoaderText extends DataLoader<Account, String> {
 
     @Override
@@ -26,6 +29,11 @@ public class AccountLoaderText extends DataLoader<Account, String> {
         return a;
     }
 
+    /**
+     * 
+     * @param args the array of newlines from the file
+     * @return a {@link String}[][] that is properly split up   
+     */
     private String[][] configureAccountArray(String[] args) 
     {
         if (args == null)
@@ -40,6 +48,12 @@ public class AccountLoaderText extends DataLoader<Account, String> {
         return sArgs;
     }
 
+    /**
+     * 
+     * @param s settings that is being searched for
+     * @param accountArray array of things that is being searched in
+     * @return the corrisponding value for the string passed
+     */
     private static String loadSetting(String s, String[][] accountArray) 
     {
         for (String[] strings : accountArray) 

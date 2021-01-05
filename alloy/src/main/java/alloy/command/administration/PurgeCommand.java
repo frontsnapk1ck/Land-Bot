@@ -24,9 +24,9 @@ import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
-import utility.TimeUtil;
 import utility.Util;
 import utility.event.Job;
+import utility.time.TimeUtil;
 
 
 public class PurgeCommand extends AbstractCommand {

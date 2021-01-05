@@ -1,5 +1,7 @@
 package alloy.main;
 
+import botcord.BotCord;
+
 public class Launcher {
 
     public static final String VERSION;
@@ -9,11 +11,14 @@ public class Launcher {
     }
 
     private static Alloy alloy;
+    private static BotCord botCord;
 
     public static void main(String[] args) {
         Launcher.init();
         try {
             alloy = new Alloy();
+            botCord = new BotCord(alloy.getJDA());
+            alloy.setDebugListener(botCord.getDebugListener());
         } catch (Exception e) {
             Alloy.LOGGER.error("Launcher", e);
         }
@@ -46,6 +51,7 @@ public class Launcher {
                     e.printStackTrace();
                 }
                 alloy.update();
+                botCord.update();
             }
         };
 

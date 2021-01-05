@@ -29,7 +29,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import utility.StringUtil;
-import utility.TimeUtil;
+import utility.time.TimeUtil;
+import utility.time.TimesIncludes;
 
 public class Templates {
 
@@ -449,14 +450,25 @@ public class Templates {
 	public static Template infoUser(Member m)
     {
 		String perm = loadPermString(m);
-		String nick = (m.getNickname() == null ? "none" : m.getNickname() );
+		String nick = (m.getNickname() == null ? "No Nickname" : m.getNickname() );
 		String username = "```txt\n" + m.getUser().getAsTag() + "\n```";
 		String nickname = "```txt\n" + nick + "\n```";
-		String isBot = "```txt\n" + (m.getUser().isBot() ? "yes" : "no") + "\n```";
+		String isBot = "```txt\n" + (m.getUser().isBot() ? "Yes" : "No") + "\n```";
 		String userID = "```txt\n" + m.getId() + "\n```";
 
-		String joinOn = "```txt\n" +TimeUtil.getTimeAgo(m.getTimeJoined()) + "\n```";
-		String createOn = "```txt\n" + TimeUtil.getTimeAgo(m.getUser().getTimeCreated()) + "\n```";
+		TimesIncludes joinIncludes = new TimesIncludes();
+		joinIncludes.addYear();
+		joinIncludes.addMonth();
+		joinIncludes.addDay();
+		joinIncludes.limit(3);
+		String joinOn = "```txt\n" 		+ TimeUtil.getTimeAgo(m.getTimeJoined(), joinIncludes)			+ "\n```";
+		
+		TimesIncludes createdIncludes = new TimesIncludes();
+		createdIncludes.addYear();
+		createdIncludes.addMonth();
+		createdIncludes.addDay();
+		createdIncludes.limit(2);
+		String createOn = "```txt\n" 	+ TimeUtil.getTimeAgo(m.getUser().getTimeCreated(), createdIncludes)	+ "\n```";
 
 
 		Field userF 	= new Field("Username", username , true );
@@ -472,7 +484,6 @@ public class Templates {
 		Field joinF 	= new Field("Joined this server on (MM/DD/YYYY)", joinOn, false );
 		Field createF 	= new Field("Account created on  (MM/DD/YYYY)", createOn, false );
 
-
 		Template t = new Template("User Info", "");
 		t.addFeild(userF);
 		t.addFeild(userIDF);
@@ -487,7 +498,17 @@ public class Templates {
 		t.addFeild(joinF);
 		t.addFeild(createF);
 
+		t.setImageURL(getURL(m));
+
 		return t;
+	}
+
+	private static String getURL(Member m) 
+	{
+		String url = m.getUser().getAvatarUrl();
+		if (url == null)
+			url = m.getUser().getDefaultAvatarId();
+		return url;
 	}
 
 	private static Field loadRolesField(Member m) 
@@ -530,7 +551,12 @@ public class Templates {
 		String region = "```txt\n" +  g.getRegionRaw() + "\n```";
 		String boost = "```txt\n" +  g.getBoostTier() + "\n```";
 		String boosts = "```txt\n" +  g.getBoostCount() + "\n```";
-		String created = "```txt\n" +  TimeUtil.getTimeAgo(g.getTimeCreated()) + "\n```";
+
+		TimesIncludes createdIncludes = new TimesIncludes();
+		createdIncludes.addYear();
+		createdIncludes.addMonth();
+		createdIncludes.addDay();
+		String created = "```txt\n" +  TimeUtil.getTimeAgo(g.getTimeCreated(), createdIncludes) + "\n```";
 
 		Field nameF = new Field("Server name", name, true);
 		Field ownerF = new Field("Server owner", owner, true);
@@ -573,7 +599,17 @@ public class Templates {
 
 		t.addFeild(createdF);
 
+		t.setImageURL(getURL(g));
+
 		return t;
+	}
+
+	private static String getURL(Guild g) 
+	{
+		String url = g.getIconUrl();
+		if (url == null)
+			url = AlloyUtil.DEFUALT_DISCORD_PHOTO;
+		return url;
 	}
 
 	private static Field loadGuildRoles(Guild g) 
@@ -675,7 +711,13 @@ public class Templates {
 		String memberC = "```txt\n" + g.getMembersWithRoles(r).size() + "\n```";
 		String rolePos = "```txt\n" + g.getRoles().indexOf(r) + "\n```";
 		String roleCol = "```txt\n" + getRoleColor(r) + "\n```";
-		String createdOn = "```txt\n" + TimeUtil.getTimeAgo(r.getTimeCreated()) + "\n```";
+
+		TimesIncludes createdIncludes = new TimesIncludes();
+		createdIncludes.addYear();
+		createdIncludes.addMonth();
+		createdIncludes.addDay();
+		createdIncludes.limit(2);
+		String createdOn = "```txt\n" + TimeUtil.getTimeAgo(r.getTimeCreated(), createdIncludes) + "\n```";
 
 		Field nameF = new Field("Role name", name, true);
 		Field idF = new Field("Role ID", id, true);

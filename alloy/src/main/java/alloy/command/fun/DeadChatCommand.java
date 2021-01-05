@@ -11,6 +11,7 @@ import alloy.templates.Template;
 import alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
@@ -31,6 +32,7 @@ public class DeadChatCommand extends AbstractCooldownCommand {
         CooldownHandler handler = data.getCooldownHandler();
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
+        Message msg = data.getMessageActual();
         Queueable q = data.getQueue();
 
         if (userOnCooldown(author, g, handler))
@@ -53,6 +55,8 @@ public class DeadChatCommand extends AbstractCooldownCommand {
         sm.setChannel(channel);
         sm.setFrom("DeadChatCommand");
         bot.send(sm);
+
+        msg.delete().queue();
         
         addUserCooldown(author, g, handler, getCooldownTime(g) , q);
 

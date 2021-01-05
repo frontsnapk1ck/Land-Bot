@@ -44,6 +44,11 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
           return p;
     }
 
+    /**
+     * 
+     * @param path the path of the buildigns to load buillding types from
+     * @return a list of buildingtypes
+     */
     private List<String> getBuildingTypes(String path) 
     {
         List<String> out = new ArrayList<String>();
@@ -56,6 +61,11 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         return out;
     }
 
+    /**
+     * 
+     * @param file the location of the players experience
+     * @return the amount of xp the player has
+     */
     private int loadXP(String file) 
     {
         String path = file + AlloyUtil.SUB + AlloyUtil.RANK_FILE;
@@ -63,6 +73,11 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         return Integer.parseInt(xp[0]);
     }
 
+    /**
+     * 
+     * @param path the location of the buildigns that the player owns
+     * @return a hashmap of buildingtypes to a list of buildings
+     */
     private HashMap<String, List<Building>> configureHashMap(String path) 
     {
         HashMap<String, List<Building>> map = new HashMap<String, List<Building>>();
@@ -82,6 +97,12 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         return map;
     }
 
+    /**
+     * 
+     * @param map the map that needs to be filled
+     * @param stock the list of stock building in a server
+     * @param data a list of buildign data used to determine the amount of buildigns to load
+     */
     private void fillHashMap(HashMap<String, List<Building>> map, List<Building> stock, List<BuildingData> data) 
     {
         for (String s : map.keySet()) 
@@ -95,6 +116,12 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         }
     }
 
+    /**
+     * 
+     * @param s the name of the building that is being look for
+     * @param data the list of building data that is being seached though to find the number of buildings
+     * @return the number of buildigns that need to be created
+     */
     private int findMax(String s, List<BuildingData> data) 
     {
         for (BuildingData d : data) 
@@ -105,6 +132,11 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         return -1;
     }
 
+    /**
+     * this is kinda stupid, but because of the way i have things rn, this is the way it has to be because i dont want to have to change things
+     * @param path the path to the player's buildigns
+     * @return the path to the guild buildings
+     */
     private String loadStockPath(String path) 
     {
         String guildPath = path.substring(0, path.indexOf(AlloyUtil.USER_FOLDER));
@@ -112,6 +144,12 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         return outPath;
     }
 
+    /**
+     * calls {@link Building#copy()} and makes a new building
+     * @param stock the list of stock buildgins to compare agaist
+     * @param s the name of the building to look for
+     * @return a copy of that buidling
+     */
     private Building copyFromStock(List<Building> stock, String s) 
     {
         for (Building b : stock) 
@@ -122,6 +160,11 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         return null;
     }
 
+    /**
+     * 
+     * @param args the array of newlines from the file
+     * @return a {@link String}[][] that is properly split up   
+     */
     private List<BuildingData> configureBuildingArray(String[] arr) 
     {
         if (arr.length == 0)
@@ -140,12 +183,22 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         return data;
     }
 
+    /**
+     * 
+     * @param path path of the stock building in this server
+     * @return a list of deflaut buildigns for this server
+     */
     private List<Building> getStockBuildings(String path) 
     {
         BuildingLoaderText blt = new BuildingLoaderText();
         return blt.loadALl(path);
     }
 
+    /**
+     * fills the map with blank lists based of the the stock buildings
+     * @param map the maps that will be built
+     * @param stock the list of stock buildings in the server
+     */
     private void buildHashMap(HashMap<String, List<Building>> map, List<Building> stock) 
     {
         for (Building building : stock) 
@@ -172,9 +225,14 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
        
     }
 
+    /**
+     * holds all of the building data for how to load the hashmap of building data
+     */
     private class BuildingData 
     {
+        /**the name of the building */
         public String   name;
+        /**the number of buildigns that should be loaded */
         public int      count;
 
         public BuildingData( String name , int count)

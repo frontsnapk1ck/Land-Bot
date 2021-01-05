@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.security.auth.login.LoginException;
 
 import alloy.builder.loaders.ServerLoaderText;
+import alloy.event.AlloyLogger;
 import alloy.event.JDAEvents;
 import alloy.gameobjects.Server;
 import alloy.handler.CommandHandler;
@@ -18,6 +19,7 @@ import alloy.main.handler.AlloyHandler;
 import alloy.main.handler.ConsoleHandler;
 import alloy.main.handler.CooldownHandler;
 import alloy.utility.discord.AlloyUtil;
+import botcord.event.DebugListener;
 import io.FileReader;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -35,7 +37,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import utility.Logger;
 import utility.event.Job;
 
 public class Alloy implements Sendable, Moderator, Loggable, Queueable, 
@@ -43,7 +44,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
                                 UncaughtExceptionHandler 
 {
 
-    public static final Logger LOGGER = new Logger();
+    public static final AlloyLogger LOGGER = new AlloyLogger();
 
     public static long startupTimeStamp;
 
@@ -309,5 +310,10 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     {
         this.data.queue(action);
     }
+
+    public void setDebugListener(DebugListener debugListener) 
+    {
+        LOGGER.setListener(debugListener);
+	}
 
 }

@@ -8,6 +8,9 @@ import alloy.gameobjects.player.Building;
 import alloy.utility.settings.BuildingSettings;
 import io.FileReader;
 
+/**
+ * loader for loading buildings
+ */
 public class BuildingLoaderText extends DataLoader<Building, String> {
 
     @Override
@@ -23,6 +26,11 @@ public class BuildingLoaderText extends DataLoader<Building, String> {
         return buildings;
     }
 
+    /**
+     * 
+     * @param s a sting array of all the things needed to load a building
+     * @return a building with the given values
+     */
     private Building load(String[] s) 
     {
         String name = s[0];
@@ -41,7 +49,12 @@ public class BuildingLoaderText extends DataLoader<Building, String> {
         
         return b;
     }
-
+    
+    /**
+     * 
+     * @param args the array of newlines from the file
+     * @return a {@link String}[][] that is properly split up   
+     */
     private String[][] configureBuildingArray(String[] sArr) 
     {
         String[][] buildingArr = new String[sArr.length][];

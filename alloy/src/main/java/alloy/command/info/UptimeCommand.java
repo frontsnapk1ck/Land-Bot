@@ -8,7 +8,7 @@ import alloy.main.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.TextChannel;
-import utility.TimeUtil;
+import utility.time.TimeUtil;
 
 public class UptimeCommand extends AbstractCooldownCommand {
 

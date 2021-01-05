@@ -64,6 +64,8 @@ public class JDAEvents extends ListenerAdapter {
         List<Member> members = g.getMembers();
         for (Member member : members) 
             EventHandler.onMemberJoinEvent(member);
+        
+        this.bot.guildCountUpdate();
     }
 
     @Override
@@ -71,6 +73,8 @@ public class JDAEvents extends ListenerAdapter {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] LEFT SERVER! " + g.getName());
         EventHandler.onGuildLeaveEvent(g);
+
+        this.bot.guildCountUpdate();
     }
 
     @Override

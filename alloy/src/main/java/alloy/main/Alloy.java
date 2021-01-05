@@ -316,4 +316,10 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         LOGGER.setListener(debugListener);
 	}
 
+    @Override
+    public void guildCountUpdate() 
+    {
+        updateActivty();
+    }
+
 }

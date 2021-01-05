@@ -10,5 +10,7 @@ public interface AlloyHandler {
     public void handleMessage(AlloyInput in);
 
     public void handlePrivateMessage(PrivateChannel channel, User author, Message message);
+
+    public void guildCountUpdate();
     
 }

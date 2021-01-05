@@ -1,13 +1,11 @@
 ~~~rn~~~
 
 ~~~rn-ish~~~
+make it so that it isnt -30 min ago
 catch some more errors
-make it so that it rickrolls peopel on !invite
 make it so that it sets the usage for all of the commands on startup
 make feed back nicer
     console feedback - roles
-make it so it tells when servers join/leave in console
-make it so that it actaully displays information to the user about the server/role/user
 no duplicate building names
 
 ~~~much later~~~
@@ -17,9 +15,7 @@ music bot
 make it so you can set the rank, not just xp
 make it so that you can see the total amount of xp youve earned
 make it so that spam runnables queue all of the send messages at once, instead of makring a different thread for each of them
-
-~~~BUGS~~~
-why does it not allow commands to be put in when it is starting??? - random times, maybe read the error next time
+comment everything
 
 ~~~work on next~~~
 emulate discord

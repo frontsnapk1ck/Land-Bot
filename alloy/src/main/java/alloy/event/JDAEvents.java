@@ -46,17 +46,20 @@ public class JDAEvents extends ListenerAdapter {
 
     private AlloyHandler bot;
 
-    public JDAEvents(Alloy alloy) {
+    public JDAEvents(Alloy alloy) 
+    {
         this.bot = alloy;
     }
 
     @Override
-    public void onStatusChange(StatusChangeEvent event) {
+    public void onStatusChange(StatusChangeEvent event) 
+    {
         super.onStatusChange(event);
     }
 
     @Override
-    public void onGuildJoin(GuildJoinEvent e) {
+    public void onGuildJoin(GuildJoinEvent e) 
+    {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] JOINED SERVER! " + g.getName());
         EventHandler.onGuildJoinEvent(g);
@@ -69,7 +72,8 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildLeave(GuildLeaveEvent e) {
+    public void onGuildLeave(GuildLeaveEvent e) 
+    {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] LEFT SERVER! " + g.getName());
         EventHandler.onGuildLeaveEvent(g);
@@ -78,12 +82,14 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReactionAdd(MessageReactionAddEvent event) {
+    public void onMessageReactionAdd(MessageReactionAddEvent event) 
+    {
         super.onMessageReactionAdd(event);
     }
 
     @Override
-    public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
+    public void onMessageReactionRemove(MessageReactionRemoveEvent event) 
+    {
         super.onMessageReactionRemove(event);
     }
 

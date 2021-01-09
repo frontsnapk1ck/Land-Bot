@@ -80,6 +80,7 @@ public class AlloyInputUtil {
     
         map.put(    "dead-chat"         ,   FunInputActions.DEAD_CHAT_ACTION);
         map.put(    "!rank"             ,   FunInputActions.RANK_ACTION);
+        map.put(    "remindme"          ,   FunInputActions.REMIND_ACTION);
         map.put(    "say"               ,   FunInputActions.SAY_ACTION);
         map.put(    "spam"              ,   FunInputActions.SPAM_ACTOIN);
     

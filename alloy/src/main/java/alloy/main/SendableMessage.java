@@ -1,5 +1,6 @@
 package alloy.main;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
@@ -10,6 +11,7 @@ public class SendableMessage {
     private MessageEmbed messageE;
     private String messageS;
     private String from;
+    private Message message;
 
     public SendableMessage() 
     {
@@ -36,6 +38,11 @@ public class SendableMessage {
         return messageS;
     }
 
+    public Message getMessage() 
+    {
+        return message;
+    }
+
     public void setChannel(MessageChannel channel)
     {
         this.channel = channel;
@@ -56,6 +63,11 @@ public class SendableMessage {
         this.messageS = messageS;
     }
 
+    public void setMessage(Message message) 
+    {
+        this.message = message;
+	}
+
     public boolean hasChannel ()
     {
         return this.channel != null;
@@ -69,6 +81,11 @@ public class SendableMessage {
     public boolean hasMessageS ()
     {
         return this.messageS != null;
+    }
+
+    public boolean hasMessage ()
+    {
+        return this.message != null;
     }
     
     public boolean hasFrom ()

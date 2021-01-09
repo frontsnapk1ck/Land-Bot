@@ -105,8 +105,8 @@
                         description = "resets the buildings in this economy to the defualt buildings"/>
         </command>
 
-        <command name = "workC" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
-            <trigger text = "work" />
+        <command name = "workO" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+            <trigger text = "workO" />
 
             <subcommand text = "add {message}"
                         description = "adds an option to be read out when a user uses the work command" />
@@ -244,6 +244,14 @@
             
             <subcommand text = ""
                         description = "sends a random !rank gif"/>
+
+        </command>
+
+        <command name = "remindme" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+            <trigger text = "remindme" />
+
+            <subcommand text = "{time} {message}"
+                        description = "sends you a message with a delay" />
 
         </command>
 

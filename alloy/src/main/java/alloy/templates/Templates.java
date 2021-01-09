@@ -991,4 +991,22 @@ public class Templates {
 		return t;
 	}
 
+	public static Template remindMe(String time, String out) 
+	{
+		Template t = new Template("Reminder", "you have a reminder with the message:\n" + out);
+		return t;
+	}
+
+	public static Template timeNotRecogocnized(String time) 
+	{
+		Template t = new Template("Time not recogognized" , "i didn't recognize the time `" + time  + "`");
+		return t;
+	}
+
+	public static Template remindCard(String time, String out) 
+	{
+		Template t = new Template("Reminder", "I will remind you in `" + time + "` with the message:\n" + out);
+		return t;
+	}
+
 }

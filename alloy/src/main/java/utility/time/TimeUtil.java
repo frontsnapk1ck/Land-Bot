@@ -42,11 +42,13 @@ public class TimeUtil {
         return ymdFormat.format(date);
     }
 
-    public static long toMillis(String s) {
+    public static long toMillis(String s) 
+    {
         s = s.toLowerCase();
         long val = 0;
         String working = "";
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) 
+        {
             if (Character.isDigit(s.charAt(i)))
                 working += s.charAt(i);
             else if (TIME_SYMBOLS.containsKey(s.charAt(i)) && working.length() > 0)

@@ -243,7 +243,12 @@ public class TimeUtil {
     private static int getDaysInMonth(OffsetDateTime date) 
     {
         int month = date.getMonthValue();
-        
+        int year = date.getYear();
+        return daysInMonth(month, year);
+    }
+
+    private static int daysInMonth(int month, int year) 
+    {
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12 )
 		{
 			return 31;
@@ -254,16 +259,15 @@ public class TimeUtil {
 		}  
 		else if ( month == 2 )
 		{
-            if (isLeapYear(date))
+            if (isLeapYear(year))
                 return 29;
             return 28;
         } 
         return -1;
     }
 
-    private static boolean isLeapYear(OffsetDateTime date) 
+    private static boolean isLeapYear(int year) 
     {
-        int year = date.getYear();
         return (((year % 4 == 0) && (year % 100!= 0)) || (year%400 == 0));
         
     }
@@ -330,7 +334,7 @@ public class TimeUtil {
         Calendar c = Calendar.getInstance();
         c.setTime(d);
 
-        int hour = c.get(Calendar.HOUR_OF_DAY);  //d.getHours();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
         int min =  c.get(Calendar.MINUTE);
         int sec =  c.get(Calendar.SECOND);
         int mili=  c.get(Calendar.MILLISECOND);
@@ -342,6 +346,170 @@ public class TimeUtil {
 
         String date = hourS + ":" + minS + ":" + secS + "." + miliS;
         return date;
+    }
+
+    public static String getTimeTill(long time, TimesIncludes includes) 
+    {
+        Date d = new Date(time);
+        
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+
+        // getting info out of the time passed
+        int month = c.get(Calendar.MONTH) + 1;
+        int day =   c.get(Calendar.DAY_OF_MONTH);
+        int year =  c.get(Calendar.YEAR);
+
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int min =  c.get(Calendar.MINUTE);
+        int sec =  c.get(Calendar.SECOND);
+
+        String monthS = fixHangingZero(month);
+        String dayS = fixHangingZero(day);
+
+        String hourS = fixHangingZero(hour);
+        String minS = fixHangingZero(min);
+        String secS = fixHangingZero(sec);
+
+        // getting current info
+        OffsetDateTime now = OffsetDateTime.now();
+        int monthNow = now.getMonthValue();
+        int dayNow = now.getDayOfMonth();
+        int yearNow = now.getYear();
+
+        int hourNow = now.getHour();
+        int minNow = now.getMinute();
+        int secNow = now.getSecond();
+
+        // finding difference between the numbers
+        int yearDiff =  year - yearNow;
+        int monthDiff = month - monthNow;
+        int dayDiff =   day - dayNow;
+
+        int hourDiff =  hour - hourNow;
+        int minDiff =   min - minNow;
+        int secDiff =   sec - secNow;
+        
+        // fixing negetive numbers
+        if (secDiff < 0){
+            minDiff --;
+            secDiff += 60;
+        }
+
+        if (minDiff < 0) {
+            hourDiff--;
+            minDiff += 60;
+        }
+
+        if (hourDiff < 0) {
+            dayDiff--;
+            hourDiff += 24;
+        }
+
+        if (dayDiff < 0) {
+            monthDiff--;
+            int daysInMonth = getDaysInMonth(time);
+            dayDiff += daysInMonth;
+        }
+
+        if (monthDiff < 0) {
+            yearDiff--;
+            monthDiff += 12;
+        }
+
+        // declaring booleans
+        boolean yearB = includes.has(IncludeType.YEAR);
+        boolean monthB = includes.has(IncludeType.MONTH);
+        boolean dayB = includes.has(IncludeType.DAY);
+        boolean hourB = includes.has(IncludeType.HOUR);
+        boolean minB = includes.has(IncludeType.MIN);
+        boolean secB = includes.has(IncludeType.SEC);
+        
+        // setup for limiting
+        int limit = getLimit(includes.getConstraints());
+        int current = 0;
+        if (limit >= 0)
+        {
+            //year
+            if (yearB && current != limit && yearDiff != 0)
+                current ++;
+            else 
+                yearB = false;
+
+            //month
+            if (monthB && current != limit && monthDiff != 0)
+                current ++;
+            else 
+                monthB = false;
+            
+            // day
+            if (dayB && current != limit && dayDiff != 0)
+                current ++;
+            else 
+                dayB = false;
+            
+            //hour
+            if (hourB && current != limit && hourDiff != 0)
+                current ++;
+            else 
+                hourB = false;
+            
+            //min
+            if (minB && current != limit && minDiff != 0)
+                current ++;
+            else 
+                minB = false;
+                
+            //sec
+            if (secB && current != limit && secDiff != 0)
+                current ++;
+            else 
+                secB = false;
+        }
+
+        // rounding
+        if (!secB && secDiff >= 30)
+            minDiff ++;
+        if (!minB && minDiff >= 30)
+            hourDiff++;
+        if (!hourB && hourDiff >= 12)
+            dayDiff++;
+        if (!dayB & dayDiff >= (getDaysInMonth(time) / 2))
+            monthDiff++;
+        if (!monthB && monthDiff >= 6)
+            yearDiff++;
+
+        // building final
+        String date = monthS + "/" + dayS + "/" + year + "\t" + hourS + ":" + minS + ":" + secS;
+        String diff = "";
+
+        if (yearDiff >= 1 && yearB)
+            diff += yearDiff + " year" + (yearDiff == 1 ? " " : "s ");
+        if (monthDiff >= 1 && monthB)
+            diff += monthDiff + " month" + (monthDiff == 1 ? " " : "s ");
+        if (dayDiff >= 1 && dayB)
+            diff += dayDiff + " day" + (dayDiff == 1 ? " " : "s ");
+        if (hourDiff >= 1 && hourB)
+            diff += hourDiff + " hour" + (hourDiff == 1 ? " " : "s ");
+        if (minDiff >= 1 && minB)
+            diff += minDiff + " minute" + (minDiff == 1 ? " " : "s ");
+        if (secDiff >= 1 && secB)
+            diff += secDiff + " second" + (secDiff ==1 ? " " : "s ");
+
+        String out = date + "\t(" + diff + "until)";
+        return out;
+    }
+
+    private static int getDaysInMonth(long time) 
+    {
+        Date d = new Date(time);
+        
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        return daysInMonth(month, year);
     }
     
 }

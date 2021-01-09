@@ -8,6 +8,7 @@ import alloy.main.Alloy;
 import net.dv8tion.jda.api.JDA;
 import utility.event.EventManager.ScheduledJob;
 import utility.time.TimeUtil;
+import utility.time.TimesIncludes;
 import utility.StringUtil;
 import utility.event.Job;
 
@@ -17,7 +18,7 @@ public class QueueCommand extends AbstractConsoleCommand {
     public void execute(List<String> args, JDA jda) 
     {
         PriorityBlockingQueue<ScheduledJob> queue = Alloy.getQueue();
-        String[][] tableArr = new String[queue.size()][2];
+        String[][] tableArr = new String[queue.size()][4];
         
         int i = 0;
         for (ScheduledJob sjob : queue) 
@@ -27,11 +28,18 @@ public class QueueCommand extends AbstractConsoleCommand {
             long time = sjob.time;
 
             tableArr[i][0] = name;
-            tableArr[i][1] = TimeUtil.getMidTime(time);
+            TimesIncludes includes = new TimesIncludes();
+            includes.addAll();
+            includes.limit(3);
+            String longTime = TimeUtil.getTimeTill(time, includes);
+            String[] split = longTime.split("\t");
+            tableArr[i][1] = split[0];
+            tableArr[i][2] = split[1];
+            tableArr[i][3] = split[2];
             
             i++;
         }
-        String[] headers = { "~~Class~~" , "~~Time (local)~~" };
+        String[] headers = { "~~Class~~" , "~~Date~~", "~~Time~~" , "~~Time Untill~~" };
         String table = StringUtil.makeTable(tableArr, headers);
         System.err.println(table);
     }

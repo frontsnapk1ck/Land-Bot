@@ -35,7 +35,6 @@ public class AlloyData {
     {
         this.jda = jda;
         this.alloy = alloy;
-        this.eventManger = loadEventManager();
         console.setHandler(alloy);
         console.setEHandler(alloy);
     }
@@ -107,6 +106,7 @@ public class AlloyData {
     public void update()
     {
         this.modLogs = loadModLogs();
+        this.eventManger = loadEventManager();
         this.updateCooldownUsers();
         this.updateXpCooldownUsers();
     }

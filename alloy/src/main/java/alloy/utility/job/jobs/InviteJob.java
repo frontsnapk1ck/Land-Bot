@@ -1,4 +1,4 @@
-package alloy.utility.job;
+package alloy.utility.job.jobs;
 
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;

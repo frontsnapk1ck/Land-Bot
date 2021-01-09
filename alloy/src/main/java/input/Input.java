@@ -5,8 +5,6 @@ public class Input {
     private String name;
     private String trigger;
 
-
-
     public Input(String name , String trigger) 
     {
         this.name = name;

@@ -3,10 +3,13 @@ package utility.event;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.main.Alloy;
+import alloy.utility.job.jobs.RemindJob;
 
 public class EventManager {
 
     public static final Long COOLDOWN_INTERVAL = 50l;
+
+    private static final EventManager fake = new EventManager(false);
 
     private PriorityBlockingQueue<ScheduledJob> jobQueue;
 
@@ -16,6 +19,9 @@ public class EventManager {
     public EventManager() {
         this.jobQueue = new PriorityBlockingQueue<ScheduledJob>();
         init();
+    }
+
+    private EventManager(boolean b) {
     }
 
     private void init() {
@@ -97,11 +103,30 @@ public class EventManager {
     {
         this.running = false;
     }
+
+    public PriorityBlockingQueue<ScheduledJob> getJobQueue() {
+        return jobQueue;
+    }
+
+    public void setJobQueue(PriorityBlockingQueue<ScheduledJob> jobQueue) {
+        this.jobQueue = jobQueue;
+    }
     
 
-    // ====================================================================
 
-	private class ScheduledJob implements Comparable<ScheduledJob> {
+    public static ScheduledJob newSchedluledJob(Long time, RemindJob job) 
+    {
+		return fake.newS(time,job);
+    }
+    
+    private ScheduledJob newS(Long time, RemindJob job) 
+    {
+        return new ScheduledJob(time, job);
+    }
+
+    // ====================================================================
+    
+    public class ScheduledJob implements Comparable<ScheduledJob> {
 		
 		public Long time;
 		public Job job;

@@ -1,4 +1,4 @@
-package alloy.utility.job;
+package alloy.utility.job.jobs;
 
 import java.util.List;
 

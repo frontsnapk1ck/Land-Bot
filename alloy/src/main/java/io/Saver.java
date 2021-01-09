@@ -126,5 +126,10 @@ public class Saver {
         return false;
     }
 
+    public static void clear(String path) 
+    {
+        saveOverwite( path , new String[]{} );
+	}
+
 
 }

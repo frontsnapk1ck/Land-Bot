@@ -51,6 +51,14 @@
                         description = "shows the persmissinos of a given user in a given server"/>
         </command>
 
+        <command name = "queue" type = "CONSOLE" >
+            <trigger text = "queue"  />
+
+            <subcommand text = ""
+                        description = "shows a list of items in the queue" />
+
+        /</command>
+
     <!-- ===================== COMMAND MAP =============================== -->
             
         <mapping command =  "invite" 	        action = 	"invite"    />

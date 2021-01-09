@@ -4,6 +4,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.function.Consumer;
 
 import javax.security.auth.login.LoginException;
@@ -20,6 +21,7 @@ import alloy.main.handler.AlloyHandler;
 import alloy.main.handler.ConsoleHandler;
 import alloy.main.handler.CooldownHandler;
 import alloy.utility.discord.AlloyUtil;
+import alloy.utility.runnable.AlloyShutdownHook;
 import botcord.event.DebugListener;
 import io.FileReader;
 import net.dv8tion.jda.api.JDA;
@@ -42,6 +44,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import utility.event.Job;
+import utility.event.EventManager.ScheduledJob;
 
 public class Alloy implements Sendable, Moderator, Loggable, Queueable, 
                                 ConsoleHandler, AlloyHandler, CooldownHandler,
@@ -51,9 +54,9 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     public static final AlloyLogger LOGGER = new AlloyLogger();
 
     public static long startupTimeStamp;
+    private static AlloyData data;
+    private static JDA jda;
 
-    private JDA jda;
-    private AlloyData data;
     private String mentionMeAlias;
     private String mentionMe;
 
@@ -62,7 +65,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     public Alloy() 
     {
         Alloy.startupTimeStamp = System.currentTimeMillis();
-        Thread.currentThread().setUncaughtExceptionHandler(this);
+        configThread();
         boolean startedL = false;
         while (!startedL) {
             try {
@@ -74,12 +77,21 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
                 cooldown(5);
             }
         }
-        data = new AlloyData(jda, this, this);
+        data = new AlloyData(jda, this);
+    }
+
+    private void configThread() 
+    {
+        Thread current = Thread.currentThread();
+        current.setUncaughtExceptionHandler(this);
+        Runtime r = Runtime.getRuntime();
+        AlloyShutdownHook hook = new AlloyShutdownHook();
+        r.addShutdownHook( hook );
     }
 
     private void makeMentions() {
-        this.mentionMe = "<@" + this.jda.getSelfUser().getId() + ">";
-        this.mentionMeAlias = "<@!" + this.jda.getSelfUser().getId() + ">";
+        this.mentionMe = "<@" + jda.getSelfUser().getId() + ">";
+        this.mentionMeAlias = "<@!" + jda.getSelfUser().getId() + ">";
     }
 
     private void start() throws LoginException {
@@ -121,7 +133,10 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
 
         User author = in.getUser();
 
-        if (author == null || author.isBot())
+        boolean ignore =    author == null || 
+                            author.isBot() || 
+                            AlloyUtil.isBlackListed(author);
+        if (ignore)
             return;
 
         ServerLoaderText slt = new ServerLoaderText();
@@ -153,7 +168,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     }
 
     @Override
-    public JDA getJDA() {
+    public JDA getJDA() 
+    {
         return jda;
     }
 
@@ -330,7 +346,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     @Override
     public void addCooldownUser(Member m) {
         Guild g = m.getGuild();
-        Map<Long, List<Long>> cooldownUsers = this.data.getCooldownUsers();
+        Map<Long, List<Long>> cooldownUsers = data.getCooldownUsers();
         if (!cooldownUsers.containsKey(g.getIdLong()))
             cooldownUsers.put(g.getIdLong(), new ArrayList<Long>());
         cooldownUsers.get(g.getIdLong()).add(m.getIdLong());
@@ -339,7 +355,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     @Override
     public boolean removeCooldownUser(Member m) {
         Guild g = m.getGuild();
-        Map<Long, List<Long>> cooldownUsers = this.data.getCooldownUsers();
+        Map<Long, List<Long>> cooldownUsers = data.getCooldownUsers();
         List<Long> list = cooldownUsers.get(g.getIdLong());
         boolean removed = list.remove(m.getIdLong());
         return removed;
@@ -347,14 +363,14 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
 
     @Override
     public List<Long> getCooldownUsers(Guild g) {
-        return this.data.getCooldownUsers(g);
+        return data.getCooldownUsers(g);
     }
 
     public void update() 
     {
         this.started = true;
         this.updateActivty();
-        this.data.update();
+        data.update();
     }
 
     @Override
@@ -367,7 +383,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     @Override
     public boolean removeXpCooldownUser(Member m) {
         Guild g = m.getGuild();
-        Map<Long, List<Long>> cooldownUsers = this.data.getXpCooldownUsers();
+        Map<Long, List<Long>> cooldownUsers = data.getXpCooldownUsers();
         List<Long> list = cooldownUsers.get(g.getIdLong());
         boolean removed = list.remove(m.getIdLong());
         return removed;
@@ -375,14 +391,14 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
 
     @Override
     public List<Long> getXpCooldownUsers(Guild g) {
-        return this.data.getXpCooldownUsers(g);
+        return data.getXpCooldownUsers(g);
     }
 
     @Override
     public void addXpCooldownUser(Member m) 
     {
         Guild g = m.getGuild();
-        Map<Long, List<Long>> cooldownUsers = this.data.getXpCooldownUsers();
+        Map<Long, List<Long>> cooldownUsers = data.getXpCooldownUsers();
         if (!cooldownUsers.containsKey(g.getIdLong()))
             cooldownUsers.put(g.getIdLong(), new ArrayList<Long>());
         cooldownUsers.get(g.getIdLong()).add(m.getIdLong());
@@ -392,13 +408,13 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     @Override
     public void queueIn(Job action, long offset) 
     {
-        this.data.queueIn( action , offset );
+        data.queueIn( action , offset );
     }
 
     @Override
     public void queue(Job action) 
     {
-        this.data.queue(action);
+        data.queue(action);
     }
 
     public void setDebugListener(DebugListener debugListener) 
@@ -411,5 +427,10 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     {
         updateActivty();
     }
+
+    public static PriorityBlockingQueue<ScheduledJob> getQueue() 
+    {
+        return data.getEventHandler().getJobQueue();
+	}
 
 }

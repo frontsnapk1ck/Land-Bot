@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alloy.utility.error.InvalidUserFormat;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -171,6 +173,32 @@ public class DisUtil {
 
         return mention;
 
+	}
+
+    public static String toString(MessageChannel channel) 
+    {
+        if (channel instanceof TextChannel)
+        {
+            TextChannel tc = (TextChannel)channel;
+            return tc.getGuild().getId() + "-" + tc.getId();
+        }
+		return channel.getId();
+	}
+
+    /**
+     * 
+     * @param jda
+     * @param channel the id of the channel in the form of ${guild id}-{channel id}
+     * @return
+     */
+    public static MessageChannel parseChannel(JDA jda, String channel) 
+    {
+        String[] ids = channel.split("-");
+        Guild g = jda.getGuildById(ids[0]);
+        if (g != null)
+            return g.getTextChannelById(ids[1]);
+        return null;
+        
 	}
     
 }

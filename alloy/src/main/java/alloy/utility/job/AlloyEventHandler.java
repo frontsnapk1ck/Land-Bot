@@ -1,5 +1,6 @@
 package alloy.utility.job;
 
+import alloy.utility.job.jobs.SpamRunnable;
 import utility.event.EventManager;
 
 public class AlloyEventHandler extends EventManager {
@@ -18,6 +19,5 @@ public class AlloyEventHandler extends EventManager {
         spamThread.setDaemon(true);
         spamThread.start();
     }
-
     
 }

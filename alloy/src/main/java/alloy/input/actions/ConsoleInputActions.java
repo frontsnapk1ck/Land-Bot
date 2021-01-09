@@ -6,6 +6,7 @@ import java.util.List;
 import alloy.command.console.InviteCommand;
 import alloy.command.console.MembersCommand;
 import alloy.command.console.NameCommand;
+import alloy.command.console.QueueCommand;
 import alloy.command.console.RolesCommand;
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.input.console.ConsoleInputAction;
@@ -18,12 +19,14 @@ public class ConsoleInputActions extends AbstractActions {
     public static final InputAction MEMBERS_ACTION;
     public static final InputAction GET_INVITES_ACTION;
     public static final InputAction ROLES_ACTION;
+    public static final InputAction QUEUE_ACTION;
 
     static{
         NAME_ACTION = loadNameAction();
         MEMBERS_ACTION = loadMembersAction();
         GET_INVITES_ACTION = loadGetInvitesAction();
         ROLES_ACTION = loadRolesAction();
+        QUEUE_ACTION = loadQueueAction();
     }
 
     private static InputAction loadNameAction() 
@@ -38,6 +41,25 @@ public class ConsoleInputActions extends AbstractActions {
             public void execute(List<String> args, JDA jda) 
             {
                 AbstractConsoleCommand command = new NameCommand();
+                command.execute(args, jda);  
+            }
+
+        };
+        return action;
+    }
+
+    private static InputAction loadQueueAction() 
+    {
+        InputAction action = new ConsoleInputAction()
+        {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(List<String> args, JDA jda) 
+            {
+                AbstractConsoleCommand command = new QueueCommand();
                 command.execute(args, jda);  
             }
 

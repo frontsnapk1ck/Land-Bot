@@ -34,3 +34,4 @@ res/servers
 res/token.token
 res/token2.token
 TODO
+res/event.queue

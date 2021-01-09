@@ -1,4 +1,4 @@
-package alloy.utility.job;
+package alloy.utility.job.jobs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,8 @@ public class SpamRunnable extends Job {
     private String message;
     private TextChannel channel;
     private List<SpamFinishListener> listners;
+
+    private int i;
 
 
     public SpamRunnable(int reps, String message, TextChannel c, Long num) 
@@ -70,9 +72,9 @@ public class SpamRunnable extends Job {
 	}
 
     @Override
-    protected void execute() 
+	public void execute() 
     {
-        for (int i = 0; i < this.reps; i++) 
+        for (i = 0; i < this.reps; i++) 
         {
             if (this.stop)
             {
@@ -106,4 +108,8 @@ public class SpamRunnable extends Job {
     public boolean isStop() {
         return stop;
     }
+
+	public int getCurrent() {
+		return this.i;
+	}
 }

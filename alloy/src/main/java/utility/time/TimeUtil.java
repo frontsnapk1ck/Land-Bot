@@ -42,19 +42,20 @@ public class TimeUtil {
         return ymdFormat.format(date);
     }
 
-    public static long toMillis(String s) 
+    public static long  toMillis(String s) 
     {
         s = s.toLowerCase();
         long val = 0;
         String working = "";
         for (int i = 0; i < s.length(); i++) 
         {
-            if (Character.isDigit(s.charAt(i)))
-                working += s.charAt(i);
-            else if (TIME_SYMBOLS.containsKey(s.charAt(i)) && working.length() > 0)
-                val += Util.parseInt(working.toString(), 0) * TIME_SYMBOLS.get(s.charAt(i));
+            char c = s.charAt(i);
+            if (Character.isDigit(c))
+                working += c;
+            else if (TIME_SYMBOLS.containsKey(c) && working.length() > 0)
+                val += Util.parseInt(working.toString(), 0) * TIME_SYMBOLS.get(c);
         }
-        if (working.length() != 0)
+        if (val == 0 && working.length() != 0)
             val += Util.parseInt(working.toString(), 0);
         return val;
     }

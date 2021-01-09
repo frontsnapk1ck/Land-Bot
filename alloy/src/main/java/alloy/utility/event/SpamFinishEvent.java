@@ -1,6 +1,6 @@
 package alloy.utility.event;
 
-import alloy.utility.job.SpamRunnable;
+import alloy.utility.job.jobs.SpamRunnable;
 
 public class SpamFinishEvent {
 

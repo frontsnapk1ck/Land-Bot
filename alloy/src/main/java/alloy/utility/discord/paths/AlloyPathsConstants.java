@@ -1,6 +1,6 @@
 package alloy.utility.discord.paths;
 
-public interface AlloyPaths {
+public interface AlloyPathsConstants {
     
     public static final String ALLOY_PATH                   = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\";
     public static final String SERVERS_PATH                 = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\servers";
@@ -18,6 +18,8 @@ public interface AlloyPaths {
 
     public static final String KEY_FILE                     = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\token.token";
     public static final String KEY_FILE_2                   = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\token2.token";
+
+    public static final String EVENT_FILE                   = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\event.queue";
 
     public static final String CASE_FOLDER                  = "\\cases";
     public static final String SETTINGS_FOLDER              = "\\settings";

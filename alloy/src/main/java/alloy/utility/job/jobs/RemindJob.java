@@ -1,4 +1,4 @@
-package alloy.utility.job;
+package alloy.utility.job.jobs;
 
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
@@ -21,5 +21,10 @@ public class RemindJob extends Job {
     {
         this.bot.send(sm);
     }
+
+    public SendableMessage getSM() 
+    {
+		return this.sm;
+	}
     
 }

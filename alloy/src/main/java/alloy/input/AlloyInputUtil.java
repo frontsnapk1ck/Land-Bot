@@ -143,7 +143,8 @@ public class AlloyInputUtil {
         map.put(    "members"       ,   ConsoleInputActions.MEMBERS_ACTION);
         map.put(    "name"          ,   ConsoleInputActions.NAME_ACTION);
         map.put(    "roles"         ,   ConsoleInputActions.ROLES_ACTION);
-
+        map.put(    "queue"         ,   ConsoleInputActions.QUEUE_ACTION);
+        
         return map;
     }
     

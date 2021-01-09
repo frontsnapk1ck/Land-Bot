@@ -13,7 +13,7 @@ import alloy.gameobjects.player.Player;
 import alloy.gameobjects.player.Rank;
 import alloy.utility.discord.paths.AlloyExtentions;
 import alloy.utility.discord.paths.AlloyImages;
-import alloy.utility.discord.paths.AlloyPaths;
+import alloy.utility.discord.paths.AlloyPathsConstants;
 import io.FileReader;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
 
-public class AlloyUtil implements AlloyPaths, AlloyExtentions, AlloyImages {
+public class AlloyUtil implements AlloyPathsConstants, AlloyExtentions, AlloyImages {
 
     public static List<Building> loadBuildings(Guild g) {
         BuildingLoaderText blt = new BuildingLoaderText();
@@ -138,5 +138,17 @@ public class AlloyUtil implements AlloyPaths, AlloyExtentions, AlloyImages {
     {
         RankLoaderText rlt = new RankLoaderText();
         return rlt.loadALl(GLOBAL_RANK_PATH);
+	}
+
+    public static boolean isBlackListed(User author) 
+    {
+        long id = author.getIdLong();
+        List<Long> blacklisted = getBlacklisted();
+        for (Long l : blacklisted) 
+        {
+            if (l == id)
+                return true;
+        }
+        return false;
 	}
 }

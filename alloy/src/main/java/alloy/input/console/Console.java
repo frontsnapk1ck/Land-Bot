@@ -39,7 +39,7 @@ public class Console implements DeviceListener  {
         this.consoleHandler = consoleHandler;
     }
 
-    public void setHandler(UncaughtExceptionHandler exceptionHandler) 
+    public void setEHandler(UncaughtExceptionHandler exceptionHandler) 
     {
         this.exceptionHandler = exceptionHandler;
         t.setUncaughtExceptionHandler(exceptionHandler);

@@ -16,7 +16,7 @@ import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
-import alloy.utility.job.PurgeJob;
+import alloy.utility.job.jobs.PurgeJob;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;

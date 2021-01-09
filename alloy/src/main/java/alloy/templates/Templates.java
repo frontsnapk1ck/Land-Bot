@@ -14,7 +14,7 @@ import alloy.handler.BankHandeler;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
-import alloy.utility.job.SpamRunnable;
+import alloy.utility.job.jobs.SpamRunnable;
 import io.FileReader;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Emote;
@@ -507,7 +507,7 @@ public class Templates {
 	{
 		String url = m.getUser().getAvatarUrl();
 		if (url == null)
-			url = m.getUser().getDefaultAvatarId();
+			url = m.getUser().getDefaultAvatarUrl();
 		return url;
 	}
 
@@ -991,7 +991,7 @@ public class Templates {
 		return t;
 	}
 
-	public static Template remindMe(String time, String out) 
+	public static Template remindMe( String out ) 
 	{
 		Template t = new Template("Reminder", "you have a reminder with the message:\n" + out);
 		return t;

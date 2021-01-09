@@ -1,21 +1,22 @@
 package alloy.main;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.PriorityBlockingQueue;
 
+import alloy.builder.loaders.JobQueueLoaderText;
 import alloy.builder.loaders.ServerLoaderText;
 import alloy.gameobjects.Server;
 import alloy.input.console.Console;
-import alloy.main.handler.ConsoleHandler;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.job.AlloyEventHandler;
-import alloy.utility.job.SpamRunnable;
+import alloy.utility.job.jobs.SpamRunnable;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
+import utility.event.EventManager.ScheduledJob;
 import utility.event.Job;
 
 public class AlloyData {
@@ -24,15 +25,27 @@ public class AlloyData {
     protected Map<Long, List<Long>> cooldownUsers = new HashMap<Long, List<Long>>();
     protected Map<Long, List<Long>> xpCooldownUsers = new HashMap<Long, List<Long>>();
     private Console console = new Console();
-    private AlloyEventHandler eventManger = new AlloyEventHandler();
+    private AlloyEventHandler eventManger;
+    private Alloy alloy;
 
     private JDA jda;
 
-    public AlloyData(JDA jda, ConsoleHandler handler, UncaughtExceptionHandler eHandler) 
+    public AlloyData(JDA jda, Alloy alloy) 
     {
         this.jda = jda;
-        console.setHandler(handler);
-        console.setHandler(eHandler);
+        this.alloy = alloy;
+        this.eventManger = loadEventManager();
+        console.setHandler(alloy);
+        console.setEHandler(alloy);
+    }
+
+    private AlloyEventHandler loadEventManager() 
+    {
+        AlloyEventHandler handler = new AlloyEventHandler();
+        JobQueueLoaderText jqlt = new JobQueueLoaderText();
+        PriorityBlockingQueue<ScheduledJob> jobQueue = jqlt.load(this.alloy);
+        handler.setJobQueue(jobQueue);
+        return handler;
     }
 
     private Map<Long, TextChannel> loadModLogs() 
@@ -126,6 +139,11 @@ public class AlloyData {
     public void queueIn(Job action, long offset) 
     {
         this.eventManger.queueIn(action, offset);
+	}
+
+    public AlloyEventHandler getEventHandler() 
+    {
+		return this.eventManger;
 	}
 
 }

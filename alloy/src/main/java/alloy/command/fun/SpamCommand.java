@@ -10,7 +10,7 @@ import alloy.main.SendableMessage;
 import alloy.main.handler.CooldownHandler;
 import alloy.templates.Template;
 import alloy.templates.Templates;
-import alloy.utility.job.SpamRunnable;
+import alloy.utility.job.jobs.SpamRunnable;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;

@@ -8,7 +8,7 @@ import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
-import alloy.utility.job.RemindJob;
+import alloy.utility.job.jobs.RemindJob;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -59,7 +59,7 @@ public class RemindCommand extends AbstractCommand {
         
         Template template = Templates.remindCard(args[0] , out );
 
-        Template t = Templates.remindMe( args[0] , out );
+        Template t = Templates.remindMe( out );
         Message outM = new MessageBuilder()
                             .setEmbed(t.getEmbed())
                             .append(m.getAsMention())

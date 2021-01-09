@@ -4,7 +4,7 @@ import alloy.command.util.AbstractCommand;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Queueable;
 import alloy.main.Sendable;
-import alloy.utility.job.PingJob;
+import alloy.utility.job.jobs.PingJob;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;

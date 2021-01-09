@@ -10,7 +10,7 @@ import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
 import alloy.utility.event.SpamFinishEvent;
 import alloy.utility.event.SpamFinishListener;
-import alloy.utility.job.SpamRunnable;
+import alloy.utility.job.jobs.SpamRunnable;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;

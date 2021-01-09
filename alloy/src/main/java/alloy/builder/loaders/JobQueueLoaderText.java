@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.builder.DataLoader;
+import alloy.builder.loaders.util.JobQueueData;
 import alloy.main.Alloy;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
-import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.job.jobs.AddUserCoolDownJob;
 import alloy.utility.job.jobs.AddUserXPCooldownJob;
@@ -28,7 +28,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import utility.event.EventManager;
 import utility.event.EventManager.ScheduledJob;
 
-public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<ScheduledJob>, Alloy> {
+public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<ScheduledJob>, JobQueueData> {
     
     public static final Map<String , Class<?>> JOB_MAP;
     public static final String  SEPERATION_KEY = "(sep-key)";
@@ -58,13 +58,13 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
     }
 
     @Override
-    public PriorityBlockingQueue<ScheduledJob> load(Alloy alloy) 
+    public PriorityBlockingQueue<ScheduledJob> load(JobQueueData data) 
     {
         PriorityBlockingQueue<ScheduledJob> queue = new PriorityBlockingQueue<ScheduledJob>();
-        String[] arr = FileReader.read(AlloyUtil.EVENT_FILE);
+        String[] arr = FileReader.read(data.file);
         for (String job : arr)
         {
-            ScheduledJob sJob = loadSceduledJob(job , alloy);
+            ScheduledJob sJob = loadSceduledJob(job , data.alloy);
             if (sJob != null)
                 queue.add(sJob);
 
@@ -84,12 +84,6 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
 
     private String[] cleanArgs(String[] args) 
     {
-        //  0:"ScheduledJob("
-        //  1:")1610218462200("
-        //  2:")761746549024751646-761758799093956649("
-        //  3:")<@!312743142828933130>("
-        //  4:")yes"
-
         for (int i = 0; i < args.length; i++) 
         {
             if (i == 0)    
@@ -116,7 +110,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
                             .build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RemindCommand {...} RemindJob");
+        sm.setFrom("RemindCommand {...} JobQueueLoaderText {...} RemindJob");
         sm.setMessage(outM);
 
         RemindJob rJob = new RemindJob(alloy, sm);
@@ -124,5 +118,4 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         return newSJob;
         
     }
-
 }

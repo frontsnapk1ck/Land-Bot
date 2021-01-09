@@ -8,6 +8,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.builder.loaders.JobQueueLoaderText;
 import alloy.builder.loaders.ServerLoaderText;
+import alloy.builder.loaders.util.JobQueueData;
 import alloy.gameobjects.Server;
 import alloy.input.console.Console;
 import alloy.utility.discord.AlloyUtil;
@@ -43,7 +44,12 @@ public class AlloyData {
     {
         AlloyEventHandler handler = new AlloyEventHandler();
         JobQueueLoaderText jqlt = new JobQueueLoaderText();
-        PriorityBlockingQueue<ScheduledJob> jobQueue = jqlt.load(this.alloy);
+        JobQueueData data = new JobQueueData(this.alloy, AlloyUtil.EVENT_FILE);
+        PriorityBlockingQueue<ScheduledJob> jobQueue = jqlt.load(data);
+        if (jobQueue.size() == 0)
+            Alloy.LOGGER.info("AlloyData", "there was nothign to load in the queue");
+        else
+            Alloy.LOGGER.info("AlloyData", "loaded the queue, there are " + jobQueue.size() + " events");
         handler.setJobQueue(jobQueue);
         return handler;
     }

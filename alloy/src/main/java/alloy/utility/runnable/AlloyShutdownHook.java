@@ -35,6 +35,7 @@ public class AlloyShutdownHook extends Thread {
             if (!save.equalsIgnoreCase(SKIP_JOB))
                 Saver.saveAppend(AlloyUtil.EVENT_FILE, save);
         }
+        Alloy.LOGGER.info("AlloyShutdownHook", "the event queue has been saved");
 
     }
 

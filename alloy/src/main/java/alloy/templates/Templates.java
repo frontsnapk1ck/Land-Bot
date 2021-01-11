@@ -12,6 +12,7 @@ import alloy.gameobjects.player.Building;
 import alloy.gameobjects.player.Player;
 import alloy.handler.BankHandeler;
 import alloy.utility.discord.AlloyUtil;
+import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
 import alloy.utility.job.jobs.SpamRunnable;
@@ -1006,6 +1007,13 @@ public class Templates {
 	public static Template remindCard(String time, String out) 
 	{
 		Template t = new Template("Reminder", "I will remind you in `" + time + "` with the message:\n" + out);
+		return t;
+	}
+
+	public static Template remindMeDM(String out, Message msg) 
+	{
+		String link = DisUtil.getLink(msg);
+		Template t = new Template("Reminder", "you have a reminder with the message:\n" + out + "\n\nlink [here](" + link + ")");
 		return t;
 	}
 

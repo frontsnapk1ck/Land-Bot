@@ -14,6 +14,7 @@ import alloy.input.console.Console;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.job.AlloyEventHandler;
 import alloy.utility.job.jobs.SpamRunnable;
+import io.Saver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -50,6 +51,7 @@ public class AlloyData {
         else
             Alloy.LOGGER.info("AlloyData", "loaded the queue, there are " + jobQueue.size() + " events");
         handler.setJobQueue(jobQueue);
+        Saver.clear(AlloyUtil.EVENT_FILE);
         return handler;
     }
 

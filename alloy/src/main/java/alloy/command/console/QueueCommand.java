@@ -17,6 +17,21 @@ public class QueueCommand extends AbstractConsoleCommand {
     @Override
     public void execute(List<String> args, JDA jda) 
     {
+        if (args.size() == 1)
+            showQueue();
+        else if (args.get(1).equalsIgnoreCase("clear"))
+            clearQueue();
+    }
+
+    private void clearQueue() 
+    {
+        Alloy.getQueue().clear();
+        System.err.println("the queue has been cleared");
+        showQueue();
+    }
+
+    private void showQueue() 
+    {
         PriorityBlockingQueue<ScheduledJob> queue = Alloy.getQueue();
         String[][] tableArr = new String[queue.size()][4];
         

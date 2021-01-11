@@ -53,9 +53,12 @@
 
         <command name = "queue" type = "CONSOLE" >
             <trigger text = "queue"  />
-
+            
             <subcommand text = ""
                         description = "shows a list of items in the queue" />
+
+            <subcommand text = "clear"
+                        description = "clears the queue of all events" />
 
         /</command>
 

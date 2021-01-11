@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -199,6 +200,20 @@ public class DisUtil {
             return g.getTextChannelById(ids[1]);
         return null;
         
+	}
+
+    public static String getLink(Message msg) 
+    {
+        //https://discord.com/channels/761746549024751646/761758799093956649/798012017511366667
+        String out = "https://discord.com/channels/";
+        out += msg.getGuild().getId();
+        out += "/";
+        out += msg.getChannel().getId();
+        out += "/";
+        out += msg.getId();
+
+        return out;        
+
 	}
     
 }

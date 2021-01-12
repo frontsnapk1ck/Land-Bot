@@ -44,7 +44,7 @@ public class Saver {
 
         } catch (IOException e) 
         {
-            System.err.println("an error occutred while saving to " + path);
+            System.err.println("an " + e.getClass().getSimpleName() + " occutred while saving to " + path);
             e.printStackTrace();
         }
     }

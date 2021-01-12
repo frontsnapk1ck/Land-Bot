@@ -72,6 +72,18 @@ public class SetCommand extends AbstractCommand {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
         User tarU = DisUtil.parseUser(args[1]);
+
+        if (tarU == null)
+        {
+            Template t = Templates.userNotFound(args[1]);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom("SetCommand");
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
         Member target = g.getMember(tarU);
 
         if (target == null)

@@ -3,7 +3,6 @@ package alloy.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.event.DebugListener;
 import utility.logger.Level;
 import utility.logger.Logger;
 

@@ -12,67 +12,63 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class ViewHandeler {
+public class ViewHandler {
 
-    public static void viewBuildings(Guild g, TextChannel channel, Sendable bot) 
-    {
+    public static void viewBuildings(Guild g, TextChannel channel, Sendable bot) {
         EmbedBuilder eb = new EmbedBuilder();
         BuildingLoaderText blt = new BuildingLoaderText();
-        String bPath = AlloyUtil.getGuildPath(g) + AlloyUtil.SUB + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB + AlloyUtil.BUILDING_FILE;
+        String bPath = AlloyUtil.getGuildPath(g) + AlloyUtil.SUB + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB
+                + AlloyUtil.BUILDING_FILE;
         List<Building> buildings = blt.loadALl(bPath);
 
-        eb.setTitle("All availible buildings");
-        embedBuildingList(eb, buildings );
+        eb.setTitle("All available buildings");
+        embedBuildingList(eb, buildings);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("ViewHandeler");
+        sm.setFrom("ViewHandler");
         sm.setMessage(eb.build());
         bot.send(sm);
-	}
+    }
 
-    private static void embedBuildingList(EmbedBuilder eb, List<Building> buildings) 
-    {
+    private static void embedBuildingList(EmbedBuilder eb, List<Building> buildings) {
         String names = "";
         String costs = "";
         String gener = "";
 
-        for (Building b : buildings) 
-        {
+        for (Building b : buildings) {
             names += "" + b.getName() + "\n";
             costs += "" + b.getCost() + "\n";
             gener += "" + b.getGeneration() + "\n";
 
         }
 
-        eb.addField( "Name" ,         names , true);
-        eb.addField( "Cost" ,         costs , true);
-        eb.addField( "Generation" ,   gener , true);
+        eb.addField("Name", names, true);
+        eb.addField("Cost", costs, true);
+        eb.addField("Generation", gener, true);
     }
 
-    public static void viewWork(Guild g, TextChannel channel, Sendable bot) 
-    {
+    public static void viewWork(Guild g, TextChannel channel, Sendable bot) {
         EmbedBuilder eb = new EmbedBuilder();
-        String path = AlloyUtil.getGuildPath(g) + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB + AlloyUtil.WORK_OPTIONS_FILE;
+        String path = AlloyUtil.getGuildPath(g) + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB
+                + AlloyUtil.WORK_OPTIONS_FILE;
         String[] wO = FileReader.read(path);
 
-        eb.setTitle("All availible work options");
+        eb.setTitle("All available work options");
         embedWorkArray(eb, wO);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("ViewHandeler");
+        sm.setFrom("ViewHandler");
         sm.setMessage(eb.build());
         bot.send(sm);
 
     }
-    
-    private static void embedWorkArray( EmbedBuilder eb , String[] options )
-    {
+
+    private static void embedWorkArray(EmbedBuilder eb, String[] options) {
         String num = "";
         String name = "";
 
         int i = 1;
-        for ( String string : options ) 
-        {
+        for (String string : options) {
             num += i + "\n";
             name += string + "\n";
             i++;
@@ -81,5 +77,5 @@ public class ViewHandeler {
         eb.addField("#", num, true);
         eb.addField("name", name, true);
     }
-    
+
 }

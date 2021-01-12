@@ -13,8 +13,7 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 public class LeaveCommand extends AbstractCommand {
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
@@ -22,16 +21,14 @@ public class LeaveCommand extends AbstractCommand {
         try {
             VoiceChannel vc = g.getAudioManager().getConnectedChannel();
             g.getAudioManager().closeAudioConnection();
-            Template t = Templates.voiceDisconnectSucsess(vc);
+            Template t = Templates.voiceDisconnectSuccess(vc);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("LeaveCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
 
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             Template t = Templates.voiceDisconnectFail();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -40,5 +37,5 @@ public class LeaveCommand extends AbstractCommand {
             bot.send(sm);
         }
     }
-    
-}   
+
+}

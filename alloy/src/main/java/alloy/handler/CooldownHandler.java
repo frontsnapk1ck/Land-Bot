@@ -11,22 +11,19 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class CooldownHandeler {
+public class CooldownHandler {
 
-    public static void setXpCooldown(Guild g, int newTime) 
-    {
+    public static void setXpCooldown(Guild g, int newTime) {
         Server s = AlloyUtil.loadServer(g);
         s.changeXPCooldown(newTime);
     }
 
-    public static void setCooldown(Guild g, int newTime) 
-    {
+    public static void setCooldown(Guild g, int newTime) {
         Server s = AlloyUtil.loadServer(g);
         s.changeCooldown(newTime);
     }
 
-    public static void showXPCooldown(AlloyInputData data) 
-    {
+    public static void showXPCooldown(AlloyInputData data) {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
         Guild g = data.getGuild();
@@ -37,13 +34,12 @@ public class CooldownHandeler {
         Template t = Templates.showXPCooldown(cooldown);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownHandeler");
+        sm.setFrom("CooldownHandler");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
-	}
+    }
 
-    public static void showCooldown(AlloyInputData data) 
-    {
+    public static void showCooldown(AlloyInputData data) {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
         Guild g = data.getGuild();
@@ -54,15 +50,13 @@ public class CooldownHandeler {
         Template t = Templates.showCooldown(cooldown);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownHandeler");
+        sm.setFrom("CooldownHandler");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }
 
-	public static boolean isOnCooldown(Member m) {
-		return false;
-	}
+    public static boolean isOnCooldown(Member m) {
+        return false;
+    }
 
-
-    
 }

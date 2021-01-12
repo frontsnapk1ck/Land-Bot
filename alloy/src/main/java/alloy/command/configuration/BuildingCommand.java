@@ -4,8 +4,8 @@ import java.util.List;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Building;
-import alloy.handler.BuildingHandeler;
-import alloy.handler.ViewHandeler;
+import alloy.handler.BuildingHandler;
+import alloy.handler.ViewHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Sendable;
@@ -25,14 +25,12 @@ import utility.StringUtil;
 public class BuildingCommand extends AbstractCommand {
 
     @Override
-    public DisPerm getPermission() 
-    {
+    public DisPerm getPermission() {
         return DisPerm.ADMINISTRATOR;
     }
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -40,9 +38,8 @@ public class BuildingCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission( m , getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("BuildingCommand");
@@ -50,9 +47,8 @@ public class BuildingCommand extends AbstractCommand {
             bot.send(sm);
             return;
         }
-        
-         if (args.length == 0)
-        {
+
+        if (args.length == 0) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -62,24 +58,22 @@ public class BuildingCommand extends AbstractCommand {
             return;
         }
 
-        if ( args[0].equalsIgnoreCase("add") )
+        if (args[0].equalsIgnoreCase("add"))
             addBuilding(data);
-        else if ( args[0].equalsIgnoreCase("remove") )
+        else if (args[0].equalsIgnoreCase("remove"))
             removeBuilding(data);
-        else if ( args[0].equalsIgnoreCase("reset") )
+        else if (args[0].equalsIgnoreCase("reset"))
             resetBuilding(data);
     }
 
-    private void addBuilding( AlloyInputData data )
-    {
+    private void addBuilding(AlloyInputData data) {
         Guild g = data.getGuild();
         String[] args = AlloyInputUtil.getArgs(data);
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        if (args.length < 4)
-        {
-            Template t = Templates.argumentsNotSupplied(args , getUsage());
+        if (args.length < 4) {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("BuildingCommand");
@@ -92,13 +86,10 @@ public class BuildingCommand extends AbstractCommand {
         int generation = -1;
         String name = StringUtil.joinStrings(args, 3);
 
-        try 
-        {
+        try {
             cost = Integer.parseInt(args[1]);
             generation = Integer.parseInt(args[2]);
-        }
-        catch (NumberFormatException e) 
-        {
+        } catch (NumberFormatException e) {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -108,8 +99,7 @@ public class BuildingCommand extends AbstractCommand {
             return;
         }
 
-        if (!BuildingHandeler.validName(name))
-        {
+        if (!BuildingHandler.validName(name)) {
             Template t = Templates.invalidBuildingName(name);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -121,14 +111,11 @@ public class BuildingCommand extends AbstractCommand {
 
         List<Building> buildings = AlloyUtil.loadBuildings(g);
         BuildingSettings settings = new BuildingSettings();
-        settings.setCost(cost)
-                .setGeneration(generation)
-                .setName(name);
-        
-        Building b = new Building( settings );
-        
-        if (BuildingHandeler.nameOutOfBounds(b , buildings))
-        {
+        settings.setCost(cost).setGeneration(generation).setName(name);
+
+        Building b = new Building(settings);
+
+        if (BuildingHandler.nameOutOfBounds(b, buildings)) {
             Template t = Templates.buildingsNameOutOfBounds(b);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -138,27 +125,25 @@ public class BuildingCommand extends AbstractCommand {
             return;
         }
 
-        BuildingHandeler.saveBuilding( g , b);
+        BuildingHandler.saveBuilding(g, b);
         buildings = AlloyUtil.loadBuildings(g);
 
-        Template t = Templates.buildingSaveSucsess( buildings );
+        Template t = Templates.buildingSaveSuccess(buildings);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom("BuildingCommand");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
-        
+
     }
 
-    private void removeBuilding (AlloyInputData data)
-    {
+    private void removeBuilding(AlloyInputData data) {
         Guild g = data.getGuild();
         String[] args = AlloyInputUtil.getArgs(data);
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        if (args.length < 2)
-        {
+        if (args.length < 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -168,19 +153,16 @@ public class BuildingCommand extends AbstractCommand {
             return;
         }
 
-        try 
-        {
+        try {
             int i = Integer.parseInt(args[1]);
-            Building b = BuildingHandeler.removeBuilding(i-1 , g);
+            Building b = BuildingHandler.removeBuilding(i - 1, g);
             Template t = Templates.buildingsRemoveSuccess(b);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("BuildingCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
-        } 
-        catch (NumberFormatException e) 
-        {
+        } catch (NumberFormatException e) {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -188,9 +170,7 @@ public class BuildingCommand extends AbstractCommand {
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
-        }
-        catch (IndexOutOfBoundsException e)
-        {
+        } catch (IndexOutOfBoundsException e) {
             Template t = Templates.numberOutOfBounds(e);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -200,20 +180,19 @@ public class BuildingCommand extends AbstractCommand {
             return;
         }
 
-        ViewHandeler.viewBuildings(g, channel , bot );
-        
+        ViewHandler.viewBuildings(g, channel, bot);
+
     }
 
-    private void resetBuilding( AlloyInputData data )
-    {
+    private void resetBuilding(AlloyInputData data) {
         Guild g = data.getGuild();
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        BuildingHandeler.removeAllBuildings(g);
-        BuildingHandeler.copyOverBuildings(g);
+        BuildingHandler.removeAllBuildings(g);
+        BuildingHandler.copyOverBuildings(g);
 
-        ViewHandeler.viewBuildings(g, channel , bot );
+        ViewHandler.viewBuildings(g, channel, bot);
     }
-    
+
 }

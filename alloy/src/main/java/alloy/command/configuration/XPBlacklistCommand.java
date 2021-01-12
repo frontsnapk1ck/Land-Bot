@@ -19,14 +19,12 @@ import net.dv8tion.jda.api.entities.User;
 public class XPBlacklistCommand extends AbstractCommand {
 
     @Override
-    public DisPerm getPermission() 
-    {
+    public DisPerm getPermission() {
         return DisPerm.ADMINISTRATOR;
     }
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -34,24 +32,21 @@ public class XPBlacklistCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission( m , getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("BlacklistCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);  
+            bot.send(sm);
             return;
         }
 
-        boolean view =  args.length == 0 ||
-                        args[0].equalsIgnoreCase("view");
+        boolean view = args.length == 0 || args[0].equalsIgnoreCase("view");
         if (view)
-            BlacklistHandler.view(g , channel , bot);
-        
-        if ( args.length != 2 )
-        {
+            BlacklistHandler.view(g, channel, bot);
+
+        if (args.length != 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom("BlacklistCommand");
@@ -62,17 +57,15 @@ public class XPBlacklistCommand extends AbstractCommand {
         }
 
         if (args[0].equalsIgnoreCase("add"))
-            add( args[1] , bot , channel , g );
+            add(args[1], bot, channel, g);
         else if (args[0].equalsIgnoreCase("remove"))
-            remove( args[1] , bot , channel , g );
+            remove(args[1], bot, channel, g);
 
     }
 
-    private void add (String c, Sendable bot, TextChannel channel, Guild g)
-    {
-        if (!DisUtil.isValidChannel(g , c))
-        {
-            Template t = Templates.invalidChannel( c );
+    private void add(String c, Sendable bot, TextChannel channel, Guild g) {
+        if (!DisUtil.isValidChannel(g, c)) {
+            Template t = Templates.invalidChannel(c);
             SendableMessage sm = new SendableMessage();
             sm.setFrom("BlacklistCommand");
             sm.setChannel(channel);
@@ -81,9 +74,8 @@ public class XPBlacklistCommand extends AbstractCommand {
             return;
         }
 
-        if (BlacklistHandler.isBlacklisted(g, channel.getAsMention()))
-        {
-            Template t = Templates.channelisAlreadyBlacklisted(channel);
+        if (BlacklistHandler.isBlacklisted(g, channel.getAsMention())) {
+            Template t = Templates.channelIsAlreadyBlacklisted(channel);
             SendableMessage sm = new SendableMessage();
             sm.setFrom("BlacklistCommand");
             sm.setChannel(channel);
@@ -92,9 +84,9 @@ public class XPBlacklistCommand extends AbstractCommand {
             return;
         }
 
-        BlacklistHandler.add( g, c);
+        BlacklistHandler.add(g, c);
 
-        Template t = Templates.blackListAddSucsess( c );
+        Template t = Templates.blackListAddSuccess(c);
         SendableMessage sm = new SendableMessage();
         sm.setFrom("BlacklistCommand");
         sm.setChannel(channel);
@@ -104,11 +96,9 @@ public class XPBlacklistCommand extends AbstractCommand {
         BlacklistHandler.view(g, channel, bot);
     }
 
-    private void remove (String c, Sendable bot, TextChannel channel, Guild g)
-    {
-        if (!DisUtil.isValidChannel(g , c))
-        {
-            Template t = Templates.invalidChannel( c );
+    private void remove(String c, Sendable bot, TextChannel channel, Guild g) {
+        if (!DisUtil.isValidChannel(g, c)) {
+            Template t = Templates.invalidChannel(c);
             SendableMessage sm = new SendableMessage();
             sm.setFrom("BlacklistCommand");
             sm.setChannel(channel);
@@ -116,10 +106,9 @@ public class XPBlacklistCommand extends AbstractCommand {
             bot.send(sm);
             return;
         }
-        
-        if (!BlacklistHandler.isBlacklisted(g , c))
-        {
-            Template t = Templates.channelIsNotBlacklisted( c );
+
+        if (!BlacklistHandler.isBlacklisted(g, c)) {
+            Template t = Templates.channelIsNotBlacklisted(c);
             SendableMessage sm = new SendableMessage();
             sm.setFrom("BlacklistCommand");
             sm.setChannel(channel);
@@ -129,7 +118,7 @@ public class XPBlacklistCommand extends AbstractCommand {
         }
 
         BlacklistHandler.remove(g, c);
-        Template t = Templates.blackListRemoveSucsess( c );
+        Template t = Templates.blackListRemoveSuccess(c);
         SendableMessage sm = new SendableMessage();
         sm.setFrom("BlacklistCommand");
         sm.setChannel(channel);

@@ -1,7 +1,7 @@
 package alloy.command.configuration;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.WorkHander;
+import alloy.handler.WorkHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Sendable;
@@ -18,8 +18,7 @@ import net.dv8tion.jda.api.entities.User;
 public class WorkCommand extends AbstractCommand {
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -28,9 +27,8 @@ public class WorkCommand extends AbstractCommand {
         Member m = g.getMember(author);
         Message msg = data.getMessageActual();
 
-        if (!DisPermUtil.checkPermission( m , getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("WorkCommand");
@@ -39,8 +37,7 @@ public class WorkCommand extends AbstractCommand {
             return;
         }
 
-        if (args.length == 0)
-        {
+        if (args.length == 0) {
             Template t = Templates.argumentsNotRecognized(msg);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -49,12 +46,12 @@ public class WorkCommand extends AbstractCommand {
             bot.send(sm);
             return;
         }
-        
-        if ( args[0].equalsIgnoreCase("add") )
+
+        if (args[0].equalsIgnoreCase("add"))
             addWork(data);
-        else if ( args[0].equalsIgnoreCase("rm") || args[0].equalsIgnoreCase("remove") )
+        else if (args[0].equalsIgnoreCase("rm") || args[0].equalsIgnoreCase("remove"))
             removeWork(data);
-        else if ( args[0].equalsIgnoreCase("reset") )
+        else if (args[0].equalsIgnoreCase("reset"))
             resetWork(data);
 
         Template t = Templates.workOptions(g);
@@ -65,16 +62,14 @@ public class WorkCommand extends AbstractCommand {
         bot.send(sm);
     }
 
-    private void addWork( AlloyInputData data )
-    {
+    private void addWork(AlloyInputData data) {
         Guild g = data.getGuild();
         String[] args = AlloyInputUtil.getArgs(data);
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
         Message msg = data.getMessageActual();
 
-        if (args.length == 1)
-        {
+        if (args.length == 1) {
             Template t = Templates.argumentsNotRecognized(msg);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -84,7 +79,7 @@ public class WorkCommand extends AbstractCommand {
             return;
         }
 
-        WorkHander.addWorkOption( g , args);
+        WorkHandler.addWorkOption(g, args);
 
         Template t = Templates.workOptionAddSuccess(args);
         SendableMessage sm = new SendableMessage();
@@ -95,16 +90,13 @@ public class WorkCommand extends AbstractCommand {
 
     }
 
-    private void removeWork( AlloyInputData data )
-    {
+    private void removeWork(AlloyInputData data) {
         Guild g = data.getGuild();
         String[] args = AlloyInputUtil.getArgs(data);
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-
-        if (args.length < 1)
-        {
+        if (args.length < 1) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -114,10 +106,9 @@ public class WorkCommand extends AbstractCommand {
             return;
         }
 
-        try 
-        {
+        try {
             int i = Integer.parseInt(args[0]);
-            String s = WorkHander.removeWork(i-1 , g);
+            String s = WorkHandler.removeWork(i - 1, g);
             Template t = Templates.workRemoveSuccess(s);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -125,9 +116,7 @@ public class WorkCommand extends AbstractCommand {
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
-        } 
-        catch (NumberFormatException e) 
-        {
+        } catch (NumberFormatException e) {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -135,9 +124,7 @@ public class WorkCommand extends AbstractCommand {
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
-        }
-        catch (IndexOutOfBoundsException e)
-        {
+        } catch (IndexOutOfBoundsException e) {
             Template t = Templates.numberOutOfBounds(e);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -149,13 +136,12 @@ public class WorkCommand extends AbstractCommand {
 
     }
 
-    private void resetWork( AlloyInputData data)
-    {
+    private void resetWork(AlloyInputData data) {
         Guild g = data.getGuild();
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        WorkHander.resetWork( g );
+        WorkHandler.resetWork(g);
         Template t = Templates.workOptions(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
@@ -163,5 +149,5 @@ public class WorkCommand extends AbstractCommand {
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }
-    
+
 }

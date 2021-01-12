@@ -2,7 +2,7 @@ package alloy.command.economy;
 
 import alloy.command.util.AbstractCooldownCommand;
 import alloy.gameobjects.player.Player;
-import alloy.handler.BankHandeler;
+import alloy.handler.BankHandler;
 import alloy.handler.PayHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
@@ -27,8 +27,7 @@ public class PayCommand extends AbstractCooldownCommand {
     }
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -36,33 +35,30 @@ public class PayCommand extends AbstractCooldownCommand {
         CooldownHandler handler = data.getCooldownHandler();
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
-        
-        if (args.length < 2 )
-        {
+
+        if (args.length < 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("PayCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);  
+            bot.send(sm);
             return;
         }
 
-        if (userOnCooldown(author, g, handler))
-        {
+        if (userOnCooldown(author, g, handler)) {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("PayCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);  
+            bot.send(sm);
             return;
         }
 
         String numString = args[1];
         int amount = Util.parseInt(numString, -379246534);
-        if ( amount == -379246534 )
-        {
+        if (amount == -379246534) {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -71,8 +67,7 @@ public class PayCommand extends AbstractCooldownCommand {
             bot.send(sm);
             return;
         }
-        if (amount < BankHandeler.MINIUM_BALACE )
-        {
+        if (amount < BankHandler.MINIUM_BALANCE) {
             Template t = Templates.bankTransferMinimum();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -85,14 +80,13 @@ public class PayCommand extends AbstractCooldownCommand {
         String message = "";
         if (args.length >= 3)
             message = StringUtil.joinStrings(args, 2);
-        
-        Member targetM = AlloyUtil.getMember( g , args[0] );
-        Player from = AlloyUtil.loadPlayer( g , m       );
-        Player to   = AlloyUtil.loadPlayer( g , targetM );
 
-        if (PayHandler.canPay( from , amount ))
-        {
-            PayHandler.pay( to , from , amount );
+        Member targetM = AlloyUtil.getMember(g, args[0]);
+        Player from = AlloyUtil.loadPlayer(g, m);
+        Player to = AlloyUtil.loadPlayer(g, targetM);
+
+        if (PayHandler.canPay(from, amount)) {
+            PayHandler.pay(to, from, amount);
             Template t = Templates.bankTransferSuccess(from, to, amount, message);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -100,9 +94,7 @@ public class PayCommand extends AbstractCooldownCommand {
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
-        }
-        else
-        {
+        } else {
             Template t = Templates.bankInsufficientFunds(author, amount);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -113,5 +105,5 @@ public class PayCommand extends AbstractCooldownCommand {
         }
 
     }
-    
+
 }

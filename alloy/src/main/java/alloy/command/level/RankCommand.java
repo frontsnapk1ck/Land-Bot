@@ -1,7 +1,7 @@
 package alloy.command.level;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.RankHandeler;
+import alloy.handler.RankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Sendable;
@@ -16,8 +16,7 @@ import net.dv8tion.jda.api.entities.User;
 public class RankCommand extends AbstractCommand {
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -28,11 +27,10 @@ public class RankCommand extends AbstractCommand {
         Member target = m;
 
         if (args.length != 0)
-            target = RankHandeler.findUser( args[0] , bot , channel );
-        
-        if (target == null)
-        {
-            Template t = Templates.userNotFound( args[0] );
+            target = RankHandler.findUser(args[0], bot, channel);
+
+        if (target == null) {
+            Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setFrom("RankCommand");
             sm.setChannel(channel);
@@ -40,8 +38,8 @@ public class RankCommand extends AbstractCommand {
             bot.send(sm);
         }
 
-        RankHandeler.seeRank(target , channel , bot);
+        RankHandler.seeRank(target, channel, bot);
 
     }
-    
+
 }

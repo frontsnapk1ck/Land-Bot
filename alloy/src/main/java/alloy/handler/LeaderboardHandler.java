@@ -14,28 +14,26 @@ public class LeaderboardHandler {
 
     public static final int MAX_LB_LENGTH = 10;
 
-    public static List<String> loadLeaderboard(Guild g) 
-    {
+    public static List<String> loadLeaderboard(Guild g) {
         List<Player> players = AlloyUtil.loadAllPlayers(g);
         List<String> positions = new ArrayList<String>();
 
         Collections.sort(players);
 
-        for (Player player : players) 
+        for (Player player : players)
             positions.add(getLBRank(player));
-        
+
         return positions;
     }
 
-    private static String getLBRank(Player player) 
-    {
+    private static String getLBRank(Player player) {
         int xp = player.getXP();
 
         RankLoaderText rlt = new RankLoaderText();
         List<Rank> stock = rlt.loadALl(AlloyUtil.GLOBAL_RANK_PATH);
 
         int level = findLevel(stock, xp);
-        String progress = findProgess(xp, level, stock);
+        String progress = findProgress(xp, level, stock);
 
         return "<@!" + player.getId() + ">\nlevel: `" + level + "`\nxp: `" + progress + "`\n";
     }
@@ -49,8 +47,7 @@ public class LeaderboardHandler {
         return 40;
     }
 
-    private static String findProgess(int xp, int level, List<Rank> stock) 
-    {
+    private static String findProgress(int xp, int level, List<Rank> stock) {
         int nextLevel = level < stock.size() ? level : stock.size() - 1;
         Rank rank = stock.get(level - 1);
         Rank nextRank = stock.get(nextLevel);
@@ -59,5 +56,5 @@ public class LeaderboardHandler {
         return progressCombined;
 
     }
-    
+
 }

@@ -30,6 +30,9 @@ public class SayCommand extends AbstractCommand {
         Member m = g.getMember(author);
         Message msg = data.getMessageActual();
 
+        if (data.getMessage().length() < 5)
+            return;
+
         if ( SayHandler.isWhitelisted(m) )
             SayHandler.sayRaw(channel , bot , msg);
         else if ( DisPermUtil.checkPermission(m , getPermission() ))

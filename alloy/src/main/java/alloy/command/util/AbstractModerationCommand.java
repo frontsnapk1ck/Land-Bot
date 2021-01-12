@@ -2,7 +2,7 @@ package alloy.command.util;
 
 import alloy.gameobjects.Case;
 import alloy.gameobjects.Server;
-import alloy.handler.CaseHandeler;
+import alloy.handler.CaseHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Moderator;
@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
 
-
 public abstract class AbstractModerationCommand extends AbstractCommand {
 
     protected abstract DisPerm getRequiredPermission();
@@ -33,14 +32,12 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
 
     @Override
     public String[] getUsage() {
-        return new String[]{
-                String.format("%s <user>     //%s user from guild", getCommand(), getPunishType().getDescription()),
-        };
+        return new String[] {
+                String.format("%s <user>     //%s user from guild", getCommand(), getPunishType().getDescription()), };
     }
 
     @Override
-    public void execute(AlloyInputData e) 
-    {
+    public void execute(AlloyInputData e) {
         TextChannel chan = e.getChannel();
         Guild g = chan.getGuild();
         User author = e.getUser();
@@ -49,9 +46,8 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
         Moderator mod = e.getModerator();
         Message msg = e.getMessageActual();
 
-        MessageEmbed fail = checkPermisions(g, author, chan);
-        if (fail != null)
-        {
+        MessageEmbed fail = checkPermissions(g, author, chan);
+        if (fail != null) {
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
             sm.setFrom("AbstractModerationCommand");
@@ -59,10 +55,9 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             bot.send(sm);
             return;
         }
-        
-        if (args.length == 0)
-        {
-            Template t = Templates.moderationActionEmpty(chan , getPunishType());
+
+        if (args.length == 0) {
+            Template t = Templates.moderationActionEmpty(chan, getPunishType());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
             sm.setFrom("AbstractModerationCommand");
@@ -71,9 +66,8 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             return;
         }
 
-        Member targetUser = DisUtil.findMember(g , args);
-        if ( targetUser == null )
-        {
+        Member targetUser = DisUtil.findMember(g, args);
+        if (targetUser == null) {
             Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
@@ -83,8 +77,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             return;
         }
 
-        if (author.getId().equals(g.getSelfMember().getId()))
-        {
+        if (author.getId().equals(g.getSelfMember().getId())) {
             Template t = Templates.cannotModerateSelf();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
@@ -94,8 +87,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             return;
         }
 
-        if (DisPermUtil.isMod(targetUser.getPermissions()))
-        {
+        if (DisPermUtil.isMod(targetUser.getPermissions())) {
             Template t = Templates.cannotModerateModerators();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
@@ -106,8 +98,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
         }
 
         boolean success = punish(bot, g, targetUser);
-        if (!success)
-        {
+        if (!success) {
             Template t = Templates.moderationActionFailed(getPunishType());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
@@ -117,21 +108,19 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             return;
         }
 
-        int caseID = CaseHandeler.nextID(g);
+        int caseID = CaseHandler.nextID(g);
         TextChannel modLog = mod.getModLogChannel(g.getIdLong());
-        if (modLog != null)
-        {
+        if (modLog != null) {
             String message = StringUtil.joinStrings(args, 1);
-            Case c = CaseHandeler.buildCase( caseID, author , getPunishType() , message , targetUser , msg);
+            Case c = CaseHandler.buildCase(caseID, author, getPunishType(), message, targetUser, msg);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(modLog);
             sm.setFrom("AbstractModerationCommand");
-            sm.setMessage(CaseHandeler.toEmbed(c));
+            sm.setMessage(CaseHandler.toEmbed(c));
             bot.send(sm);
         }
 
-        if (modLog == null)
-        {
+        if (modLog == null) {
             Template t = Templates.modlogNotFound();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
@@ -141,16 +130,17 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             return;
         }
 
-        Template log = Templates.moderationLog(chan , chan.getGuild() , author , this.getPunishType() , fixModLogArgs(args , g));
+        Template log = Templates.moderationLog(chan, chan.getGuild(), author, this.getPunishType(),
+                fixModLogArgs(args, g));
         Server s = AlloyUtil.loadServer(chan.getGuild());
-        TextChannel tc = DisUtil.findChannel(chan.getGuild() , s.getModLogChannel());
+        TextChannel tc = DisUtil.findChannel(chan.getGuild(), s.getModLogChannel());
         SendableMessage sm = new SendableMessage();
         sm.setChannel(tc);
         sm.setFrom("AbstractModerationCommand");
         sm.setMessage(log.getEmbed());
         bot.send(sm);
 
-        Template t = Templates.moderationActionSucsess(chan , targetUser , getPunishType().getVerb());
+        Template t = Templates.moderationActionSuccess(chan, targetUser, getPunishType().getVerb());
         SendableMessage sm2 = new SendableMessage();
         sm.setChannel(chan);
         sm.setFrom("AbstractModerationCommand");
@@ -158,13 +148,11 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
         bot.send(sm2);
     }
 
-    private String[] fixModLogArgs(String[] args , Guild g) 
-    {
+    private String[] fixModLogArgs(String[] args, Guild g) {
         String[] newArr = new String[args.length];
 
         int i = 0;
-        for (String s : args) 
-        {
+        for (String s : args) {
             if (DisUtil.isRole(s, g))
                 s = DisUtil.parseRole(s, g).getName();
             else if (DisUtil.isUserMention(s))
@@ -174,27 +162,23 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             newArr[i] = s;
             i++;
         }
-        
+
         return newArr;
     }
 
-    private MessageEmbed checkPermisions(Guild g, User author, TextChannel chan) 
-    {
-        if (getRequiredPermission() != null)
-        {
-            if (!DisPermUtil.checkPermission(g.getMember(author) , getRequiredPermission()))
-            {
+    private MessageEmbed checkPermissions(Guild g, User author, TextChannel chan) {
+        if (getRequiredPermission() != null) {
+            if (!DisPermUtil.checkPermission(g.getMember(author), getRequiredPermission())) {
                 Template t = Templates.noPermission(getRequiredPermission(), author);
                 return t.getEmbed();
             }
-            
-            if (!DisPermUtil.checkPermission(g.getSelfMember(), getRequiredPermission())) 
-            {
+
+            if (!DisPermUtil.checkPermission(g.getSelfMember(), getRequiredPermission())) {
                 Template t = Templates.noPermission(getRequiredPermission(), g.getSelfMember().getUser());
                 return t.getEmbed();
             }
         }
         return null;
     }
-    
+
 }

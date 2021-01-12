@@ -1,3 +1,19 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "cSpell.words": [
+        "Cooldown",
+        "Leaderboard",
+        "Queueable",
+        "Unmute",
+        "botcord",
+        "delwarn",
+        "dhms",
+        "gener",
+        "notmatch",
+        "notmatches",
+        "rankups"
+    ],
+    "cSpell.ignoreWords": [
+        "sjob"
+    ]
 }

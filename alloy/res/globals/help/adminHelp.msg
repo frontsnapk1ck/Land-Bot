@@ -7,7 +7,7 @@ changes the amount of money new users get on joining
 ex: `starting-balance 1000`
 
 `cooldown`
-Change the defualt cooldown for commands that use a cooldown
+Change the default cooldown for commands that use a cooldown
 ex: `cooldown 10`
 
 `add-building`
@@ -34,7 +34,7 @@ ex: `rm-work 1`
 resets the work options to default
 
 `view-work`
-shows all the optinos for the `work` command
+shows all the options for the `work` command
 
 `day`
 increments the day paying out all building owner - use sparingly
@@ -48,7 +48,7 @@ toggles admins bypassing the cooldown
 ex: `buy-roles false`
 
 `spam-channel`
-sets the channel for the bot to spam into, be default it is the defualt channel of the server
+sets the channel for the bot to spam into, be default it is the default channel of the server
 ex: `spam-channel #spam`
 
 `help`

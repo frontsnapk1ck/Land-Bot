@@ -15,40 +15,34 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-
-public class SpamHandeler implements SpamFinishListener {
+public class SpamHandler implements SpamFinishListener {
 
     private static List<SpamRunnable> spams;
 
-    static
-    {
+    static {
         configure();
     }
 
-    public static SpamRunnable makeRunnable(Guild guild, String[] args, User author) 
-    {
+    public static SpamRunnable makeRunnable(Guild guild, String[] args, User author) {
         Long num = getRandomNumber();
         Server s = AlloyUtil.loadServer(guild);
         Long channelID = s.getSpamChannel();
         TextChannel c = DisUtil.findChannel(guild, channelID);
 
-
-        if (validCommand(args)) 
-        {
-            int reps = getReps(guild , author, args);
+        if (validCommand(args)) {
+            int reps = getReps(guild, author, args);
             String message = buildMessage(args);
 
-            SpamRunnable r = new SpamRunnable(reps, message, c , num);
-            r.addListener(new SpamHandeler());
-            SpamHandeler.spams.add(r);
+            SpamRunnable r = new SpamRunnable(reps, message, c, num);
+            r.addListener(new SpamHandler());
+            SpamHandler.spams.add(r);
 
             return r;
         }
         return null;
     }
 
-    private static void configure() 
-    {
+    private static void configure() {
         spams = new ArrayList<SpamRunnable>();
     }
 
@@ -68,8 +62,7 @@ public class SpamHandeler implements SpamFinishListener {
         return true;
     }
 
-    private static Long getRandomNumber() 
-    {
+    private static Long getRandomNumber() {
         boolean valid = false;
         Long l = 0l;
 
@@ -83,31 +76,28 @@ public class SpamHandeler implements SpamFinishListener {
         return l;
     }
 
-    private static String buildMessage(String[] args) 
-    {
+    private static String buildMessage(String[] args) {
         String message = "";
         for (int i = 1; i < args.length; i++)
             message += args[i] + " ";
-        
+
         message = message.replace("@everyone", "@ everyone");
         return message;
     }
 
     @Override
-    public void onSpamFinishEvent(SpamFinishEvent e) 
-    {
-        SpamHandeler.spams.remove(e.getRunnable());
+    public void onSpamFinishEvent(SpamFinishEvent e) {
+        SpamHandler.spams.remove(e.getRunnable());
     }
 
-    private static  int getReps(Guild g, User author, String[] args) 
-    {
+    private static int getReps(Guild g, User author, String[] args) {
         int num = Integer.parseInt(args[0]);
 
-        boolean five =  !DisPermUtil.checkPermission(g.getMember(author) , DisPerm.ADMINISTRATOR) &&
-                        author.getIdLong() !=312743142828933130l;
+        boolean five = !DisPermUtil.checkPermission(g.getMember(author), DisPerm.ADMINISTRATOR)
+                && author.getIdLong() != 312743142828933130l;
 
-        boolean sixty = !DisPermUtil.checkPermission(g.getMember(author) , DisPerm.ADMINISTRATOR) &&
-                        author.getIdLong() !=312743142828933130l;
+        boolean sixty = !DisPermUtil.checkPermission(g.getMember(author), DisPerm.ADMINISTRATOR)
+                && author.getIdLong() != 312743142828933130l;
         if (five)
             num = num > 5 ? 5 : num;
         else if (sixty)
@@ -116,44 +106,37 @@ public class SpamHandeler implements SpamFinishListener {
 
     }
 
-    public static boolean isStart(String[] args) 
-    {
-		try {
+    public static boolean isStart(String[] args) {
+        try {
             Integer.parseInt(args[0]);
             return args.length > 1;
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             return false;
         }
-	}
+    }
 
-    public static boolean isStop(String[] args) 
-    {
+    public static boolean isStop(String[] args) {
         try {
             Long.parseLong(args[1]);
             return args[0].equalsIgnoreCase("stop");
         } catch (Exception e) {
             return false;
         }
-	}
+    }
 
-    public static boolean stopSpam(Long id) 
-    {
+    public static boolean stopSpam(Long id) {
         SpamRunnable toRm = null;
-        for (SpamRunnable r : spams) 
-        {
+        for (SpamRunnable r : spams) {
             if (r.getIDLong().equals(id))
                 toRm = r;
         }
 
-        if (toRm != null)
-        {
+        if (toRm != null) {
             toRm.stop();
             spams.remove(toRm);
         }
 
         return toRm != null;
-	}
-    
+    }
+
 }

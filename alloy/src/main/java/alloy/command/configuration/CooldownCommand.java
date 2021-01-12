@@ -1,7 +1,7 @@
 package alloy.command.configuration;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.CooldownHandeler;
+import alloy.handler.CooldownHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Sendable;
@@ -19,14 +19,12 @@ import utility.Util;
 public class CooldownCommand extends AbstractCommand {
 
     @Override
-    public DisPerm getPermission() 
-    {
+    public DisPerm getPermission() {
         return DisPerm.ADMINISTRATOR;
     }
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -34,20 +32,8 @@ public class CooldownCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission( m , getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom("CooldownCommand");
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);
-            return;
-        }
-        
-        if (args.length < 1 )
-        {
-            Template t = Templates.argumentsNotSupplied(args, getUsage() );
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("CooldownCommand");
@@ -56,24 +42,32 @@ public class CooldownCommand extends AbstractCommand {
             return;
         }
 
-        if ( args[0].equalsIgnoreCase("xp"))
+        if (args.length < 1) {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom("CooldownCommand");
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("xp"))
             xpCooldown(data);
         else
             cooldown(data);
     }
 
-    private void xpCooldown( AlloyInputData data)
-    {
+    private void xpCooldown(AlloyInputData data) {
         String[] args = AlloyInputUtil.getArgs(data);
 
         if (args.length == 1)
-            CooldownHandeler.showXPCooldown(data);
+            CooldownHandler.showXPCooldown(data);
         else if (args.length == 2)
             changeXPCooldown(data);
     }
 
-    private void changeXPCooldown(AlloyInputData data) 
-    {
+    private void changeXPCooldown(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -81,46 +75,42 @@ public class CooldownCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission( m , getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("CooldownCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);            return;
+            bot.send(sm);
+            return;
         }
 
-        try 
-        {
+        try {
             int newTime = Util.parseInt(args[1]);
-            CooldownHandeler.setXpCooldown( g , newTime);
-            CooldownHandeler.showXPCooldown(data);
-        }
-        catch (NumberFormatException e) 
-        {
+            CooldownHandler.setXpCooldown(g, newTime);
+            CooldownHandler.showXPCooldown(data);
+        } catch (NumberFormatException e) {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("CooldownCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);            return;
+            bot.send(sm);
+            return;
         }
 
     }
 
-    private void cooldown(AlloyInputData data)
-    {
+    private void cooldown(AlloyInputData data) {
         String[] args = AlloyInputUtil.getArgs(data);
 
         if (args.length == 0)
-            CooldownHandeler.showCooldown(data);
+            CooldownHandler.showCooldown(data);
         else if (args.length == 1)
             changeCooldown(data);
     }
 
-    private void changeCooldown(AlloyInputData data) 
-    {
+    private void changeCooldown(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -128,33 +118,29 @@ public class CooldownCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission( m , getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("CooldownCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);            return;
+            bot.send(sm);
+            return;
         }
 
-        try 
-        {
+        try {
             int newTime = Util.parseInt(args[0]);
-            CooldownHandeler.setCooldown( g , newTime);
-            CooldownHandeler.showCooldown(data);
-        }
-        catch (NumberFormatException e) 
-        {
+            CooldownHandler.setCooldown(g, newTime);
+            CooldownHandler.showCooldown(data);
+        } catch (NumberFormatException e) {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("CooldownCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);            return;
+            bot.send(sm);
+            return;
         }
     }
-    
-    
-    
+
 }

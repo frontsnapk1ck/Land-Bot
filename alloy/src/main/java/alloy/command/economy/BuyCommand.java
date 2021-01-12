@@ -29,8 +29,7 @@ public class BuyCommand extends AbstractCooldownCommand {
     }
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -40,34 +39,8 @@ public class BuyCommand extends AbstractCooldownCommand {
         Member m = g.getMember(author);
         Queueable q = data.getQueue();
 
-        if (args.length == 0 )
-        {
+        if (args.length == 0) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom("BuyCommand");
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);  
-            return;
-        }
-
-        List<Building> buildings = AlloyUtil.loadBuildings(g);
-        if (!BuyHandler.validBuildingName(args[0] , buildings))
-        {
-            Template t = Templates.buildingNameNotRecognized(args[0]);
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom("BuyCommand");
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);  
-            return;
-        }
-
-        Building tobuy = BuyHandler.getToBuy(args[0] , buildings);
-        Player p = AlloyUtil.loadPlayer(g, m);
-        if (!PayHandler.canPay(p, tobuy.getCost()))
-        {
-            Template t = Templates.bankInsufficientFunds(author, tobuy.getCost());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("BuyCommand");
@@ -76,14 +49,37 @@ public class BuyCommand extends AbstractCooldownCommand {
             return;
         }
 
-        p.buyBuilding(tobuy);
-        Template t = Templates.buildingBuySucsess(tobuy , author);
+        List<Building> buildings = AlloyUtil.loadBuildings(g);
+        if (!BuyHandler.validBuildingName(args[0], buildings)) {
+            Template t = Templates.buildingNameNotRecognized(args[0]);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom("BuyCommand");
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        Building toBuy = BuyHandler.getToBuy(args[0], buildings);
+        Player p = AlloyUtil.loadPlayer(g, m);
+        if (!PayHandler.canPay(p, toBuy.getCost())) {
+            Template t = Templates.bankInsufficientFunds(author, toBuy.getCost());
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom("BuyCommand");
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        p.buyBuilding(toBuy);
+        Template t = Templates.buildingBuySuccess(toBuy, author);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom("BuyCommand");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 
-        addUserCooldown(author, g, handler, getCooldownTime(g) , q);
+        addUserCooldown(author, g, handler, getCooldownTime(g), q);
     }
 }

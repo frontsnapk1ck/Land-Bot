@@ -22,31 +22,28 @@ import utility.time.TimeUtil;
 public class RemindCommand extends AbstractCommand {
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Sendable bot = data.getSendable();
         String[] args = AlloyInputUtil.getArgs(data);
         TextChannel channel = data.getChannel();
 
-        if (args.length < 1)
-        {
-            Template t = Templates.argumentsNotSupplied(args, getUsage() );
+        if (args.length < 1) {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RemindCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
-            return; 
+            return;
         }
 
-        if (args[0].equalsIgnoreCase("dm") )
+        if (args[0].equalsIgnoreCase("dm"))
             remindDM(data);
         else
             remindNormal(data);
     }
 
-    private void remindNormal(AlloyInputData data) 
-    {
+    private void remindNormal(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         Sendable bot = data.getSendable();
@@ -57,26 +54,22 @@ public class RemindCommand extends AbstractCommand {
 
         long delay = TimeUtil.toMillis(args[0]);
 
-        if (delay == 0l)
-        {
-            Template t = Templates.timeNotRecogocnized( args[0] );
+        if (delay == 0l) {
+            Template t = Templates.timeNotRecognized(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RemindCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
-            return; 
+            return;
         }
 
         String out = StringUtil.joinStrings(args, 1);
-        
-        Template template = Templates.remindCard(args[0] , out );
 
-        Template t = Templates.remindMe( out );
-        Message outM = new MessageBuilder()
-                            .setEmbed(t.getEmbed())
-                            .append(m.getAsMention())
-                            .build();
+        Template template = Templates.remindCard(args[0], out);
+
+        Template t = Templates.remindMe(out);
+        Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom("RemindCommand {...} RemindJob");
@@ -92,8 +85,7 @@ public class RemindCommand extends AbstractCommand {
         bot.send(sm2);
     }
 
-    private void remindDM(AlloyInputData data) 
-    {
+    private void remindDM(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         Sendable bot = data.getSendable();
@@ -103,51 +95,45 @@ public class RemindCommand extends AbstractCommand {
         Member m = g.getMember(author);
         Queueable q = data.getQueue();
 
-        if (args.length < 2)
-        {
-            Template t = Templates.argumentsNotSupplied(args, getUsage() );
+        if (args.length < 2) {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RemindCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
-            return; 
+            return;
         }
 
         long delay = TimeUtil.toMillis(args[1]);
 
-        if (delay == 0l)
-        {
-            Template t = Templates.timeNotRecogocnized( args[1] );
+        if (delay == 0l) {
+            Template t = Templates.timeNotRecognized(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RemindCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
-            return; 
+            return;
         }
 
         PrivateChannel pc = m.getUser().openPrivateChannel().complete();
-        if (pc == null)
-        {
-            Template t = Templates.privateMessageFailed( m );
+        if (pc == null) {
+            Template t = Templates.privateMessageFailed(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RemindCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
-            return;   
+            return;
         }
 
         String out = StringUtil.joinStrings(args, 2);
-        
-        Template template = Templates.remindCard(args[1] , out );
 
-        Template t = Templates.remindMeDM( out , msg );
-        Message outM = new MessageBuilder()
-                            .setEmbed(t.getEmbed())
-                            .append(m.getAsMention())
-                            .build();
+        Template template = Templates.remindCard(args[1], out);
+
+        Template t = Templates.remindMeDM(out, msg);
+        Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(pc);
         sm.setFrom("RemindCommand {...} RemindJob");
@@ -163,5 +149,5 @@ public class RemindCommand extends AbstractCommand {
         bot.send(sm2);
 
     }
-    
+
 }

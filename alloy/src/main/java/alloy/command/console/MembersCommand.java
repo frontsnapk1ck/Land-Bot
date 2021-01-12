@@ -11,26 +11,20 @@ import utility.StringUtil;
 public class MembersCommand extends AbstractConsoleCommand {
 
     @Override
-    public void execute(List<String> args , JDA jda) 
-    {
+    public void execute(List<String> args, JDA jda) {
         Guild g = jda.getGuildById(args.get(1));
-        List<Member> memebers = g.getMembers();
-        String[][] arr = new String[memebers.size()][3];
-        
-        String[] headers = {
-            "~~nick~~" ,
-            "~~tag~~" ,
-            "~~id~~" ,
-        };
+        List<Member> members = g.getMembers();
+        String[][] arr = new String[members.size()][3];
 
-        for (int i = 0; i < arr.length; i++) 
-        {
-            Member m = memebers.get(i);
+        String[] headers = { "~~nick~~", "~~tag~~", "~~id~~", };
+
+        for (int i = 0; i < arr.length; i++) {
+            Member m = members.get(i);
             arr[i][0] = m.getEffectiveName();
             arr[i][1] = m.getUser().getAsTag();
             arr[i][2] = m.getId();
         }
-        String table = StringUtil.makeTable(arr , headers);
+        String table = StringUtil.makeTable(arr, headers);
         System.err.println(table);
     }
 }

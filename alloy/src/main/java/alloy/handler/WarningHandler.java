@@ -22,11 +22,10 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
 
-public class WarningHandeler {
+public class WarningHandler {
 
-    public static Warning newWarning(String[] args, TextChannel channel, Member warned, User warner, Guild guild) 
-    {
-        checkWanringFiles(warned.getIdLong(), guild);
+    public static Warning newWarning(String[] args, TextChannel channel, Member warned, User warner, Guild guild) {
+        checkWarningFiles(warned.getIdLong(), guild);
         List<String> ids = getAllIds(guild);
         String id = getNewID(ids);
         String message = StringUtil.joinStrings(args, 1);
@@ -44,7 +43,7 @@ public class WarningHandeler {
 
     private static String getNewID(List<String> ids) {
         boolean valid = false;
-        String id = "UNASIGNED";
+        String id = "UNASSIGNED";
 
         while (!valid) {
             Random rand = new Random();
@@ -53,8 +52,7 @@ public class WarningHandeler {
             id = Integer.toHexString(num1) + Integer.toHexString(num2);
 
             valid = true;
-            for (String usedID : ids) 
-            {
+            for (String usedID : ids) {
                 if (usedID.equalsIgnoreCase(id))
                     valid = false;
             }
@@ -63,15 +61,13 @@ public class WarningHandeler {
         return id;
     }
 
-    private static List<String> getAllIds(Guild guild) 
-    {
+    private static List<String> getAllIds(Guild guild) {
         WarningLoaderText wlt = new WarningLoaderText();
         List<String> ids = new ArrayList<String>();
 
         String path = AlloyUtil.getGuildPath(guild) + AlloyUtil.USER_FOLDER;
-        String[] useres = FileReader.readFolderContents(path);
-        for (String s : useres) 
-        {
+        String[] users = FileReader.readFolderContents(path);
+        for (String s : users) {
             Long id = Long.parseLong(s);
             String pathL = getWarningPath(id, guild);
             List<Warning> warnings = wlt.loadALl(pathL);
@@ -82,11 +78,10 @@ public class WarningHandeler {
 
     }
 
-    public static void checkWanringFiles(long l, Guild guild) 
-    {
+    public static void checkWarningFiles(long l, Guild guild) {
         String path = getWarningPath(l, guild);
         File f = new File(path);
-        File gFile = new File(AlloyUtil.getPlayerPath(guild , l));
+        File gFile = new File(AlloyUtil.getPlayerPath(guild, l));
         if (!gFile.exists())
             return;
 
@@ -94,28 +89,24 @@ public class WarningHandeler {
             Saver.saveNewFolder(f.getPath());
     }
 
-    private static String getWarningPath(long l, Guild guild) 
-    {
+    private static String getWarningPath(long l, Guild guild) {
         return AlloyUtil.getGuildPath(guild) + AlloyUtil.USER_FOLDER + AlloyUtil.SUB + l + AlloyUtil.WARNINGS_FOLDER;
     }
 
-    public static List<Warning> getWanrings(Guild g, long id) {
+    public static List<Warning> getWarnings(Guild g, long id) {
         WarningLoaderText wlt = new WarningLoaderText();
         String path = getWarningPath(id, g);
         List<Warning> warnings = wlt.loadALl(path);
         return warnings;
     }
 
-    public static boolean warningExists(Guild g, String warnID) 
-    {
-        Map<Long, List<Warning>> wanrings = getAllGuildWarnings(g);
-        Set<Long> userIDs = wanrings.keySet();
+    public static boolean warningExists(Guild g, String warnID) {
+        Map<Long, List<Warning>> warnings = getAllGuildWarnings(g);
+        Set<Long> userIDs = warnings.keySet();
 
-        for (Long uID : userIDs) 
-        {
-            List<Warning> uWarnings = wanrings.get(uID);
-            for (Warning w : uWarnings)
-            {
+        for (Long uID : userIDs) {
+            List<Warning> uWarnings = warnings.get(uID);
+            for (Warning w : uWarnings) {
                 if (w.getId().equalsIgnoreCase(warnID))
                     return true;
             }
@@ -125,22 +116,18 @@ public class WarningHandeler {
 
     }
 
-    public static Member removeWarnings(Guild g, String warnID) 
-    {
+    public static Member removeWarnings(Guild g, String warnID) {
         PlayerLoaderText plt = new PlayerLoaderText();
-        Map<Long, List<Warning>> wanrings = getAllGuildWarnings(g);
-        Set<Long> userIDs = wanrings.keySet();
+        Map<Long, List<Warning>> warnings = getAllGuildWarnings(g);
+        Set<Long> userIDs = warnings.keySet();
 
         long idToRemove = -1l;
         Warning warnToRemove = null;
-        
-        for (Long uID : userIDs) 
-        {
-            List<Warning> uWarnings = wanrings.get(uID);
-            for (Warning w : uWarnings)
-            {
-                if (w.getId().equalsIgnoreCase(warnID))
-                {
+
+        for (Long uID : userIDs) {
+            List<Warning> uWarnings = warnings.get(uID);
+            for (Warning w : uWarnings) {
+                if (w.getId().equalsIgnoreCase(warnID)) {
                     idToRemove = uID;
                     warnToRemove = w;
                 }
@@ -149,7 +136,7 @@ public class WarningHandeler {
 
         String path = AlloyUtil.getGuildPath(g) + "\\users\\" + idToRemove;
         Player p = plt.load(path);
-        
+
         p.removeWarning(warnToRemove);
 
         User u = User.fromId(idToRemove);
@@ -158,17 +145,15 @@ public class WarningHandeler {
         return m;
 
     }
-    
-    private static Map<Long , List<Warning>> getAllGuildWarnings(Guild g)
-    {
-        Map<Long , List<Warning>> map = new HashMap<>();
+
+    private static Map<Long, List<Warning>> getAllGuildWarnings(Guild g) {
+        Map<Long, List<Warning>> map = new HashMap<>();
         WarningLoaderText wlt = new WarningLoaderText();
 
-        String[] useres = FileReader.readFolderContents(AlloyUtil.getGuildPath(g) + AlloyUtil.USER_FOLDER );
-        for (String s : useres) 
-        {
+        String[] users = FileReader.readFolderContents(AlloyUtil.getGuildPath(g) + AlloyUtil.USER_FOLDER);
+        for (String s : users) {
             long userID = Long.parseLong(s);
-            String path = getWarningPath( userID , g);
+            String path = getWarningPath(userID, g);
             List<Warning> warningsU = wlt.loadALl(path);
 
             map.put(userID, warningsU);
@@ -177,22 +162,20 @@ public class WarningHandeler {
         return map;
     }
 
-    public static String makeWaringTable(List<Warning> warnings) 
-    {
-        if (warnings.size() == 0 )
-            return ("No warings here");
+    public static String makeWaringTable(List<Warning> warnings) {
+        if (warnings.size() == 0)
+            return ("No warnings here");
 
         String out = "";
         String fOut = "";
-        for (Warning w : warnings) 
-			out += "*id*: " + w.getId() + "\t*issuer*:" + w.getIssuer() + "\n";
+        for (Warning w : warnings)
+            out += "*id*: " + w.getId() + "\t*issuer*:" + w.getIssuer() + "\n";
         out = out.trim();
-        
+
         String[] lines = out.split("\n");
 
         int i = 0;
-        for (String string : lines) 
-        {
+        for (String string : lines) {
             Warning w = warnings.get(i);
             fOut += w.getReason();
             fOut += "\n";
@@ -202,6 +185,6 @@ public class WarningHandeler {
         }
 
         return fOut;
-	}
-    
+    }
+
 }

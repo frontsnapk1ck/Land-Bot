@@ -1,7 +1,7 @@
 package alloy.command.fun;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.SpamHandeler;
+import alloy.handler.SpamHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Queueable;
@@ -29,21 +29,19 @@ public class SpamCommand extends AbstractCooldownCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
         Queueable queueable = data.getQueue();
-        
-        if (userOnCooldown(author, g, handler))
-        {
+
+        if (userOnCooldown(author, g, handler)) {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("PayCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);  
+            bot.send(sm);
             return;
         }
 
-        if (SpamHandeler.isStart(args))
-        {
-            MessageEmbed embed = startSpam(channel, args, author , queueable);
+        if (SpamHandler.isStart(args)) {
+            MessageEmbed embed = startSpam(channel, args, author, queueable);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("SpamCommand");
@@ -52,8 +50,7 @@ public class SpamCommand extends AbstractCooldownCommand {
             return;
         }
 
-        else if (SpamHandeler.isStop(args))
-        {
+        else if (SpamHandler.isStop(args)) {
             MessageEmbed embed = stopSpam(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -68,44 +65,38 @@ public class SpamCommand extends AbstractCooldownCommand {
         sm.setChannel(channel);
         sm.setFrom("SpamCommand");
         sm.setMessage(t.getEmbed());
-        bot.send(sm);       
+        bot.send(sm);
     }
 
-    private MessageEmbed stopSpam(String[] args) 
-    {
+    private MessageEmbed stopSpam(String[] args) {
         Long id = 0l;
         try {
             id = Long.parseLong(args[1]);
-        } catch (NumberFormatException e) 
-        {
+        } catch (NumberFormatException e) {
             Template t = Templates.invalidNumberFormat(args);
             return t.getEmbed();
         }
 
-        if (SpamHandeler.stopSpam(id))
-        {
-            Template t = Templates.spamRunnableStoped(id);
+        if (SpamHandler.stopSpam(id)) {
+            Template t = Templates.spamRunnableStopped(id);
             return t.getEmbed();
-        }
-        else
-        {
+        } else {
             Template t = Templates.spamRunnableIdNotFound(id);
             return t.getEmbed();
         }
     }
 
-    private MessageEmbed startSpam(TextChannel chan, String[] args, User author, Queueable queueable) 
-    {
-        if (!SpamHandeler.validCommand(args)) {
+    private MessageEmbed startSpam(TextChannel chan, String[] args, User author, Queueable queueable) {
+        if (!SpamHandler.validCommand(args)) {
             Template temp = Templates.invalidNumberFormat(args);
             return temp.getEmbed();
         }
 
-        SpamRunnable r = SpamHandeler.makeRunnable( chan.getGuild() , args, author);
+        SpamRunnable r = SpamHandler.makeRunnable(chan.getGuild(), args, author);
         queueable.queue(r);
 
         Template temp = Templates.spamRunnableCreated(r);
         return temp.getEmbed();
     }
-    
+
 }

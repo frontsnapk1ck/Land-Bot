@@ -24,8 +24,7 @@ public class WorkCommand extends AbstractCooldownCommand {
     public static final int WORK_RANGE = 120;
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         Sendable bot = data.getSendable();
@@ -33,15 +32,14 @@ public class WorkCommand extends AbstractCooldownCommand {
         CooldownHandler handler = data.getCooldownHandler();
         Member m = g.getMember(author);
         Queueable q = data.getQueue();
-        
-        if (userOnCooldown(author, g, handler))
-        {
+
+        if (userOnCooldown(author, g, handler)) {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("WorkCommand");
             sm.setMessage(t.getEmbed());
-            bot.send(sm);  
+            bot.send(sm);
             return;
         }
 
@@ -50,19 +48,18 @@ public class WorkCommand extends AbstractCooldownCommand {
         Player p = AlloyUtil.loadPlayer(g, m);
         p.addBal(amt);
 
-        Template t = Templates.workSucsess( option , amt );
+        Template t = Templates.workSuccess(option, amt);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom("WorkCommand");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 
-        addUserCooldown(author, g, handler, getCooldownTime(g) , q);
+        addUserCooldown(author, g, handler, getCooldownTime(g), q);
 
     }
 
-    private String getOption(Guild g) 
-    {
+    private String getOption(Guild g) {
         Server s = AlloyUtil.loadServer(g);
         List<String> workOptions = AlloyUtil.loadWorkOptions(s);
 
@@ -70,10 +67,9 @@ public class WorkCommand extends AbstractCooldownCommand {
         return workOptions.get(num);
     }
 
-    private int getAmt() 
-    {
+    private int getAmt() {
         int amt = (int) (Math.random() * WORK_RANGE + MIN_WORK);
         return amt;
     }
-    
+
 }

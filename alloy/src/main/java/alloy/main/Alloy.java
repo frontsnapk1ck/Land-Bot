@@ -14,7 +14,7 @@ import alloy.event.DebugListener;
 import alloy.event.JDAEvents;
 import alloy.gameobjects.Server;
 import alloy.handler.CommandHandler;
-import alloy.handler.RankHandeler;
+import alloy.handler.RankHandler;
 import alloy.input.console.ConsoleInput;
 import alloy.input.discord.AlloyInput;
 import alloy.io.loader.ServerLoaderText;
@@ -46,10 +46,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import utility.event.EventManager.ScheduledJob;
 import utility.event.Job;
 
-public class Alloy implements Sendable, Moderator, Loggable, Queueable, 
-                                ConsoleHandler, AlloyHandler, CooldownHandler,
-                                UncaughtExceptionHandler 
-{
+public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler,
+        UncaughtExceptionHandler {
 
     public static final AlloyLogger LOGGER = new AlloyLogger();
 
@@ -62,8 +60,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
 
     private boolean started;
 
-    public Alloy() 
-    {
+    public Alloy() {
         Alloy.startupTimeStamp = System.currentTimeMillis();
         configThread();
         boolean startedL = false;
@@ -80,13 +77,12 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         data = new AlloyData(jda, this);
     }
 
-    private void configThread() 
-    {
+    private void configThread() {
         Thread current = Thread.currentThread();
         current.setUncaughtExceptionHandler(this);
         Runtime r = Runtime.getRuntime();
         AlloyShutdownHook hook = new AlloyShutdownHook();
-        r.addShutdownHook( hook );
+        r.addShutdownHook(hook);
     }
 
     private void makeMentions() {
@@ -96,11 +92,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
 
     private void start() throws LoginException {
         String key = loadKey();
-        jda = JDABuilder.createDefault(key)
-                        .enableIntents(GatewayIntent.GUILD_MEMBERS)
-                        .setMemberCachePolicy(MemberCachePolicy.ALL)
-                        .setChunkingFilter(ChunkingFilter.ALL)
-                        .build();
+        jda = JDABuilder.createDefault(key).enableIntents(GatewayIntent.GUILD_MEMBERS)
+                .setMemberCachePolicy(MemberCachePolicy.ALL).setChunkingFilter(ChunkingFilter.ALL).build();
         jda.addEventListener(new JDAEvents(this));
     }
 
@@ -109,13 +102,11 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         return keyA[0];
     }
 
-    public static long getStartupTimeStamp() 
-    {
+    public static long getStartupTimeStamp() {
         return startupTimeStamp;
     }
 
-    private void cooldown(int seconds) 
-    {
+    private void cooldown(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         }
@@ -126,16 +117,13 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     }
 
     @Override
-    public void handleMessage(AlloyInput in) 
-    {
+    public void handleMessage(AlloyInput in) {
         if (!this.started)
             return;
 
         User author = in.getUser();
 
-        boolean ignore =    author == null || 
-                            author.isBot() || 
-                            AlloyUtil.isBlackListed(author);
+        boolean ignore = author == null || author.isBot() || AlloyUtil.isBlackListed(author);
         if (ignore)
             return;
 
@@ -145,18 +133,16 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         in.setBot(this);
         in.setServer(s);
 
-        RankHandeler.addXP(in.getData());
+        RankHandler.addXP(in.getData());
         String message = in.getMessage();
-        if (CommandHandler.isCommand(message, mentionMe, mentionMeAlias, s))
-        {
+        if (CommandHandler.isCommand(message, mentionMe, mentionMeAlias, s)) {
             in = CommandHandler.removePrefix(in, s);
             CommandHandler.process(in);
         }
     }
 
     @Override
-    public void handlePrivateMessage(PrivateChannel channel, User author, Message message) 
-    {
+    public void handlePrivateMessage(PrivateChannel channel, User author, Message message) {
         if (!this.started)
             return;
         // TODO
@@ -168,8 +154,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     }
 
     @Override
-    public JDA getJDA() 
-    {
+    public JDA getJDA() {
         return jda;
     }
 
@@ -177,7 +162,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         return AlloyUtil.SERVERS_PATH + AlloyUtil.SUB + guild.getId();
     }
 
-    public void updateActivty() {
+    public void updateActivity() {
         int size = jda.getGuilds().size();
         String message = "Ping for Help | " + size + " servers";
 
@@ -199,32 +184,27 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
             sendM(message);
     }
 
-    private void sendM(SendableMessage message) 
-    {
+    private void sendM(SendableMessage message) {
         MessageChannel channel = message.getChannel();
         Message messageM = message.getMessage();
         String from = message.getFrom();
 
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>(){
+        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
             @Override
-            public void accept(ErrorResponseException t) 
-            {
+            public void accept(ErrorResponseException t) {
                 LOGGER.warn(from, t.getMessage());
             }
+
             @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
+            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
                 return Consumer.super.andThen(after);
             }
         };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER , consumer );
+        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
 
-        try 
-        {
-            channel.sendMessage(messageM).queue(null , handler);
-        }
-        catch (InsufficientPermissionException e) 
-        {
+        try {
+            channel.sendMessage(messageM).queue(null, handler);
+        } catch (InsufficientPermissionException e) {
             LOGGER.warn(from, e.getMessage());
         }
     }
@@ -234,64 +214,54 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         String messageS = message.getMessageS();
         String from = message.getFrom();
 
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>(){
+        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
             @Override
-            public void accept(ErrorResponseException t) 
-            {
+            public void accept(ErrorResponseException t) {
                 LOGGER.warn(from, t.getMessage());
             }
+
             @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
+            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
                 return Consumer.super.andThen(after);
             }
         };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER , consumer );
+        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
 
-        try 
-        {
-            channel.sendMessage(messageS).queue(null , handler);
-        }
-        catch (InsufficientPermissionException e) 
-        {
+        try {
+            channel.sendMessage(messageS).queue(null, handler);
+        } catch (InsufficientPermissionException e) {
             LOGGER.warn(from, e.getMessage());
         }
 
     }
 
-    private void sendE(SendableMessage message) 
-    {
+    private void sendE(SendableMessage message) {
         MessageChannel channel = message.getChannel();
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
 
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>(){
+        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
             @Override
-            public void accept(ErrorResponseException t) 
-            {
+            public void accept(ErrorResponseException t) {
                 LOGGER.warn(from, t.getMessage());
             }
+
             @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
+            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
                 return Consumer.super.andThen(after);
             }
         };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER , consumer );
+        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
 
-        try 
-        {
-            channel.sendMessage(messageE).queue(null , handler);
-        }
-        catch (InsufficientPermissionException e) 
-        {
+        try {
+            channel.sendMessage(messageE).queue(null, handler);
+        } catch (InsufficientPermissionException e) {
             LOGGER.warn(from, e.getMessage());
         }
     }
 
     @Override
-    public MessageAction getAction(SendableMessage message) 
-    {
+    public MessageAction getAction(SendableMessage message) {
         if (message.hasMessageE())
             return getActionE(message);
         else if (message.hasMessageS())
@@ -301,8 +271,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         return null;
     }
 
-    private MessageAction getActionM(SendableMessage message) 
-    {
+    private MessageAction getActionM(SendableMessage message) {
         MessageChannel channel = message.getChannel();
         Message messageM = message.getMessage();
         String from = message.getFrom();
@@ -315,8 +284,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         return null;
     }
 
-    private MessageAction getActionS(SendableMessage message) 
-    {
+    private MessageAction getActionS(SendableMessage message) {
         MessageChannel channel = message.getChannel();
         String messageS = message.getMessageS();
         String from = message.getFrom();
@@ -329,8 +297,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         return null;
     }
 
-    private MessageAction getActionE(SendableMessage message) 
-    {
+    private MessageAction getActionE(SendableMessage message) {
         MessageChannel channel = message.getChannel();
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
@@ -366,16 +333,14 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
         return data.getCooldownUsers(g);
     }
 
-    public void update() 
-    {
+    public void update() {
         this.started = true;
-        this.updateActivty();
+        this.updateActivity();
         data.update();
     }
 
     @Override
-    public void uncaughtException(Thread t, Throwable e) 
-    {
+    public void uncaughtException(Thread t, Throwable e) {
         LOGGER.error(t.getName(), e);
         t.run();
     }
@@ -395,8 +360,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     }
 
     @Override
-    public void addXpCooldownUser(Member m) 
-    {
+    public void addXpCooldownUser(Member m) {
         Guild g = m.getGuild();
         Map<Long, List<Long>> cooldownUsers = data.getXpCooldownUsers();
         if (!cooldownUsers.containsKey(g.getIdLong()))
@@ -406,31 +370,26 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable,
     }
 
     @Override
-    public void queueIn(Job action, long offset) 
-    {
-        data.queueIn( action , offset );
+    public void queueIn(Job action, long offset) {
+        data.queueIn(action, offset);
     }
 
     @Override
-    public void queue(Job action) 
-    {
+    public void queue(Job action) {
         data.queue(action);
     }
 
-    public void setDebugListener(DebugListener debugListener) 
-    {
+    public void setDebugListener(DebugListener debugListener) {
         LOGGER.setListener(debugListener);
-	}
-
-    @Override
-    public void guildCountUpdate() 
-    {
-        updateActivty();
     }
 
-    public static PriorityBlockingQueue<ScheduledJob> getQueue() 
-    {
+    @Override
+    public void guildCountUpdate() {
+        updateActivity();
+    }
+
+    public static PriorityBlockingQueue<ScheduledJob> getQueue() {
         return data.getEventHandler().getJobQueue();
-	}
+    }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.RankUp;
 import alloy.gameobjects.player.Rank;
-import alloy.handler.RankHandeler;
+import alloy.handler.RankHandler;
 import alloy.handler.RankupHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
@@ -24,14 +24,12 @@ import utility.Util;
 public class RankupCommand extends AbstractCommand {
 
     @Override
-    public DisPerm getPermission() 
-    {
+    public DisPerm getPermission() {
         return DisPerm.ADMINISTRATOR;
     }
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -39,9 +37,8 @@ public class RankupCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission( m , getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RankupCommand");
@@ -50,8 +47,7 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        if ( args.length < 1 )
-        {
+        if (args.length < 1) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom("RankupCommand");
@@ -62,20 +58,18 @@ public class RankupCommand extends AbstractCommand {
         }
 
         if (args[0].equalsIgnoreCase("add"))
-            add( args , bot , channel , g );
+            add(args, bot, channel, g);
         else if (args[0].equalsIgnoreCase("remove"))
-            remove( args , bot , channel , g );
+            remove(args, bot, channel, g);
         else if (args[0].equalsIgnoreCase("view"))
-            view( args , bot , channel , g );
+            view(args, bot, channel, g);
         else if (args[0].equalsIgnoreCase("test"))
-            test( args , bot , channel , g , m );
+            test(args, bot, channel, g, m);
     }
 
-    private void add (String[] args, Sendable bot, TextChannel channel, Guild g)
-    {
-        if (args.length < 3)
-        {
-            Template t = Templates.argumentsNotSupplied(args, getUsage() );
+    private void add(String[] args, Sendable bot, TextChannel channel, Guild g) {
+        if (args.length < 3) {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RankupCommand");
@@ -84,19 +78,17 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        if ( RankupHandler.hasRole(args , g) )
-            RankupHandler.addRankupRole( args, bot , channel , g );
+        if (RankupHandler.hasRole(args, g))
+            RankupHandler.addRankupRole(args, bot, channel, g);
         else
             RankupHandler.addRankup(args, bot, channel, g);
 
         view(args, bot, channel, g);
     }
 
-    private void remove (String[] args, Sendable bot, TextChannel channel, Guild g)
-    {
-        if (args.length < 2)
-        {
-            Template t = Templates.argumentsNotSupplied(args, getUsage() );
+    private void remove(String[] args, Sendable bot, TextChannel channel, Guild g) {
+        if (args.length < 2) {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RankupCommand");
@@ -105,8 +97,7 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        if (!Util.validInt(args[1]))
-        {
+        if (!Util.validInt(args[1])) {
             Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -118,8 +109,7 @@ public class RankupCommand extends AbstractCommand {
 
         int level = Integer.parseInt(args[1]);
 
-        if (!RankupHandler.containsLevel( g , level))
-        {
+        if (!RankupHandler.containsLevel(g, level)) {
             Template t = Templates.levelNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -129,13 +119,12 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        RankupHandler.removeRankup(level , g , channel , bot);
+        RankupHandler.removeRankup(level, g, channel, bot);
         view(args, bot, channel, g);
     }
 
-    private void view (String[] args, Sendable bot, TextChannel channel, Guild g)
-    {
-        List<RankUp> rus = RankupHandler.loadRankups( g );
+    private void view(String[] args, Sendable bot, TextChannel channel, Guild g) {
+        List<RankUp> rus = RankupHandler.loadRankups(g);
         Template t = Templates.viewRankUps(rus);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
@@ -145,11 +134,9 @@ public class RankupCommand extends AbstractCommand {
         return;
     }
 
-    private void test (String[] args, Sendable bot, TextChannel channel, Guild g , Member m)
-    {
-        if (args.length < 2)
-        {
-            Template t = Templates.argumentsNotSupplied(args, getUsage() );
+    private void test(String[] args, Sendable bot, TextChannel channel, Guild g, Member m) {
+        if (args.length < 2) {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RankupCommand");
@@ -158,8 +145,7 @@ public class RankupCommand extends AbstractCommand {
             return;
         }
 
-        if (!Util.validInt(args[1]))
-        {
+        if (!Util.validInt(args[1])) {
             Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -170,10 +156,10 @@ public class RankupCommand extends AbstractCommand {
         }
 
         int level = Integer.parseInt(args[1]);
-        Rank r = RankupHandler.getRank( g , level);
-        
-        RankHandeler.anounceRankUp( r , m , false, bot , channel);
+        Rank r = RankupHandler.getRank(g, level);
+
+        RankHandler.announceRankUp(r, m, false, bot, channel);
 
     }
-    
+
 }

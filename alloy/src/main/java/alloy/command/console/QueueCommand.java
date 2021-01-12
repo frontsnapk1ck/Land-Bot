@@ -15,29 +15,25 @@ import utility.event.Job;
 public class QueueCommand extends AbstractConsoleCommand {
 
     @Override
-    public void execute(List<String> args, JDA jda) 
-    {
+    public void execute(List<String> args, JDA jda) {
         if (args.size() == 1)
             showQueue();
         else if (args.get(1).equalsIgnoreCase("clear"))
             clearQueue();
     }
 
-    private void clearQueue() 
-    {
+    private void clearQueue() {
         Alloy.getQueue().clear();
         System.err.println("the queue has been cleared");
         showQueue();
     }
 
-    private void showQueue() 
-    {
+    private void showQueue() {
         PriorityBlockingQueue<ScheduledJob> queue = Alloy.getQueue();
         String[][] tableArr = new String[queue.size()][4];
-        
+
         int i = 0;
-        for (ScheduledJob sjob : queue) 
-        {
+        for (ScheduledJob sjob : queue) {
             Job job = sjob.job;
             String name = job.getClass().isAnonymousClass() ? "Anonymous Class" : job.getClass().getSimpleName();
             long time = sjob.time;
@@ -51,12 +47,12 @@ public class QueueCommand extends AbstractConsoleCommand {
             tableArr[i][1] = split[0];
             tableArr[i][2] = split[1];
             tableArr[i][3] = split[2];
-            
+
             i++;
         }
-        String[] headers = { "~~Class~~" , "~~Date~~", "~~Time~~" , "~~Time Untill~~" };
+        String[] headers = { "~~Class~~", "~~Date~~", "~~Time~~", "~~Time Until~~" };
         String table = StringUtil.makeTable(tableArr, headers);
         System.err.println(table);
     }
-    
+
 }

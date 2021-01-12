@@ -3,7 +3,7 @@ package alloy.command.administration;
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.Warning;
 import alloy.gameobjects.player.Player;
-import alloy.handler.WarningHandeler;
+import alloy.handler.WarningHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.io.loader.PlayerLoaderText;
@@ -20,12 +20,10 @@ import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-
 public class WarnCommand extends AbstractCommand {
 
     @Override
-    public void execute(AlloyInputData data) 
-    {
+    public void execute(AlloyInputData data) {
 
         Guild g = data.getGuild();
         TextChannel chan = data.getChannel();
@@ -35,8 +33,7 @@ public class WarnCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if ( args.length < 2 )
-        {
+        if (args.length < 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom("WarnCommand");
@@ -46,17 +43,15 @@ public class WarnCommand extends AbstractCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("del"))
-        {
+        if (args[0].equalsIgnoreCase("del")) {
             delwarn(data);
             return;
         }
 
-        Member target = DisUtil.findMember(g, args[0] );
+        Member target = DisUtil.findMember(g, args[0]);
 
-        if (target == null)
-        {
-            Template t = Templates.userNotFound( args[0] );
+        if (target == null) {
+            Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("WarnCommand");
@@ -66,8 +61,7 @@ public class WarnCommand extends AbstractCommand {
         }
 
         Member warner = g.getMember(author);
-        if (!DisPermUtil.checkPermission(warner, getPermission()))
-        {
+        if (!DisPermUtil.checkPermission(warner, getPermission())) {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -77,16 +71,16 @@ public class WarnCommand extends AbstractCommand {
             return;
         }
 
-        Warning w = WarningHandeler.newWarning(args , (TextChannel) channel , target , author , g);
+        Warning w = WarningHandler.newWarning(args, (TextChannel) channel, target, author, g);
 
         PlayerLoaderText plt = new PlayerLoaderText();
-        String path = AlloyUtil.SERVERS_PATH + AlloyUtil.SUB + g.getId() + AlloyUtil.USER_FOLDER + AlloyUtil.SUB + m.getIdLong();
+        String path = AlloyUtil.SERVERS_PATH + AlloyUtil.SUB + g.getId() + AlloyUtil.USER_FOLDER + AlloyUtil.SUB
+                + m.getIdLong();
         Player p = plt.load(path);
-        
+
         p.addWanring(w);
         PrivateChannel pc = target.getUser().openPrivateChannel().complete();
-        if (pc == null)
-        {
+        if (pc == null) {
             Template t = Templates.privateMessageFailed(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -103,7 +97,7 @@ public class WarnCommand extends AbstractCommand {
         sm.setMessage(warn.getEmbed());
         bot.send(sm);
 
-        Template t = Templates.warnSucsess(target , w , author);
+        Template t = Templates.warnSuccess(target, w, author);
         SendableMessage sm2 = new SendableMessage();
         sm2.setChannel(chan);
         sm2.setFrom("WarnCommand");
@@ -111,8 +105,7 @@ public class WarnCommand extends AbstractCommand {
         bot.send(sm2);
     }
 
-    private void delwarn (AlloyInputData data )
-    {
+    private void delwarn(AlloyInputData data) {
         Guild guild = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -120,9 +113,8 @@ public class WarnCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = guild.getMember(author);
 
-        if (!DisPermUtil.checkPermission(m, getPermission()))
-        {
-            Template t = Templates.noPermission(getPermission() , author);
+        if (!DisPermUtil.checkPermission(m, getPermission())) {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("RemoveWarnings");
@@ -131,8 +123,7 @@ public class WarnCommand extends AbstractCommand {
             return;
         }
 
-        if (!WarningHandeler.warningExists(guild , args[1]))
-        {
+        if (!WarningHandler.warningExists(guild, args[1])) {
             Template t = Templates.warningNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -142,9 +133,9 @@ public class WarnCommand extends AbstractCommand {
             return;
         }
 
-        Member warned = WarningHandeler.removeWarnings(guild , args[1] );
+        Member warned = WarningHandler.removeWarnings(guild, args[1]);
 
-        Template t = Templates.warningsRemovedSucsess(args[0] , warned);
+        Template t = Templates.warningsRemovedSuccess(args[0], warned);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom("RemoveWarnings");

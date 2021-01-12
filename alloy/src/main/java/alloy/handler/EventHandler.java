@@ -24,31 +24,27 @@ public class EventHandler {
         settings.mkdir();
         cases.mkdir();
 
-        File botS = new File( settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.BOT_SETTINGS_FILE);
-        File builingS = new File( settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.BUILDING_FILE);
-        File rankUps = new File( settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.RANK_UP_SETTINFS_FILE);
-        File workOps = new File( settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.WORK_OPTIONS_FILE);
+        File botS = new File(settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.BOT_SETTINGS_FILE);
+        File buildingS = new File(settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.BUILDING_FILE);
+        File rankUps = new File(settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.RANK_UP_SETTINGS_FILE);
+        File workOps = new File(settings.getAbsolutePath() + AlloyUtil.SUB + AlloyUtil.WORK_OPTIONS_FILE);
 
-        try 
-        {
+        try {
             botS.createNewFile();
-            builingS.createNewFile();
+            buildingS.createNewFile();
             rankUps.createNewFile();
             workOps.createNewFile();
-        }
-        catch (IOException e) 
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Saver.copyFrom(AlloyUtil.GLOBAL_BUILDINGS_PATH, builingS.getAbsolutePath());
+        Saver.copyFrom(AlloyUtil.GLOBAL_BUILDINGS_PATH, buildingS.getAbsolutePath());
         Saver.copyFrom(AlloyUtil.GLOBAL_WORK_OPTIONS_PATH, workOps.getAbsolutePath());
-        
-        Saver.saveOverwite(botS.getAbsolutePath(), loadBotSettingsArr(g));
-	}
 
-    public static void onMemberJoinEvent(Member m) 
-    {
+        Saver.saveOverwite(botS.getAbsolutePath(), loadBotSettingsArr(g));
+    }
+
+    public static void onMemberJoinEvent(Member m) {
         Guild g = m.getGuild();
 
         String path = AlloyUtil.getGuildPath(g);
@@ -66,23 +62,20 @@ public class EventHandler {
             acc.createNewFile();
             build.createNewFile();
             rank.createNewFile();
-        } catch (IOException ex) 
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         Server s = AlloyUtil.loadServer(g);
-        Saver.saveOverwite(acc.getAbsolutePath(), new String[]{ "bal>" + s.getStartingBalance()});
-        Saver.saveOverwite(rank.getAbsolutePath(), new String[]{ "0" });
+        Saver.saveOverwite(acc.getAbsolutePath(), new String[] { "bal>" + s.getStartingBalance() });
+        Saver.saveOverwite(rank.getAbsolutePath(), new String[] { "0" });
     }
 
-    public static void onGuildLeaveEvent(Guild g) 
-    {
+    public static void onGuildLeaveEvent(Guild g) {
         String path = AlloyUtil.getGuildPath(g);
         Saver.deleteFiles(path);
-	}
+    }
 
-    public static void onMemberLeaveEvent(Member m) 
-    {
+    public static void onMemberLeaveEvent(Member m) {
         Guild g = m.getGuild();
 
         String path = AlloyUtil.getGuildPath(g);
@@ -91,25 +84,17 @@ public class EventHandler {
 
         Saver.deleteFiles(path);
     }
-    
-    private static String[] loadBotSettingsArr( Guild g)
-    {
+
+    private static String[] loadBotSettingsArr(Guild g) {
         long guildID = g.getIdLong();
         long defaultChannel = g.getDefaultChannel().getIdLong();
 
-        String[] boSS = {   Server.PREFIX + ":!", 
-                            Server.STARTING_BALANCE + ":1000", 
-                            Server.COOLDOWN + ":10",
-                            Server.ROLE_ASSIGN_ON_BUY + ":false", 
-                            Server.SPAM_CHANNEL + ":" + defaultChannel,
-                            Server.BALCKLISTED_CHANNENLS + ":", 
-                            Server.XP_COOLDOWN + ":4", 
-                            Server.ID + ":" + guildID,
-                            Server.MOD_LOG_CHANNEL + ":", 
-                            Server.USER_LOG_CHANNEL + ":", 
-                            Server.MUTE_ROLE_ID + ":", };
-    
+        String[] boSS = { Server.PREFIX + ":!", Server.STARTING_BALANCE + ":1000", Server.COOLDOWN + ":10",
+                Server.ROLE_ASSIGN_ON_BUY + ":false", Server.SPAM_CHANNEL + ":" + defaultChannel,
+                Server.BALCKLISTED_CHANNENLS + ":", Server.XP_COOLDOWN + ":4", Server.ID + ":" + guildID,
+                Server.MOD_LOG_CHANNEL + ":", Server.USER_LOG_CHANNEL + ":", Server.MUTE_ROLE_ID + ":", };
+
         return boSS;
     }
-    
+
 }

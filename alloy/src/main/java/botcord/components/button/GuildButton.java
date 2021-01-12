@@ -28,53 +28,44 @@ public class GuildButton extends BotCordButton {
 
     private Guild guild;
 
-    public GuildButton(Guild guild) 
-    {
+    public GuildButton(Guild guild) {
         this.guild = guild;
         init();
         config();
     }
 
     @Override
-    public void init() 
-    {
+    public void init() {
         this.setBackground(BotCordColors.BACKGROUND);
         this.setBackground(null);
     }
 
     @Override
-    public void config() 
-    {
+    public void config() {
         setImage();
     }
 
-    private void setImage() 
-    {
-        try 
-        {
+    private void setImage() {
+        try {
             Image img = getImage(this.guild.getIconUrl());
             this.setIcon(new ImageIcon(img));
-            this.congifgToolTip();
+            this.configToolTip();
             this.configAction();
-        }
-        catch (IOException e) 
-        {
+        } catch (IOException e) {
             Alloy.LOGGER.error("GuildButton", e);
             e.printStackTrace();
         }
     }
 
-    public void updateImage() 
-    {
+    public void updateImage() {
         int w, h;
         w = this.getWidth();
         h = this.getHeight();
-        
-        if ( w == 0 || h == 0)
+
+        if (w == 0 || h == 0)
             return;
         Icon ic = this.getIcon();
-        if (ic instanceof ImageIcon)
-        {
+        if (ic instanceof ImageIcon) {
             Image img = ((ImageIcon) ic).getImage();
             img = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
             ImageIcon newIc = new ImageIcon(img);
@@ -82,72 +73,59 @@ public class GuildButton extends BotCordButton {
         }
     }
 
-    private void configAction() 
-    {
-        this.addActionListener(new ActionListener() 
-        {
+    private void configAction() {
+        this.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ev) 
-            {
-                PressEvent e = new PressEvent( PressTarget.GUILD);
+            public void actionPerformed(ActionEvent ev) {
+                PressEvent e = new PressEvent(PressTarget.GUILD);
                 e.setData(getGuild());
-                for ( BotCordListener l : getListeners() )
+                for (BotCordListener l : getListeners())
                     l.onPress(e);
             }
         });
     }
 
-    private void congifgToolTip()
-    {
+    private void configToolTip() {
         Guild g = this.guild;
-        String code = "<html><body><h1> "       + g.getName() + "</h1>" + 
-                        "<p>Owned by: "         + g.getOwner().getUser().getAsTag()     + "</p>" +
-                        "<p>Is Admin: "         + isAdmin(g)            + "</p>"                                    +
-                        "<p>Members: "          + getMembers(g)         + " | Bots: "   + getBots(g) + "</p>" + 
-                        "<p>Boost: "            + g.getBoostTier()      + " | Boosts: " + g.getBoostCount() + "</p>" +
-                        "</body></html>";
+        String code = "<html><body><h1> " + g.getName() + "</h1>" + "<p>Owned by: " + g.getOwner().getUser().getAsTag()
+                + "</p>" + "<p>Is Admin: " + isAdmin(g) + "</p>" + "<p>Members: " + getMembers(g) + " | Bots: "
+                + getBots(g) + "</p>" + "<p>Boost: " + g.getBoostTier() + " | Boosts: " + g.getBoostCount() + "</p>"
+                + "</body></html>";
         this.setToolTipText(code);
     }
 
-    private int getBots(Guild g) 
-    {
+    private int getBots(Guild g) {
         int bot = 0;
         List<Member> members = g.getMembers();
-        for (Member m : members) 
-        {
+        for (Member m : members) {
             if (m.getUser().isBot())
                 bot++;
         }
         return bot;
     }
 
-    private int getMembers(Guild g) 
-    {
+    private int getMembers(Guild g) {
         int mem = 0;
         List<Member> members = g.getMembers();
-        for (Member m : members) 
-        {
+        for (Member m : members) {
             if (!m.getUser().isBot())
                 mem++;
         }
         return mem;
     }
 
-    private boolean isAdmin(Guild g) 
-    {
+    private boolean isAdmin(Guild g) {
         List<DisPerm> perms = DisPermUtil.parsePerms(g.getSelfMember().getPermissions());
-        for (DisPerm p : perms) 
-        {
+        for (DisPerm p : perms) {
             if (p.equals(DisPerm.ADMINISTRATOR))
                 return true;
         }
         return false;
     }
 
-    private Image getImage(String urlS) throws IOException 
-    {
+    private Image getImage(String urlS) throws IOException {
         if (urlS == null)
-            urlS = BotCordLinks.DEFUALT_DISCORD_PHOTO;
+            urlS = BotCordLinks.DEFAULT_DISCORD_PHOTO;
         URL url = new URL(urlS);
         Image img = ImageIO.read(url);
         return img;
@@ -158,10 +136,9 @@ public class GuildButton extends BotCordButton {
     }
 
     @Override
-    public void update() 
-    {
+    public void update() {
         this.updateImage();
-        this.congifgToolTip();
+        this.configToolTip();
     }
-    
+
 }

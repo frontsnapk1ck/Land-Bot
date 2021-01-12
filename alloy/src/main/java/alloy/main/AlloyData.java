@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
 
-import alloy.builder.loaders.JobQueueLoaderText;
-import alloy.builder.loaders.ServerLoaderText;
-import alloy.builder.loaders.util.JobQueueData;
 import alloy.gameobjects.Server;
 import alloy.input.console.Console;
+import alloy.io.loader.JobQueueLoaderText;
+import alloy.io.loader.ServerLoaderText;
+import alloy.io.loader.util.JobQueueData;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.job.AlloyEventHandler;
 import alloy.utility.job.jobs.SpamRunnable;

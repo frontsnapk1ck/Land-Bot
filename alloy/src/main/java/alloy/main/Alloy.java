@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 
 import javax.security.auth.login.LoginException;
 
-import alloy.builder.loaders.ServerLoaderText;
 import alloy.event.AlloyLogger;
 import alloy.event.DebugListener;
 import alloy.event.JDAEvents;
@@ -18,6 +17,7 @@ import alloy.handler.CommandHandler;
 import alloy.handler.RankHandeler;
 import alloy.input.console.ConsoleInput;
 import alloy.input.discord.AlloyInput;
+import alloy.io.loader.ServerLoaderText;
 import alloy.main.handler.AlloyHandler;
 import alloy.main.handler.ConsoleHandler;
 import alloy.main.handler.CooldownHandler;

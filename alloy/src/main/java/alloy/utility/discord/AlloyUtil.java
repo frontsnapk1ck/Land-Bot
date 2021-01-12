@@ -3,14 +3,14 @@ package alloy.utility.discord;
 import java.util.ArrayList;
 import java.util.List;
 
-import alloy.builder.loaders.BuildingLoaderText;
-import alloy.builder.loaders.PlayerLoaderText;
-import alloy.builder.loaders.RankLoaderText;
-import alloy.builder.loaders.ServerLoaderText;
 import alloy.gameobjects.Server;
 import alloy.gameobjects.player.Building;
 import alloy.gameobjects.player.Player;
 import alloy.gameobjects.player.Rank;
+import alloy.io.loader.BuildingLoaderText;
+import alloy.io.loader.PlayerLoaderText;
+import alloy.io.loader.RankLoaderText;
+import alloy.io.loader.ServerLoaderText;
 import alloy.utility.discord.paths.AlloyExtentions;
 import alloy.utility.discord.paths.AlloyImages;
 import alloy.utility.discord.paths.AlloyPathsConstants;

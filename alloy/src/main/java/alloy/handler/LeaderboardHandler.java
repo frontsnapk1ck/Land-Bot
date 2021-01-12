@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import alloy.builder.loaders.RankLoaderText;
 import alloy.gameobjects.player.Player;
 import alloy.gameobjects.player.Rank;
+import alloy.io.loader.RankLoaderText;
 import alloy.utility.discord.AlloyUtil;
 import net.dv8tion.jda.api.entities.Guild;
 

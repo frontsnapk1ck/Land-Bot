@@ -2,8 +2,8 @@ package alloy.handler;
 
 import java.util.List;
 
-import alloy.builder.loaders.BuildingLoaderText;
 import alloy.gameobjects.player.Building;
+import alloy.io.loader.BuildingLoaderText;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.utility.discord.AlloyUtil;

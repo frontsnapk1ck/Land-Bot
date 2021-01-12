@@ -2,9 +2,9 @@ package alloy.handler;
 
 import java.util.List;
 
-import alloy.builder.loaders.CaseLoaderText;
 import alloy.command.util.PunishType;
 import alloy.gameobjects.Case;
+import alloy.io.loader.CaseLoaderText;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.settings.CaseSettings;
 import net.dv8tion.jda.api.EmbedBuilder;

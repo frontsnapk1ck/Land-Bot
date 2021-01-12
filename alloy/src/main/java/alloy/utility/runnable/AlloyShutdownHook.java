@@ -1,10 +1,11 @@
 package alloy.utility.runnable;
 
-import static alloy.builder.loaders.JobQueueLoaderText.JOB_MAP;
-import static alloy.builder.loaders.JobQueueLoaderText.SEPERATION_KEY;
+import static alloy.io.loader.JobQueueLoaderText.JOB_MAP;
+import static alloy.io.loader.JobQueueLoaderText.SEPERATION_KEY;
 
 import java.util.concurrent.PriorityBlockingQueue;
 
+import alloy.io.saver.EventQueueSaver;
 import alloy.main.Alloy;
 import alloy.main.SendableMessage;
 import alloy.utility.discord.AlloyUtil;
@@ -22,8 +23,11 @@ public class AlloyShutdownHook extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() 
+    {
         saveQueue();
+        EventQueueSaver eqs = new EventQueueSaver();
+        eqs.save(Alloy.getQueue(), "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\queue.xml" );
     }
 
     private void saveQueue() {
@@ -66,7 +70,10 @@ public class AlloyShutdownHook extends Thread {
         String[] splitNewLine = sm.getMessage().getEmbeds().get(0).getDescription().split("\n");
         String message = StringUtil.joinStrings(splitNewLine, 1);
 
-        out += channel  +SEPERATION_KEY + mention + SEPERATION_KEY + message;
+        out +=  channel  +SEPERATION_KEY + 
+                mention + SEPERATION_KEY + 
+                message;
+        
         return out;
 	}
 

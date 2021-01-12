@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import alloy.builder.loaders.PlayerLoaderText;
-import alloy.builder.loaders.RankLoaderText;
 import alloy.gameobjects.RankUp;
 import alloy.gameobjects.Server;
 import alloy.gameobjects.player.Player;
 import alloy.gameobjects.player.Rank;
 import alloy.input.discord.AlloyInputData;
+import alloy.io.loader.PlayerLoaderText;
+import alloy.io.loader.RankLoaderText;
 import alloy.main.Queueable;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;

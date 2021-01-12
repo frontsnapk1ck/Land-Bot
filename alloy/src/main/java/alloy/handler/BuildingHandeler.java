@@ -3,11 +3,11 @@ package alloy.handler;
 import java.util.Collections;
 import java.util.List;
 
-import alloy.builder.loaders.BuildingLoaderText;
-import alloy.builder.loaders.PlayerLoaderText;
 import alloy.gameobjects.Server;
 import alloy.gameobjects.player.Building;
 import alloy.gameobjects.player.Player;
+import alloy.io.loader.BuildingLoaderText;
+import alloy.io.loader.PlayerLoaderText;
 import alloy.utility.discord.AlloyUtil;
 import io.Saver;
 import net.dv8tion.jda.api.entities.Guild;

@@ -1,11 +1,11 @@
 package alloy.command.economy;
 
-import alloy.builder.loaders.PlayerLoaderText;
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Player;
 import alloy.handler.BankHandeler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
+import alloy.io.loader.PlayerLoaderText;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;

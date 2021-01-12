@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import alloy.builder.loaders.PlayerLoaderText;
-import alloy.builder.loaders.WarningLoaderText;
 import alloy.gameobjects.Warning;
 import alloy.gameobjects.player.Player;
+import alloy.io.loader.PlayerLoaderText;
+import alloy.io.loader.WarningLoaderText;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.settings.WarningSettings;
 import io.FileReader;

@@ -1,10 +1,13 @@
 package alloy.command.console;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.main.Alloy;
+import alloy.utility.job.jobs.RmUserCoolDownJob;
+import alloy.utility.job.jobs.RmUserXPCooldownJob;
 import net.dv8tion.jda.api.JDA;
 import utility.event.EventManager.ScheduledJob;
 import utility.time.TimeUtil;
@@ -14,18 +17,63 @@ import utility.event.Job;
 
 public class QueueCommand extends AbstractConsoleCommand {
 
+    public static final Class<?>[] saved;
+
+    static {
+        saved = configSaved();
+    }
+
+    private static Class<?>[] configSaved() 
+    {
+        return new Class<?>[] {
+
+            RmUserCoolDownJob.class, 
+            RmUserXPCooldownJob.class, 
+            
+        };
+    }
+
     @Override
-    public void execute(List<String> args, JDA jda) {
+    public void execute(List<String> args, JDA jda) 
+    {
         if (args.size() == 1)
             showQueue();
         else if (args.get(1).equalsIgnoreCase("clear"))
-            clearQueue();
+            clearQueue(args);
     }
 
-    private void clearQueue() {
-        Alloy.getQueue().clear();
-        System.err.println("the queue has been cleared");
+    private void clearQueue(List<String> args) 
+    {
+        if (args.size() > 2 && args.get(2).equalsIgnoreCase("all")) 
+        {
+            Alloy.getQueue().clear();
+            System.err.println("the queue has been cleared");
+        }
+        else 
+        {
+            clearPart();
+            System.err.println("the queue has been partially cleared");
+        }
         showQueue();
+    }
+
+    private void clearPart() 
+    {
+        List<ScheduledJob> toRm = new ArrayList<ScheduledJob>();
+        PriorityBlockingQueue<ScheduledJob> queue = Alloy.getQueue();
+        for (ScheduledJob sJob : queue) 
+        {
+            boolean save = false;
+            for (Class<?> c : saved) 
+            {
+                if (sJob.job.getClass() == c)
+                    save = true;
+            }
+            if (!save)
+                toRm.add(sJob);
+
+        }
+        Alloy.getQueue().removeAll(toRm);
     }
 
     private void showQueue() {

@@ -13,6 +13,8 @@ public class SendableMessage {
     private String from;
     private Message message;
 
+    private Message sent;
+
     public SendableMessage() 
     {
         this.from = "NO CHANNEL PROVIDED";
@@ -43,6 +45,10 @@ public class SendableMessage {
         return message;
     }
 
+    public Message getSent() {
+        return sent;
+    }
+
     public void setChannel(MessageChannel channel)
     {
         this.channel = channel;
@@ -66,7 +72,12 @@ public class SendableMessage {
     public void setMessage(Message message) 
     {
         this.message = message;
-	}
+    }
+    
+    public void setSent(Message sent) 
+    {
+        this.sent = sent;
+    }
 
     public boolean hasChannel ()
     {
@@ -91,6 +102,11 @@ public class SendableMessage {
     public boolean hasFrom ()
     {
         return this.from != null;
+    }
+
+    public boolean hasSent()
+    {
+        return this.sent != null;
     }
     
 

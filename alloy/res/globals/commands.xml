@@ -239,6 +239,13 @@
                         description = "sends a random dead chat gif"/>
     </command>
 
+    <command name = "link" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
+        <trigger text = "link" />
+
+        <subcommand text = "{link} {message}"
+                        description = "links a message"/>
+    </command>
+
     <command name = "!rank" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
         <trigger text = "!rank" />
 

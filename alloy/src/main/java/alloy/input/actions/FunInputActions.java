@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alloy.command.fun.DeadChatCommand;
+import alloy.command.fun.LinkCommand;
 import alloy.command.fun.RankCommand;
 import alloy.command.fun.RemindCommand;
 import alloy.command.fun.SayCommand;
@@ -16,16 +17,18 @@ import input.InputAction;
 public class FunInputActions extends AbstractActions {
 
     public static final InputAction DEAD_CHAT_ACTION;
+    public static final InputAction LINK_ACTION;
     public static final InputAction RANK_ACTION;
     public static final InputAction SAY_ACTION;
-    public static final InputAction SPAM_ACTOIN;
+    public static final InputAction SPAM_ACTION;
     public static final InputAction REMIND_ACTION;
 
     static {
         DEAD_CHAT_ACTION = loadDeadChatAction();
+        LINK_ACTION = loadLinkAction();
         RANK_ACTION = loadRankAction();
         SAY_ACTION = loadSayAction();
-        SPAM_ACTOIN = loadSpamAction();
+        SPAM_ACTION = loadSpamAction();
         REMIND_ACTION = loadRemindAction();
     }
 
@@ -38,6 +41,23 @@ public class FunInputActions extends AbstractActions {
             @Override
             public void execute(AlloyInputData data) {
                 AbstractCommand command = new DeadChatCommand();
+                command.execute(data);
+            }
+
+        };
+        return action;
+    }
+
+    private static InputAction loadLinkAction() 
+    {
+        InputAction action = new AlloyInputAction() {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(AlloyInputData data) {
+                AbstractCommand command = new LinkCommand();
                 command.execute(data);
             }
 
@@ -118,7 +138,7 @@ public class FunInputActions extends AbstractActions {
         actions.add(DEAD_CHAT_ACTION);
         actions.add(RANK_ACTION);
         actions.add(SAY_ACTION);
-        actions.add(SPAM_ACTOIN);
+        actions.add(SPAM_ACTION);
 
         return actions;    
     }

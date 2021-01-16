@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
-import java.util.function.Consumer;
 
 import javax.security.auth.login.LoginException;
 
@@ -35,10 +34,8 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
-import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
@@ -46,8 +43,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import utility.event.EventManager.ScheduledJob;
 import utility.event.Job;
 
-public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler,
-        UncaughtExceptionHandler {
+public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler, UncaughtExceptionHandler {
 
     public static final AlloyLogger LOGGER = new AlloyLogger();
 
@@ -184,52 +180,64 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
             sendM(message);
     }
 
-    private void sendM(SendableMessage message) {
+    private void sendM(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         Message messageM = message.getMessage();
         String from = message.getFrom();
 
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
-            @Override
-            public void accept(ErrorResponseException t) {
-                LOGGER.warn(from, t.getMessage());
-            }
+        // Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+        // {
+        //     @Override
+        //     public void accept(ErrorResponseException t) 
+        //     {
+        //         LOGGER.warn(from, t.getMessage());
+        //     }
 
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
+        //     @Override
+        //     public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
+        //     {
+        //         return Consumer.super.andThen(after);
+        //     }
+        // };
+        // ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
 
         try {
-            channel.sendMessage(messageM).queue(null, handler);
-        } catch (InsufficientPermissionException e) {
+            // channel.sendMessage(messageM).queue(null, handler);
+            Message m = channel.sendMessage(messageM).complete();
+            message.setSent(m);
+        } catch (InsufficientPermissionException | ErrorResponseException e) {
             LOGGER.warn(from, e.getMessage());
         }
     }
 
-    private void sendS(SendableMessage message) {
+    private void sendS(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         String messageS = message.getMessageS();
         String from = message.getFrom();
 
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
-            @Override
-            public void accept(ErrorResponseException t) {
-                LOGGER.warn(from, t.getMessage());
-            }
+        // Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
+        //     @Override
+        //     public void accept(ErrorResponseException t) {
+        //         LOGGER.warn(from, t.getMessage());
+        //     }
 
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
+        //     @Override
+        //     public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
+        //         return Consumer.super.andThen(after);
+        //     }
+        // };
+        // ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
 
-        try {
-            channel.sendMessage(messageS).queue(null, handler);
-        } catch (InsufficientPermissionException e) {
+        try 
+        {
+            // channel.sendMessage(messageS).queue(null , handler );
+            Message m = channel.sendMessage(messageS).complete();
+            message.setSent(m);
+        }
+        catch (InsufficientPermissionException | ErrorResponseException e) 
+        {
             LOGGER.warn(from, e.getMessage());
         }
 
@@ -240,22 +248,24 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
 
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
-            @Override
-            public void accept(ErrorResponseException t) {
-                LOGGER.warn(from, t.getMessage());
-            }
+        // Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
+        //     @Override
+        //     public void accept(ErrorResponseException t) {
+        //         LOGGER.warn(from, t.getMessage());
+        //     }
 
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
+        //     @Override
+        //     public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
+        //         return Consumer.super.andThen(after);
+        //     }
+        // };
+        // ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
 
         try {
-            channel.sendMessage(messageE).queue(null, handler);
-        } catch (InsufficientPermissionException e) {
+            // channel.sendMessage(m).queue(null, handler);
+            Message m = channel.sendMessage(messageE).complete();
+            message.setSent(m);
+        } catch (InsufficientPermissionException | ErrorResponseException e) {
             LOGGER.warn(from, e.getMessage());
         }
     }

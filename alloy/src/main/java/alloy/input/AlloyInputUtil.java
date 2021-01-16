@@ -79,10 +79,11 @@ public class AlloyInputUtil {
         map.put(    "work"              ,   EconomyInputActions.WORK_ACTION);
     
         map.put(    "dead-chat"         ,   FunInputActions.DEAD_CHAT_ACTION);
+        map.put(    "link"              ,   FunInputActions.LINK_ACTION);
         map.put(    "!rank"             ,   FunInputActions.RANK_ACTION);
         map.put(    "remindme"          ,   FunInputActions.REMIND_ACTION);
         map.put(    "say"               ,   FunInputActions.SAY_ACTION);
-        map.put(    "spam"              ,   FunInputActions.SPAM_ACTOIN);
+        map.put(    "spam"              ,   FunInputActions.SPAM_ACTION);
     
         map.put(    "help"              ,   InfoInputActions.HELP_ACTION);
         map.put(    "invite"            ,   InfoInputActions.INVITE_ACTION);

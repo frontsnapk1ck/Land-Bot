@@ -9,9 +9,11 @@
         "delwarn",
         "dhms",
         "gener",
+        "jqlt",
         "notmatch",
         "notmatches",
-        "rankups"
+        "rankups",
+        "remindme"
     ],
     "cSpell.ignoreWords": [
         "sjob"

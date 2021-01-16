@@ -730,14 +730,14 @@ public class Templates {
 	public static Template invite() {
 		Template t = new Template("Invite", "Thanks for thinking of me");
 		String rickroll = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-		t.setTitle("CLick here to invite me", rickroll);
+		t.setTitle("Click here to invite me", rickroll);
 		return t;
 	}
 
 	public static Template inviteActual(Member m) {
-		String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=762825892006854676&permissions=435678326&scope=bot";
+		String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=762825892006854676&permissions=435514430&scope=bot";
 		Template t = new Template("This is your actual invite",
-				"my creator will never miss an opportunity to rick roll someone\n\n" + inviteLink);
+				"my creator will never miss an opportunity to rick roll someone\n\nclick [here](" + inviteLink + ")");
 		return t;
 
 	}
@@ -921,6 +921,12 @@ public class Templates {
 		String link = DisUtil.getLink(msg);
 		Template t = new Template("Reminder",
 				"you have a reminder with the message:\n" + out + "\n\nlink [here](" + link + ")");
+		return t;
+	}
+
+	public static Template linkEmbed(String link, String text) 
+	{
+		Template t = new Template ("link" , "[" + text + "](" + link + ")" );
 		return t;
 	}
 

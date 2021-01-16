@@ -16,6 +16,7 @@ import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
+import alloy.utility.job.jobs.DeleteMessageJob;
 import alloy.utility.job.jobs.PurgeJob;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -257,7 +258,8 @@ public class PurgeCommand extends AbstractCommand {
         if (messagesToDelete.isEmpty())
             return;
 
-        if (hasManageMessages) {
+        if (hasManageMessages) 
+        {
             Template t = Templates.bulkDeleteSuccessful(channel, messagesToDelete.size() - 1);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -266,6 +268,8 @@ public class PurgeCommand extends AbstractCommand {
             bot.send(sm);
             Job j = new PurgeJob(messagesToDelete, channel);
             q.queue(j);
+            Job j2 = new DeleteMessageJob(sm);
+            q.queueIn(j2, 5000l);
         }
     }
 

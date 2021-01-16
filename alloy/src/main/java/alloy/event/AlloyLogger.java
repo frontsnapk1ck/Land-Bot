@@ -17,7 +17,7 @@ public class AlloyLogger extends Logger {
     }
 
     @Override
-    protected void onRecieve(String className, String message, Throwable error, Level level, Thread t) 
+    protected void onReceive(String className, String message, Throwable error, Level level, Thread t) 
     {
         DebugEvent e = new DebugEvent(className, message, error, level , t);
         try {

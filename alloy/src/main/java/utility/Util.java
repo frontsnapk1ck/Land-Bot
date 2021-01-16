@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import alloy.command.util.AbstractCommand;
-
 public class Util {
 
     public static int parseInt(String num) throws NumberFormatException {
@@ -81,7 +79,8 @@ public class Util {
         return list.toArray(arr);
     }
 
-    public static boolean isInstantiable(Class<?> c) {
+    public static boolean isInstantiable(Class<?> c) 
+    {
         try 
         {
             c.getConstructor().newInstance();

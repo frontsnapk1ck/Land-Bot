@@ -930,4 +930,11 @@ public class Templates {
 		return t;
 	}
 
+	public static Template donate(User author) 
+	{
+		String link = "https://paypal.me/frontsnapk1ck";
+		Template t = new Template("Donations"  , "thank you so much for thinking of me " + author.getAsMention() + "\n\nyou can donate to me [here](" + link + ")" );
+		return t;
+	}
+
 }

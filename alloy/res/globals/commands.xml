@@ -281,6 +281,14 @@
     </command>
 
     <!-- INFO COMMANDS-->
+    <command name = "donate" permission = "Message_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "donate" />
+
+        <subcommand text = ""
+                    description = "gets a link to donate for alloy" />
+    </command>
+
+
     <command name = "help" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
         <trigger text = "help"/>
 

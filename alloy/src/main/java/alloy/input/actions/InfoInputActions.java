@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alloy.command.configuration.PrefixCommand;
+import alloy.command.info.DonateCommand;
 import alloy.command.info.HelpCommand;
 import alloy.command.info.InfoCommand;
 import alloy.command.info.InviteCommand;
@@ -18,6 +19,7 @@ public class InfoInputActions extends AbstractActions {
 
     public static final InputAction HELP_ACTION;
     public static final InputAction INVITE_ACTION;
+    public static final InputAction DONATE_ACTION;
     public static final InputAction PING_ACTION;
     public static final InputAction PREFIX_SHOW_ACTION;
     public static final InputAction INFO_ACTION;
@@ -26,6 +28,7 @@ public class InfoInputActions extends AbstractActions {
     static {
         HELP_ACTION = loadHelpAction();
         INVITE_ACTION = loadInviteAction();
+        DONATE_ACTION = loadDonateAction();
         PING_ACTION = loadPingAction();
         PREFIX_SHOW_ACTION = LoadPrefixShowAction();
         INFO_ACTION = loadInfoAction();
@@ -41,6 +44,22 @@ public class InfoInputActions extends AbstractActions {
             @Override
             public void execute(AlloyInputData data) {
                 AbstractCommand command = new UptimeCommand();
+                command.execute(data);
+            }
+        };
+        return action;
+    }
+
+    private static InputAction loadDonateAction() 
+    {
+        InputAction action = new AlloyInputAction() {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(AlloyInputData data) {
+                AbstractCommand command = new DonateCommand();
                 command.execute(data);
             }
         };

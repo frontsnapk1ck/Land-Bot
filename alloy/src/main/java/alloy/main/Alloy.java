@@ -56,16 +56,21 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
 
     private boolean started;
 
-    public Alloy() {
+    public Alloy() 
+    {
         Alloy.startupTimeStamp = System.currentTimeMillis();
         configThread();
         boolean startedL = false;
-        while (!startedL) {
-            try {
+        while (!startedL) 
+        {
+            try 
+            {
                 start();
                 startedL = true;
                 makeMentions();
-            } catch (LoginException e) {
+            }
+            catch (LoginException e) 
+            {
                 e.printStackTrace();
                 cooldown(5);
             }
@@ -113,7 +118,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     }
 
     @Override
-    public void handleMessage(AlloyInput in) {
+    public void handleMessage(AlloyInput in) 
+    {
         if (!this.started)
             return;
 
@@ -131,7 +137,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
 
         RankHandler.addXP(in.getData());
         String message = in.getMessage();
-        if (CommandHandler.isCommand(message, mentionMe, mentionMeAlias, s)) {
+        if (CommandHandler.isCommand(message, mentionMe, mentionMeAlias, s)) 
+        {
             in = CommandHandler.removePrefix(in, s);
             CommandHandler.process(in);
         }
@@ -398,8 +405,13 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         updateActivity();
     }
 
-    public static PriorityBlockingQueue<ScheduledJob> getQueue() {
+    public static PriorityBlockingQueue<ScheduledJob> getQueue() 
+    {
+        try{
         return data.getEventHandler().getJobQueue();
+        } catch (Exception e) {
+            return new PriorityBlockingQueue<ScheduledJob>();
+        }
     }
 
 }

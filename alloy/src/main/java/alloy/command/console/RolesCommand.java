@@ -3,6 +3,7 @@ package alloy.command.console;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.main.Alloy;
@@ -11,6 +12,9 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.exceptions.ErrorHandler;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import utility.StringUtil;
 import utility.Util;
 
@@ -127,7 +131,8 @@ public class RolesCommand extends AbstractConsoleCommand {
         g.removeRoleFromMember(m, r).queue();
     }
 
-    private void stripUser(List<String> args, JDA jda) {
+    private void stripUser(List<String> args, JDA jda) 
+    {
         List<Guild> all = jda.getGuilds();
         if (args.size() != 3)
             return;
@@ -152,9 +157,27 @@ public class RolesCommand extends AbstractConsoleCommand {
         String[][] data = new String[0][];
 
         int i = 0;
-        for (Role r : roles) {
+
+        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+        {
+            @Override
+            public void accept(ErrorResponseException t) 
+            {
+                Alloy.LOGGER.warn("RolesCommand", t.getMessage());
+            }
+
+            @Override
+            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
+            {
+                return Consumer.super.andThen(after);
+            }
+        };
+        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.MISSING_PERMISSIONS, consumer);
+
+        for (Role r : roles) 
+        {
             try {
-                g.removeRoleFromMember(m, r).queue();
+                g.removeRoleFromMember(m, r).queue(null , handler);
                 data = Util.addOneToArray(data);
                 String addBack = "add " + gid + " " + mid + " " + r.getId();
                 data[i] = new String[] { r.getName(), r.getId(), addBack, };

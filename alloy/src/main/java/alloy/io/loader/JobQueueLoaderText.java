@@ -31,7 +31,7 @@ import utility.event.EventManager.ScheduledJob;
 public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<ScheduledJob>, JobQueueData> {
     
     public static final Map<String , Class<?>> JOB_MAP;
-    public static final String  SEPERATION_KEY = "(sep-key)";
+    public static final String  SEPARATION_KEY = "(sep-key)";
 
     static{
         JOB_MAP = new HashMap<String , Class<?>>();
@@ -64,7 +64,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         String[] arr = FileReader.read(data.file);
         for (String job : arr)
         {
-            ScheduledJob sJob = loadSceduledJob(job , data.alloy);
+            ScheduledJob sJob = loadScheduledJob(job , data.alloy);
             if (sJob != null)
                 queue.add(sJob);
 
@@ -72,9 +72,9 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         return queue;
     }
 
-    private ScheduledJob loadSceduledJob(String job, Alloy alloy) 
+    private ScheduledJob loadScheduledJob(String job, Alloy alloy) 
     {
-        String[] args = job.split(SEPERATION_KEY);
+        String[] args = job.split(SEPARATION_KEY);
         args = cleanArgs(args);
         String clazzS = args[0];
         if (clazzS.equalsIgnoreCase("RemindJob"))

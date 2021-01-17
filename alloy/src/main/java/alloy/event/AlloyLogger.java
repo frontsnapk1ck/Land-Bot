@@ -21,7 +21,7 @@ public class AlloyLogger extends Logger {
     {
         DebugEvent e = new DebugEvent(className, message, error, level , t);
         try {
-            listener.onRecieve(e);
+            listener.onReceive(e);
         } catch (NullPointerException enull) 
         {
             this.queue.add(e);
@@ -40,7 +40,7 @@ public class AlloyLogger extends Logger {
             return;
         
         for (DebugEvent e : queue) 
-            this.listener.onRecieve(e);
+            this.listener.onReceive(e);
     }
     
 }

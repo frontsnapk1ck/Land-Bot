@@ -1,22 +1,27 @@
 ~~~rn~~~
-xp might be broken? just in awkokawa tho???
+emulate discord
+    have a way to do dms
+    make it so it can upload files - backend only
 
 ~~~rn-ish~~~
-make it so that it sets the usage for all of the commands on startup
 no duplicate building names
+cache of data
+change console input
+    make it pass all data in a single type like in discord inputs
+
+https://tenor.com/view/amberlynn-speed-speed-eat-mukbang-fast-gif-15548998
+    !RANK
 
 ~~~much later~~~
 clean up help messages
-    spelling...
 music bot
-make it so you can set the rank, not just xp
+set
+    rank
+    mod stuff
 make it so that you can see the total amount of xp you've earned
 make it so that spam runnables queue all of the send messages at once, instead of marking a different thread for each of them
 comment everything
 
 ~~~work on next~~~
-emulate discord
-    have a way to do dms
-    make it so it can upload files - backend only
 reaction roles
   

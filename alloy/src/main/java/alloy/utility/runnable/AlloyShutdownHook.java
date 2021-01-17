@@ -1,7 +1,7 @@
 package alloy.utility.runnable;
 
 import static alloy.io.loader.JobQueueLoaderText.JOB_MAP;
-import static alloy.io.loader.JobQueueLoaderText.SEPERATION_KEY;
+import static alloy.io.loader.JobQueueLoaderText.SEPARATION_KEY;
 
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -60,8 +60,8 @@ public class AlloyShutdownHook extends Thread {
     private String loadRemindJobClass(ScheduledJob sJob) 
     {
 
-        String out =    "RemindJob" + SEPERATION_KEY + 
-                        sJob.time + SEPERATION_KEY;
+        String out =    "RemindJob" + SEPARATION_KEY + 
+                        sJob.time + SEPARATION_KEY;
 
         RemindJob j = (RemindJob) sJob.job;
         SendableMessage sm = j.getSM();
@@ -70,8 +70,8 @@ public class AlloyShutdownHook extends Thread {
         String[] splitNewLine = sm.getMessage().getEmbeds().get(0).getDescription().split("\n");
         String message = StringUtil.joinStrings(splitNewLine, 1);
 
-        out +=  channel  +SEPERATION_KEY + 
-                mention + SEPERATION_KEY + 
+        out +=  channel  +SEPARATION_KEY + 
+                mention + SEPARATION_KEY + 
                 message;
         
         return out;

@@ -24,13 +24,13 @@ public class InputListener implements Runnable {
         Scanner s = new Scanner(System.in);
         while (running)
         {
-            alertListners(s.nextLine());
+            alertListeners(s.nextLine());
         }
         s.close();
 
     }
 
-    private void alertListners(String input) 
+    private void alertListeners(String input) 
     {
         for (ConsoleInputListener l : listeners)
             l.onConsoleInput(input);

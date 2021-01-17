@@ -1,40 +1,47 @@
 package alloy.main;
 
 import botcord.BotCord;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Launcher {
+public class Launcher extends Application {
 
     public static final String VERSION;
-
-    static {
-        VERSION = findVersion();
-    }
 
     private static Alloy alloy;
     private static BotCord botCord;
 
-    public static void main(String[] args) {
-        Launcher.init();
-        try {
-            alloy = new Alloy();
-            botCord = new BotCord(alloy.getJDA());
-            alloy.setDebugListener(botCord.getDebugListener());
-        } catch (Exception e) {
-            Alloy.LOGGER.error("Launcher", e);
-        }
-
-        updateActivityRunnable();
+    static {
+        VERSION = findVersion();
     }
 
     private static String findVersion() {
         return "0.2.0";
     }
 
-    private static void init() {
+    public static void main(String[] args) {
+        Launcher l = new Launcher();
+        l.launchAll(args);
+    }
+
+    public Launcher() {
         System.out.println("Launched Alloy with version " + Launcher.VERSION);
     }
 
-    private static void updateActivityRunnable() {
+    private void launchAll(String[] args) {
+        try {
+            alloy = new Alloy();
+            botCord = new BotCord(alloy.getJDA());
+            launch(args);
+            updateActivityRunnable();
+        } catch (Exception e) {
+            Alloy.LOGGER.error("Launcher", e);
+            return;
+        }
+    }
+
+    private static void updateActivityRunnable() 
+    {
         Runnable r = new Runnable() {
             @Override
             public void run() {
@@ -44,13 +51,19 @@ public class Launcher {
                     e.printStackTrace();
                 }
                 alloy.update();
-                botCord.update();
+                // botCord.update();
             }
         };
 
         Thread t = new Thread(r, "stupid wait for the server to update");
         t.setDaemon(true);
         t.start();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception 
+    {
+        botCord.start(primaryStage);
     }
 
 }

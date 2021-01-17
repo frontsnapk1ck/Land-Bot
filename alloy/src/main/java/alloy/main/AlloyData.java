@@ -49,7 +49,7 @@ public class AlloyData {
         JobQueueData data = new JobQueueData(this.alloy, AlloyUtil.EVENT_FILE);
         PriorityBlockingQueue<ScheduledJob> jobQueue = jqlt.load(data);
         if (jobQueue.size() == 0)
-            Alloy.LOGGER.info("AlloyData", "there was nothign to load in the queue");
+            Alloy.LOGGER.info("AlloyData", "there was nothing to load in the queue");
         else
             Alloy.LOGGER.info("AlloyData", "loaded the queue, there are " + jobQueue.size() + " events");
         handler.setJobQueue(jobQueue);

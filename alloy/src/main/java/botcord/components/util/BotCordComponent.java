@@ -1,4 +1,4 @@
-package botcord.util;
+package botcord.components.util;
 
 public interface BotCordComponent {
 

@@ -1,10 +1,8 @@
 package alloy.main;
 
 import botcord.BotCord;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
-public class Launcher extends Application {
+public class Launcher {
 
     public static final String VERSION;
 
@@ -32,7 +30,6 @@ public class Launcher extends Application {
         try {
             alloy = new Alloy();
             botCord = new BotCord(alloy.getJDA());
-            launch(args);
             updateActivityRunnable();
         } catch (Exception e) {
             Alloy.LOGGER.error("Launcher", e);
@@ -51,19 +48,13 @@ public class Launcher extends Application {
                     e.printStackTrace();
                 }
                 alloy.update();
-                // botCord.update();
+                botCord.update();
             }
         };
 
         Thread t = new Thread(r, "stupid wait for the server to update");
         t.setDaemon(true);
         t.start();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception 
-    {
-        botCord.start(primaryStage);
     }
 
 }

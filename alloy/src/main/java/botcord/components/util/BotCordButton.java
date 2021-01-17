@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.JButton;
 
 import botcord.event.BotCordListener;
-import botcord.util.BotCordComponent;
 
 @SuppressWarnings("serial")
 public abstract class BotCordButton extends JButton implements BotCordComponent {

@@ -52,7 +52,7 @@ public class Launcher {
             }
         };
 
-        Thread t = new Thread(r, "stupid wait for the server to update");
+        Thread t = new Thread(r, "Update Delay");
         t.setDaemon(true);
         t.start();
     }

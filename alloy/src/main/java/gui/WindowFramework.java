@@ -36,8 +36,10 @@ public abstract class WindowFramework extends JFrame {
 		
 		// Register so when this window is resized,
 		//	we can intercept and update the screen.
-		this.addComponentListener( new ComponentAdapter() {
-			@Override public void componentResized( ComponentEvent e ) {
+		this.addComponentListener( new ComponentAdapter() 
+		{
+			@Override public void componentResized( ComponentEvent e ) 
+			{
 				onWindowResize();
 			}
 		});
@@ -115,7 +117,8 @@ public abstract class WindowFramework extends JFrame {
 	 * 	Updates the size of this window and updates
 	 * 	the current screen to fit
 	 */
-	@Override public void setSize( int w, int h )
+	@Override 
+	public void setSize( int w, int h )
 	{
 		super.setSize( w, h );
 		
@@ -127,7 +130,8 @@ public abstract class WindowFramework extends JFrame {
 	 * 	Updates the size of this window and updates
 	 * 	the current screen to fit
 	 */
-	@Override public void setSize( Dimension d )
+	@Override
+	public void setSize( Dimension d )
 	{
 		super.setSize( d );
 		

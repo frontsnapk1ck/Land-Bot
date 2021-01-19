@@ -24,10 +24,10 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
 
         String accountPath = file   +   AlloyUtil.SUB + AlloyUtil.ACCOUNT_FILE;
         String buildingPath = file  +   AlloyUtil.SUB + AlloyUtil.BUILDING_FILE;
-        String wanringsPath = file  +   AlloyUtil.WARNINGS_FOLDER;
+        String warningsPath = file  +   AlloyUtil.WARNINGS_FOLDER;
 
         Account a = alt.load(accountPath);
-        List<Warning> warnings = wlt.loadALl(wanringsPath);
+        List<Warning> warnings = wlt.loadALl(warningsPath);
         int xp = loadXP(file);
         long id = AlloyUtil.parseID(file);
 
@@ -47,8 +47,8 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
 
     /**
      * 
-     * @param path the path of the buildigns to load buillding types from
-     * @return a list of buildingtypes
+     * @param path the path of the buildings to load building types from
+     * @return a list of building types
      */
     private List<String> getBuildingTypes(String path) 
     {
@@ -76,8 +76,8 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
 
     /**
      * 
-     * @param path the location of the buildigns that the player owns
-     * @return a hashmap of buildingtypes to a list of buildings
+     * @param path the location of the buildings that the player owns
+     * @return a hashmap of building types to a list of buildings
      */
     private HashMap<String, List<Building>> configureHashMap(String path) 
     {
@@ -102,7 +102,7 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
      * 
      * @param map the map that needs to be filled
      * @param stock the list of stock building in a server
-     * @param data a list of buildign data used to determine the amount of buildigns to load
+     * @param data a list of building data used to determine the amount of buildings to load
      */
     private void fillHashMap(HashMap<String, List<Building>> map, List<Building> stock, List<BuildingData> data) 
     {
@@ -120,8 +120,8 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
     /**
      * 
      * @param s the name of the building that is being look for
-     * @param data the list of building data that is being seached though to find the number of buildings
-     * @return the number of buildigns that need to be created
+     * @param data the list of building data that is being searched though to find the number of buildings
+     * @return the number of buildings that need to be created
      */
     private int findMax(String s, List<BuildingData> data) 
     {
@@ -135,7 +135,7 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
 
     /**
      * this is kinda stupid, but because of the way i have things rn, this is the way it has to be because i dont want to have to change things
-     * @param path the path to the player's buildigns
+     * @param path the path to the player's buildings
      * @return the path to the guild buildings
      */
     private String loadStockPath(String path) 
@@ -147,9 +147,9 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
 
     /**
      * calls {@link Building#copy()} and makes a new building
-     * @param stock the list of stock buildgins to compare agaist
+     * @param stock the list of stock building to compare against
      * @param s the name of the building to look for
-     * @return a copy of that buidling
+     * @return a copy of that building
      */
     private Building copyFromStock(List<Building> stock, String s) 
     {
@@ -187,7 +187,7 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
     /**
      * 
      * @param path path of the stock building in this server
-     * @return a list of deflaut buildigns for this server
+     * @return a list of default buildings for this server
      */
     private List<Building> getStockBuildings(String path) 
     {
@@ -233,7 +233,7 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
     {
         /**the name of the building */
         public String   name;
-        /**the number of buildigns that should be loaded */
+        /**the number of buildings that should be loaded */
         public int      count;
 
         public BuildingData( String name , int count)

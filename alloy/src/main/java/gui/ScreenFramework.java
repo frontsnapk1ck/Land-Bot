@@ -26,8 +26,10 @@ public abstract class ScreenFramework {
 		
 		// Register so when the panel is resized,
 		//	we can intercept and update the screen.
-		this.panel.addComponentListener( new ComponentAdapter() {
-			@Override public void componentResized( ComponentEvent e ) {
+		this.panel.addComponentListener( new ComponentAdapter() 
+		{
+			@Override public void componentResized( ComponentEvent e ) 
+			{
 				onScreenResize();
 			}
 		});

@@ -41,31 +41,39 @@ public class GuildButton extends BotCordButton {
     }
 
     @Override
-    public void config() {
+    public void config() 
+    {
         setImage();
+        this.configToolTip();
+        this.configAction();
+        this.setBorder(null);
     }
 
-    private void setImage() {
-        try {
+    private void setImage() 
+    {
+        try 
+        {
             Image img = getImage(this.guild.getIconUrl());
             this.setIcon(new ImageIcon(img));
-            this.configToolTip();
-            this.configAction();
-        } catch (IOException e) {
+        }
+        catch (IOException e) 
+        {
             Alloy.LOGGER.error("GuildButton", e);
-            e.printStackTrace();
         }
     }
 
-    public void updateImage() {
+    public void updateImage() 
+    {
         int w, h;
         w = this.getWidth();
         h = this.getHeight();
 
         if (w == 0 || h == 0)
             return;
+        
         Icon ic = this.getIcon();
-        if (ic instanceof ImageIcon) {
+        if (ic instanceof ImageIcon) 
+        {
             Image img = ((ImageIcon) ic).getImage();
             img = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
             ImageIcon newIc = new ImageIcon(img);
@@ -136,9 +144,25 @@ public class GuildButton extends BotCordButton {
     }
 
     @Override
-    public void update() {
+    public void update() 
+    {
         this.updateImage();
         this.configToolTip();
+    }
+
+    @Override
+    protected void configListener() 
+    {
+        this.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ignored) 
+            {
+                PressEvent e = new PressEvent(PressTarget.GUILD);
+                e.setData(getGuild());
+                for (BotCordListener l : getListeners())
+                    l.onPress(e);
+            }
+        });
     }
 
 }

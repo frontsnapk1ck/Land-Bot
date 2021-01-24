@@ -1,5 +1,11 @@
 package botcord;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
 import alloy.event.DebugEvent;
 import alloy.event.DebugListener;
 import botcord.manager.ScreenManager;
@@ -21,18 +27,31 @@ public class BotCord extends WindowFramework implements BotCordColors, BotCordLi
         init();
     }
 
-    private void configScreens() 
-    {
+    private void configScreens() {
         this.manager = new ScreenManager(this);
         this.setCurrentScreen(this.manager.getDebugScreen());
         this.update();
     }
 
-    private void init() 
-    {
-        this.setTitle("BotCord");
+    private void init() {
+        this.setTitle("BotCord Testing");
         this.setSize(1600, 900);
+        this.setIconImage(loadIcon());
         this.setVisible(true);
+    }
+
+    private Image loadIcon() 
+    {
+        try 
+        {
+            URL url = new URL(APP_ICON);
+            return ImageIO.read(url);
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void update() 

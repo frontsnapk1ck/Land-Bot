@@ -15,7 +15,7 @@ public class SpamRunnable extends Job {
     private int reps;
     private String message;
     private TextChannel channel;
-    private List<SpamFinishListener> listners;
+    private List<SpamFinishListener> listeners;
 
     private int i;
 
@@ -23,7 +23,7 @@ public class SpamRunnable extends Job {
     public SpamRunnable(int reps, String message, TextChannel c, Long num) 
     {
         super("" + num);
-        this.listners = new ArrayList<SpamFinishListener>();
+        this.listeners = new ArrayList<SpamFinishListener>();
 
         this.reps = reps;
         this.message = message;
@@ -34,7 +34,7 @@ public class SpamRunnable extends Job {
     {
         SpamFinishEvent e = new SpamFinishEvent();
         e.setRunnable(this);
-        for (SpamFinishListener l : listners) 
+        for (SpamFinishListener l : listeners) 
             l.onSpamFinishEvent(e);
     }
 
@@ -53,12 +53,12 @@ public class SpamRunnable extends Job {
 
     public void addListener( SpamFinishListener l)
     {
-        this.listners.add(l);
+        this.listeners.add(l);
     }
 
     public boolean removeListener( SpamFinishListener l)
     {
-        return this.listners.remove(l);
+        return this.listeners.remove(l);
     }
 
     public Long getIDLong() 
@@ -93,8 +93,8 @@ public class SpamRunnable extends Job {
         return channel;
     }
 
-    public List<SpamFinishListener> getListners() {
-        return listners;
+    public List<SpamFinishListener> getListeners() {
+        return listeners;
     }
 
     public String getMessage() {

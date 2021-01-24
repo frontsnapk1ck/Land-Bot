@@ -3,7 +3,6 @@ package botcord.screen.util;
 import botcord.components.selector.ScreenSelector;
 import botcord.util.BotCordComponent;
 import gui.ScreenFramework;
-import net.dv8tion.jda.api.JDA;
 
 public abstract class BotCordScreen extends ScreenFramework implements BotCordComponent {
 
@@ -17,7 +16,7 @@ public abstract class BotCordScreen extends ScreenFramework implements BotCordCo
         super();
     }
 
-    public void configSelector(JDA jda)
+    public void configSelector()
     {
         this.getPanel().add(this.getSelector());
     }

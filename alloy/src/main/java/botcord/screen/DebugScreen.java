@@ -36,11 +36,11 @@ public class DebugScreen extends BotCordScreen {
     @Override
     public void config() 
     {
-        this.configSelector(jda);
+        this.configSelector();
     }
 
     @Override
-    public void configSelector(JDA jda) 
+    public void configSelector() 
     {
         updateBounds();
         this.getPanel().add(this.getSelector());

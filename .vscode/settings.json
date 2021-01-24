@@ -17,5 +17,6 @@
     ],
     "cSpell.ignoreWords": [
         "sjob"
-    ]
+    ],
+    "java.dependency.packagePresentation": "flat"
 }

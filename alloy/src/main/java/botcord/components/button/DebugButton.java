@@ -40,13 +40,15 @@ public class DebugButton extends BotCordButton {
         setImage();
     }
 
-    private void setImage() {
-        URL url;
-        try {
-            url = new URL(BotCordLinks.BUG_IMAGE);
+    private void setImage() 
+    {
+        try 
+        {
+            URL url = new URL(BotCordLinks.BUG_IMAGE);
             Image img = ImageIO.read(url);
             this.setIcon(new ImageIcon(img));
-        } catch (IOException e) 
+        }
+        catch (IOException e) 
         {
             Alloy.LOGGER.warn("DebugButton", e.getLocalizedMessage());
         }

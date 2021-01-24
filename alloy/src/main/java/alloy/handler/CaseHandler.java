@@ -16,19 +16,24 @@ import net.dv8tion.jda.api.entities.User;
 
 public class CaseHandler {
 
-    public static int nextID(Guild g) {
+    public static int nextID(Guild g) 
+    {
         CaseLoaderText clt = new CaseLoaderText();
         String path = getGuildPath(g) + "\\cases";
         List<Case> cases = clt.loadALl(path);
+        if (cases.size() == 0)
+            return 1;
         Case last = cases.get(cases.size() - 1);
         return last.getNum() + 1;
     }
 
-    private static String getGuildPath(Guild g) {
-        return AlloyUtil.ALLOY_PATH + "res\\servers\\" + g.getId();
+    private static String getGuildPath(Guild g) 
+    {
+        return getGuildPath(g.getIdLong());
     }
 
-    private static String getGuildPath(long idLong) {
+    private static String getGuildPath(long idLong) 
+    {
         return AlloyUtil.ALLOY_PATH + "res\\servers\\" + idLong;
     }
 

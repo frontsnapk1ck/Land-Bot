@@ -82,17 +82,32 @@ public class EventHandler {
         path += AlloyUtil.USER_FOLDER + AlloyUtil.SUB;
         path += m.getId();
 
-        Saver.deleteFiles(path);
+        try {
+            Saver.deleteFiles(path);
+        } catch (Exception e) 
+        {
+            System.err.println(path);
+            System.err.println(e.getMessage());
+        }
     }
 
     private static String[] loadBotSettingsArr(Guild g) {
         long guildID = g.getIdLong();
         long defaultChannel = g.getDefaultChannel().getIdLong();
 
-        String[] boSS = { Server.PREFIX + ":!", Server.STARTING_BALANCE + ":1000", Server.COOLDOWN + ":10",
-                Server.ROLE_ASSIGN_ON_BUY + ":false", Server.SPAM_CHANNEL + ":" + defaultChannel,
-                Server.BALCKLISTED_CHANNENLS + ":", Server.XP_COOLDOWN + ":4", Server.ID + ":" + guildID,
-                Server.MOD_LOG_CHANNEL + ":", Server.USER_LOG_CHANNEL + ":", Server.MUTE_ROLE_ID + ":", };
+        String[] boSS = { 
+                Server.PREFIX + ":!", 
+                Server.STARTING_BALANCE + ":1000", 
+                Server.COOLDOWN + ":10",
+                Server.ROLE_ASSIGN_ON_BUY + ":false", 
+                Server.SPAM_CHANNEL + ":" + defaultChannel,
+                Server.BALCKLISTED_CHANNENLS + ":", 
+                Server.XP_COOLDOWN + ":4", 
+                Server.ID + ":" + guildID,
+                Server.MOD_LOG_CHANNEL + ":",
+                Server.USER_LOG_CHANNEL + ":", 
+                Server.MUTE_ROLE_ID + ":", 
+            };
 
         return boSS;
     }

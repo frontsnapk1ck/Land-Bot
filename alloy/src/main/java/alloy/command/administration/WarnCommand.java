@@ -13,6 +13,7 @@ import alloy.templates.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
+import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -21,6 +22,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class WarnCommand extends AbstractCommand {
+
+    @Override
+    public DisPerm getPermission() 
+    {
+        return DisPerm.MOD;    
+    }
 
     @Override
     public void execute(AlloyInputData data) {
@@ -32,6 +39,17 @@ public class WarnCommand extends AbstractCommand {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
+
+        if (!DisPermUtil.checkPermission(m, getPermission())) 
+        {
+            Template t = Templates.noPermission(getPermission(), author);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom("CooldownCommand");
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
 
         if (args.length < 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());

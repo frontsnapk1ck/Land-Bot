@@ -37,7 +37,9 @@ public class PMButton extends BotCordButton {
     @Override
     public void config() 
     {
+        long time = System.currentTimeMillis();
         this.configTooltip();
+        System.err.println(System.currentTimeMillis() - time + "ms");
         this.configListener();
         setImage();
     }

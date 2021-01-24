@@ -1,11 +1,14 @@
 package alloy.command.administration;
 
+import java.util.function.Consumer;
+
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.Case;
 import alloy.gameobjects.Server;
 import alloy.handler.CaseHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
+import alloy.main.Alloy;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;
@@ -20,6 +23,9 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorHandler;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import utility.StringUtil;
 import utility.Util;
 
@@ -111,8 +117,24 @@ public class CaseCommand extends AbstractCommand {
         return;
     }
 
-    private MessageEmbed editReason(Sendable bot, Guild guild, Member moderator, MessageChannel channel, String caseId,
-            String reason) {
+    private MessageEmbed editReason(Sendable bot, Guild guild, Member moderator, MessageChannel channel, String caseId, String reason) 
+    {
+        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+        {
+            @Override
+            public void accept(ErrorResponseException t) 
+            {
+                Alloy.LOGGER.warn("DeleteMessageJob", t.getMessage());
+            }
+
+            @Override
+            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
+            {
+                return Consumer.super.andThen(after);
+            }
+        };
+        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, consumer);
+
         Case c = CaseHandler.getCase(guild.getIdLong(), caseId);
         if (c == null) {
             Template t = Templates.caseNotFound(caseId);
@@ -129,7 +151,7 @@ public class CaseCommand extends AbstractCommand {
         }
 
         Message m = tc.getHistory().getMessageById(c.getMessageId());
-        m.editMessage(CaseHandler.toEmbed(c)).queue();
+        m.editMessage(CaseHandler.toEmbed(c)).queue(null, handler);
 
         Template t = Templates.caseReasonModified(reason);
         SendableMessage sm = new SendableMessage();

@@ -101,7 +101,24 @@ public class RolesCommand extends AbstractConsoleCommand {
             System.err.println(p);
     }
 
-    private void addUser(List<String> args, JDA jda) {
+    private void addUser(List<String> args, JDA jda) 
+    {
+        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+        {
+            @Override
+            public void accept(ErrorResponseException t) 
+            {
+                Alloy.LOGGER.warn("BanCommand", t.getMessage());
+            }
+
+            @Override
+            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
+            {
+                return Consumer.super.andThen(after);
+            }
+        };
+        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_USER, consumer);
+
         if (args.size() != 4)
             return;
         String gid = args.get(1);
@@ -113,10 +130,27 @@ public class RolesCommand extends AbstractConsoleCommand {
         Member m = g.getMemberById(mid);
 
         Role r = g.getRoleById(rid);
-        g.addRoleToMember(m, r).queue();
+        g.addRoleToMember(m, r).queue(null,handler);
     }
 
-    private void removeUser(List<String> args, JDA jda) {
+    private void removeUser(List<String> args, JDA jda) 
+    {
+        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+        {
+            @Override
+            public void accept(ErrorResponseException t) 
+            {
+                Alloy.LOGGER.warn("BanCommand", t.getMessage());
+            }
+
+            @Override
+            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
+            {
+                return Consumer.super.andThen(after);
+            }
+        };
+        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_USER, consumer);
+
         if (args.size() != 4)
             return;
         String gid = args.get(1);
@@ -128,7 +162,7 @@ public class RolesCommand extends AbstractConsoleCommand {
         Member m = g.getMemberById(mid);
 
         Role r = g.getRoleById(rid);
-        g.removeRoleFromMember(m, r).queue();
+        g.removeRoleFromMember(m, r).queue(null,handler);
     }
 
     private void stripUser(List<String> args, JDA jda) 

@@ -3,9 +3,9 @@ package botcord.event;
 public class PressEvent {
 
     private Object data;
-    private PressTarget target;
+    private SwitchTarget target;
 
-    public PressEvent(PressTarget target) 
+    public PressEvent(SwitchTarget target) 
     {
         this.target = target;
     }
@@ -20,7 +20,7 @@ public class PressEvent {
         return data;
     }
 
-    public PressTarget getTarget() 
+    public SwitchTarget getTarget() 
     {
         return target;
     }

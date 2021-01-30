@@ -20,9 +20,9 @@ public class UptimeCommand extends AbstractCooldownCommand {
         
         long startupTime = Alloy.getStartupTimeStamp();
 
-        String realitiveTime = TimeUtil.getRealitiveTime(startupTime);
+        String relativeTime = TimeUtil.getRelativeTime(startupTime);
 
-        Template t = Templates.uptime(realitiveTime);
+        Template t = Templates.uptime(relativeTime);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());

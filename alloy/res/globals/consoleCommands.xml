@@ -62,6 +62,14 @@
 
         /</command>
 
+        <command name = "test" type = "CONSOLE" >
+            <trigger text = "test"  />
+            
+            <subcommand text = ""
+                        description = "this is a test command" />
+
+        /</command>
+
     <!-- ===================== COMMAND MAP =============================== -->
             
         <mapping command =  "invite" 	        action = 	"invite"    />

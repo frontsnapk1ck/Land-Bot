@@ -14,7 +14,7 @@ import alloy.main.Alloy;
 import botcord.components.util.BotCordButton;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
-import botcord.event.PressTarget;
+import botcord.event.SwitchTarget;
 import botcord.util.BotCordLinks;
 
 @SuppressWarnings("serial")
@@ -37,9 +37,7 @@ public class PMButton extends BotCordButton {
     @Override
     public void config() 
     {
-        long time = System.currentTimeMillis();
         this.configTooltip();
-        System.err.println(System.currentTimeMillis() - time + "ms");
         this.configListener();
         setImage();
     }
@@ -95,7 +93,7 @@ public class PMButton extends BotCordButton {
             @Override
             public void actionPerformed(ActionEvent ignored) 
             {
-                PressEvent e = new PressEvent(PressTarget.PM);
+                PressEvent e = new PressEvent(SwitchTarget.PM);
                 for (BotCordListener l : getListeners())
                     l.onPress(e);
             }

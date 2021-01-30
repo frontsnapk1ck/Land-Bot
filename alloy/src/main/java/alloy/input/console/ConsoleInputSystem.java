@@ -1,20 +1,19 @@
 package alloy.input.console;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import input.Input;
 import input.InputAction;
 import input.InputSystem;
-import net.dv8tion.jda.api.JDA;
 
 public class ConsoleInputSystem extends InputSystem {
 
     @Override
     protected void processInput( Input input ) 
     {
-        JDA jda = getJDA( input );
-        List<String> strings = getString(input);
+        ConsoleInputData data = null;
+        if (hadInputData(input))
+            data = getInputData(input);
 
         input = stripArgs(input);
 
@@ -26,43 +25,32 @@ public class ConsoleInputSystem extends InputSystem {
         if ( action == null )
             return;
             
-        if ( jda == null )
+        if ( data == null )
             executeAction( action );
         else
-            executeAction( action, jda , strings );
+            executeAction( action, data );
     }
 
-    private List<String> getString(Input input) 
+    private boolean hadInputData(Input input) 
     {
-        String trigger = input.getTrigger();
-        String[] args = trigger.split(" ");
-        List<String> strings = new ArrayList<String>();
-        for (String s : args)
-            strings.add(s);
-        
-        return strings;
-
+        return (input instanceof ConsoleInput);
     }
 
-    private void executeAction(InputAction inputAction, JDA jda, List<String> strings) 
+    private ConsoleInputData getInputData(Input input) 
+    {
+        ConsoleInput in = (ConsoleInput) input;
+        return in.getData();
+    }
+
+    private void executeAction(InputAction inputAction, ConsoleInputData data) 
     {
         if (inputAction instanceof ConsoleInputAction )
         {
             ConsoleInputAction a = (ConsoleInputAction) inputAction;
-            a.execute(strings, jda);
+            a.execute(data);
             return;
         }
         inputAction.execute();
-    }
-
-    private JDA getJDA(Input input) 
-    {
-        if (input instanceof ConsoleInput)
-        {
-            ConsoleInput consoleinput = (ConsoleInput) input;
-            return consoleinput.getJda();
-        }
-        return null;
     }
 
     private Input stripArgs(Input input) 

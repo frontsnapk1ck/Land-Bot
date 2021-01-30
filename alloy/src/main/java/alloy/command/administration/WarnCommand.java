@@ -3,6 +3,7 @@ package alloy.command.administration;
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.Warning;
 import alloy.gameobjects.player.Player;
+import alloy.handler.FunChatHandler;
 import alloy.handler.WarningHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
@@ -42,22 +43,13 @@ public class WarnCommand extends AbstractCommand {
 
         if (!DisPermUtil.checkPermission(m, getPermission())) 
         {
-            Template t = Templates.noPermission(getPermission(), author);
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom("CooldownCommand");
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);
+            warnGif(data);
             return;
         }
 
-        if (args.length < 2) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
-            SendableMessage sm = new SendableMessage();
-            sm.setFrom("WarnCommand");
-            sm.setChannel(channel);
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);
+        if (args.length < 2) 
+        {
+            warnGif(data);
             return;
         }
 
@@ -121,6 +113,22 @@ public class WarnCommand extends AbstractCommand {
         sm2.setFrom("WarnCommand");
         sm2.setMessage(t.getEmbed());
         bot.send(sm2);
+    }
+
+    private void warnGif(AlloyInputData data) 
+    {
+        Sendable bot = data.getSendable();
+        TextChannel channel = data.getChannel();
+        SendableMessage sm = new SendableMessage();
+
+        String[] chats = FunChatHandler.getWarnChats();
+        int i = (int) (Math.random() * chats.length);
+        String message = chats[i];
+
+        sm.setChannel(channel);
+        sm.setFrom("CooldownCommand");
+        sm.setMessage(message);
+        bot.send(sm);
     }
 
     private void delwarn(AlloyInputData data) {

@@ -11,12 +11,14 @@ import alloy.event.DebugListener;
 import botcord.manager.ScreenManager;
 import botcord.util.BotCordColors;
 import botcord.util.BotCordLinks;
+import botcord.util.event.BotCordLogger;
 import gui.WindowFramework;
 import net.dv8tion.jda.api.JDA;
 
+@SuppressWarnings("serial")
 public class BotCord extends WindowFramework implements BotCordColors, BotCordLinks {
 
-    private static final long serialVersionUID = 2438097905045342324L;
+    public static final BotCordLogger LOGGER = new BotCordLogger();
 
     private JDA jda;
     private ScreenManager manager;

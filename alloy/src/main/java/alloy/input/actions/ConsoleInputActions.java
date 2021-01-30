@@ -8,10 +8,11 @@ import alloy.command.console.MembersCommand;
 import alloy.command.console.NameCommand;
 import alloy.command.console.QueueCommand;
 import alloy.command.console.RolesCommand;
+import alloy.command.console.TestCommand;
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.input.console.ConsoleInputAction;
+import alloy.input.console.ConsoleInputData;
 import input.InputAction;
-import net.dv8tion.jda.api.JDA;
 
 public class ConsoleInputActions extends AbstractActions {
 
@@ -20,6 +21,7 @@ public class ConsoleInputActions extends AbstractActions {
     public static final InputAction GET_INVITES_ACTION;
     public static final InputAction ROLES_ACTION;
     public static final InputAction QUEUE_ACTION;
+    public static final InputAction TEST_ACTION;
 
     static{
         NAME_ACTION = loadNameAction();
@@ -27,6 +29,7 @@ public class ConsoleInputActions extends AbstractActions {
         GET_INVITES_ACTION = loadGetInvitesAction();
         ROLES_ACTION = loadRolesAction();
         QUEUE_ACTION = loadQueueAction();
+        TEST_ACTION = loadTestAction();
     }
 
     private static InputAction loadNameAction() 
@@ -38,12 +41,28 @@ public class ConsoleInputActions extends AbstractActions {
             }
 
             @Override
-            public void execute(List<String> args, JDA jda) 
+            public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new NameCommand();
-                command.execute(args, jda);  
+                command.execute(data);  
             }
 
+        };
+        return action;
+    }
+
+    private static InputAction loadTestAction() 
+    {
+        InputAction action = new ConsoleInputAction(){
+            @Override
+            public void execute() {
+            }
+            @Override
+            public void execute(ConsoleInputData data) 
+            {
+                AbstractConsoleCommand command = new TestCommand();
+                command.execute(data);
+            }
         };
         return action;
     }
@@ -57,10 +76,10 @@ public class ConsoleInputActions extends AbstractActions {
             }
 
             @Override
-            public void execute(List<String> args, JDA jda) 
+            public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new QueueCommand();
-                command.execute(args, jda);  
+                command.execute(data);  
             }
 
         };
@@ -76,10 +95,10 @@ public class ConsoleInputActions extends AbstractActions {
             }
 
             @Override
-            public void execute(List<String> args , JDA jda) 
+            public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new RolesCommand();
-                command.execute(args, jda);  
+                command.execute(data);  
             }
 
         };
@@ -95,10 +114,10 @@ public class ConsoleInputActions extends AbstractActions {
             }
 
             @Override
-            public void execute(List<String> args, JDA jda) 
+            public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new InviteCommand();
-                command.execute(args, jda);  
+                command.execute(data);  
             }
 
         };
@@ -114,10 +133,10 @@ public class ConsoleInputActions extends AbstractActions {
             }
 
             @Override
-            public void execute(List<String> args , JDA jda) 
+            public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new MembersCommand();
-                command.execute(args , jda);  
+                command.execute(data);  
             }
 
         };

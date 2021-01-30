@@ -14,7 +14,7 @@ import alloy.main.Alloy;
 import botcord.components.util.BotCordButton;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
-import botcord.event.PressTarget;
+import botcord.event.SwitchTarget;
 import botcord.util.BotCordLinks;
 
 @SuppressWarnings("serial")
@@ -92,7 +92,7 @@ public class DebugButton extends BotCordButton {
             @Override
             public void actionPerformed(ActionEvent ignored) 
             {
-                PressEvent e = new PressEvent(PressTarget.DEBUG);
+                PressEvent e = new PressEvent(SwitchTarget.DEBUG);
                 for (BotCordListener l : getListeners())
                     l.onPress(e);
             }

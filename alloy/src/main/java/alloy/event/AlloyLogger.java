@@ -22,7 +22,7 @@ public class AlloyLogger extends Logger {
         DebugEvent e = new DebugEvent(className, message, error, level , t);
         try {
             listener.onReceive(e);
-        } catch (NullPointerException enull) 
+        } catch (NullPointerException eNull) 
         {
             this.queue.add(e);
         }

@@ -9,7 +9,6 @@ import alloy.input.discord.AlloyInputSystem;
 import input.ActionMap;
 import input.InputMap;
 import input.InputSystem;
-import net.dv8tion.jda.api.JDA;
 
 public class CommandHandler {
 
@@ -31,9 +30,9 @@ public class CommandHandler {
         system.setInputMap(mapI);
     }
 
-    private static void configureSystemConsole(JDA jda) 
+    private static void configureSystemConsole() 
     {
-        InputMap mapI = AlloyInputUtil.loadConsoleInputMap(jda);
+        InputMap mapI = AlloyInputUtil.loadConsoleInputMap();
         ActionMap mapA = AlloyInputUtil.loadConsoleActionMap();
 
         system = new ConsoleInputSystem();
@@ -54,7 +53,7 @@ public class CommandHandler {
 
     public static void process(ConsoleInput in) 
     {
-        configureSystemConsole(in.getJda());
+        configureSystemConsole();
         system.onInput(in);
 	}
 

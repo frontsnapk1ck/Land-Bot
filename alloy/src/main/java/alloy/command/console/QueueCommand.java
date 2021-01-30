@@ -5,21 +5,21 @@ import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.command.util.AbstractConsoleCommand;
-import alloy.main.Alloy;
+import alloy.input.console.ConsoleInputData;
 import alloy.utility.job.jobs.RmUserCoolDownJob;
 import alloy.utility.job.jobs.RmUserXPCooldownJob;
-import net.dv8tion.jda.api.JDA;
+import utility.StringUtil;
 import utility.event.EventManager.ScheduledJob;
+import utility.event.Job;
 import utility.time.TimeUtil;
 import utility.time.TimesIncludes;
-import utility.StringUtil;
-import utility.event.Job;
 
 public class QueueCommand extends AbstractConsoleCommand {
 
     public static final Class<?>[] saved;
 
-    static {
+    static 
+    {
         saved = configSaved();
     }
 
@@ -34,33 +34,37 @@ public class QueueCommand extends AbstractConsoleCommand {
     }
 
     @Override
-    public void execute(List<String> args, JDA jda) 
+    public void execute(ConsoleInputData data) 
     {
+        List<String> args = data.getArgs();
+
         if (args.size() == 1)
-            showQueue();
+            showQueue(data);
         else if (args.get(1).equalsIgnoreCase("clear"))
-            clearQueue(args);
+            clearQueue(data);
     }
 
-    private void clearQueue(List<String> args) 
+    private void clearQueue(ConsoleInputData data) 
     {
+        List<String> args = data.getArgs();
+
         if (args.size() > 2 && args.get(2).equalsIgnoreCase("all")) 
         {
-            Alloy.getQueue().clear();
+            data.getQueue().getQueue().clear();
             System.err.println("the queue has been cleared");
         }
         else 
         {
-            clearPart();
+            clearPart(data);
             System.err.println("the queue has been partially cleared");
         }
-        showQueue();
+        showQueue(data);
     }
 
-    private void clearPart() 
+    private void clearPart(ConsoleInputData data) 
     {
         List<ScheduledJob> toRm = new ArrayList<ScheduledJob>();
-        PriorityBlockingQueue<ScheduledJob> queue = Alloy.getQueue();
+        PriorityBlockingQueue<ScheduledJob> queue = data.getQueue().getQueue();
         for (ScheduledJob sJob : queue) 
         {
             boolean save = false;
@@ -73,11 +77,12 @@ public class QueueCommand extends AbstractConsoleCommand {
                 toRm.add(sJob);
 
         }
-        Alloy.getQueue().removeAll(toRm);
+        data.getQueue().getQueue().removeAll(toRm);
     }
 
-    private void showQueue() {
-        PriorityBlockingQueue<ScheduledJob> queue = Alloy.getQueue();
+    private void showQueue(ConsoleInputData data) 
+    {
+        PriorityBlockingQueue<ScheduledJob> queue = data.getQueue().getQueue();
         String[][] tableArr = new String[queue.size()][4];
 
         int i = 0;

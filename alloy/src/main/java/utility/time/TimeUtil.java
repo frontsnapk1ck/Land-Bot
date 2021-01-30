@@ -60,11 +60,11 @@ public class TimeUtil {
         return val;
     }
 
-    public static String getRealitiveTime(long time) {
-        return getRealitiveTime(time, true);
+    public static String getRelativeTime(long time) {
+        return getRelativeTime(time, true);
     }
 
-    public static String getRealitiveTime(long time, boolean shortText) {
+    public static String getRelativeTime(long time, boolean shortText) {
         long usedTime = time;
         boolean future = false;
         String chronology = "ago";
@@ -135,7 +135,7 @@ public class TimeUtil {
         int hourDiff = hourNow - hour;
         int minDiff = minNow - min;
 
-        // fixing negetive numbers
+        // fixing negative numbers
         if (minDiff < 0) {
             hourDiff--;
             minDiff += 60;
@@ -281,7 +281,7 @@ public class TimeUtil {
      * 
      * @param num the number you want to want to add the zeros to
      * @param zeros the number of digits there should be
-     * @return a string with the apropriate number of 
+     * @return a string with the appropriate number of 
      */
     private static String fixHangingZero(int num, int zeros) 
     {
@@ -390,7 +390,7 @@ public class TimeUtil {
         int minDiff =   min - minNow;
         int secDiff =   sec - secNow;
         
-        // fixing negetive numbers
+        // fixing negative numbers
         if (secDiff < 0){
             minDiff --;
             secDiff += 60;

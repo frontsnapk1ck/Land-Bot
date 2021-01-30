@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import alloy.command.util.AbstractConsoleCommand;
+import alloy.input.console.ConsoleInputData;
 import alloy.main.Alloy;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
@@ -21,7 +22,12 @@ import utility.Util;
 public class RolesCommand extends AbstractConsoleCommand {
 
     @Override
-    public void execute(List<String> args, JDA jda) {
+    public void execute(ConsoleInputData data) 
+    {
+
+        List<String> args = data.getArgs();
+        JDA jda = data.getJda();
+
         if (args == null || args.size() == 0)
             return;
 

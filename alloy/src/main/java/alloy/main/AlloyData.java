@@ -38,7 +38,6 @@ public class AlloyData {
         this.jda = jda;
         this.alloy = alloy;
         console.setHandler(alloy);
-        console.setEHandler(alloy);
         CommandInfoLoader.loadInfo();
     }
 

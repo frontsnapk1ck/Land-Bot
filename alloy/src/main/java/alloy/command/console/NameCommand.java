@@ -3,6 +3,7 @@ package alloy.command.console;
 import java.util.List;
 
 import alloy.command.util.AbstractConsoleCommand;
+import alloy.input.console.ConsoleInputData;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,8 +11,12 @@ import net.dv8tion.jda.api.entities.Member;
 public class NameCommand extends AbstractConsoleCommand {
 
     @Override
-    public void execute(List<String> args , JDA jda) 
+    public void execute(ConsoleInputData data) 
     {
+        JDA jda = data.getJda();
+        List<String> args = data.getArgs();
+
+
         if (args.size() == 2)
             gName(jda , args);
         if (args.size() == 3)

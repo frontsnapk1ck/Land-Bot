@@ -7,6 +7,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.io.saver.EventQueueSaver;
 import alloy.main.Alloy;
+import alloy.main.Queueable;
 import alloy.main.SendableMessage;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
@@ -18,8 +19,11 @@ import utility.event.EventManager.ScheduledJob;
 public class AlloyShutdownHook extends Thread {
 
     private static final String SKIP_JOB = "skip job";
+    private Queueable queue;
 
-    public AlloyShutdownHook(){
+    public AlloyShutdownHook(Queueable queue)
+    {
+        this.queue = queue;
     }
 
     @Override
@@ -27,12 +31,13 @@ public class AlloyShutdownHook extends Thread {
     {
         saveQueue();
         EventQueueSaver eqs = new EventQueueSaver();
-        eqs.save(Alloy.getQueue(), "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\queue.xml" );
+        eqs.save(queue.getQueue(), "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\queue.xml" );
     }
 
-    private void saveQueue() {
+    private void saveQueue() 
+    {
         Saver.clear(AlloyUtil.EVENT_FILE);
-        PriorityBlockingQueue<ScheduledJob> queue = Alloy.getQueue();
+        PriorityBlockingQueue<ScheduledJob> queue = this.queue.getQueue();
         for (ScheduledJob scheduledJob : queue) 
         {
             String save = getSave(scheduledJob);

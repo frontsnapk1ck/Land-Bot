@@ -1,26 +1,30 @@
 package alloy.input.console;
 
 import input.Input;
-import net.dv8tion.jda.api.JDA;
 
 public class ConsoleInput extends Input {
 
-    private JDA jda;
+    private ConsoleInputData data;
+    private String description;
 
-    public ConsoleInput(String name, String trigger, String description,  JDA jda) 
+    public ConsoleInput(String name , String trigger , ConsoleInputData data) 
     {
         super(name, trigger);
-        this.jda = jda;
+        this.data = data;
     }
 
-    public JDA getJda()
+    public ConsoleInput(String name, String trigger, String description) 
     {
-        return jda;
-    }
+        super(name, trigger);
+        this.description = description;
+	}
 
-    public void setJda(JDA jda)
+    public ConsoleInputData getData() 
     {
-        this.jda = jda;
+		return this.data;
+    }
+    public String getDescription() {
+        return description;
     }
     
 }

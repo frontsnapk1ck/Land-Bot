@@ -7,14 +7,14 @@ public class DebugEvent {
     private Level level;
     private Throwable error;
     private String message;
-    private String classname;
+    private String className;
     private Thread thread;
     
     private final long time;
 
     public DebugEvent(String className, String message, Throwable error, Level level, Thread t) 
     {
-        this.classname = className;
+        this.className = className;
         this.message = message;
         this.error = error;
         this.level = level;
@@ -23,9 +23,9 @@ public class DebugEvent {
         this.time = System.currentTimeMillis();
     }
     
-    public String getClassname()
+    public String getClassName()
     {
-        return classname;
+        return className;
     }
 
     public Throwable getError()
@@ -53,9 +53,9 @@ public class DebugEvent {
         return thread;
     }
 
-    public void setClassname(String classname)
+    public void setClassName(String className)
     {
-        this.classname = classname;
+        this.className = className;
     }
 
     public void setError(Throwable error)
@@ -88,9 +88,9 @@ public class DebugEvent {
         return this.error != null;
     }
     
-    public boolean hasClassname()
+    public boolean hasClassName()
     {
-        return this.classname != null;
+        return this.className != null;
     }
     
     public boolean hasLevel()

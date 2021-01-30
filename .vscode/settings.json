@@ -13,7 +13,9 @@
         "notmatch",
         "notmatches",
         "rankups",
-        "remindme"
+        "remindme",
+        "subcommand",
+        "subcommands"
     ],
     "cSpell.ignoreWords": [
         "sjob"

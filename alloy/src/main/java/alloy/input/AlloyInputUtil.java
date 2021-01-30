@@ -25,7 +25,6 @@ import alloy.input.discord.AlloyInputEvent;
 import alloy.utility.discord.AlloyUtil;
 import input.ActionMap;
 import input.InputMap;
-import net.dv8tion.jda.api.JDA;
 
 public class AlloyInputUtil {
 
@@ -117,7 +116,7 @@ public class AlloyInputUtil {
 		return getArgs(data.getEvent());
 	}
 
-    public static InputMap loadConsoleInputMap(JDA jda)
+    public static InputMap loadConsoleInputMap()
     {
         File xmlFile = new File(AlloyUtil.CONSOLE_COMMANDS_FILE);
 
@@ -128,7 +127,7 @@ public class AlloyInputUtil {
             Document doc = dBuilder.parse(xmlFile);
             Element e = doc.getDocumentElement();
 
-            InputMap inputMap = ConsoleInputMapBuilder.load(e , jda);
+            InputMap inputMap = ConsoleInputMapBuilder.load(e);
             return inputMap;
         } catch (ParserConfigurationException | SAXException | IOException e) 
         {
@@ -146,6 +145,7 @@ public class AlloyInputUtil {
         map.put(    "name"          ,   ConsoleInputActions.NAME_ACTION);
         map.put(    "roles"         ,   ConsoleInputActions.ROLES_ACTION);
         map.put(    "queue"         ,   ConsoleInputActions.QUEUE_ACTION);
+        map.put(    "test"          ,   ConsoleInputActions.TEST_ACTION);
         
         return map;
     }

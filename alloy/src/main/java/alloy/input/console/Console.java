@@ -1,6 +1,7 @@
 package alloy.input.console;
 
-import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 import alloy.main.handler.ConsoleHandler;
 import alloy.utility.runnable.InputRunnable;
@@ -12,7 +13,6 @@ public class Console implements DeviceListener  {
     private InputRunnable inputRunnable = new InputRunnable();
 
     private ConsoleHandler consoleHandler;
-    private UncaughtExceptionHandler exceptionHandler;
     
     private Thread t;
 
@@ -29,20 +29,10 @@ public class Console implements DeviceListener  {
         return consoleHandler;
     }
 
-    public UncaughtExceptionHandler getExceptionHandler()
-    {
-        return exceptionHandler;
-    }
 
     public void setHandler(ConsoleHandler consoleHandler)
     {
         this.consoleHandler = consoleHandler;
-    }
-
-    public void setEHandler(UncaughtExceptionHandler exceptionHandler) 
-    {
-        this.exceptionHandler = exceptionHandler;
-        t.setUncaughtExceptionHandler(exceptionHandler);
     }
 
     public boolean hasHandler()
@@ -54,8 +44,24 @@ public class Console implements DeviceListener  {
     public void onInput(String trigger) 
     {
         JDA jda = this.consoleHandler.getJDA();
-        ConsoleInput input = new ConsoleInput( "CONSOLE" , trigger , "what the user typed" , jda );
+        List<String> args = getArgs(trigger);
+
+        ConsoleInputData data = new ConsoleInputData();
+        data.setArgs(args);
+        data.setJda(jda);
+
+        ConsoleInput input = new ConsoleInput( "CONSOLE" , trigger , data );
         consoleHandler.handleConsoleMessage(input);
+    }
+
+    private List<String> getArgs(String trigger)
+    {
+        String[] args = trigger.split(" ");
+        List<String> strings = new ArrayList<String>();
+        for (String s : args)
+            strings.add(s);
+        
+        return strings;
     }
     
 }

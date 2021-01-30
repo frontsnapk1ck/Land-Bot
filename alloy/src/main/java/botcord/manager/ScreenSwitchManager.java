@@ -3,16 +3,20 @@ package botcord.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import botcord.BotCord;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
-import botcord.event.PressTarget;
+import botcord.event.SwitchTarget;
+import botcord.manager.util.ScreenProxy;
 import botcord.manager.util.SwitchEvent;
 import botcord.manager.util.Switchable;
+import botcord.screen.GuildScreen;
 import net.dv8tion.jda.api.entities.Guild;
 
 public class ScreenSwitchManager implements BotCordListener {
 
     private List<Switchable> listeners;
+    private ScreenProxy proxy;
 
     public ScreenSwitchManager() 
     {
@@ -28,31 +32,38 @@ public class ScreenSwitchManager implements BotCordListener {
     @Override
     public void onPress(PressEvent e) 
     {
-        if (e.getTarget().equals(PressTarget.GUILD))
+        if (e.getTarget().equals(SwitchTarget.GUILD))
             guild((Guild)e.getData());
-        if (e.getTarget().equals(PressTarget.DEBUG))
+        if (e.getTarget().equals(SwitchTarget.DEBUG))
             debug();
-        if (e.getTarget().equals(PressTarget.PM))
+        if (e.getTarget().equals(SwitchTarget.PM))
             pm();
-        
-        SwitchEvent se = new SwitchEvent();
-        for (Switchable switchable : listeners) 
-            switchable.onSwitch(se);
     }
 
     private void debug() 
     {
-        System.err.println("DEBUG");
+        BotCord.LOGGER.info("ScreenSwitchManager" , "Switched to Debug Screen");
+        SwitchEvent se = new SwitchEvent(this.proxy.getDebug());
+        for (Switchable switchable : listeners) 
+            switchable.onSwitch(se);
     }
 
     private void pm() 
     {
-        System.err.println("PM");
+        BotCord.LOGGER.info("ScreenSwitchManager" , "Switched to PM Screen");
+        
+        SwitchEvent se = new SwitchEvent(this.proxy.getPm());
+        for (Switchable switchable : listeners) 
+            switchable.onSwitch(se);
 	}
 
     private void guild(Guild guild) 
     {
-        System.err.println(guild.getName());
+        BotCord.LOGGER.info("ScreenSwitchManager" , "Switched to Guild Screen for the guild " + guild.getName());
+        
+        SwitchEvent se = new SwitchEvent(new GuildScreen(guild));
+        for (Switchable switchable : listeners) 
+            switchable.onSwitch(se);
     }
 
     public void setListeners(List<Switchable> listeners) 
@@ -73,6 +84,11 @@ public class ScreenSwitchManager implements BotCordListener {
     public boolean rmListener(Switchable l)
     {
         return this.listeners.remove(l);
+    }
+
+    public void setProxy(ScreenProxy proxy) 
+    {
+        this.proxy = proxy;
     }
     
 }

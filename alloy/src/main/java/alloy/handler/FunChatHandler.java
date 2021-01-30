@@ -16,5 +16,10 @@ public class FunChatHandler {
 		String[] out = FileReader.read(AlloyUtil.RANKS_FILE);
 		return out;
 	}
-    
+	
+	public static String[] getWarnChats() 
+	{
+		String[] out = FileReader.read(AlloyUtil.WARNS_FILE);
+		return out;
+	}
 }

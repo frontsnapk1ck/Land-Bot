@@ -17,7 +17,7 @@ import alloy.utility.discord.perm.DisPermUtil;
 import botcord.components.util.BotCordButton;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
-import botcord.event.PressTarget;
+import botcord.event.SwitchTarget;
 import botcord.util.BotCordColors;
 import botcord.util.BotCordLinks;
 import net.dv8tion.jda.api.entities.Guild;
@@ -45,7 +45,7 @@ public class GuildButton extends BotCordButton {
     {
         setImage();
         this.configToolTip();
-        this.configAction();
+        this.configListener();
         this.setBorder(null);
     }
 
@@ -81,22 +81,10 @@ public class GuildButton extends BotCordButton {
         }
     }
 
-    private void configAction() {
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                PressEvent e = new PressEvent(PressTarget.GUILD);
-                e.setData(getGuild());
-                for (BotCordListener l : getListeners())
-                    l.onPress(e);
-            }
-        });
-    }
-
     private void configToolTip() {
         Guild g = this.guild;
         String code = "<html><body><h1> " + g.getName() + "</h1>" + "<p>Owned by: " + g.getOwner().getUser().getAsTag()
-                + "</p>" + "<p>Is Admin: " + isAdmin(g) + "</p>" + "<p>Members: " + getMembers(g) + " | Bots: "
+                + "</p>" + "<p>Is Admin: <b>" + isAdmin(g) + "</b></p>" + "<p>Members: " + getMembers(g) + " | Bots: "
                 + getBots(g) + "</p>" + "<p>Boost: " + g.getBoostTier() + " | Boosts: " + g.getBoostCount() + "</p>"
                 + "</body></html>";
         this.setToolTipText(code);
@@ -122,16 +110,19 @@ public class GuildButton extends BotCordButton {
         return mem;
     }
 
-    private boolean isAdmin(Guild g) {
+    private boolean isAdmin(Guild g) 
+    {
         List<DisPerm> perms = DisPermUtil.parsePerms(g.getSelfMember().getPermissions());
-        for (DisPerm p : perms) {
+        for (DisPerm p : perms) 
+        {
             if (p.equals(DisPerm.ADMINISTRATOR))
                 return true;
         }
         return false;
     }
 
-    private Image getImage(String urlS) throws IOException {
+    private Image getImage(String urlS) throws IOException 
+    {
         if (urlS == null)
             urlS = BotCordLinks.DEFAULT_DISCORD_PHOTO;
         URL url = new URL(urlS);
@@ -139,7 +130,8 @@ public class GuildButton extends BotCordButton {
         return img;
     }
 
-    public Guild getGuild() {
+    public Guild getGuild() 
+    {
         return guild;
     }
 
@@ -157,7 +149,7 @@ public class GuildButton extends BotCordButton {
             @Override
             public void actionPerformed(ActionEvent ignored) 
             {
-                PressEvent e = new PressEvent(PressTarget.GUILD);
+                PressEvent e = new PressEvent(SwitchTarget.GUILD);
                 e.setData(getGuild());
                 for (BotCordListener l : getListeners())
                     l.onPress(e);

@@ -18,11 +18,11 @@ public class Logger {
         logger = null;
     }
 
-    public void error(String className, Throwable e) {
+    public void error(String className, Throwable e) 
+    {
         onReceive(className, e, ERROR);
         logger = LoggerFactory.getLogger(className);
         logger.error(e.getMessage(), e.getCause());
-        e.printStackTrace();
         logger = null;
     }
 

@@ -10,15 +10,14 @@ import org.w3c.dom.NodeList;
 import alloy.input.console.ConsoleInput;
 import input.Input;
 import input.InputMap;
-import net.dv8tion.jda.api.JDA;
 
 public class ConsoleInputMapBuilder {
     
-    public static InputMap load(Element file, JDA jda) 
+    public static InputMap load(Element file) 
     {
         file.normalize();
 
-        List<Input> inputs = loadAllInputs(file , jda);
+        List<Input> inputs = loadAllInputs(file);
 
         InputMap map = new InputMap();
 
@@ -28,7 +27,7 @@ public class ConsoleInputMapBuilder {
         return map;
     }
 
-    private static List<Input> loadAllInputs(Element elem, JDA jda) 
+    private static List<Input> loadAllInputs(Element elem) 
     {
         NodeList nList = elem.getElementsByTagName("command");
 
@@ -40,7 +39,7 @@ public class ConsoleInputMapBuilder {
             if (node.getNodeType() == Node.ELEMENT_NODE) 
             {
                 Element cE = (Element) node;
-                inputs.addAll(loadSubInputs(cE , jda));
+                inputs.addAll(loadSubInputs(cE));
             }
         }
 
@@ -48,7 +47,7 @@ public class ConsoleInputMapBuilder {
 
     }
 
-    private static List<Input> loadSubInputs(Element cE, JDA jda) 
+    private static List<Input> loadSubInputs(Element cE) 
     {
         List<String> triggers = loadTrigger(cE);
         List<String> descriptions = loadDescriptions(cE , triggers.size() );
@@ -61,7 +60,7 @@ public class ConsoleInputMapBuilder {
             String command = subs.get(i);
             int index = i % descriptions.size();
             String description = descriptions.get(index);
-            Input in = makeInput( cE , command , description , jda );
+            Input in = makeInput( cE , command , description );
             inputs.add(in);
         }
 
@@ -96,11 +95,11 @@ public class ConsoleInputMapBuilder {
         return des;
     }
 
-    private static Input makeInput(Element elem, String command, String descrption, JDA jda) 
+    private static Input makeInput(Element elem, String command, String description) 
     {
         String name = getName(elem);
 
-        Input in = new ConsoleInput(name, command, descrption , jda );
+        Input in = new ConsoleInput(name, command, description);
         return in;
     }
 

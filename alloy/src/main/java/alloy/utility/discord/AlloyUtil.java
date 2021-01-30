@@ -11,7 +11,7 @@ import alloy.io.loader.BuildingLoaderText;
 import alloy.io.loader.PlayerLoaderText;
 import alloy.io.loader.RankLoaderText;
 import alloy.io.loader.ServerLoaderText;
-import alloy.utility.discord.paths.AlloyExtentions;
+import alloy.utility.discord.paths.AlloyExtensions;
 import alloy.utility.discord.paths.AlloyImages;
 import alloy.utility.discord.paths.AlloyPathsConstants;
 import io.FileReader;
@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
 
-public class AlloyUtil implements AlloyPathsConstants, AlloyExtentions, AlloyImages {
+public class AlloyUtil implements AlloyPathsConstants, AlloyExtensions, AlloyImages {
 
     public static List<Building> loadBuildings(Guild g) {
         BuildingLoaderText blt = new BuildingLoaderText();

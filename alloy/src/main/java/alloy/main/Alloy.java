@@ -48,13 +48,14 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     public static final AlloyLogger LOGGER = new AlloyLogger();
 
     public static long startupTimeStamp;
-    private static AlloyData data;
     private static JDA jda;
-
+    
     private String mentionMeAlias;
     private String mentionMe;
-
     private boolean started;
+    
+    private AlloyData data;
+    
 
     public Alloy() 
     {
@@ -78,11 +79,10 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         data = new AlloyData(jda, this);
     }
 
-    private void configThread() {
-        Thread current = Thread.currentThread();
-        current.setUncaughtExceptionHandler(this);
+    private void configThread() 
+    {
         Runtime r = Runtime.getRuntime();
-        AlloyShutdownHook hook = new AlloyShutdownHook();
+        AlloyShutdownHook hook = new AlloyShutdownHook(this);
         r.addShutdownHook(hook);
     }
 
@@ -152,7 +152,10 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     }
 
     @Override
-    public void handleConsoleMessage(ConsoleInput in) {
+    public void handleConsoleMessage(ConsoleInput in) 
+    {
+        in.getData().setQueue(this);
+        in.getData().setSendable(this);
         CommandHandler.process(in);
     }
 
@@ -193,24 +196,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         Message messageM = message.getMessage();
         String from = message.getFrom();
 
-        // Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
-        // {
-        //     @Override
-        //     public void accept(ErrorResponseException t) 
-        //     {
-        //         LOGGER.warn(from, t.getMessage());
-        //     }
-
-        //     @Override
-        //     public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-        //     {
-        //         return Consumer.super.andThen(after);
-        //     }
-        // };
-        // ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
-
         try {
-            // channel.sendMessage(messageM).queue(null, handler);
             Message m = channel.sendMessage(messageM).complete();
             message.setSent(m);
         } catch (InsufficientPermissionException | ErrorResponseException e) {
@@ -224,22 +210,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         String messageS = message.getMessageS();
         String from = message.getFrom();
 
-        // Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
-        //     @Override
-        //     public void accept(ErrorResponseException t) {
-        //         LOGGER.warn(from, t.getMessage());
-        //     }
-
-        //     @Override
-        //     public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
-        //         return Consumer.super.andThen(after);
-        //     }
-        // };
-        // ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
-
         try 
         {
-            // channel.sendMessage(messageS).queue(null , handler );
             Message m = channel.sendMessage(messageS).complete();
             message.setSent(m);
         }
@@ -255,21 +227,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
 
-        // Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() {
-        //     @Override
-        //     public void accept(ErrorResponseException t) {
-        //         LOGGER.warn(from, t.getMessage());
-        //     }
-
-        //     @Override
-        //     public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) {
-        //         return Consumer.super.andThen(after);
-        //     }
-        // };
-        // ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, consumer);
-
         try {
-            // channel.sendMessage(m).queue(null, handler);
             Message m = channel.sendMessage(messageE).complete();
             message.setSent(m);
         } catch (InsufficientPermissionException | ErrorResponseException e) {
@@ -350,16 +308,20 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         return data.getCooldownUsers(g);
     }
 
-    public void update() {
+    public void update() 
+    {
         this.started = true;
         this.updateActivity();
+        Thread.setDefaultUncaughtExceptionHandler(this);
         data.update();
     }
 
     @Override
-    public void uncaughtException(Thread t, Throwable e) {
+    public void uncaughtException(Thread t, Throwable e) 
+    {
         LOGGER.error(t.getName(), e);
         t.run();
+        this.update();
     }
 
     @Override
@@ -405,11 +367,15 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         updateActivity();
     }
 
-    public static PriorityBlockingQueue<ScheduledJob> getQueue() 
+    @Override
+    public PriorityBlockingQueue<ScheduledJob> getQueue() 
     {
-        try{
-        return data.getEventHandler().getJobQueue();
-        } catch (Exception e) {
+        try
+        {
+            return data.getEventHandler().getJobQueue();
+        }
+        catch (Exception e)
+        {
             return new PriorityBlockingQueue<ScheduledJob>();
         }
     }

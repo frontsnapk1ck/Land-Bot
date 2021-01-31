@@ -2,6 +2,7 @@ package alloy.handler;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import alloy.gameobjects.RankUp;
@@ -107,11 +108,25 @@ public class RankHandler {
         return blacklisted;
     }
 
-    public static List<String> loadLeaderboard(Guild g) {
+    public static List<String> loadLeaderboard(Guild g) 
+    {
         List<Player> players = AlloyUtil.loadAllPlayers(g);
         List<String> positions = new ArrayList<String>();
 
-        Collections.sort(players);
+        Comparator<Player> comparator = new Comparator<Player>()
+        {
+            public int compare(Player o1, Player o2) 
+            {
+                if (o1.getXP() > o2.getXP())
+                    return 1;
+                else if (o1.getXP() < o2.getXP())
+                    return -1;
+                return 0;  
+            };
+        };
+ 
+
+        Collections.sort(players , comparator);
 
         for (Player player : players) {
             if (positions.size() <= MAX_LB_LENGTH)

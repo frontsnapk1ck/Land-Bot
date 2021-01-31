@@ -10,7 +10,7 @@ import alloy.utility.discord.AlloyUtil;
 import alloy.utility.settings.PlayerSettings;
 import io.Saver;
 
-public class Player extends GameObject implements Comparable<Player> {
+public class Player extends GameObject{
 
     private PlayerSettings settings;
 
@@ -196,16 +196,6 @@ public class Player extends GameObject implements Comparable<Player> {
     {
 		return new Player( this.settings );
 	}
-
-    @Override
-    public int compareTo(Player o) 
-    {
-        if (o.getXP() > this.settings.getXp())
-            return 1;
-        else if (o.getXP() < this.settings.getXp())
-            return -1;
-        return 0;
-    }
 
     public void addXP(int xp) 
     {

@@ -7,6 +7,7 @@ import alloy.command.util.AbstractConsoleCommand;
 import alloy.handler.EventHandler;
 import alloy.input.console.ConsoleInputData;
 import alloy.utility.discord.AlloyUtil;
+import io.Saver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -49,6 +50,12 @@ public class UpdateCommand extends AbstractConsoleCommand {
     private void updateMember(Member member) 
     {
         String path = AlloyUtil.getMemberPath(member);
+        if (member.getUser().isBot())
+        {
+            if (Saver.deleteFile(path))
+                memberChanges++;
+            return;
+        }
         if (!new File(path).exists())
         {
             EventHandler.onMemberJoinEvent(member);

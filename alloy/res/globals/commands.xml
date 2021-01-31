@@ -378,6 +378,9 @@
         <subcommand text = ""
                         description = "shows the top ten players" />
 
+        <subcommand text = "money"
+                        description = "shows the top ten richest players" />
+
     </command>
 
 

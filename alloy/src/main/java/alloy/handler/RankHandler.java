@@ -9,8 +9,6 @@ import alloy.gameobjects.Server;
 import alloy.gameobjects.player.Player;
 import alloy.gameobjects.player.Rank;
 import alloy.input.discord.AlloyInputData;
-import alloy.io.loader.PlayerLoaderText;
-import alloy.io.loader.RankLoaderText;
 import alloy.main.Queueable;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
@@ -62,9 +60,9 @@ public class RankHandler {
         q.queueIn(j2, s.getXPCooldown() * 1000l);
     }
 
-    private static void checkLevelUp(AlloyInputData data) {
-        RankLoaderText rlt = new RankLoaderText();
-        List<Rank> stock = rlt.loadALl(AlloyUtil.GLOBAL_RANK_PATH);
+    private static void checkLevelUp(AlloyInputData data) 
+    {
+        List<Rank> stock = AlloyUtil.loadAllGlobalRanks();
 
         Guild g = data.getGuild();
         User author = data.getUser();
@@ -126,8 +124,7 @@ public class RankHandler {
     private static String getLBRank(Player player) {
         int xp = player.getXP();
 
-        RankLoaderText rlt = new RankLoaderText();
-        List<Rank> stock = rlt.loadALl(AlloyUtil.GLOBAL_RANK_PATH);
+        List<Rank> stock = AlloyUtil.loadAllGlobalRanks();
 
         int level = findLevel(stock, xp);
         String progress = findProgress(xp, level, stock);
@@ -154,14 +151,12 @@ public class RankHandler {
 
     }
 
-    public static void seeRank(Member target, TextChannel channel, Sendable bot) {
-        String path = AlloyUtil.getMemberPath(target);
-        PlayerLoaderText plt = new PlayerLoaderText();
-        RankLoaderText rlt = new RankLoaderText();
-        Player p = plt.load(path);
+    public static void seeRank(Member target, TextChannel channel, Sendable bot) 
+    {
+        Player p = AlloyUtil.loadPlayer(target);
         int xp = p.getXP();
 
-        List<Rank> stock = rlt.loadALl(AlloyUtil.GLOBAL_RANK_PATH);
+        List<Rank> stock = AlloyUtil.loadAllGlobalRanks();
         int level = findLevel(stock, xp);
         String progress = findProgress(xp, level, stock);
 

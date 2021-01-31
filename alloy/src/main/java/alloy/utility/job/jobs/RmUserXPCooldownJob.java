@@ -16,7 +16,7 @@ public class RmUserXPCooldownJob extends Job {
 	}
 
 	@Override
-    protected void execute() 
+    public void execute() 
     {
         handler.removeXpCooldownUser(m);
     }

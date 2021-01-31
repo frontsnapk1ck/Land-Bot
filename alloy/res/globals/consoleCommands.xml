@@ -60,7 +60,15 @@
             <subcommand text = "clear"
                         description = "clears the queue of all events" />
 
-        /</command>
+        </command>
+
+        <command name = "cache" type = "CONSOLE" >
+            <trigger text = "cache"  />
+            
+            <subcommand text = ""
+                        description = "this will show what is in the cache" />
+
+        </command>
 
         <command name = "test" type = "CONSOLE" >
             <trigger text = "test"  />
@@ -68,8 +76,9 @@
             <subcommand text = ""
                         description = "this is a test command" />
 
-        /</command>
+        </command>
 
+        
     <!-- ===================== COMMAND MAP =============================== -->
             
         <mapping command =  "invite" 	        action = 	"invite"    />

@@ -52,4 +52,10 @@ public class Building extends GameObject implements Comparable<Building> {
      */
     @Override
     protected void save() {}
+
+    @Override
+    public GameObject getData() 
+    {
+        return this;
+    }
 }

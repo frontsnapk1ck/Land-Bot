@@ -20,7 +20,7 @@ public class InviteJob extends Job {
     }
 
     @Override
-    protected void execute() 
+    public void execute() 
     {
         PrivateChannel pc = m.getUser().openPrivateChannel().complete();
         Template t = Templates.inviteActual(m);

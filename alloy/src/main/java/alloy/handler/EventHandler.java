@@ -101,7 +101,7 @@ public class EventHandler {
                 Server.COOLDOWN + ":10",
                 Server.ROLE_ASSIGN_ON_BUY + ":false", 
                 Server.SPAM_CHANNEL + ":" + defaultChannel,
-                Server.BALCKLISTED_CHANNENLS + ":", 
+                Server.BLACKLISTED_CHANNELS + ":", 
                 Server.XP_COOLDOWN + ":4", 
                 Server.ID + ":" + guildID,
                 Server.MOD_LOG_CHANNEL + ":",

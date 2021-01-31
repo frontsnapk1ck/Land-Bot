@@ -1,6 +1,8 @@
 package alloy.gameobjects;
 
-public abstract class GameObject {
+import alloy.gameobjects.cache.Cacheable;
+
+public abstract class GameObject implements Cacheable<GameObject> {
 
     protected abstract void save();
 

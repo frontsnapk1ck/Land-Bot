@@ -14,7 +14,7 @@ public class Server extends GameObject {
     public static final String ROLE_ASSIGN_ON_BUY = "role assign on buy";
     public static final String ADMIN_BYPASS_COOLDOWN = "admin bypass cooldown";
     public static final String SPAM_CHANNEL = "spam channel";
-    public static final String BALCKLISTED_CHANNENLS = "blacklisted";
+    public static final String BLACKLISTED_CHANNELS = "blacklisted";
     public static final String XP_COOLDOWN = "xp cooldown";
     public static final String RANKUPS = "rankups";
     public static final String MOD_LOG_CHANNEL = "mod log channel";
@@ -80,7 +80,7 @@ public class Server extends GameObject {
             ROLE_ASSIGN_ON_BUY +    ":" + this.settings.isRoleAssignOnBuy() ,
             ADMIN_BYPASS_COOLDOWN + ":" + this.settings.isAdminBypassCooldown() ,
             SPAM_CHANNEL +          ":" + this.settings.getSpamChannel() , 
-            BALCKLISTED_CHANNENLS + ":" + blacklistedChannels , 
+            BLACKLISTED_CHANNELS + ":" + blacklistedChannels , 
             XP_COOLDOWN +           ":" + this.settings.getXpCooldown() , 
             ID +                    ":" + this.settings.getId() , 
             MOD_LOG_CHANNEL +       ":" + this.settings.getModLogChannel(),
@@ -218,5 +218,10 @@ public class Server extends GameObject {
     public Server copy() 
     {
         return new Server ( this.settings.copy() );
+    }
+
+    @Override
+    public GameObject getData() {
+        return this;
     }
 }

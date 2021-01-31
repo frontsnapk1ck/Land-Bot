@@ -20,7 +20,7 @@ public class RmUserCoolDownJob extends Job {
 	}
 
     @Override
-    protected void execute() 
+    public void execute() 
     {
         Member m = guild.getMember(author);
         handler.removeCooldownUser( m );

@@ -61,5 +61,11 @@ public class Warning extends GameObject {
     {
 		return this.settings.getIssuer();
 	}
+
+    @Override
+    public GameObject getData() 
+    {
+        return this;
+    }
     
 }

@@ -19,7 +19,7 @@ public class DeleteMessageJob extends Job {
 	}
 
 	@Override
-    protected void execute() 
+    public void execute() 
     {
         Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
         {

@@ -16,7 +16,6 @@ import alloy.handler.CommandHandler;
 import alloy.handler.RankHandler;
 import alloy.input.console.ConsoleInput;
 import alloy.input.discord.AlloyInput;
-import alloy.io.loader.ServerLoaderText;
 import alloy.main.handler.AlloyHandler;
 import alloy.main.handler.ConsoleHandler;
 import alloy.main.handler.CooldownHandler;
@@ -59,14 +58,13 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
 
     public Alloy() 
     {
-        Alloy.startupTimeStamp = System.currentTimeMillis();
-        configThread();
         boolean startedL = false;
         while (!startedL) 
         {
             try 
             {
                 start();
+                config();
                 startedL = true;
                 makeMentions();
             }
@@ -76,7 +74,14 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
                 cooldown(5);
             }
         }
+    }
+
+    private void config() 
+    {
+        configThread();
         data = new AlloyData(jda, this);
+        AlloyUtil.loadCache(this);
+        Alloy.startupTimeStamp = System.currentTimeMillis();
     }
 
     private void configThread() 
@@ -91,7 +96,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         this.mentionMeAlias = "<@!" + jda.getSelfUser().getId() + ">";
     }
 
-    private void start() throws LoginException {
+    private void start() throws LoginException 
+    {
         String key = loadKey();
         jda = JDABuilder.createDefault(key).enableIntents(GatewayIntent.GUILD_MEMBERS)
                 .setMemberCachePolicy(MemberCachePolicy.ALL).setChunkingFilter(ChunkingFilter.ALL).build();
@@ -129,8 +135,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         if (ignore)
             return;
 
-        ServerLoaderText slt = new ServerLoaderText();
-        Server s = slt.load(getGuildPath(in.getGuild()));
+        Server s = AlloyUtil.loadServer(in.getGuild());
 
         in.setBot(this);
         in.setServer(s);
@@ -378,6 +383,12 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         {
             return new PriorityBlockingQueue<ScheduledJob>();
         }
+    }
+
+    @Override
+    public boolean unQueue(Job job) 
+    {
+        return this.data.unQueue(job);
     }
 
 }

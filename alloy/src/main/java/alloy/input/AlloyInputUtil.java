@@ -146,6 +146,7 @@ public class AlloyInputUtil {
         map.put(    "roles"         ,   ConsoleInputActions.ROLES_ACTION);
         map.put(    "queue"         ,   ConsoleInputActions.QUEUE_ACTION);
         map.put(    "test"          ,   ConsoleInputActions.TEST_ACTION);
+        map.put(    "cache"         ,   ConsoleInputActions.CACHE_ACTION);
         
         return map;
     }

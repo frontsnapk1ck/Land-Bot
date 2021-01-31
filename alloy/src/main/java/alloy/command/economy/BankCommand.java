@@ -5,7 +5,6 @@ import alloy.gameobjects.player.Player;
 import alloy.handler.BankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
-import alloy.io.loader.PlayerLoaderText;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;
@@ -13,6 +12,7 @@ import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -29,18 +29,14 @@ public class BankCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Message msg = data.getMessageActual();
         Guild g = data.getGuild();
+        Member m = g.getMember(author);
 
-        PlayerLoaderText plt = new PlayerLoaderText();
-        String path = AlloyUtil.getGuildPath(g) + AlloyUtil.USER_FOLDER + AlloyUtil.SUB;
         Player p = null;
 
-        if (args.length == 0) {
-            path += author.getId();
-            p = plt.load(path);
-        } else if (DisUtil.findMember(g, args[0]) != null) {
-            path += DisUtil.findMember(g, args[0]).getId();
-            p = plt.load(path);
-        }
+        if (args.length == 0) 
+            p = AlloyUtil.loadPlayer(m);
+        else if (DisUtil.findMember(g, args[0]) != null) 
+            p = AlloyUtil.loadPlayer(DisUtil.findMember(g, args[0]));
 
         if (p != null) {
             Template t = Templates.bankCurrentBalance(p);
@@ -80,6 +76,7 @@ public class BankCommand extends AbstractCommand {
         if (BankHandler.hasMessage(args))
             message = BankHandler.getMessage(args);
         User targetUser = BankHandler.getTargetUser(args);
+        Member targetMember = msg.getGuild().getMember(targetUser);
         int amount = BankHandler.getAmount(args);
 
         if (amount == BankHandler.INVALID_FORMAT) {
@@ -107,10 +104,7 @@ public class BankCommand extends AbstractCommand {
             return t.getEmbed();
         }
 
-        PlayerLoaderText plt = new PlayerLoaderText();
-        String path = AlloyUtil.ALLOY_PATH + "res\\servers\\" + msg.getGuild().getId() + "\\users\\"
-                + targetUser.getId();
-        Player targetP = plt.load(path);
+        Player targetP = AlloyUtil.loadPlayer(targetMember);
 
         targetP.addBal(amount);
         p.spend(amount);

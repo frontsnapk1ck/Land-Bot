@@ -14,7 +14,7 @@ public class PlayerSettings extends AbstractSettings {
     private long id;
     private HashMap<String , List<Building>> owned;
     private List<String> buildingTypes;
-    private List<Warning> wanrings;
+    private List<Warning> warnings;
     private Account account;
     private int xp;
     
@@ -23,7 +23,7 @@ public class PlayerSettings extends AbstractSettings {
         this.id = 0l;
         this.owned = new HashMap<String , List<Building>>();
         this.buildingTypes = new ArrayList<String>();
-        this.wanrings = new ArrayList<Warning>();
+        this.warnings = new ArrayList<Warning>();
         this.account = null;
         this.xp = 0;
         setPath( "" );
@@ -50,9 +50,9 @@ public class PlayerSettings extends AbstractSettings {
     }
 
 
-    public List<Warning> getWanrings() 
+    public List<Warning> getWarnings() 
     {
-        return wanrings;
+        return warnings;
     }
 
     public int getXp() 
@@ -90,37 +90,37 @@ public class PlayerSettings extends AbstractSettings {
         return this;
     }
 
-    public PlayerSettings setWanrings(List<Warning> wanrings) 
+    public PlayerSettings setWanrings(List<Warning> warnings) 
     {
-        Util.copy(this.wanrings , wanrings);
+        Util.copy(this.warnings , warnings);
         return this;
     }
 
-    public PlayerSettings addWarnings(List<Warning> wanrings) 
+    public PlayerSettings addWarnings(List<Warning> warnings) 
     {
         List<Warning> tmp = new ArrayList<Warning>();
-        Util.copy(tmp , wanrings);
-        this.wanrings.addAll(tmp);
+        Util.copy(tmp , warnings);
+        this.warnings.addAll(tmp);
         return this;
     }
 
-    public PlayerSettings addWanring(Warning wanring) 
+    public PlayerSettings addWarning(Warning warning) 
     {
-        this.wanrings.add(wanring);
+        this.warnings.add(warning);
         return this;
     }
 
-    public PlayerSettings removeWarnings(List<Warning> wanrings) 
+    public PlayerSettings removeWarnings(List<Warning> warnings) 
     {
         List<Warning> tmp = new ArrayList<Warning>();
-        Util.copy(tmp , wanrings);
-        this.wanrings.removeAll(tmp);
+        Util.copy(tmp , warnings);
+        this.warnings.removeAll(tmp);
         return this;
     }
 
-    public PlayerSettings removeWanring(Warning wanring) 
+    public PlayerSettings removeWarning(Warning warning) 
     {
-        this.wanrings.remove(wanring);
+        this.warnings.remove(warning);
         return this;
     }
     
@@ -139,7 +139,7 @@ public class PlayerSettings extends AbstractSettings {
                 .setId(id)
                 .setOwned(owned)
                 .setPath(getPath())
-                .setWanrings(wanrings)
+                .setWanrings(warnings)
                 .setXp(xp);
             
         return settings;

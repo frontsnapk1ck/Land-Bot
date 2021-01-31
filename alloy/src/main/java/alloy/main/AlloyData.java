@@ -10,7 +10,6 @@ import alloy.command.util.CommandInfoLoader;
 import alloy.gameobjects.Server;
 import alloy.input.console.Console;
 import alloy.io.loader.JobQueueLoaderText;
-import alloy.io.loader.ServerLoaderText;
 import alloy.io.loader.util.JobQueueData;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.job.AlloyEventHandler;
@@ -59,10 +58,8 @@ public class AlloyData {
     private Map<Long, TextChannel> loadModLogs() 
     {
         Map<Long , TextChannel> map = new HashMap<Long , TextChannel>();
-
-        ServerLoaderText slt = new ServerLoaderText();
-        String path = AlloyUtil.SERVERS_PATH;
-        List<Server> servers = slt.loadALl(path);
+       
+        List<Server> servers = AlloyUtil.loadAllServers();
 
         for (Server server : servers) 
         {
@@ -147,12 +144,19 @@ public class AlloyData {
 
     public void queueIn(Job action, long offset) 
     {
+        if (this.eventManger == null)
+            return;
         this.eventManger.queueIn(action, offset);
 	}
 
     public AlloyEventHandler getEventHandler() 
     {
 		return this.eventManger;
+	}
+
+    public boolean unQueue(Job job) 
+    {
+		return this.eventManger.unQueue(job);
 	}
 
 }

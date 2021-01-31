@@ -53,7 +53,21 @@ public class EventManager {
         this.jobQueue.add(scheduled);
     }
 
-    protected void eventLoop() {
+    public boolean unQueue(Job job) 
+    {
+        ScheduledJob toRm = null;
+        for (ScheduledJob sJob : jobQueue) 
+        {
+            if (sJob.job == job)
+                toRm = sJob;
+        }
+        if (toRm != null)
+            return this.jobQueue.remove(toRm);
+        return false;
+	}
+
+    protected void eventLoop() 
+    {
         this.running = true;
         while (this.running) {
             // Look at next job
@@ -87,9 +101,10 @@ public class EventManager {
             // Remove the next job from queue
             // - same one you just "peeked" at.
             ScheduledJob job = this.jobQueue.take();
-            
+
             // execute the job
-            job.job.execute();
+            if (job.job.toExecute())
+                job.job.execute();
         } catch (InterruptedException ex){
             Alloy.LOGGER.debug("EventManager", ex );
         }
@@ -114,7 +129,7 @@ public class EventManager {
     
 
 
-    public static ScheduledJob newSchedluledJob(Long time, RemindJob job) 
+    public static ScheduledJob newScheduledJob(Long time, RemindJob job) 
     {
 		return fake.newS(time,job);
     }

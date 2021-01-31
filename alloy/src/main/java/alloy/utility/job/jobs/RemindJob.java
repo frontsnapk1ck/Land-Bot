@@ -17,7 +17,7 @@ public class RemindJob extends Job {
     }
 
     @Override
-    protected void execute() 
+    public void execute() 
     {
         this.bot.send(sm);
     }

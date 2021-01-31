@@ -64,7 +64,7 @@ public class RankupCommand extends AbstractCommand {
         else if (args[0].equalsIgnoreCase("view"))
             view(args, bot, channel, g);
         else if (args[0].equalsIgnoreCase("test"))
-            test(args, bot, channel, g, m);
+            test(args, bot, channel, m);
     }
 
     private void add(String[] args, Sendable bot, TextChannel channel, Guild g) {
@@ -134,7 +134,7 @@ public class RankupCommand extends AbstractCommand {
         return;
     }
 
-    private void test(String[] args, Sendable bot, TextChannel channel, Guild g, Member m) {
+    private void test(String[] args, Sendable bot, TextChannel channel, Member m) {
         if (args.length < 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
@@ -156,7 +156,7 @@ public class RankupCommand extends AbstractCommand {
         }
 
         int level = Integer.parseInt(args[1]);
-        Rank r = RankupHandler.getRank(g, level);
+        Rank r = RankupHandler.getRank(level);
 
         RankHandler.announceRankUp(r, m, false, bot, channel);
 

@@ -291,6 +291,7 @@
 
     <command name = "help" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
         <trigger text = "help"/>
+        <trigger text = "cmds"/>
 
         <subcommand text = ""
                         description = "sends a dm to the user with all of the command in this bot that they are currently able to use" />

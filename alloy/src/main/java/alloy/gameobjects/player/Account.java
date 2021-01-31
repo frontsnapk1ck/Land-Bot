@@ -52,5 +52,11 @@ public class Account extends GameObject {
     {
         return new Account( this.settings.copy() );
     }
+
+    @Override
+    public GameObject getData() 
+    {
+        return this;
+    }
     
 }

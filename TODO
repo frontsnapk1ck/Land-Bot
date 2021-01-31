@@ -4,23 +4,34 @@ emulate discord
     make it so it can upload files - backend only
 
     Working on catagories rn
-    
+
 change the buttons
     make my own
 
 ~~~rn-ish~~~
 dm me on error
+
+clean up help messages
+
 no duplicate building names
+
 cache of data
+    show the name of the thing 
+        server shows guild name 
+        player shows tag, etc
+
 
 ~~~much later~~~
-clean up help messages
 music bot
+
 set
     rank
     mod stuff
+
 make it so that you can see the total amount of xp you've earned
+
 make it so that spam runnables queue all of the send messages at once, instead of marking a different thread for each of them
+
 comment everything
 
 ~~~work on next~~~

@@ -5,7 +5,6 @@ import java.util.List;
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Player;
 import alloy.input.discord.AlloyInputData;
-import alloy.io.loader.PlayerLoaderText;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;
@@ -47,9 +46,7 @@ public class DayCommand extends AbstractCommand {
             return;
         }
 
-        String path = AlloyUtil.getGuildPath(g) + AlloyUtil.USER_FOLDER;
-        PlayerLoaderText plt = new PlayerLoaderText();
-        List<Player> players = plt.loadALl(path);
+        List<Player> players = AlloyUtil.loadAllPlayers(g);
         for (Player p : players)
             p.day();
 

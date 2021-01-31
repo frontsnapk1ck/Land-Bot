@@ -4,7 +4,6 @@ import java.util.List;
 
 import alloy.command.util.PunishType;
 import alloy.gameobjects.Case;
-import alloy.io.loader.CaseLoaderText;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.settings.CaseSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -18,23 +17,11 @@ public class CaseHandler {
 
     public static int nextID(Guild g) 
     {
-        CaseLoaderText clt = new CaseLoaderText();
-        String path = getGuildPath(g) + "\\cases";
-        List<Case> cases = clt.loadALl(path);
+        List<Case> cases = AlloyUtil.loadAllCases(g);
         if (cases.size() == 0)
             return 1;
         Case last = cases.get(cases.size() - 1);
         return last.getNum() + 1;
-    }
-
-    private static String getGuildPath(Guild g) 
-    {
-        return getGuildPath(g.getIdLong());
-    }
-
-    private static String getGuildPath(long idLong) 
-    {
-        return AlloyUtil.ALLOY_PATH + "res\\servers\\" + idLong;
     }
 
     public static Case buildCase(int caseID, User author, PunishType punishType, String message, Member targetUser,
@@ -72,9 +59,7 @@ public class CaseHandler {
     public static Case getCase(long idLong, String caseId) {
         try {
             int num = Integer.parseInt(caseId);
-            CaseLoaderText clt = new CaseLoaderText();
-            String path = getGuildPath(idLong) + "\\cases";
-            List<Case> cases = clt.loadALl(path);
+            List<Case> cases = AlloyUtil.loadAllCases(idLong);
             for (Case c : cases) {
                 if (c.getNum() == num)
                     return c;

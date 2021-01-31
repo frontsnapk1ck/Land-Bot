@@ -23,7 +23,7 @@ public class HelpJob extends Job {
     }
 
     @Override
-    protected void execute() 
+    public void execute() 
     {
         PrivateChannel c = u.openPrivateChannel().complete();
 

@@ -16,7 +16,7 @@ public class AddUserXPCooldownJob extends Job {
 	}
 
 	@Override
-    protected void execute() 
+    public void execute() 
     {
         handler.addXpCooldownUser(m);
     }

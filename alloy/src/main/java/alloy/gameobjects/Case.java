@@ -73,5 +73,12 @@ public class Case extends GameObject {
     {
         return new Case( this.settings.copy() );
     }
+
+    @Override
+    public GameObject getData() 
+    {
+        return this;
+    }
+
     
 }

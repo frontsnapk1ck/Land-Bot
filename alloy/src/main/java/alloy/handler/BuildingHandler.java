@@ -6,8 +6,6 @@ import java.util.List;
 import alloy.gameobjects.Server;
 import alloy.gameobjects.player.Building;
 import alloy.gameobjects.player.Player;
-import alloy.io.loader.BuildingLoaderText;
-import alloy.io.loader.PlayerLoaderText;
 import alloy.utility.discord.AlloyUtil;
 import io.Saver;
 import net.dv8tion.jda.api.entities.Guild;
@@ -58,33 +56,32 @@ public class BuildingHandler {
         Saver.saveAppend(path, save);
     }
 
-    private static List<Building> organizeBuildings(Guild g) {
-        BuildingLoaderText blt = new BuildingLoaderText();
-        String bPath = AlloyUtil.getGuildPath(g) + "\\settings\\buildings.txt";
-        List<Building> buildings = blt.loadALl(bPath);
+    private static List<Building> organizeBuildings(Guild g) 
+    {
+        List<Building> buildings = AlloyUtil.loadBuildings(g);
         return organizeBuildings(buildings);
     }
 
-    private static List<Building> organizeBuildings(List<Building> buildings) {
+    private static List<Building> organizeBuildings(List<Building> buildings) 
+    {
         Collections.sort(buildings);
         return buildings;
     }
 
-    public static Building removeBuilding(int rm, Guild g) throws IndexOutOfBoundsException {
-        BuildingLoaderText blt = new BuildingLoaderText();
-        String bPath = AlloyUtil.getGuildPath(g) + "\\settings\\buildings.txt";
-        List<Building> buildings = blt.loadALl(bPath);
+    public static Building removeBuilding(int rm, Guild g) throws IndexOutOfBoundsException 
+    {
+        List<Building> buildings = AlloyUtil.loadBuildings(g);
         Building b;
 
-        if (rm >= 0 && rm < buildings.size()) {
+        if (rm >= 0 && rm < buildings.size()) 
+        {
             b = buildings.remove(rm);
-            String path = AlloyUtil.getGuildPath(g) + "\\users";
-            PlayerLoaderText plt = new PlayerLoaderText();
-            List<Player> players = plt.loadALl(path);
+            List<Player> players = AlloyUtil.loadAllPlayers(g);
             removeBuildingFromPlayers(players, b, g);
             writeBuildings(buildings, g);
             return b;
-        } else
+        }
+        else
             throw new IndexOutOfBoundsException("" + rm + " is out of bounds for " + buildings.size());
     }
 
@@ -102,17 +99,17 @@ public class BuildingHandler {
         }
     }
 
-    public static void removeAllBuildings(Guild g) {
-        BuildingLoaderText blt = new BuildingLoaderText();
-        String bPath = AlloyUtil.getGuildPath(g) + "\\settings\\buildings.txt";
-        List<Building> buildings = blt.loadALl(bPath);
+    public static void removeAllBuildings(Guild g) 
+    {
+        List<Building> buildings = AlloyUtil.loadBuildings(g);
 
         for (int i = 0; i < buildings.size(); i++)
             removeBuilding(0, g);
 
     }
 
-    public static void copyOverBuildings(Guild g) {
+    public static void copyOverBuildings(Guild g) 
+    {
         String defaultBuildings = AlloyUtil.GLOBAL_BUILDINGS_PATH;
         String currentBuildings = AlloyUtil.getGuildPath(g) + AlloyUtil.SUB + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB
                 + AlloyUtil.BUILDING_FILE;

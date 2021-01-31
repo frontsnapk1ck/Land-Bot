@@ -178,8 +178,8 @@ public class RankupHandler {
         return s.getRankups();
     }
 
-    public static Rank getRank(Guild g, int level) {
-        List<Rank> ranks = AlloyUtil.loadAllRanks(g);
+    public static Rank getRank(int level) {
+        List<Rank> ranks = AlloyUtil.loadAllGlobalRanks();
         for (Rank rank : ranks) {
             if (rank.getLevel() == level)
                 return rank;

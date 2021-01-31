@@ -6,6 +6,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.input.console.ConsoleInputData;
+import alloy.utility.job.jobs.PurgeCacheJob;
 import alloy.utility.job.jobs.RmUserCoolDownJob;
 import alloy.utility.job.jobs.RmUserXPCooldownJob;
 import utility.StringUtil;
@@ -28,7 +29,8 @@ public class QueueCommand extends AbstractConsoleCommand {
         return new Class<?>[] {
 
             RmUserCoolDownJob.class, 
-            RmUserXPCooldownJob.class, 
+            RmUserXPCooldownJob.class,
+            PurgeCacheJob.class,
             
         };
     }

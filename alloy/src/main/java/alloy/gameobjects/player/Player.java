@@ -220,15 +220,15 @@ public class Player extends GameObject implements Comparable<Player> {
         this.save();
     }
 
-    public void addWanring(Warning w) 
+    public void addWarning(Warning w) 
     {
-        this.settings.addWanring(w);
+        this.settings.addWarning(w);
 	}
 
 
     public void removeWarning(Warning w) 
     {
-        this.settings.removeWanring(w);
+        this.settings.removeWarning(w);
         String path = this.settings.getPath() + 
                         AlloyUtil.WARNINGS_FOLDER + 
                         AlloyUtil.SUB + w.getId() + 
@@ -239,6 +239,17 @@ public class Player extends GameObject implements Comparable<Player> {
     public String getAsMention()
     {
         return "<@!" + this.getId() + ">";
+    }
+
+    public String getPath()
+    {
+        return settings.getPath();
+    }
+
+    @Override
+    public Player getData() 
+    {
+        return this;
     }
 
 }

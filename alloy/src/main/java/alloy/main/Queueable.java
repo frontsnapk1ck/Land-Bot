@@ -14,4 +14,6 @@ public interface Queueable {
 
     public PriorityBlockingQueue<ScheduledJob> getQueue();
 
+	public boolean unQueue( Job job);
+
 }

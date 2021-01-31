@@ -6,7 +6,6 @@ import java.util.List;
 
 import alloy.gameobjects.player.Player;
 import alloy.gameobjects.player.Rank;
-import alloy.io.loader.RankLoaderText;
 import alloy.utility.discord.AlloyUtil;
 import net.dv8tion.jda.api.entities.Guild;
 
@@ -29,8 +28,7 @@ public class LeaderboardHandler {
     private static String getLBRank(Player player) {
         int xp = player.getXP();
 
-        RankLoaderText rlt = new RankLoaderText();
-        List<Rank> stock = rlt.loadALl(AlloyUtil.GLOBAL_RANK_PATH);
+        List<Rank> stock = AlloyUtil.loadAllGlobalRanks();
 
         int level = findLevel(stock, xp);
         String progress = findProgress(xp, level, stock);

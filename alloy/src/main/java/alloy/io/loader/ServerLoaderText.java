@@ -27,7 +27,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         String boolString1          = loadSetting(Server.ROLE_ASSIGN_ON_BUY, serverArray);
         String boolString2          = loadSetting(Server.ADMIN_BYPASS_COOLDOWN, serverArray);
         String spamString           = loadSetting(Server.SPAM_CHANNEL, serverArray);
-        String combinedBlackList    = loadSetting(Server.BALCKLISTED_CHANNENLS, serverArray);
+        String combinedBlackList    = loadSetting(Server.BLACKLISTED_CHANNELS, serverArray);
         String xpCooldownString     = loadSetting(Server.XP_COOLDOWN, serverArray);
         String idString             = loadSetting(Server.ID, serverArray);
         String userLogString        = loadSetting(Server.USER_LOG_CHANNEL , serverArray);

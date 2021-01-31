@@ -6,6 +6,8 @@ public abstract class Job {
 	private boolean timeSet;
     private long timeExecuted;
 
+    private boolean toExecute;
+
 	/** Create a job */
 	public Job()
 	{
@@ -15,10 +17,11 @@ public abstract class Job {
 	/** Create a job with given id */
 	public Job( String id )
 	{
-		this.id = id;
+        this.id = id;
+        this.enable();
 	}
 
-    abstract protected void execute();
+    public abstract void execute();
 
 
     /** Returns the ID of this job */
@@ -52,6 +55,22 @@ public abstract class Job {
             return false;
         
     }
+    
+    public void enable()
+    {
+        this.toExecute = true;
+    }
+
+    public void disable()
+    {
+        this.toExecute = false;
+    }
+
+    public boolean toggle()
+    {
+        this.toExecute = this.toExecute ? false : true;
+        return this.toExecute;
+    }
 
     public long getTimeExecuted() 
     {
@@ -60,6 +79,11 @@ public abstract class Job {
 
     public boolean isTimeSet() {
         return timeSet;
+    }
+
+    public boolean toExecute() 
+    {
+        return toExecute;
     }
 
     @Override

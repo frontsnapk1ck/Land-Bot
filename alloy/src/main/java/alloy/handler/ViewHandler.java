@@ -3,7 +3,6 @@ package alloy.handler;
 import java.util.List;
 
 import alloy.gameobjects.player.Building;
-import alloy.io.loader.BuildingLoaderText;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.utility.discord.AlloyUtil;
@@ -16,10 +15,7 @@ public class ViewHandler {
 
     public static void viewBuildings(Guild g, TextChannel channel, Sendable bot) {
         EmbedBuilder eb = new EmbedBuilder();
-        BuildingLoaderText blt = new BuildingLoaderText();
-        String bPath = AlloyUtil.getGuildPath(g) + AlloyUtil.SUB + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB
-                + AlloyUtil.BUILDING_FILE;
-        List<Building> buildings = blt.loadALl(bPath);
+        List<Building> buildings = AlloyUtil.loadBuildings(g);
 
         eb.setTitle("All available buildings");
         embedBuildingList(eb, buildings);

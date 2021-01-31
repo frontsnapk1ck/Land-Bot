@@ -7,7 +7,6 @@ import alloy.handler.FunChatHandler;
 import alloy.handler.WarningHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
-import alloy.io.loader.PlayerLoaderText;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;
@@ -83,12 +82,9 @@ public class WarnCommand extends AbstractCommand {
 
         Warning w = WarningHandler.newWarning(args, (TextChannel) channel, target, author, g);
 
-        PlayerLoaderText plt = new PlayerLoaderText();
-        String path = AlloyUtil.SERVERS_PATH + AlloyUtil.SUB + g.getId() + AlloyUtil.USER_FOLDER + AlloyUtil.SUB
-                + m.getIdLong();
-        Player p = plt.load(path);
+        Player p = AlloyUtil.loadPlayer(g, m);
 
-        p.addWanring(w);
+        p.addWarning(w);
         PrivateChannel pc = target.getUser().openPrivateChannel().complete();
         if (pc == null) {
             Template t = Templates.privateMessageFailed(m);

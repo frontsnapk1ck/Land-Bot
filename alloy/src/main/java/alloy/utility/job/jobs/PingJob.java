@@ -19,7 +19,7 @@ public class PingJob extends Job {
     }
 
     @Override
-    protected void execute() 
+    public void execute() 
     {
         long start = System.currentTimeMillis();
         SendableMessage sm = new SendableMessage();

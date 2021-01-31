@@ -15,6 +15,7 @@ import alloy.utility.job.jobs.AddUserXPCooldownJob;
 import alloy.utility.job.jobs.HelpJob;
 import alloy.utility.job.jobs.InviteJob;
 import alloy.utility.job.jobs.PingJob;
+import alloy.utility.job.jobs.PurgeCacheJob;
 import alloy.utility.job.jobs.PurgeJob;
 import alloy.utility.job.jobs.RemindJob;
 import alloy.utility.job.jobs.RmUserCoolDownJob;
@@ -50,6 +51,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         JOB_MAP.put(    "HelpJob"                 ,        HelpJob.class                   );
         JOB_MAP.put(    "InviteJob"               ,        InviteJob.class                 );
         JOB_MAP.put(    "PingJob"                 ,        PingJob.class                   );
+        JOB_MAP.put(    "PurgeCacheJob"           ,        PurgeCacheJob.class             );
         JOB_MAP.put(    "PurgeJob"                ,        PurgeJob.class                  );
         JOB_MAP.put(    "RemindJob"               ,        RemindJob.class                 );
         JOB_MAP.put(    "RmUserCoolDownJob"       ,        RmUserCoolDownJob.class         );
@@ -114,7 +116,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         sm.setMessage(outM);
 
         RemindJob rJob = new RemindJob(alloy, sm);
-        ScheduledJob newSJob = EventManager.newSchedluledJob(time , rJob);
+        ScheduledJob newSJob = EventManager.newScheduledJob(time , rJob);
         return newSJob;
         
     }

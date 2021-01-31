@@ -16,24 +16,6 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 public class BanCommand extends AbstractModerationCommand {
 
     @Override
-    public String getDescription()
-    {
-        return "bans a member from your guild";
-    }
-
-    @Override
-    public String getCommand()
-    {
-        return "ban";
-    }
-
-    @Override
-    public String[] getAliases()
-    {
-        return new String[0];
-    }
-
-    @Override
     protected DisPerm getRequiredPermission()
     {
         return DisPerm.BAN_MEMBERS;

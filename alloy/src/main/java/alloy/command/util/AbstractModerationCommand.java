@@ -32,7 +32,8 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
 
     @Override
     public String[] getUsage() {
-        return new String[] {
+        return new String[] 
+        {
                 String.format("%s <user>     //%s user from guild", getCommand(), getPunishType().getDescription()), };
     }
 

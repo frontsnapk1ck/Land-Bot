@@ -2,7 +2,6 @@ package alloy.utility.job;
 
 import alloy.utility.job.jobs.SpamRunnable;
 import utility.event.EventManager;
-import utility.event.Job;
 
 public class AlloyEventHandler extends EventManager {
 

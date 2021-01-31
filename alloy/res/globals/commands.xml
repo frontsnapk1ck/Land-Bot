@@ -11,28 +11,22 @@
         <trigger text = "delete" />
 
         <subcommand text = "" 
-                        description = "deletes up to {MAX_BULK_SIZE} non-pinned messages" />
+                        description = "deletes up to **100** non-pinned messages" />
 
         <subcommand text = "{num}"
-                        description = "deletes {num} (max {MAX_DELETE_COUNT} ) non-pinned messages"/>
+                        description = "deletes {num} (**max 2500** ) messages"/>
 
         <subcommand text = "{time}"
-                        description = "deletes messages newer than now - (input) you can use dhms and combinations"/>
+                        description = "deletes messages newer than now - (use dhms)"/>
 
         <subcommand text = "{user} {num}" 
                         description = "deletes {num} mesages from {user}" />
 
         <subcommand text = "matches {regex}" 
-                        description = "deletes messages matching {regex}"/>
-
-        <subcommand text = "match {regex}" 
-                        description = "deletes messages matching {regex}"/>
+                        description = "deletes messages matching"/>
 
         <subcommand text = "notmatches" 
-                        description = "delete messages NOT matching {regex}"/>
-
-        <subcommand text = "commands"
-                        description = "delete command related messages" />
+                        description = "delete messages NOT matching"/>
 
         <subcommand text = "bots {num}"
                         description = "deletes bot messages"/>
@@ -292,14 +286,6 @@
     <command name = "help" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
         <trigger text = "help"/>
         <trigger text = "cmds"/>
-
-        <subcommand text = ""
-                        description = "sends a dm to the user with all of the command in this bot that they are currently able to use" />
-
-    </command>
-
-    <command name = "help" permission = "MESSAGE_WRITE" cooldown = "true" type = "DISCORD">
-        <trigger text = "help"/>
 
         <subcommand text = ""
                         description = "sends a dm to the user with all of the command in this bot that they are currently able to use" />

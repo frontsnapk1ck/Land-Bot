@@ -2,6 +2,8 @@ package alloy.input;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -107,8 +109,14 @@ public class AlloyInputUtil {
         for (int i = 1; i < allArgs.length; i++) 
             newArgs[i-1] = allArgs[i];
         
+        List<String> finalArgs = new ArrayList<String>();
+        for (String string : newArgs) 
+        {
+            if (!string.equals(""))
+                finalArgs.add(string);
+        }
 
-        return newArgs;
+        return finalArgs.toArray(new String[]{});
 	}
 
     public static String[] getArgs(AlloyInputData data) 
@@ -147,6 +155,7 @@ public class AlloyInputUtil {
         map.put(    "queue"         ,   ConsoleInputActions.QUEUE_ACTION);
         map.put(    "test"          ,   ConsoleInputActions.TEST_ACTION);
         map.put(    "cache"         ,   ConsoleInputActions.CACHE_ACTION);
+        map.put(    "update"        ,   ConsoleInputActions.UPDATE_ACTION);
         
         return map;
     }

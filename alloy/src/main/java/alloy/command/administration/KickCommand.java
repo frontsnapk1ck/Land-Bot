@@ -16,24 +16,6 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 public class KickCommand extends AbstractModerationCommand {
 
     @Override
-    public String getDescription()
-    {
-        return "Kicks a member from your guild";
-    }
-
-    @Override
-    public String getCommand()
-    {
-        return "kick";
-    }
-
-    @Override
-    public String[] getAliases()
-    {
-        return new String[0];
-    }
-
-    @Override
     protected PunishType getPunishType()
     {
         return PunishType.KICK;

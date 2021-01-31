@@ -96,5 +96,24 @@ public class StringUtil {
 
         return num;
     }
+
+    public static String list(String[] list) 
+    {
+        String out = "[ ";
+
+        if (list.length == 0)
+            return out + " none ]";
+
+        int i = 0;
+        for (String string : list) 
+        {
+            if (i != list.length - 1)
+                out += string + ", ";
+            else
+                out += string + " ]";
+            i++;    
+        }
+        return out;
+	}
     
 }

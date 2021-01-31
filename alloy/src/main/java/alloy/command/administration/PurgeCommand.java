@@ -35,43 +35,6 @@ public class PurgeCommand extends AbstractCommand {
     public static final int MAX_BULK_SIZE = 100;
 
     @Override
-    public String getDescription() {
-        return "deletes non-pinned messages";
-    }
-
-    @Override
-    public String getCommand() {
-        return "purge";
-    }
-
-    @Override
-    public String[] getUsage() {
-        return new String[] { "//deletes up to " + MAX_BULK_SIZE + " non-pinned messages", "purge",
-
-                "//deletes <limit> (max " + MAX_DELETE_COUNT + ") non-pinned messages", "purge <limit>",
-
-                "//deletes messages newer than now - (input)",
-                "purge time 1d2h10m         //you can use dhms and combinations ",
-
-                "//deletes <limit> messages from <user>, limit is optional", "purge @user [limit]",
-
-                "//deletes messages from <user>, user can be part of a user's name", "purge user <user>",
-
-                "//deletes messages matching <regex>", "purge matches <regex>",
-
-                "//delete messages NOT matching <regex>", "purge notmatches <regex>",
-
-                "//delete command related messages", "purge commands",
-
-                "//deletes bot messages", "purge bot" };
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[] { "clear", "delete" };
-    }
-
-    @Override
     public void execute(AlloyInputData data) {
         Guild guild = data.getGuild();
         User author = data.getUser();

@@ -14,7 +14,11 @@ public abstract class AbstractCommand {
 
 	public AbstractCommand() 
 	{
-		this.permission = AlloyPerm.MESSAGE_WRITE;
+		setPermission(AlloyPerm.MESSAGE_WRITE);
+		setAliases(new String[]{});
+		setUsage(new String[]{});
+		setCommand("");
+		setDescription("");
 	}
 
 	public abstract void execute(AlloyInputData data);
@@ -30,6 +34,11 @@ public abstract class AbstractCommand {
 	}
 
 	public String[] getUsage()
+	{
+		return CommandInfoLoader.getData(getClass()).getUsageActual();
+	}
+
+	public String[] getUsageActual()
 	{
 		return this.usage;
 	}

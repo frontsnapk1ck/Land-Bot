@@ -44,13 +44,7 @@ public class HelpCommand extends AbstractCooldownCommand {
             return;
         }
 
-        List<String> files = HelpHandler.loadHelpFiles();
-        List<MessageEmbed> messages = new ArrayList<MessageEmbed>();
-
-        for (String path : files)
-            messages.add(HelpHandler.loadEmbed(path));
-        
-        Job j = new HelpJob(m.getUser(), messages, bot);
+        Job j = new HelpJob(m.getUser(), HelpHandler.loadHelp(), bot);
         q.queue(j);
 
         Template t = Templates.helpSentTemplate();

@@ -30,7 +30,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -147,13 +146,6 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
             in = CommandHandler.removePrefix(in, s);
             CommandHandler.process(in);
         }
-    }
-
-    @Override
-    public void handlePrivateMessage(PrivateChannel channel, User author, Message message) {
-        if (!this.started)
-            return;
-        // TODO
     }
 
     @Override

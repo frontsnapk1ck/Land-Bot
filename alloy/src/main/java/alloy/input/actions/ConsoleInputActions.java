@@ -10,6 +10,7 @@ import alloy.command.console.NameCommand;
 import alloy.command.console.QueueCommand;
 import alloy.command.console.RolesCommand;
 import alloy.command.console.TestCommand;
+import alloy.command.console.UpdateCommand;
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.input.console.ConsoleInputAction;
 import alloy.input.console.ConsoleInputData;
@@ -24,6 +25,7 @@ public class ConsoleInputActions extends AbstractActions {
     public static final InputAction QUEUE_ACTION;
     public static final InputAction CACHE_ACTION;
     public static final InputAction TEST_ACTION;
+    public static final InputAction UPDATE_ACTION;
 
     static{
         NAME_ACTION = loadNameAction();
@@ -33,6 +35,7 @@ public class ConsoleInputActions extends AbstractActions {
         QUEUE_ACTION = loadQueueAction();
         CACHE_ACTION = loadCacheAction();
         TEST_ACTION = loadTestAction();
+        UPDATE_ACTION = loadUpdateAction();
     }
 
     private static InputAction loadNameAction() 
@@ -47,6 +50,25 @@ public class ConsoleInputActions extends AbstractActions {
             public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new NameCommand();
+                command.execute(data);  
+            }
+
+        };
+        return action;
+    }
+
+    private static InputAction loadUpdateAction() 
+    {
+        InputAction action = new ConsoleInputAction()
+        {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(ConsoleInputData data) 
+            {
+                AbstractConsoleCommand command = new UpdateCommand();
                 command.execute(data);  
             }
 

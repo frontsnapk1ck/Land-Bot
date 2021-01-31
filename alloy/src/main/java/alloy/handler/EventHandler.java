@@ -11,7 +11,8 @@ import net.dv8tion.jda.api.entities.Member;
 
 public class EventHandler {
 
-    public static void onGuildJoinEvent(Guild g) {
+    public static void onGuildJoinEvent(Guild g) 
+    {
         String path = AlloyUtil.getGuildPath(g);
 
         File top = new File(path);
@@ -44,7 +45,8 @@ public class EventHandler {
         Saver.saveOverwite(botS.getAbsolutePath(), loadBotSettingsArr(g));
     }
 
-    public static void onMemberJoinEvent(Member m) {
+    public static void onMemberJoinEvent(Member m) 
+    {
         Guild g = m.getGuild();
 
         String path = AlloyUtil.getGuildPath(g);

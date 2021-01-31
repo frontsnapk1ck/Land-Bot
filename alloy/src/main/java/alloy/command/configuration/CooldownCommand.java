@@ -25,34 +25,9 @@ public class CooldownCommand extends AbstractCommand {
 
     @Override
     public void execute(AlloyInputData data) {
-        Guild g = data.getGuild();
-        User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
-        Sendable bot = data.getSendable();
-        TextChannel channel = data.getChannel();
-        Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom("CooldownCommand");
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);
-            return;
-        }
-
-        if (args.length < 1) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom("CooldownCommand");
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);
-            return;
-        }
-
-        if (args[0].equalsIgnoreCase("xp"))
+        if (args.length > 0 && args[0].equalsIgnoreCase("xp"))
             xpCooldown(data);
         else
             cooldown(data);

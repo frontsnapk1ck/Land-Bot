@@ -227,11 +227,11 @@ public class Templates {
 		String expected = "";
 		if (usage != null) {
 			for (String s : usage)
-				expected += s + " ";
+				expected += s + "";
 		}
 		expected = expected.trim();
 
-		Template t = new Template("Arguments not supplied", "expected:\t " + expected + "\ngot:\t\t`" + got + "`");
+		Template t = new Template("Arguments not supplied", "expected:\t " + expected + "\ngot:\t\t`" + (got.equals("") ? "nothing" : got ) + "`");
 		return t;
 	}
 
@@ -932,7 +932,8 @@ public class Templates {
 
 	public static Template donate(User author) 
 	{
-		String link = "https://paypal.me/frontsnapk1ck";
+		// String link = "https://paypal.me/frontsnapk1ck";
+		String link = "UNAVAILABLE RIGHT NOW";
 		Template t = new Template("Donations"  , "thank you so much for thinking of me " + author.getAsMention() + "\n\nyou can donate to me [here](" + link + ")" );
 		return t;
 	}

@@ -10,7 +10,6 @@ import alloy.main.handler.AlloyHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.StatusChangeEvent;
@@ -109,10 +108,7 @@ public class JDAEvents extends ListenerAdapter {
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent e) 
     {
-        PrivateChannel c = e.getChannel();
-        User a = e.getAuthor();
-        Message msg = e.getMessage();
-        bot.handlePrivateMessage(c,a,msg);
+        Alloy.LOGGER.debug("JDA Events", "Private message received from " + e.getAuthor().getAsTag());
     }
 
     @Override

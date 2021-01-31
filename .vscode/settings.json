@@ -4,6 +4,7 @@
         "Cooldown",
         "Leaderboard",
         "Queueable",
+        "Unban",
         "Unmute",
         "botcord",
         "delwarn",
@@ -16,7 +17,8 @@
         "remindme",
         "rult",
         "subcommand",
-        "subcommands"
+        "subcommands",
+        "unmuted"
     ],
     "cSpell.ignoreWords": [
         "sjob"

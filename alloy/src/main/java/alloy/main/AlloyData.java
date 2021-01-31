@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
 
-import alloy.command.util.CommandInfoLoader;
 import alloy.gameobjects.Server;
 import alloy.input.console.Console;
 import alloy.io.loader.JobQueueLoaderText;
@@ -37,7 +36,6 @@ public class AlloyData {
         this.jda = jda;
         this.alloy = alloy;
         console.setHandler(alloy);
-        CommandInfoLoader.loadInfo();
     }
 
     private AlloyEventHandler loadEventManager() 

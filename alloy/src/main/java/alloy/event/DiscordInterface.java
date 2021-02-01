@@ -5,6 +5,7 @@ import alloy.main.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.TextChannel;
+import utility.logger.Level;
 
 public class DiscordInterface implements DebugListener {
 
@@ -21,6 +22,9 @@ public class DiscordInterface implements DebugListener {
 	@Override
     public void onReceive(DebugEvent e) 
     {
+        if (e.getLevel() == Level.DEBUG)
+            return;
+
         if (this.log == null)
             return;
         Template t = Templates.debug(e);

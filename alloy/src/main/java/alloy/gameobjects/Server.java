@@ -21,6 +21,7 @@ public class Server extends GameObject {
     public static final String USER_LOG_CHANNEL = "user log channel";
     public static final String ID = "id";
     public static final String MUTE_ROLE_ID = "mute roll";
+    public static final String BAN_APPEAL_LINK = "appeal link";
 
     private ServerSettings settings;
 
@@ -85,6 +86,7 @@ public class Server extends GameObject {
             ID +                    ":" + this.settings.getId() , 
             MOD_LOG_CHANNEL +       ":" + this.settings.getModLogChannel(),
             USER_LOG_CHANNEL +      ":" + this.settings.getUserLogChannel() ,
+            BAN_APPEAL_LINK +       ":" + this.settings.getBanAppealLink() ,
 
         };
         Saver.saveOverwite(this.settings.getPath() + "\\settings\\bot.settings", out );
@@ -224,4 +226,27 @@ public class Server extends GameObject {
     public GameObject getData() {
         return this;
     }
+
+    public void setBanAppealLink(String string) 
+    {
+        this.settings.setBanAppealLink(string);
+        this.save();
+	}
+
+    public void setMuteRole(long idLong) 
+    {
+        this.settings.setMuteRole(idLong);
+        this.save();
+	}
+
+    public void setModLog(long idLong) 
+    {
+        this.settings.setModLogChannel(idLong);
+        this.save();
+	}
+
+    public String getBanAppealLink() 
+    {
+		return this.settings.getBanAppealLink();
+	}
 }

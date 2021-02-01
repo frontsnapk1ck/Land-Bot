@@ -44,6 +44,7 @@ public class DisUtil {
 
     public static TextChannel findChannel(Guild guild, String id) 
     {
+        id = "" + mentionToId(id);
         for (GuildChannel c : guild.getChannels() )
         {
             if (c.getId().equals(id))
@@ -118,15 +119,14 @@ public class DisUtil {
         return null;
     }
 
-    public static long mentionToId(String s) 
+    public static String mentionToId(String s) 
     {
 		String  id = s.replace("<@", "");
                 id = id.replace("!", "");
                 id = id.replace("<#", "");
                 id = id.replace("<&" , "");
                 id = id.replace(">", "");
-
-        return Long.parseLong(id);
+        return id;
 	}
 
     public static Role parseRole(String role, Guild g) 

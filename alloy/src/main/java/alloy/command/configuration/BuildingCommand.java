@@ -48,13 +48,9 @@ public class BuildingCommand extends AbstractCommand {
             return;
         }
 
-        if (args.length == 0) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);
+        if (args.length == 0) 
+        {
+            ViewHandler.viewBuildings(g, channel, bot);
             return;
         }
 

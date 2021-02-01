@@ -6,9 +6,12 @@ import alloy.gameobjects.Server;
 import alloy.main.Queueable;
 import alloy.main.handler.CooldownHandler;
 import alloy.utility.discord.AlloyUtil;
+import alloy.utility.discord.perm.DisPerm;
+import alloy.utility.discord.perm.DisPermUtil;
 import alloy.utility.job.jobs.AddUserCoolDownJob;
 import alloy.utility.job.jobs.RmUserCoolDownJob;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import utility.event.Job;
 
@@ -32,9 +35,14 @@ public abstract class AbstractCooldownCommand extends AbstractCommand {
         return false;
     }
 
-    protected static void addUserCooldown(User author, Guild guild, CooldownHandler handler , long seconds, Queueable q) 
+    protected static void addUserCooldown(Member member, Guild guild, CooldownHandler handler , long seconds, Queueable q) 
     {
+        Server s = AlloyUtil.loadServer(guild);
+        if (s.getAdminCooldownBypass() && DisPermUtil.checkPermission(member, DisPerm.ADMINISTRATOR))
+            return;
 
+        User author = member.getUser();
+        
         Job j = new AddUserCoolDownJob(guild , author , handler );
         q.queue(j);
         Job j2 = new RmUserCoolDownJob(guild, author, handler);

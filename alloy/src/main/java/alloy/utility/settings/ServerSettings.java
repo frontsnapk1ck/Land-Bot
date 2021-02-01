@@ -21,6 +21,7 @@ public class ServerSettings extends AbstractSettings {
     private long modLogChannel;
     private Long userLogChannel;
     private long muteRole;
+    private String banAppealLink;
 
 
     public ServerSettings() 
@@ -39,6 +40,7 @@ public class ServerSettings extends AbstractSettings {
         this.modLogChannel = 0l;
         this.userLogChannel = 0l;
         this.muteRole = 0l;
+        this.banAppealLink = "";
     }
 
     public List<Long> getBlacklistedChannels() 
@@ -85,6 +87,16 @@ public class ServerSettings extends AbstractSettings {
     public long getMuteRoleID() 
     {
 		return this.muteRole;
+    }
+
+    public String getBanAppealLink() {
+        return banAppealLink;
+    }
+
+    public ServerSettings setBanAppealLink(String banAppealLink) 
+    {
+        this.banAppealLink = banAppealLink;
+        return this;
     }
     
     public ServerSettings setMuteRole(long muteRole) 
@@ -243,7 +255,8 @@ public class ServerSettings extends AbstractSettings {
                 .setSpamChannel(spamChannel)
                 .setStartingBalance(startingBalance)
                 .setUserLogChannel(userLogChannel)
-                .setXpCooldown(xpCooldown);
+                .setXpCooldown(xpCooldown)
+                .setBanAppealLink(banAppealLink);
         
         return settings;
     }

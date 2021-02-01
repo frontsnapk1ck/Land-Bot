@@ -33,6 +33,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         String userLogString        = loadSetting(Server.USER_LOG_CHANNEL , serverArray);
         String modLogString         = loadSetting(Server.MOD_LOG_CHANNEL, serverArray);
         String muteRoleString       = loadSetting(Server.MUTE_ROLE_ID, serverArray);
+        String banAppealString      = loadSetting(Server.BAN_APPEAL_LINK, serverArray);
 
 
         String prefix               = String.valueOf(prefixString);
@@ -63,6 +64,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
                 .setUserLogChannel(userLog)
                 .setPrefix(prefix)
                 .setMuteRole(muteRole)
+                .setBanAppealLink(banAppealString)
                 .setPath(file);
 
         Server s = new Server( settings );

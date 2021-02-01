@@ -80,7 +80,7 @@ public class DeadChatCommand extends AbstractCooldownCommand {
 
         msg.delete().queue(null , eHandler);
         
-        addUserCooldown(author, g, handler, getCooldownTime(g) , q);
+        addUserCooldown(m, g, handler, getCooldownTime(g) , q);
 
     }
     

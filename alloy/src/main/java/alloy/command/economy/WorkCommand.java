@@ -55,7 +55,7 @@ public class WorkCommand extends AbstractCooldownCommand {
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 
-        addUserCooldown(author, g, handler, getCooldownTime(g), q);
+        addUserCooldown(m, g, handler, getCooldownTime(g), q);
 
     }
 

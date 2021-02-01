@@ -39,6 +39,7 @@ public class GuildScreen extends BotCordScreen {
     {
         this.setSelector(new ScreenSelector(this.guild.getJDA()));
         this.channelSelector = new ChannelSelector(this.guild);
+        this.memberList = new MemberList(this.guild);
         this.listeners = new ArrayList<BotCordListener>();
     }
 
@@ -46,9 +47,15 @@ public class GuildScreen extends BotCordScreen {
     public void config() 
     {
         this.configSelector();
+        this.configMemberList();
     }
 
-    @Override
+    private void configMemberList() 
+    {
+        this.getPanel().add(this.memberList);
+	}
+
+	@Override
     public void configSelector() 
     {
         updateBounds();

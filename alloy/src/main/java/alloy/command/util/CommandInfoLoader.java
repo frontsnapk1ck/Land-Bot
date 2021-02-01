@@ -92,7 +92,7 @@ public class CommandInfoLoader {
     {
         List<AlloyInput> filled = getFilled();
         String name = getName(c);
-        
+
         List<AlloyInput> inputs = new ArrayList<AlloyInput>();
         for (AlloyInput in : filled) 
         {
@@ -137,8 +137,8 @@ public class CommandInfoLoader {
     private static String[] updateTriggers(AlloyInput in, String[] triggers) 
     {
         List<String> strings = Util.arrayToList(triggers);
-        if (!strings.contains(in.getTrigger()))
-            strings.add(in.getTrigger());
+        if (!strings.contains(in.getTrigger().split(" ")[0]))
+            strings.add(in.getTrigger().split(" ")[0]);
         return strings.toArray(new String[]{});
     }
 

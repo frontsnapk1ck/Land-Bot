@@ -226,14 +226,15 @@ public class Templates {
 			got += s + " ";
 		got = got.trim();
 
-		String expected = "";
+		String expected = "\n```txt\n";
 		if (usage != null) {
 			for (String s : usage)
-				expected += s + "";
+				expected += s + "\n\n";
 		}
+		expected += "```";
 		expected = expected.trim();
 
-		Template t = new Template("Arguments not supplied", "expected:\t " + expected + "\ngot:\t\t`" + (got.equals("") ? "nothing" : got ) + "`");
+		Template t = new Template("Arguments not supplied", "expected:\t " + expected + "\ngot:\t\t```" + (got.equals("") ? "nothing" : got ) + "```");
 		return t;
 	}
 
@@ -966,6 +967,52 @@ public class Templates {
 		String err = e.getError().getClass().getSimpleName() + "\t:\t" + e.getError().getMessage() ;
 
 		Template t = new Template(e.getLevel().toString(),  err + "\n\nstackTrace:\n" + trace );
+		return t;
+	}
+
+	public static Template banAppeal(String link) 
+	{
+		Template t = new Template("Ban Appeal" , "[click here to appeal your ban](" + link +  ")");
+		return t;
+	}
+
+	public static Template invalidURL(String string) 
+	{
+		Template t = new Template("Invalid URL", "the URL `" + string + "` is invalid" );
+		return t;
+	}
+
+	public static Template channelNotFound(String channelT) 
+	{
+		Template t = new Template ("Channel Not Found" , " i couldn't find the channel " + channelT );
+		return t;
+	}
+
+	public static Template adminBypassCooldown(boolean b) 
+	{
+		Template t = new Template("Admin Bypass Cooldown" , "the admin bypass cooldown had been change to `" + (b?"on`":"off`"));
+		return t;
+	}
+
+	public static Template modLogChanged(String channelT) 
+	{
+		return new Template ("Mod Log Changed" , "the mod log has been changed to " + channelT);
+	}
+
+	public static Template muteRoleChanged(String role) 
+	{
+		return new Template ("Mute Role Changed" , "the mute role has been changed to " + role);
+	}
+
+	public static Template banAppealChanged(String string) 
+	{
+		return new Template ("Ban Appeal Link Changed" , "the Ban Appeal Link has been changed to " + string);
+	}
+
+	public static Template logBan(Guild guild, User user) 
+	{
+		Template t = new Template("USER BANNED", "the user " + user.getAsMention() + "has been banned from this server");
+		t.setImageURL(user.getAvatarUrl());
 		return t;
 	}
 

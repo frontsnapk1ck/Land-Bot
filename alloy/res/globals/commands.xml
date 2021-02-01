@@ -88,6 +88,7 @@
     <!-- CONFIGURATION COMMANDS-->
     <command name = "building" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">
         <trigger text = "building" />
+        <trigger text = "buildings" />
 
         <subcommand text = "add {name} {cost} {generation}"
                         description = "adds a building into the economy that members can buy"/>
@@ -145,11 +146,22 @@
         <trigger text = "set" />
 
         <subcommand text = "spam {channel}"
-                        description = "changed the starting balance in this server"/>
+                        description = "sets the channel for which to spam in"/>
 
         <subcommand text = "xp {user} {xp}"
-                        description = "changed the starting balance in this server"/>
+                        description = "sets the xp of a given user to a given ammount"/>
 
+        <subcommand text = "admin-bypass {true/false}"
+                        description = "changed the starting balance in this server"/>
+        
+        <subcommand text = "mod-log {channel}"
+                        description = "sets the modertation log to a given channel"/>
+                
+        <subcommand text = "mute {role}"
+                        description = "sets the role assigned to muted members"/>
+
+        <subcommand text = "appeal {link}"
+                        description = "sets the link dmd to baned usered for an apeal"/>
 
     </command>
 

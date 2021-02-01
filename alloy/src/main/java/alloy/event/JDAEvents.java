@@ -6,6 +6,7 @@ import alloy.handler.EventHandler;
 import alloy.input.discord.AlloyInput;
 import alloy.input.discord.AlloyInputEvent;
 import alloy.main.Alloy;
+import alloy.main.Sendable;
 import alloy.main.handler.AlloyHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -44,10 +45,12 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class JDAEvents extends ListenerAdapter {
 
     private AlloyHandler bot;
+    private Sendable sendable;
 
     public JDAEvents(Alloy alloy) 
     {
         this.bot = alloy;
+        this.sendable = alloy;
     }
 
     @Override
@@ -191,9 +194,9 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildBan(GuildBanEvent event) 
+    public void onGuildBan(GuildBanEvent e) 
     {
-        super.onGuildBan(event);
+        EventHandler.onGuildBan(e.getGuild() , e.getUser() , this.sendable);
     }
 
     @Override

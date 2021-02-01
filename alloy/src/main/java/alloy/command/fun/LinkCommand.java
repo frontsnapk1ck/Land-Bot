@@ -39,7 +39,7 @@ public class LinkCommand extends AbstractCommand {
             @Override
             public void accept(ErrorResponseException t) 
             {
-                Alloy.LOGGER.warn("KickCommand", t.getMessage());
+                Alloy.LOGGER.warn("LinkCommand", t.getMessage());
             }
 
             @Override
@@ -55,7 +55,7 @@ public class LinkCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("CooldownCommand");
+            sm.setFrom("LinkCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -65,7 +65,7 @@ public class LinkCommand extends AbstractCommand {
         Template t = Templates.linkEmbed(link,text);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownCommand");
+        sm.setFrom("LinkCommand");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         

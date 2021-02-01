@@ -60,7 +60,7 @@ public class HelpHandler {
             String[] triggers = command.getAliases();
             
             String triggersSingle = "Aliases: " + StringUtil.list(triggers);
-            String usageSingle = "\nUsages\n";
+            String usageSingle = "\nUsage\n";
             for (String string : usage) 
                 usageSingle += string + "\n";
             

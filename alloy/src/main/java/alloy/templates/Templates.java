@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import alloy.command.util.PunishType;
+import alloy.event.DebugEvent;
 import alloy.gameobjects.RankUp;
 import alloy.gameobjects.Warning;
 import alloy.gameobjects.player.Building;
@@ -30,6 +31,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import utility.StringUtil;
+import utility.logger.Level;
 import utility.time.TimeUtil;
 import utility.time.TimesIncludes;
 
@@ -935,6 +937,35 @@ public class Templates {
 		// String link = "https://paypal.me/frontsnapk1ck";
 		String link = "UNAVAILABLE RIGHT NOW";
 		Template t = new Template("Donations"  , "thank you so much for thinking of me " + author.getAsMention() + "\n\nyou can donate to me [here](" + link + ")" );
+		return t;
+	}
+
+	public static Template debug(DebugEvent e) 
+	{
+		if (e.getLevel() == Level.ERROR)
+			return error(e);
+		if (e.getLevel() == Level.INFO)
+			return info(e);
+		return new Template("Something Happened" , "You should take a look, ig");
+	}
+
+	private static Template info(DebugEvent e) 
+	{
+		Template t = new Template(e.getLevel().toString(),  e.getMessage() );
+		return t;
+	}
+
+	private static Template error(DebugEvent e) 
+	{
+		String trace = "";
+		StackTraceElement[] stack = e.getError().getStackTrace();
+
+		for (StackTraceElement s : stack) 
+			trace += s.toString() + "\n";
+
+		String err = e.getError().getClass().getSimpleName() + "\t:\t" + e.getError().getMessage() ;
+
+		Template t = new Template(e.getLevel().toString(),  err + "\n\nstackTrace:\n" + trace );
 		return t;
 	}
 

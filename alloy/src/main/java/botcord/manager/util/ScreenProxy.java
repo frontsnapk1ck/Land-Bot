@@ -8,4 +8,5 @@ public interface ScreenProxy {
 
     public ScreenFramework getPm();
     
+    public ScreenFramework getCurrentScreen();
 }

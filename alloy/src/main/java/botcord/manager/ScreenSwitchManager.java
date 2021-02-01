@@ -12,6 +12,7 @@ import botcord.manager.util.SwitchEvent;
 import botcord.manager.util.Switchable;
 import botcord.screen.GuildScreen;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildChannel;
 
 public class ScreenSwitchManager implements BotCordListener {
 
@@ -38,6 +39,14 @@ public class ScreenSwitchManager implements BotCordListener {
             debug();
         if (e.getTarget().equals(SwitchTarget.PM))
             pm();
+        if (e.getTarget().equals(SwitchTarget.CHANNEL))
+            channel((GuildChannel)e.getData());
+    }
+
+    private void channel(GuildChannel data) 
+    {
+        GuildScreen screen = (GuildScreen)(this.proxy.getCurrentScreen());
+        screen.setActiveChannel(data);
     }
 
     private void debug() 

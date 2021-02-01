@@ -6,6 +6,7 @@ public class SwitchTarget {
 	public static final SwitchTarget     DEBUG   = new SwitchTarget("debug");
 	public static final SwitchTarget     PM      = new SwitchTarget("pm");
     
+	public static final SwitchTarget     CHANNEL = new SwitchTarget("channel");
     
     private String id;
     

@@ -1,5 +1,6 @@
 package alloy.input.console;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,10 @@ public class Console implements DeviceListener  {
     }
 
 
-    public void setHandler(ConsoleHandler consoleHandler)
+    public void setHandler(ConsoleHandler consoleHandler, UncaughtExceptionHandler alloy)
     {
         this.consoleHandler = consoleHandler;
+        Thread.setDefaultUncaughtExceptionHandler(alloy);
     }
 
     public boolean hasHandler()

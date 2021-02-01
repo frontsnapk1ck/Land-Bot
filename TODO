@@ -3,7 +3,6 @@ emulate discord
     have a way to do dms
     make it so it can upload files - backend only
 
-    Working on catagories rn
 
 change the buttons
     make my own
@@ -14,12 +13,6 @@ dm me on error
 clean up help messages
 
 no duplicate building names
-
-cache of data
-    show the name of the thing 
-        server shows guild name 
-        player shows tag, etc
-
 
 ~~~much later~~~
 music bot

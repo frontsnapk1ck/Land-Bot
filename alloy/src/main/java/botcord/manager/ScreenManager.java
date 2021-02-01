@@ -64,5 +64,12 @@ public class ScreenManager implements Switchable, ScreenProxy {
     {
         return this.pmScreen;
     }
+
+    @Override
+    public ScreenFramework getCurrentScreen() 
+    {
+        return main.getCurrentScreen();
+    }
+
     
 }

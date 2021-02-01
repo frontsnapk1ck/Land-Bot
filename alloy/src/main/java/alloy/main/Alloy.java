@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.RejectedExecutionException;
 
 import javax.security.auth.login.LoginException;
 
 import alloy.event.AlloyLogger;
 import alloy.event.DebugListener;
+import alloy.event.DiscordInterface;
 import alloy.event.JDAEvents;
 import alloy.gameobjects.Server;
 import alloy.handler.CommandHandler;
@@ -82,6 +84,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         AlloyUtil.loadCache(this);
         Alloy.startupTimeStamp = System.currentTimeMillis();
     }
+
+
 
     private void configThread() 
     {
@@ -198,7 +202,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
             message.setSent(m);
         } catch (InsufficientPermissionException | ErrorResponseException e) {
             LOGGER.warn(from, e.getMessage());
-        }
+        } catch (RejectedExecutionException e){}
     }
 
     private void sendS(SendableMessage message) 
@@ -215,7 +219,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         catch (InsufficientPermissionException | ErrorResponseException e) 
         {
             LOGGER.warn(from, e.getMessage());
-        }
+        }catch (RejectedExecutionException e){}
 
     }
 
@@ -229,7 +233,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
             message.setSent(m);
         } catch (InsufficientPermissionException | ErrorResponseException e) {
             LOGGER.warn(from, e.getMessage());
-        }
+        }catch (RejectedExecutionException e){}
     }
 
     @Override
@@ -311,6 +315,15 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         this.updateActivity();
         Thread.setDefaultUncaughtExceptionHandler(this);
         data.update();
+        configDiscordInterface();
+    }
+
+    private void configDiscordInterface() 
+    {
+        final long ALLOY_ID = 771814337420460072L;
+        final long LOG_ID = 805626387100467210L;
+        TextChannel channel = jda.getGuildById(ALLOY_ID).getTextChannelById(LOG_ID);
+        LOGGER.addListener(new DiscordInterface(channel, this));
     }
 
     @Override
@@ -355,8 +368,9 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         data.queue(action);
     }
 
-    public void setDebugListener(DebugListener debugListener) {
-        LOGGER.setListener(debugListener);
+    public void setDebugListener(DebugListener debugListener) 
+    {
+        LOGGER.addListener(debugListener);
     }
 
     @Override

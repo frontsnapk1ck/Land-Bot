@@ -8,39 +8,51 @@ import utility.logger.Logger;
 
 public class AlloyLogger extends Logger {
 
-    private DebugListener listener;
+    private List<DebugListener> listeners;
     private List<DebugEvent> queue;
 
     public AlloyLogger() 
     {
         this.queue = new ArrayList<DebugEvent>();
+        this.listeners = new ArrayList<DebugListener>();
     }
 
     @Override
     protected void onReceive(String className, String message, Throwable error, Level level, Thread t) 
     {
         DebugEvent e = new DebugEvent(className, message, error, level , t);
-        try {
-            listener.onReceive(e);
-        } catch (NullPointerException eNull) 
-        {
+        for (DebugListener l : listeners)
+            l.onReceive(e);
+        if (this.queue == null)
             this.queue.add(e);
-        }
     }
 
-    public void setListener(DebugListener listener) 
+    public void addListener(DebugListener listener)
     {
-        this.listener = listener;
+        this.listeners.add(listener);
+    }
+    
+    public boolean rmListener(DebugListener listener)
+    {
+        return this.listeners.remove(listener);
+    }
+
+    public void setListeners(List<DebugListener> listeners) 
+    {
+        this.listeners = listeners;
         checkQueue();
     }
 
     private void checkQueue() 
     {
-        if (this.listener == null)
+        if (this.listeners == null)
             return;
         
         for (DebugEvent e : queue) 
-            this.listener.onReceive(e);
+        {
+            for (DebugListener l : listeners) 
+                l.onReceive(e);
+        }
     }
     
 }

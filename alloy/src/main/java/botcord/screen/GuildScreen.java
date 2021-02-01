@@ -3,17 +3,22 @@ package botcord.screen;
 import java.util.ArrayList;
 import java.util.List;
 
+import botcord.components.MemberList;
 import botcord.components.selector.ChannelSelector;
 import botcord.components.selector.ScreenSelector;
 import botcord.event.BotCordListener;
 import botcord.screen.util.BotCordScreen;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildChannel;
 
 public class GuildScreen extends BotCordScreen {
+
+    public static final float       CHANNEL_SELECTOR_WIDTH              = 0.15f;
 
     private Guild guild;
     private List<BotCordListener> listeners;
     private ChannelSelector channelSelector;
+    private MemberList memberList;
 
     public GuildScreen(Guild guild) 
     {
@@ -68,7 +73,14 @@ public class GuildScreen extends BotCordScreen {
         this.getSelector().setBounds(x, y, width, height);
     }
 
-    private void updateChannelBounds() {
+    private void updateChannelBounds() 
+    {
+        int x = (int)( this.getWidth()  * SELECTOR_WIDTH);
+        int y = 0;
+        int width  = (int)( this.getWidth()  * CHANNEL_SELECTOR_WIDTH);
+        int height = (int)( this.getHeight() * 1f);
+
+        this.channelSelector.setBounds(x, y, width, height);
     }
 
     @Override
@@ -102,4 +114,9 @@ public class GuildScreen extends BotCordScreen {
         getSelector().updateListeners(this.listeners);
         return b;
     }
+
+    public void setActiveChannel(GuildChannel data) 
+    {
+
+	}
 }

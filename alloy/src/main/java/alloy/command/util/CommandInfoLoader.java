@@ -44,6 +44,7 @@ public class CommandInfoLoader {
         map.put ( "alloy.command.fun.RankCommand"                       ,       "!rank"      );
         map.put ( "alloy.command.fun.SayCommand"                        ,       "say"      );
         map.put ( "alloy.command.fun.LinkCommand"                       ,       "link"      );
+        map.put ( "alloy.command.fun.HackCommand"                       ,       "hack"      );
         
         map.put ( "alloy.command.economy.PayCommand"                    ,       "pay"      );
         map.put ( "alloy.command.economy.BuyCommand"                    ,       "buy"      );

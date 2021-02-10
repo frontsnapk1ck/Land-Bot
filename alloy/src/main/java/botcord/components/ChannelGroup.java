@@ -143,6 +143,15 @@ public class ChannelGroup extends BotCordPanel {
         return this.buttons.size() + 1;
     }
 
+    public List<ChannelButton> getButtons() 
+    {
+        return buttons;
+    }
+
+    public JLabel getLabel() {
+        return label;
+    }
+
     public enum Type
     {
         CATEGORIZED,

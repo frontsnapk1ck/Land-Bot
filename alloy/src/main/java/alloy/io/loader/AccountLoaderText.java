@@ -36,9 +36,6 @@ public class AccountLoaderText extends DataLoader<Account, String> {
      */
     private String[][] configureAccountArray(String[] args) 
     {
-        if (args == null)
-            System.out.println("AccountLoaderText.configureAccountArray()");
-
         String[][] sArgs = new String[args.length][];
 
         int i = 0;
@@ -52,7 +49,7 @@ public class AccountLoaderText extends DataLoader<Account, String> {
      * 
      * @param s settings that is being searched for
      * @param accountArray array of things that is being searched in
-     * @return the corrisponding value for the string passed
+     * @return the corresponding value for the string passed
      */
     private static String loadSetting(String s, String[][] accountArray) 
     {

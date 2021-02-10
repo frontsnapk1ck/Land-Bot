@@ -36,8 +36,13 @@ public class DisUtil {
             id = id.replace("!", "");
             id = id.replace(">", "");
 
-            User u = User.fromId(id);
-            return g.getMember(u);
+            try {
+                User u = User.fromId(id);
+                return g.getMember(u);
+            } catch (Exception e) 
+            {
+                return null;
+            }
         }
         return null;
     }

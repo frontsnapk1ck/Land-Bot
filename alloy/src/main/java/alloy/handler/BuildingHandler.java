@@ -46,7 +46,7 @@ public class BuildingHandler {
         for (int i = 0; i < arr.length; i++)
             arr[i] = list.get(i).toString();
 
-        Saver.saveOverwite(path, arr);
+        Saver.saveOverwrite(path, arr);
     }
 
     private static void writeBuilding(Building b, Guild g) {

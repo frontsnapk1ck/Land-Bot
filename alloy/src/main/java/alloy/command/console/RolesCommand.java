@@ -62,8 +62,8 @@ public class RolesCommand extends AbstractConsoleCommand {
 
         String[] headers = new String[] { "~~Role Name~~", "~~Role ID~~", "~~Is ADMIN~~", "~~PERMS~~" };
         String table = StringUtil.makeTable(data, headers);
-        System.err.println("Roles in guild " + g.getName());
-        System.err.println(table);
+        System.out.println("Roles in guild " + g.getName());
+        System.out.println(table);
     }
 
     private static String makePermString(EnumSet<Permission> permissions) {
@@ -104,7 +104,7 @@ public class RolesCommand extends AbstractConsoleCommand {
     private static void listPerms(Member m) {
         EnumSet<Permission> perms = m.getPermissions();
         for (Permission p : perms)
-            System.err.println(p);
+            System.out.println(p);
     }
 
     private void addUser(List<String> args, JDA jda) 
@@ -228,9 +228,9 @@ public class RolesCommand extends AbstractConsoleCommand {
         }
         System.out.println("roles removed from user\t\t" + m.getEffectiveName() + "\t\t" + m.getUser().getAsTag());
         if (data.length == 0)
-            System.err.println("NONE");
+            System.out.println("NONE");
         else
-            System.err.println(StringUtil.makeTable(data, headers));
+            System.out.println(StringUtil.makeTable(data, headers));
     }
 
     private Guild getGuild(List<Guild> all, String gid) {

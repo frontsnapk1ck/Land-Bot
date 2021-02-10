@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
 
+import alloy.event.DebugListener;
+import alloy.event.DiscordInterface;
 import alloy.gameobjects.Server;
 import alloy.input.console.Console;
 import alloy.io.loader.JobQueueLoaderText;
 import alloy.io.loader.util.JobQueueData;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.job.AlloyEventHandler;
-import alloy.utility.job.jobs.SpamRunnable;
+import alloy.utility.job.jobs.DayJob;
 import io.Saver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -30,6 +32,7 @@ public class AlloyData {
     private Alloy alloy;
 
     private JDA jda;
+    private DiscordInterface discordInterface;
 
     public AlloyData(JDA jda, Alloy alloy) 
     {
@@ -135,10 +138,7 @@ public class AlloyData {
 
     public void queue(Job action) 
     {
-        if (action instanceof SpamRunnable )
-            this.eventManger.queue((SpamRunnable) action);
-        else
-            this.eventManger.queue(action);
+        this.eventManger.queue(action);
 	}
 
     public void queueIn(Job action, long offset) 
@@ -156,6 +156,22 @@ public class AlloyData {
     public boolean unQueue(Job job) 
     {
 		return this.eventManger.unQueue(job);
+	}
+
+    public void makeJobs() 
+    {
+        Job j = new DayJob( this.jda );
+        this.eventManger.queueIn( j, 86400000L );
+	}
+
+    public DebugListener getDiscordInterface() 
+    {
+		return this.discordInterface;
+	}
+
+    public void setDiscordInterface(DiscordInterface discordInterface) 
+    {
+        this.discordInterface = discordInterface;
 	}
 
 }

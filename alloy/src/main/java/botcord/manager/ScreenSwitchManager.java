@@ -51,7 +51,7 @@ public class ScreenSwitchManager implements BotCordListener {
 
     private void debug() 
     {
-        BotCord.LOGGER.info("ScreenSwitchManager" , "Switched to Debug Screen");
+        BotCord.LOGGER.debug("ScreenSwitchManager" , "Switched to Debug Screen");
         SwitchEvent se = new SwitchEvent(this.proxy.getDebug());
         for (Switchable switchable : listeners) 
             switchable.onSwitch(se);
@@ -59,7 +59,7 @@ public class ScreenSwitchManager implements BotCordListener {
 
     private void pm() 
     {
-        BotCord.LOGGER.info("ScreenSwitchManager" , "Switched to PM Screen");
+        BotCord.LOGGER.debug("ScreenSwitchManager" , "Switched to PM Screen");
         
         SwitchEvent se = new SwitchEvent(this.proxy.getPm());
         for (Switchable switchable : listeners) 
@@ -68,7 +68,7 @@ public class ScreenSwitchManager implements BotCordListener {
 
     private void guild(Guild guild) 
     {
-        BotCord.LOGGER.info("ScreenSwitchManager" , "Switched to Guild Screen for the guild " + guild.getName());
+        BotCord.LOGGER.debug("ScreenSwitchManager" , "Switched to Guild Screen for the guild " + guild.getName());
         
         SwitchEvent se = new SwitchEvent(new GuildScreen(guild));
         for (Switchable switchable : listeners) 

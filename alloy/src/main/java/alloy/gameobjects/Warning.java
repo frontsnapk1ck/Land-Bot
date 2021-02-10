@@ -28,7 +28,7 @@ public class Warning extends GameObject {
             ID      + ":" + this.settings.getID() ,
             TARGET  + ":" + this.settings.getTarget() ,
         };
-        Saver.saveOverwite(this.settings.getPath(), out);
+        Saver.saveOverwrite(this.settings.getPath(), out);
     }
 
     public String getId() 

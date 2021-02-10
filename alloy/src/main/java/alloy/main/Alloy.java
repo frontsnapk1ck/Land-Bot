@@ -2,6 +2,7 @@ package alloy.main;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -41,6 +42,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import utility.event.EventManager.ScheduledJob;
+import utility.logger.Level;
 import utility.event.Job;
 
 public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler, UncaughtExceptionHandler {
@@ -54,8 +56,7 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     private String mentionMe;
     private boolean started;
     
-    private AlloyData data;
-    
+    private AlloyData data;    
 
     public Alloy() 
     {
@@ -321,9 +322,23 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     private void configDiscordInterface() 
     {
         final long ALLOY_ID = 771814337420460072L;
-        final long LOG_ID = 805626387100467210L;
-        TextChannel channel = jda.getGuildById(ALLOY_ID).getTextChannelById(LOG_ID);
-        LOGGER.addListener(new DiscordInterface(channel, this));
+
+        final long ERROR_ID = 805626387100467210L;
+        final long DEBUG_ID = 809178603345805352L;
+        final long WARN_ID  = 809178564452417548L;
+        final long INFO_ID  = 809178584635277332L;
+
+        Guild g = jda.getGuildById(ALLOY_ID);
+
+        Map<Level , TextChannel> logs = new HashMap<Level,TextChannel>();
+        logs.put(Level.ERROR , g.getTextChannelById( ERROR_ID ));
+        logs.put(Level.DEBUG , g.getTextChannelById( DEBUG_ID ));
+        logs.put(Level.WARN  , g.getTextChannelById( WARN_ID  ));
+        logs.put(Level.INFO  , g.getTextChannelById( INFO_ID  ));
+
+        this.data.setDiscordInterface( new DiscordInterface(logs) );
+
+        LOGGER.addListener(this.getInterfaceListener());
     }
 
     @Override
@@ -396,5 +411,16 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     {
         return this.data.unQueue(job);
     }
+
+    public void finishInit() 
+    {
+        this.update();
+        data.makeJobs();
+	}
+
+    public DebugListener getInterfaceListener() 
+    {
+		return data.getDiscordInterface();
+	}
 
 }

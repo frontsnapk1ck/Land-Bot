@@ -26,12 +26,12 @@ public class Saver {
 
         } catch (IOException e) 
         {
-            System.err.println("an erorr occured while appending to " + path);
+            System.err.println("an error occurred while appending to " + path);
             e.printStackTrace();
         }
     }
 
-    public static void saveOverwite (String path , String[] save)
+    public static void saveOverwrite (String path , String[] save)
     {
         try {
             FileWriter fw = new FileWriter(path);
@@ -44,7 +44,7 @@ public class Saver {
 
         } catch (IOException e) 
         {
-            System.err.println("an " + e.getClass().getSimpleName() + " occutred while saving to " + path);
+            System.err.println("an " + e.getClass().getSimpleName() + " occurred while saving to " + path);
             e.printStackTrace();
         }
     }
@@ -64,7 +64,7 @@ public class Saver {
             else
                 return false;
         } catch (IOException e) {
-           System.err.println("an error has ooccured");
+           System.err.println("an error has occurred");
            e.printStackTrace();
         }
         return false;
@@ -91,7 +91,7 @@ public class Saver {
     public static void copyFrom(String from, String to) 
     {
         String[] out = FileReader.read(from);
-        saveOverwite(to, out);
+        saveOverwrite(to, out);
 	}
 
     public static boolean newFolder(String path) 
@@ -108,7 +108,7 @@ public class Saver {
     public static void saveNewFile(String path, String[] save) 
     {
         saveNewFile(path);
-        saveOverwite(path, save);
+        saveOverwrite(path, save);
 	}
 
     public static boolean saveNewFolder(String path) 
@@ -120,7 +120,7 @@ public class Saver {
             else
                 return false;
         } catch (SecurityException e) {
-           System.err.println("an error has ooccured\nsomething about perms\n\n");
+           System.err.println("an error has occurred\nsomething about perms\n\n");
            e.printStackTrace();
         }
         return false;
@@ -128,7 +128,7 @@ public class Saver {
 
     public static void clear(String path) 
     {
-        saveOverwite( path , new String[]{} );
+        saveOverwrite( path , new String[]{} );
 	}
 
 

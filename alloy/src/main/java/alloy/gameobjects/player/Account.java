@@ -22,7 +22,7 @@ public class Account extends GameObject {
             BAL + ">" + this.settings.getBal(), 
         };
 
-        Saver.saveOverwite(this.settings.getPath() , out);
+        Saver.saveOverwrite(this.settings.getPath() , out);
 
     }
 

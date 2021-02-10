@@ -31,6 +31,6 @@ public class InviteCommand extends AbstractConsoleCommand {
         }
         String[] headers = new String[] {"~~~guild~~~" , "~~~code~~~"};
         String table = StringUtil.makeTable(out, headers);
-        System.err.println(table);
+        System.out.println(table);
     }
 }

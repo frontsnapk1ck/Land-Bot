@@ -5,6 +5,7 @@ import java.util.List;
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Player;
 import alloy.input.discord.AlloyInputData;
+import alloy.main.Alloy;
 import alloy.main.Sendable;
 import alloy.main.SendableMessage;
 import alloy.templates.Template;
@@ -57,5 +58,16 @@ public class DayCommand extends AbstractCommand {
         sm.setMessage(t.getEmbed());
         bot.send(sm);  
     }
+
+    public static void dayAll(List<Guild> guilds) 
+    {
+        for (Guild guild : guilds) 
+        {
+            List<Player> players = AlloyUtil.loadAllPlayers(guild);
+            for (Player p : players)
+                p.day();  
+        }
+        Alloy.LOGGER.info("DayCommand", "the day has advanced for all guilds");
+	}
     
 }

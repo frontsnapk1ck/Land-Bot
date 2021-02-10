@@ -16,7 +16,6 @@ import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
-import alloy.utility.job.jobs.SpamRunnable;
 import io.FileReader;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Emote;
@@ -149,9 +148,9 @@ public class Templates {
 		return t;
 	}
 
-	public static Template spamRunnableCreated(SpamRunnable r) {
+	public static Template spamRunnableCreated(Long id) {
 		Template t = new Template("ID to stop this spam",
-				"to stop this spam, use the command \n`!spam stop " + r.getID() + "`");
+				"to stop this spam, use the command \n`!spam stop " + id + "`");
 		return t;
 	}
 
@@ -947,7 +946,23 @@ public class Templates {
 			return error(e);
 		if (e.getLevel() == Level.INFO)
 			return info(e);
+		if (e.getLevel() == Level.WARN)
+			return warn(e);
+		if (e.getLevel() == Level.DEBUG)
+			return debugInfo(e);
 		return new Template("Something Happened" , "You should take a look, ig");
+	}
+
+	private static Template debugInfo(DebugEvent e) 
+	{
+		Template t = new Template(e.getLevel().toString(), e.getMessage());
+		return t;
+	}
+
+	private static Template warn(DebugEvent e) 
+	{
+		Template t = new Template(e.getLevel().toString(),  e.getMessage() );
+		return t;
 	}
 
 	private static Template info(DebugEvent e) 

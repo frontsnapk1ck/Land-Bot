@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alloy.command.fun.DeadChatCommand;
+import alloy.command.fun.HackCommand;
 import alloy.command.fun.LinkCommand;
 import alloy.command.fun.RankCommand;
 import alloy.command.fun.RemindCommand;
@@ -22,6 +23,7 @@ public class FunInputActions extends AbstractActions {
     public static final InputAction SAY_ACTION;
     public static final InputAction SPAM_ACTION;
     public static final InputAction REMIND_ACTION;
+    public static final InputAction HACK_ACTION;
 
     static {
         DEAD_CHAT_ACTION = loadDeadChatAction();
@@ -30,6 +32,7 @@ public class FunInputActions extends AbstractActions {
         SAY_ACTION = loadSayAction();
         SPAM_ACTION = loadSpamAction();
         REMIND_ACTION = loadRemindAction();
+        HACK_ACTION = loadHackAction();
     }
 
     private static InputAction loadDeadChatAction() {
@@ -41,6 +44,23 @@ public class FunInputActions extends AbstractActions {
             @Override
             public void execute(AlloyInputData data) {
                 AbstractCommand command = new DeadChatCommand();
+                command.execute(data);
+            }
+
+        };
+        return action;
+    }
+
+    private static InputAction loadHackAction() 
+    {
+        InputAction action = new AlloyInputAction() {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(AlloyInputData data) {
+                AbstractCommand command = new HackCommand();
                 command.execute(data);
             }
 

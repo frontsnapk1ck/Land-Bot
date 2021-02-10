@@ -4,26 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alloy.gameobjects.Server;
+import alloy.handler.util.SpamContainer;
+import alloy.main.Queueable;
+import alloy.main.Sendable;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
-import alloy.utility.event.SpamFinishEvent;
-import alloy.utility.event.SpamFinishListener;
-import alloy.utility.job.jobs.SpamRunnable;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class SpamHandler implements SpamFinishListener {
+public class SpamHandler {
 
-    private static List<SpamRunnable> spams;
+    private static List<SpamContainer> spams;
 
     static {
         configure();
     }
 
-    public static SpamRunnable makeRunnable(Guild guild, String[] args, User author) {
+    public static SpamContainer makeRunnable(Guild guild, String[] args, User author, Sendable sendable, Queueable queue) 
+    {
         Long num = getRandomNumber();
         Server s = AlloyUtil.loadServer(guild);
         Long channelID = s.getSpamChannel();
@@ -33,17 +34,18 @@ public class SpamHandler implements SpamFinishListener {
             int reps = getReps(guild, author, args);
             String message = buildMessage(args);
 
-            SpamRunnable r = new SpamRunnable(reps, message, c, num);
-            r.addListener(new SpamHandler());
-            SpamHandler.spams.add(r);
+            SpamContainer container = new SpamContainer(reps, message, c, num , sendable , queue);
+            container.setId(num);
+            SpamHandler.spams.add(container);
 
-            return r;
+            return container;
         }
         return null;
     }
 
-    private static void configure() {
-        spams = new ArrayList<SpamRunnable>();
+    private static void configure() 
+    {
+        spams = new ArrayList<SpamContainer>();
     }
 
     public static boolean validCommand(String[] args) {
@@ -62,16 +64,18 @@ public class SpamHandler implements SpamFinishListener {
         return true;
     }
 
-    private static Long getRandomNumber() {
+    private static Long getRandomNumber() 
+    {
         boolean valid = false;
         Long l = 0l;
 
-        while (!valid) {
+        while (!valid) 
+        {
             l = (long) (Math.random() * 100000000000l);
             if (spams.size() == 0)
                 valid = true;
-            for (SpamRunnable r : spams)
-                valid = (r.getIDLong() == l) ? false : true;
+            for (SpamContainer r : spams)
+                valid = (r.getID() == l) ? false : true;
         }
         return l;
     }
@@ -83,11 +87,6 @@ public class SpamHandler implements SpamFinishListener {
 
         message = message.replace("@everyone", "@ everyone");
         return message;
-    }
-
-    @Override
-    public void onSpamFinishEvent(SpamFinishEvent e) {
-        SpamHandler.spams.remove(e.getRunnable());
     }
 
     private static int getReps(Guild g, User author, String[] args) {
@@ -124,14 +123,17 @@ public class SpamHandler implements SpamFinishListener {
         }
     }
 
-    public static boolean stopSpam(Long id) {
-        SpamRunnable toRm = null;
-        for (SpamRunnable r : spams) {
-            if (r.getIDLong().equals(id))
+    public static boolean stopSpam(Long id) 
+    {
+        SpamContainer toRm = null;
+        for (SpamContainer r : spams) 
+        {
+            if (r.getID().equals(id))
                 toRm = r;
         }
 
-        if (toRm != null) {
+        if (toRm != null) 
+        {
             toRm.stop();
             spams.remove(toRm);
         }

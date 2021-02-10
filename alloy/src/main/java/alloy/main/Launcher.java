@@ -47,8 +47,9 @@ public class Launcher {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                alloy.update();
+                alloy.finishInit();
                 botCord.update();
+                botCord.addLoggerListener(alloy.getInterfaceListener());
             }
         };
 

@@ -20,7 +20,7 @@ import alloy.utility.job.jobs.PurgeJob;
 import alloy.utility.job.jobs.RemindJob;
 import alloy.utility.job.jobs.RmUserCoolDownJob;
 import alloy.utility.job.jobs.RmUserXPCooldownJob;
-import alloy.utility.job.jobs.SpamRunnable;
+import alloy.utility.job.jobs.SendMessageJob;
 import io.DataLoader;
 import io.FileReader;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -56,7 +56,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         JOB_MAP.put(    "RemindJob"               ,        RemindJob.class                 );
         JOB_MAP.put(    "RmUserCoolDownJob"       ,        RmUserCoolDownJob.class         );
         JOB_MAP.put(    "RmUserXPCooldownJob"     ,        RmUserXPCooldownJob.class       );
-        JOB_MAP.put(    "SpamRunnable"            ,        SpamRunnable.class              );
+        JOB_MAP.put(    "SendMessageJob"          ,        SendMessageJob.class            );
     }
 
     @Override

@@ -49,7 +49,7 @@ public class EventHandler {
         Saver.copyFrom(AlloyUtil.GLOBAL_BUILDINGS_PATH, buildingS.getAbsolutePath());
         Saver.copyFrom(AlloyUtil.GLOBAL_WORK_OPTIONS_PATH, workOps.getAbsolutePath());
 
-        Saver.saveOverwite(botS.getAbsolutePath(), loadBotSettingsArr(g));
+        Saver.saveOverwrite(botS.getAbsolutePath(), loadBotSettingsArr(g));
     }
 
     public static void onMemberJoinEvent(Member m) 
@@ -75,8 +75,8 @@ public class EventHandler {
             ex.printStackTrace();
         }
         Server s = AlloyUtil.loadServer(g);
-        Saver.saveOverwite(acc.getAbsolutePath(), new String[] { "bal>" + s.getStartingBalance() });
-        Saver.saveOverwite(rank.getAbsolutePath(), new String[] { "0" });
+        Saver.saveOverwrite(acc.getAbsolutePath(), new String[] { "bal>" + s.getStartingBalance() });
+        Saver.saveOverwrite(rank.getAbsolutePath(), new String[] { "0" });
     }
 
     public static void onGuildLeaveEvent(Guild g) {

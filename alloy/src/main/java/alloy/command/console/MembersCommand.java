@@ -30,6 +30,6 @@ public class MembersCommand extends AbstractConsoleCommand {
             arr[i][2] = m.getId();
         }
         String table = StringUtil.makeTable(arr, headers);
-        System.err.println(table);
+        System.out.println(table);
     }
 }

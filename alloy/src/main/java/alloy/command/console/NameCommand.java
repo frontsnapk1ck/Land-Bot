@@ -42,6 +42,6 @@ public class NameCommand extends AbstractConsoleCommand {
         if (g == null)
             return;
         Member m = g.getMemberById(mid);
-        System.err.println(m.getUser().getAsTag());
+        System.out.println(m.getUser().getAsTag());
     }
 }

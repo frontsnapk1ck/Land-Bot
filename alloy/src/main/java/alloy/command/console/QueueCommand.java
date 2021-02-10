@@ -6,12 +6,14 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.input.console.ConsoleInputData;
+import alloy.utility.job.jobs.DayJob;
 import alloy.utility.job.jobs.PurgeCacheJob;
 import alloy.utility.job.jobs.RmUserCoolDownJob;
 import alloy.utility.job.jobs.RmUserXPCooldownJob;
 import utility.StringUtil;
 import utility.event.EventManager.ScheduledJob;
 import utility.event.Job;
+import utility.event.RepeatingJob;
 import utility.time.TimeUtil;
 import utility.time.TimesIncludes;
 
@@ -31,7 +33,7 @@ public class QueueCommand extends AbstractConsoleCommand {
             RmUserCoolDownJob.class, 
             RmUserXPCooldownJob.class,
             PurgeCacheJob.class,
-            
+            DayJob.class,
         };
     }
 
@@ -44,6 +46,14 @@ public class QueueCommand extends AbstractConsoleCommand {
             showQueue(data);
         else if (args.get(1).equalsIgnoreCase("clear"))
             clearQueue(data);
+        else if (args.get(1).equals("size"))
+            size(data);
+    }
+
+    private void size(ConsoleInputData data) 
+    {
+        int size = data.getQueue().getQueue().size();
+        System.out.println("the size of the queue is: " + size);
     }
 
     private void clearQueue(ConsoleInputData data) 
@@ -53,12 +63,12 @@ public class QueueCommand extends AbstractConsoleCommand {
         if (args.size() > 2 && args.get(2).equalsIgnoreCase("all")) 
         {
             data.getQueue().getQueue().clear();
-            System.err.println("the queue has been cleared");
+            System.out.println("the queue has been cleared");
         }
         else 
         {
             clearPart(data);
-            System.err.println("the queue has been partially cleared");
+            System.out.println("the queue has been partially cleared");
         }
         showQueue(data);
     }
@@ -85,7 +95,7 @@ public class QueueCommand extends AbstractConsoleCommand {
     private void showQueue(ConsoleInputData data) 
     {
         PriorityBlockingQueue<ScheduledJob> queue = data.getQueue().getQueue();
-        String[][] tableArr = new String[queue.size()][4];
+        String[][] tableArr = new String[queue.size()][5];
 
         int i = 0;
         for (ScheduledJob sjob : queue) {
@@ -102,12 +112,20 @@ public class QueueCommand extends AbstractConsoleCommand {
             tableArr[i][1] = split[0];
             tableArr[i][2] = split[1];
             tableArr[i][3] = split[2];
+            if (job instanceof RepeatingJob)
+            {
+                RepeatingJob rj = (RepeatingJob)job;
+                String timeTill = TimeUtil.getRelativeTime(rj.getRepTime() , true , true);
+                tableArr[i][4] = "Y\t(" + timeTill + ")";
+            }
+            else
+                tableArr[i][4] = "N";
 
             i++;
         }
-        String[] headers = { "~~Class~~", "~~Date~~", "~~Time~~", "~~Time Until~~" };
+        String[] headers = { "~~Class~~", "~~Date~~", "~~Time~~", "~~Time Until~~" , "~~Repeating~~"};
         String table = StringUtil.makeTable(tableArr, headers);
-        System.err.println(table);
+        System.out.println(table);
     }
 
 }

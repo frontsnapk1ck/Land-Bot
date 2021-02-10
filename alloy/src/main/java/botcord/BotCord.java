@@ -81,4 +81,9 @@ public class BotCord extends WindowFramework implements BotCordColors, BotCordLi
         };
 	}
 
+    public void addLoggerListener(DebugListener interfaceListener) 
+    {
+        LOGGER.addListener(interfaceListener);
+	}
+
 }

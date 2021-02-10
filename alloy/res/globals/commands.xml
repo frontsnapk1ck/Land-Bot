@@ -286,6 +286,14 @@
                         description = "stops a spam with a given ID" />
     </command>
 
+    <command name = "hack" permission = "ADMINISTRATOR" cooldown = "true" type = "DISCORD">
+        <trigger text = "hack" />
+
+        <subcommand text = "{user}"
+                    description = "hacks a given user" />
+
+    </command>
+
     <!-- INFO COMMANDS-->
     <command name = "donate" permission = "Message_WRITE" cooldown = "false" type = "DISCORD">
         <trigger text = "donate" />

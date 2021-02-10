@@ -162,7 +162,7 @@ public class Player extends GameObject{
         String[] out = new String[1];
         out[0] = "" + this.settings.getXp();
 
-        Saver.saveOverwite(path, out);
+        Saver.saveOverwrite(path, out);
     }
 
     private void saveBuildings() 
@@ -184,7 +184,7 @@ public class Player extends GameObject{
             i++;
         }
 
-        Saver.saveOverwite(buildingPath, out);
+        Saver.saveOverwrite(buildingPath, out);
     }
 
     public int getXP() 

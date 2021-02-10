@@ -31,7 +31,7 @@ public class WorkHandler {
                     i++;
                 }
             }
-            Saver.saveOverwite(path, newOp);
+            Saver.saveOverwrite(path, newOp);
             return s;
         } else
             throw new IndexOutOfBoundsException("" + rm + " is out of bounds for " + options.length);

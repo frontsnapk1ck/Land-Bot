@@ -64,20 +64,27 @@ public class TimeUtil {
         return getRelativeTime(time, true);
     }
 
-    public static String getRelativeTime(long time, boolean shortText) {
+    public static String getRelativeTime(long time, boolean shortText) 
+    {
+        return getRelativeTime(time, shortText, false);
+    }
+
+    public static String getRelativeTime(long time, boolean shortText, boolean offsetNow) 
+    {
         long usedTime = time;
         boolean future = false;
         String chronology = "ago";
         long now = System.currentTimeMillis();
-        if (usedTime <= 0) {
+        if (usedTime <= 0)
             return "???";
-        }
-        long diff;
-        if (usedTime > now) {
+
+        long diff = time;
+        if (usedTime > now && !offsetNow) 
+        {
             diff = usedTime - now;
             chronology = "from now";
             future = true;
-        } else
+        } else if (!offsetNow)
             diff = now - usedTime;
 
         if (diff < MINUTE_MILLIS)
@@ -96,7 +103,7 @@ public class TimeUtil {
         else if (diff < 14 * DAY_MILLIS || !shortText)
             return diff / DAY_MILLIS + (shortText ? "d" : " day" + (diff == 1 ? "" : "s") + " " + chronology);
         return ">2w";
-    }
+	}
 
     public static String getTimeAgo(OffsetDateTime time) {
         TimesIncludes includes = new TimesIncludes();
@@ -511,5 +518,7 @@ public class TimeUtil {
         int year = c.get(Calendar.YEAR);
         return daysInMonth(month, year);
     }
+
+
     
 }

@@ -48,7 +48,8 @@ public class EventManager {
         this.queue(time, action);
     }
 
-    public void queue(long time, Job job) {
+    public void queue(long time, Job job) 
+    {
         ScheduledJob scheduled = new ScheduledJob(time, job);
         this.jobQueue.add(scheduled);
     }
@@ -105,6 +106,8 @@ public class EventManager {
             // execute the job
             if (job.job.toExecute())
                 job.job.execute();
+            if (job.job instanceof RepeatingJob)
+                this.queueIn(job.job,((RepeatingJob)job.job).getRepTime());
         } catch (InterruptedException ex){
             Alloy.LOGGER.debug("EventManager", ex );
         }

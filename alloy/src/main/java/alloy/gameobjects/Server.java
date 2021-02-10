@@ -89,8 +89,8 @@ public class Server extends GameObject {
             BAN_APPEAL_LINK +       ":" + this.settings.getBanAppealLink() ,
 
         };
-        Saver.saveOverwite(this.settings.getPath() + "\\settings\\bot.settings", out );
-        Saver.saveOverwite(this.settings.getPath() + "\\settings\\rank.ups", rankups );
+        Saver.saveOverwrite(this.settings.getPath() + "\\settings\\bot.settings", out );
+        Saver.saveOverwrite(this.settings.getPath() + "\\settings\\rank.ups", rankups );
         
     }
 

@@ -85,6 +85,7 @@ public class AlloyInputUtil {
         map.put(    "remindme"          ,   FunInputActions.REMIND_ACTION);
         map.put(    "say"               ,   FunInputActions.SAY_ACTION);
         map.put(    "spam"              ,   FunInputActions.SPAM_ACTION);
+        map.put(    "hack"              ,   FunInputActions.HACK_ACTION);
     
         map.put(    "donate"            ,   InfoInputActions.DONATE_ACTION);
         map.put(    "help"              ,   InfoInputActions.HELP_ACTION);

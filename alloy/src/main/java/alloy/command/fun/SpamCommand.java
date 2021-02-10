@@ -10,7 +10,6 @@ import alloy.main.SendableMessage;
 import alloy.main.handler.CooldownHandler;
 import alloy.templates.Template;
 import alloy.templates.Templates;
-import alloy.utility.job.jobs.SpamRunnable;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -40,8 +39,9 @@ public class SpamCommand extends AbstractCooldownCommand {
             return;
         }
 
-        if (SpamHandler.isStart(args)) {
-            MessageEmbed embed = startSpam(channel, args, author, queueable);
+        if (SpamHandler.isStart(args)) 
+        {
+            MessageEmbed embed = startSpam(channel, args, author, queueable , bot);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("SpamCommand");
@@ -86,16 +86,17 @@ public class SpamCommand extends AbstractCooldownCommand {
         }
     }
 
-    private MessageEmbed startSpam(TextChannel chan, String[] args, User author, Queueable queueable) {
-        if (!SpamHandler.validCommand(args)) {
+    private MessageEmbed startSpam(TextChannel chan, String[] args, User author, Queueable queueable, Sendable bot) 
+    {
+        if (!SpamHandler.validCommand(args)) 
+        {
             Template temp = Templates.invalidNumberFormat(args);
             return temp.getEmbed();
         }
 
-        SpamRunnable r = SpamHandler.makeRunnable(chan.getGuild(), args, author);
-        queueable.queue(r);
+        Long id = SpamHandler.makeRunnable(chan.getGuild(), args, author, bot, queueable).getID();
 
-        Template temp = Templates.spamRunnableCreated(r);
+        Template temp = Templates.spamRunnableCreated(id);
         return temp.getEmbed();
     }
 

@@ -1,6 +1,8 @@
 package alloy.event;
 
+import java.io.File;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import alloy.handler.EventHandler;
 import alloy.input.discord.AlloyInput;
@@ -8,9 +10,13 @@ import alloy.input.discord.AlloyInputEvent;
 import alloy.main.Alloy;
 import alloy.main.Sendable;
 import alloy.main.handler.AlloyHandler;
+import alloy.utility.discord.AlloyUtil;
+import io.Saver;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.StatusChangeEvent;
@@ -47,35 +53,31 @@ public class JDAEvents extends ListenerAdapter {
     private AlloyHandler bot;
     private Sendable sendable;
 
-    public JDAEvents(Alloy alloy) 
-    {
+    public JDAEvents(Alloy alloy) {
         this.bot = alloy;
         this.sendable = alloy;
     }
 
     @Override
-    public void onStatusChange(StatusChangeEvent event) 
-    {
+    public void onStatusChange(StatusChangeEvent event) {
         super.onStatusChange(event);
     }
 
     @Override
-    public void onGuildJoin(GuildJoinEvent e) 
-    {
+    public void onGuildJoin(GuildJoinEvent e) {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] JOINED SERVER! " + g.getName());
         EventHandler.onGuildJoinEvent(g);
 
         List<Member> members = g.getMembers();
-        for (Member member : members) 
+        for (Member member : members)
             EventHandler.onMemberJoinEvent(member);
-        
+
         this.bot.guildCountUpdate();
     }
 
     @Override
-    public void onGuildLeave(GuildLeaveEvent e) 
-    {
+    public void onGuildLeave(GuildLeaveEvent e) {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "[event] LEFT SERVER! " + g.getName());
         EventHandler.onGuildLeaveEvent(g);
@@ -84,14 +86,12 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReactionAdd(MessageReactionAddEvent event) 
-    {
+    public void onMessageReactionAdd(MessageReactionAddEvent event) {
         super.onMessageReactionAdd(event);
     }
 
     @Override
-    public void onMessageReactionRemove(MessageReactionRemoveEvent event) 
-    {
+    public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
         super.onMessageReactionRemove(event);
     }
 
@@ -111,7 +111,33 @@ public class JDAEvents extends ListenerAdapter {
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent e) 
     {
-        Alloy.LOGGER.debug("JDA Events", "Private message received from " + e.getAuthor().getAsTag());
+        String tag = e.getAuthor().getAsTag();
+        Message message = e.getMessage();
+        if (e.getMessage().getAttachments().size() != 0) {
+
+            DiscordInterface i = Alloy.LOGGER.getDisInterface();
+            for (Attachment attachment : message.getAttachments()) {
+                String path = AlloyUtil.TMP_FOLDER;
+                path += message.getChannel().getId() + "-" + message.getId();
+                path += "." + attachment.getFileExtension();
+                File f = new File(path);
+
+                try 
+                {
+                    File down = attachment.downloadToFile(f).get();
+                    Message m = new MessageBuilder("Message From " + tag ).build();
+                    if (i.debugFile(m,down))
+                        Saver.deleteFile(down.getAbsolutePath());
+                    else
+                        Alloy.LOGGER.info("JDAEvents", "There is a new file in the tmp folder");
+                }
+                catch (InterruptedException | ExecutionException e1) 
+                {
+                    Alloy.LOGGER.error("JDAEvents", e1);
+                }
+            }
+        }
+        Alloy.LOGGER.debug("JDA Events", "Private message received from " + tag + "\n\n" + (message.getContentRaw() == "" ? "no content" : message.getContentRaw() ));
     }
 
     @Override

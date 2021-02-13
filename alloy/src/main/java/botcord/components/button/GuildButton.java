@@ -18,8 +18,7 @@ import botcord.components.util.BotCordButton;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordColors;
-import botcord.util.BotCordLinks;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
@@ -36,7 +35,7 @@ public class GuildButton extends BotCordButton {
 
     @Override
     public void init() {
-        this.setBackground(BotCordColors.BACKGROUND);
+        this.setBackground(BotCordUtil.BACKGROUND);
         this.setBackground(null);
     }
 
@@ -124,7 +123,7 @@ public class GuildButton extends BotCordButton {
     private Image getImage(String urlS) throws IOException 
     {
         if (urlS == null)
-            urlS = BotCordLinks.DEFAULT_DISCORD_PHOTO;
+            urlS = BotCordUtil.DEFAULT_DISCORD_PHOTO;
         URL url = new URL(urlS);
         Image img = ImageIO.read(url);
         return img;

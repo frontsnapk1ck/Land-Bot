@@ -1,8 +1,6 @@
-package alloy.gameobjects.collection;
+package utility.cache;
 
 import java.util.List;
-
-import alloy.gameobjects.cache.Cacheable;
 
 public abstract class AbstractCollection<T> implements Cacheable<T> {
 
@@ -17,6 +15,12 @@ public abstract class AbstractCollection<T> implements Cacheable<T> {
     public List<?> getList()
     {
         return this.data;
+    }
+
+    @Override
+    public long getKeepTime() 
+    {
+        return DEFAULT_TIME;
     }
     
 }

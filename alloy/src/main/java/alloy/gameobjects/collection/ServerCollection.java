@@ -3,6 +3,7 @@ package alloy.gameobjects.collection;
 import java.util.List;
 
 import alloy.gameobjects.Server;
+import utility.cache.AbstractCollection;
 
 public class ServerCollection extends AbstractCollection<ServerCollection> {
     

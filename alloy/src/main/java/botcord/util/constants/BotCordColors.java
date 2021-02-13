@@ -1,4 +1,4 @@
-package botcord.util;
+package botcord.util.constants;
 
 import java.awt.Color;
 

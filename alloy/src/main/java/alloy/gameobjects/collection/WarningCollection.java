@@ -3,6 +3,7 @@ package alloy.gameobjects.collection;
 import java.util.List;
 
 import alloy.gameobjects.Warning;
+import utility.cache.AbstractCollection;
 
 public class WarningCollection extends AbstractCollection<WarningCollection> {
     

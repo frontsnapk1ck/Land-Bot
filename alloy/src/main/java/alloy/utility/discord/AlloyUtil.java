@@ -6,8 +6,11 @@ import java.util.List;
 import alloy.gameobjects.Case;
 import alloy.gameobjects.Server;
 import alloy.gameobjects.Warning;
-import alloy.gameobjects.cache.Cache;
-import alloy.gameobjects.collection.*;
+import alloy.gameobjects.collection.BuildingCollection;
+import alloy.gameobjects.collection.CaseCollection;
+import alloy.gameobjects.collection.PlayerCollection;
+import alloy.gameobjects.collection.RankCollection;
+import alloy.gameobjects.collection.WarningCollection;
 import alloy.gameobjects.player.Building;
 import alloy.gameobjects.player.Player;
 import alloy.gameobjects.player.Rank;
@@ -27,6 +30,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
+import utility.cache.Cache;
 
 public class AlloyUtil implements AlloyPathsConstants, AlloyExtensions, AlloyImages {
 

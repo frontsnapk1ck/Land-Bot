@@ -7,7 +7,7 @@ import botcord.components.util.BotCordButton;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.entities.GuildChannel;
 
 @SuppressWarnings("serial")
@@ -32,7 +32,7 @@ public class ChannelButton extends BotCordButton {
 	@Override
 	public void config() 
 	{
-		this.setForeground(BotCordColors.TEXT);
+		this.setForeground(BotCordUtil.TEXT);
 		this.configToolTip();
 		configListener();
 		configText();

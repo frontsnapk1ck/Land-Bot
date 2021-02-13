@@ -29,7 +29,7 @@ public class Launcher {
     private void launchAll(String[] args) {
         try {
             alloy = new Alloy();
-            botCord = new BotCord(alloy.getJDA());
+            botCord = new BotCord(alloy);
             updateActivityRunnable();
         } catch (Exception e) {
             Alloy.LOGGER.error("Launcher", e);
@@ -48,7 +48,7 @@ public class Launcher {
                     e.printStackTrace();
                 }
                 alloy.finishInit();
-                botCord.update();
+                botCord.finishInit();
                 botCord.addLoggerListener(alloy.getInterfaceListener());
             }
         };

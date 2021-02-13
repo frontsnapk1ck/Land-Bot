@@ -3,6 +3,7 @@ package alloy.gameobjects.collection;
 import java.util.List;
 
 import alloy.gameobjects.player.Building;
+import utility.cache.AbstractCollection;
 
 public class BuildingCollection extends AbstractCollection<BuildingCollection> {
 

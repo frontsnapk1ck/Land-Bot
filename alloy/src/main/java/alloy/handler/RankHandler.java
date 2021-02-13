@@ -118,9 +118,9 @@ public class RankHandler {
             public int compare(Player o1, Player o2) 
             {
                 if (o1.getXP() > o2.getXP())
-                    return 1;
-                else if (o1.getXP() < o2.getXP())
                     return -1;
+                else if (o1.getXP() < o2.getXP())
+                    return 1;
                 return 0;  
             };
         };

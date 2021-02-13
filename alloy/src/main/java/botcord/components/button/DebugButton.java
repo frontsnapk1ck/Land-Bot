@@ -15,7 +15,7 @@ import botcord.components.util.BotCordButton;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordLinks;
+import botcord.util.BotCordUtil;
 
 @SuppressWarnings("serial")
 public class DebugButton extends BotCordButton {
@@ -44,7 +44,7 @@ public class DebugButton extends BotCordButton {
     {
         try 
         {
-            URL url = new URL(BotCordLinks.BUG_IMAGE);
+            URL url = new URL(BotCordUtil.BUG_IMAGE);
             Image img = ImageIO.read(url);
             this.setIcon(new ImageIcon(img));
         }

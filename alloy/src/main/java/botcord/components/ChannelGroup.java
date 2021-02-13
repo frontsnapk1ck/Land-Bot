@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import botcord.components.button.ChannelButton;
 import botcord.components.util.BotCordPanel;
 import botcord.event.BotCordListener;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.GuildChannel;
 
@@ -92,7 +92,7 @@ public class ChannelGroup extends BotCordPanel {
     private void configLabel() 
     {
         this.label.setText(this.name);
-        this.label.setForeground(BotCordColors.TEXT);
+        this.label.setForeground(BotCordUtil.TEXT);
     }
 
     private void configToolTip() 

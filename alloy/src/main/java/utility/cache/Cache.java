@@ -1,4 +1,4 @@
-package alloy.gameobjects.cache;
+package utility.cache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +9,6 @@ import alloy.main.Queueable;
 import alloy.utility.job.jobs.PurgeCacheJob;
 
 public class Cache {
-
-    public static final long KEEP_TIME = 5000l;
 
     private Map< String , Cacheable<?> > cache;
     private List<PurgeCacheJob> jobs;
@@ -31,23 +29,25 @@ public class Cache {
         if (this.cache.containsKey(key))
             return;
         this.cache.put(key, cacheable);
-        addToList(key);
+        addToList(key , cacheable.getKeepTime());
     }
 
-    private void addToList(String key) 
+    private void addToList(String key , long time) 
     {
         PurgeCacheJob job = new PurgeCacheJob(key);
         this.jobs.add( job );
-        this.queue.queueIn(job, KEEP_TIME );
+        if (time != Cacheable.FOREVER)
+            this.queue.queueIn(job, time );
     }
 
     public Cacheable<?> get(String key)
     {
-        updateList(key);
-        return this.cache.get(key);
+        Cacheable<?> data = this.cache.get(key);
+        updateList(key , data.getKeepTime());
+        return data;
     }
 
-    private void updateList(String key) 
+    private void updateList(String key, long l) 
     {
         if (!has(key))
             return;
@@ -55,7 +55,7 @@ public class Cache {
         job.disable();
         this.queue.unQueue(job);
         this.jobs.remove(job);
-        this.addToList(key);
+        this.addToList(key,l);
     }
 
     public void remove(String key) 

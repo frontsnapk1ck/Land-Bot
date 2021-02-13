@@ -15,7 +15,7 @@ import botcord.components.util.BotCordButton;
 import botcord.event.BotCordListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordLinks;
+import botcord.util.BotCordUtil;
 
 @SuppressWarnings("serial")
 public class PMButton extends BotCordButton {
@@ -50,7 +50,7 @@ public class PMButton extends BotCordButton {
     private void setImage() {
         URL url;
         try {
-            url = new URL(BotCordLinks.PM_IMAGE);
+            url = new URL(BotCordUtil.PM_IMAGE);
             Image img = ImageIO.read(url);
             this.setIcon(new ImageIcon(img));
         } catch (IOException e) 

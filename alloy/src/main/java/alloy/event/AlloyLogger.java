@@ -10,6 +10,7 @@ public class AlloyLogger extends Logger {
 
     private List<DebugListener> listeners;
     private List<DebugEvent> queue;
+    private DiscordInterface disInterface;
 
     public AlloyLogger() 
     {
@@ -29,11 +30,15 @@ public class AlloyLogger extends Logger {
 
     public void addListener(DebugListener listener)
     {
+        if (listener instanceof DiscordInterface)
+            this.disInterface = (DiscordInterface) listener;
         this.listeners.add(listener);
     }
     
     public boolean rmListener(DebugListener listener)
     {
+        if (listener == this.disInterface)
+            this.disInterface = null;
         return this.listeners.remove(listener);
     }
 
@@ -53,6 +58,10 @@ public class AlloyLogger extends Logger {
             for (DebugListener l : listeners) 
                 l.onReceive(e);
         }
+    }
+
+    public DiscordInterface getDisInterface() {
+        return disInterface;
     }
     
 }

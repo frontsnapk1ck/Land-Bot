@@ -1,7 +1,7 @@
 package botcord.components.selector;
 
 import botcord.components.util.BotCordScrollPanel;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.entities.Guild;
 
 @SuppressWarnings("serial")
@@ -19,7 +19,7 @@ public class ChannelSelector extends BotCordScrollPanel {
     @Override
     public void init() 
     {
-        this.setBackground(BotCordColors.CHANNEL_SELECTOR);
+        this.setBackground(BotCordUtil.CHANNEL_SELECTOR);
     }
 
     @Override

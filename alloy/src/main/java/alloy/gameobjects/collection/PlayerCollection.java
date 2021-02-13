@@ -3,6 +3,7 @@ package alloy.gameobjects.collection;
 import java.util.List;
 
 import alloy.gameobjects.player.Player;
+import utility.cache.AbstractCollection;
 
 public class PlayerCollection extends AbstractCollection<PlayerCollection> {
 
@@ -24,4 +25,9 @@ public class PlayerCollection extends AbstractCollection<PlayerCollection> {
         return (List<Player>) super.getList();
     }
     
+    @Override
+    public long getKeepTime() 
+    {
+        return 5000;
+    }
 }

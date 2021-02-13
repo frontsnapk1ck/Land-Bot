@@ -7,7 +7,7 @@ import botcord.components.button.DebugButton;
 import botcord.components.button.PMButton;
 import botcord.components.util.BotCordPanel;
 import botcord.event.BotCordListener;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 
 @SuppressWarnings("serial")
 public class AlloySelector extends BotCordPanel {
@@ -31,7 +31,7 @@ public class AlloySelector extends BotCordPanel {
         this.debugButton = new DebugButton();
         this.pmButton = new PMButton();
         this.listeners = new ArrayList<BotCordListener>();
-        this.setBackground(BotCordColors.SCREEN_SELECTOR);
+        this.setBackground(BotCordUtil.SCREEN_SELECTOR);
     }
 
     @Override

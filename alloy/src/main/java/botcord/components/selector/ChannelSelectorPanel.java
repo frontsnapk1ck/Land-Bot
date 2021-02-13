@@ -8,7 +8,7 @@ import botcord.components.ChannelGroup;
 import botcord.components.button.ChannelButton;
 import botcord.components.util.BotCordPanel;
 import botcord.event.BotCordListener;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
@@ -33,7 +33,7 @@ public class ChannelSelectorPanel extends BotCordPanel {
     @Override
     public void init() 
     {
-        this.setBackground(BotCordColors.CHANNEL_SELECTOR);
+        this.setBackground(BotCordUtil.CHANNEL_SELECTOR);
     }
 
     @Override
@@ -60,9 +60,7 @@ public class ChannelSelectorPanel extends BotCordPanel {
         {
             this.add(channelGroup.getLabel());
             for (ChannelButton b : channelGroup.getButtons())
-            {
                 this.add(b);
-            }
         }
     }
 

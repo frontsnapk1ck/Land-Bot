@@ -2,11 +2,12 @@ package botcord.event;
 
 public class SwitchTarget {
 
-	public static final SwitchTarget     GUILD   = new SwitchTarget("guild");
-	public static final SwitchTarget     DEBUG   = new SwitchTarget("debug");
-	public static final SwitchTarget     PM      = new SwitchTarget("pm");
+	public static final SwitchTarget     GUILD              = new SwitchTarget("guild");
+	public static final SwitchTarget     DEBUG              = new SwitchTarget("debug");
+	public static final SwitchTarget     PM                 = new SwitchTarget("pm");
     
-	public static final SwitchTarget     CHANNEL = new SwitchTarget("channel");
+	public static final SwitchTarget     CHANNEL            = new SwitchTarget("channel");
+	public static final SwitchTarget     PRIVATE_CHANNEL    = new SwitchTarget("private channel");
     
     private String id;
     

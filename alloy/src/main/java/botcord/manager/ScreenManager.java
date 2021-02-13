@@ -12,7 +12,6 @@ import gui.ScreenFramework;
 public class ScreenManager implements Switchable, ScreenProxy {
 
     private DebugScreen debugScreen;
-    private PMScreen pmScreen;
     private ScreenSwitchManager manager;
     private BotCord main;
 
@@ -26,7 +25,6 @@ public class ScreenManager implements Switchable, ScreenProxy {
     private void config() 
     {
         this.debugScreen.addListener(this.manager);
-        this.pmScreen.addListener(this.manager);
         this.manager.addListener(this);
         this.manager.setProxy(this);
     }
@@ -34,7 +32,6 @@ public class ScreenManager implements Switchable, ScreenProxy {
     private void init() 
     {
         this.debugScreen = new DebugScreen(main.getJDA());  
-        this.pmScreen = new PMScreen(main.getJDA());
         this.manager = new ScreenSwitchManager();
     }
 
@@ -47,22 +44,25 @@ public class ScreenManager implements Switchable, ScreenProxy {
     public void onSwitch(SwitchEvent e) 
     {
         this.main.setCurrentScreen(e.getNewScreen());
-        if (e.getNewScreen() instanceof GuildScreen)
+        
+        if (e.getNewScreen() instanceof GuildScreen )
             ((GuildScreen) e.getNewScreen()).addListener(this.manager);
-
+        if (e.getNewScreen() instanceof PMScreen)
+            ((PMScreen) e.getNewScreen()).addListener(this.manager);
+        
         this.main.update();
 	}
 
     @Override
     public ScreenFramework getDebug() 
     {
-        return this.debugScreen;
+        return new DebugScreen(main.getJDA());  
     }
 
     @Override
     public ScreenFramework getPm() 
     {
-        return this.pmScreen;
+        return new PMScreen(main.getJDA());
     }
 
     @Override

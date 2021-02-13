@@ -1,9 +1,11 @@
 package alloy.event;
 
+import java.io.File;
 import java.util.Map;
 
 import alloy.templates.Template;
 import alloy.templates.Templates;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import utility.logger.Level;
 import utility.logger.Logger;
@@ -36,6 +38,26 @@ public class DiscordInterface implements DebugListener {
             logger.error("DiscordInterface", ex);
         }
         return;
+	}
+
+	public boolean debugFile(Message m, File down) 
+    {
+        TextChannel log = this.logs.get(Level.DEBUG);
+
+        try 
+        {
+            log.sendMessage(m).addFile(down).complete();
+            return true;
+        }
+        catch (IllegalArgumentException ex) 
+        {
+            return false;
+        }
+        catch (Exception ex)
+        {
+            logger.error("DiscordInterface", ex);
+            return false;
+        }
 	}
     
 }

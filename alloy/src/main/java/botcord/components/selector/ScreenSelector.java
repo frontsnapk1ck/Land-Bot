@@ -4,7 +4,7 @@ import java.util.List;
 
 import botcord.components.util.BotCordPanel;
 import botcord.event.BotCordListener;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.JDA;
 
 @SuppressWarnings("serial")
@@ -35,7 +35,7 @@ public class ScreenSelector extends BotCordPanel {
 	public void config() 
 	{
 		updateBounds();
-		this.setBackground(BotCordColors.BACKGROUND);
+		this.setBackground(BotCordUtil.BACKGROUND);
 		this.add(this.guildSelector);
 		this.add(this.alloySelector);
 		configTooltip();

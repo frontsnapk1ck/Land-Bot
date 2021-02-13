@@ -4,7 +4,7 @@ import java.util.List;
 
 import botcord.components.util.BotCordScrollPanel;
 import botcord.event.BotCordListener;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.JDA;
 
 @SuppressWarnings("serial")
@@ -22,7 +22,7 @@ public class GuildSelector extends BotCordScrollPanel {
     @Override
     public void init() 
     {
-        this.setBackground(BotCordColors.SCREEN_SELECTOR);
+        this.setBackground(BotCordUtil.SCREEN_SELECTOR);
     }
 
     @Override

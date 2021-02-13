@@ -3,6 +3,7 @@ package alloy.gameobjects.collection;
 import java.util.List;
 
 import alloy.gameobjects.Case;
+import utility.cache.AbstractCollection;
 
 public class CaseCollection extends AbstractCollection<CaseCollection> {
 
@@ -23,6 +24,5 @@ public class CaseCollection extends AbstractCollection<CaseCollection> {
     {
         return (List<Case>) super.getList();
     }
-
     
 }

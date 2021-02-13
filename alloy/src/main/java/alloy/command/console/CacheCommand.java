@@ -5,14 +5,14 @@ import java.util.Set;
 
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.gameobjects.Server;
-import alloy.gameobjects.cache.Cache;
-import alloy.gameobjects.cache.Cacheable;
 import alloy.gameobjects.player.Player;
 import alloy.input.console.ConsoleInputData;
 import alloy.utility.discord.AlloyUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
 import utility.StringUtil;
+import utility.cache.Cache;
+import utility.cache.Cacheable;
 
 public class CacheCommand extends AbstractConsoleCommand {
 

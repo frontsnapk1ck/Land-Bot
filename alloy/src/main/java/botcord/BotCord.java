@@ -8,34 +8,48 @@ import javax.imageio.ImageIO;
 
 import alloy.event.DebugEvent;
 import alloy.event.DebugListener;
+import alloy.main.Alloy;
 import botcord.manager.ScreenManager;
-import botcord.util.BotCordColors;
-import botcord.util.BotCordLinks;
+import botcord.util.BotCordUtil;
 import botcord.util.event.BotCordLogger;
 import gui.WindowFramework;
 import net.dv8tion.jda.api.JDA;
 
 @SuppressWarnings("serial")
-public class BotCord extends WindowFramework implements BotCordColors, BotCordLinks {
+public class BotCord extends WindowFramework{
 
     public static final BotCordLogger LOGGER = new BotCordLogger();
 
-    private JDA jda;
+    private Alloy alloy;
     private ScreenManager manager;
 
-    public BotCord(JDA jda) {
-        this.jda = jda;
-        configScreens();
+
+    public BotCord(Alloy alloy) 
+    {
+        this.alloy = alloy;
         init();
     }
 
-    private void configScreens() {
+    private void config() 
+    {
+        configCache();
+        configScreens();
+    }
+    
+    private void configCache() 
+    {
+        BotCordUtil.loadCache(alloy);
+    }
+
+    private void configScreens() 
+    {
         this.manager = new ScreenManager(this);
         this.setCurrentScreen(this.manager.getDebugScreen());
         this.update();
     }
 
-    private void init() {
+    private void init() 
+    {
         this.setTitle("BotCord Testing");
         this.setSize(1600, 900);
         this.setIconImage(loadIcon());
@@ -46,7 +60,7 @@ public class BotCord extends WindowFramework implements BotCordColors, BotCordLi
     {
         try 
         {
-            URL url = new URL(APP_ICON);
+            URL url = new URL(BotCordUtil.APP_ICON);
             return ImageIO.read(url);
         }
         catch (IOException e) 
@@ -66,7 +80,7 @@ public class BotCord extends WindowFramework implements BotCordColors, BotCordLi
 
     public JDA getJDA() 
     {
-		return this.jda;
+		return this.alloy.getJDA();
 	}
 
     public DebugListener getDebugListener() 
@@ -84,6 +98,12 @@ public class BotCord extends WindowFramework implements BotCordColors, BotCordLi
     public void addLoggerListener(DebugListener interfaceListener) 
     {
         LOGGER.addListener(interfaceListener);
+	}
+
+	public void finishInit() 
+    {
+        config();
+        update();
 	}
 
 }

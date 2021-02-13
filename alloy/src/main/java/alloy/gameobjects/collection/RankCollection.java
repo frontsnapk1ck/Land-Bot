@@ -3,6 +3,7 @@ package alloy.gameobjects.collection;
 import java.util.List;
 
 import alloy.gameobjects.player.Rank;
+import utility.cache.AbstractCollection;
 
 public class RankCollection extends AbstractCollection<RankCollection> {
     

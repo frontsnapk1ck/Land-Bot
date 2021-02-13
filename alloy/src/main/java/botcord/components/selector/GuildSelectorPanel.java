@@ -7,7 +7,7 @@ import java.util.List;
 import botcord.components.button.GuildButton;
 import botcord.components.util.BotCordPanel;
 import botcord.event.BotCordListener;
-import botcord.util.BotCordColors;
+import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 
@@ -34,7 +34,7 @@ public class GuildSelectorPanel extends BotCordPanel {
     {
         this.listeners = new ArrayList<BotCordListener>();
         this.buttons = new ArrayList<GuildButton>();
-        this.setBackground(BotCordColors.SCREEN_SELECTOR);
+        this.setBackground(BotCordUtil.SCREEN_SELECTOR);
     }
 
     @Override

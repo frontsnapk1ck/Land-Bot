@@ -3,8 +3,8 @@ package botcord.screen;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.components.MemberList;
-import botcord.components.selector.ChannelSelector;
+import botcord.components.channel.ChannelSelector;
+import botcord.components.member.MemberList;
 import botcord.components.selector.ScreenSelector;
 import botcord.event.BotCordListener;
 import botcord.screen.util.BotCordScreen;

@@ -3,9 +3,7 @@ package botcord.components.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.components.button.DebugButton;
-import botcord.components.button.PMButton;
-import botcord.components.util.BotCordPanel;
+import botcord.components.gui.BotCordPanel;
 import botcord.event.BotCordListener;
 import botcord.util.BotCordUtil;
 

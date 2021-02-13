@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import botcord.collections.UserCollection;
-import botcord.components.selector.PMChannelSelector;
+import botcord.components.channel.PMChannelSelector;
 import botcord.components.selector.ScreenSelector;
 import botcord.event.BotCordListener;
 import botcord.screen.util.BotCordScreen;

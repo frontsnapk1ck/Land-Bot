@@ -2,7 +2,7 @@ package botcord.components.selector;
 
 import java.util.List;
 
-import botcord.components.util.BotCordPanel;
+import botcord.components.gui.BotCordPanel;
 import botcord.event.BotCordListener;
 import botcord.util.BotCordUtil;
 import net.dv8tion.jda.api.JDA;

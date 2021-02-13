@@ -1,6 +1,6 @@
 package botcord.components.message;
 
-import botcord.components.util.BotCordPanel;
+import botcord.components.gui.BotCordPanel;
 
 @SuppressWarnings("serial")
 public class MessagePanel extends BotCordPanel {

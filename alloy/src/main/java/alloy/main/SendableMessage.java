@@ -1,5 +1,9 @@
 package alloy.main;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -13,11 +17,14 @@ public class SendableMessage {
     private String from;
     private Message message;
 
+
     private Message sent;
+    private List<AttachedFile> files;
 
     public SendableMessage() 
     {
         this.from = "NO CHANNEL PROVIDED";
+        this.files = new ArrayList<AttachedFile>();
     }
 
     public MessageChannel getChannel()
@@ -47,6 +54,10 @@ public class SendableMessage {
 
     public Message getSent() {
         return sent;
+    }
+
+    public List<AttachedFile> getFiles() {
+        return files;
     }
 
     public void setChannel(MessageChannel channel)
@@ -79,6 +90,16 @@ public class SendableMessage {
         this.sent = sent;
     }
 
+    public void addFile(File file) 
+    {
+        this.addFile(file,false);
+	}
+
+    public void addFile(File file, boolean save) 
+    {
+        this.files.add(new AttachedFile(file, save));
+    }
+
     public boolean hasChannel ()
     {
         return this.channel != null;
@@ -108,6 +129,23 @@ public class SendableMessage {
     {
         return this.sent != null;
     }
+
+    public boolean hadFiles()
+    {
+        return this.files.size() != 0;
+    }
     
+    public class AttachedFile {
+        
+        public boolean save;
+        public File file;
+
+        public AttachedFile(File f, boolean b)
+        {
+            this.file = f;
+            this.save = b;
+        }
+
+    }
 
 }

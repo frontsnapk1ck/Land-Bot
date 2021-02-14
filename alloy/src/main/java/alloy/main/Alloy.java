@@ -19,12 +19,14 @@ import alloy.handler.CommandHandler;
 import alloy.handler.RankHandler;
 import alloy.input.console.ConsoleInput;
 import alloy.input.discord.AlloyInput;
+import alloy.main.SendableMessage.AttachedFile;
 import alloy.main.handler.AlloyHandler;
 import alloy.main.handler.ConsoleHandler;
 import alloy.main.handler.CooldownHandler;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.runnable.AlloyShutdownHook;
 import io.FileReader;
+import io.Saver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -42,8 +44,8 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import utility.event.EventManager.ScheduledJob;
-import utility.logger.Level;
 import utility.event.Job;
+import utility.logger.Level;
 
 public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler, UncaughtExceptionHandler {
 
@@ -183,7 +185,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     }
 
     @Override
-    public void send(SendableMessage message) {
+    public void send(SendableMessage message) 
+    {
         if (message.hasMessageE())
             sendE(message);
         else if (message.hasMessageS())
@@ -198,12 +201,26 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         Message messageM = message.getMessage();
         String from = message.getFrom();
 
-        try {
-            Message m = channel.sendMessage(messageM).complete();
+        try 
+        {
+            List<AttachedFile> files = message.getFiles();
+            MessageAction action = channel.sendMessage(messageM);
+            for (AttachedFile attFile : files)
+                action.addFile(attFile.file);
+            Message m = action.complete();
+            for (AttachedFile attFile : files) 
+            {
+                if (!attFile.save)
+                    Saver.deleteFile(attFile.file.getAbsolutePath());
+            }
             message.setSent(m);
-        } catch (InsufficientPermissionException | ErrorResponseException e) {
+        }
+        catch (InsufficientPermissionException | ErrorResponseException e) 
+        {
             LOGGER.warn(from, e.getMessage());
-        } catch (RejectedExecutionException e){}
+        }
+        catch (RejectedExecutionException ignored){
+        }
     }
 
     private void sendS(SendableMessage message) 
@@ -214,31 +231,58 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
 
         try 
         {
-            Message m = channel.sendMessage(messageS).complete();
+            List<AttachedFile> files = message.getFiles();
+            MessageAction action = channel.sendMessage(messageS);
+            for (AttachedFile attFile : files)
+                action.addFile(attFile.file);
+            Message m = action.complete();
+            for (AttachedFile attFile : files) 
+            {
+                if (!attFile.save)
+                    Saver.deleteFile(attFile.file.getAbsolutePath());
+            }
             message.setSent(m);
         }
         catch (InsufficientPermissionException | ErrorResponseException e) 
         {
             LOGGER.warn(from, e.getMessage());
-        }catch (RejectedExecutionException e){}
+        }
+        catch (RejectedExecutionException ignored){
+        }
 
     }
 
-    private void sendE(SendableMessage message) {
+    private void sendE(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
 
-        try {
-            Message m = channel.sendMessage(messageE).complete();
+        try 
+        {
+            List<AttachedFile> files = message.getFiles();
+            MessageAction action = channel.sendMessage(messageE);
+            for (AttachedFile attFile : files)
+                action.addFile(attFile.file);
+            Message m = action.complete();
+            for (AttachedFile attFile : files) 
+            {
+                if (!attFile.save)
+                    Saver.deleteFile(attFile.file.getAbsolutePath());
+            }
             message.setSent(m);
-        } catch (InsufficientPermissionException | ErrorResponseException e) {
+        }
+        catch (InsufficientPermissionException | ErrorResponseException e) 
+        {
             LOGGER.warn(from, e.getMessage());
-        }catch (RejectedExecutionException e){}
+        }
+        catch (RejectedExecutionException ignored){
+        }
     }
 
     @Override
-    public MessageAction getAction(SendableMessage message) {
+    public MessageAction getAction(SendableMessage message) 
+    {
         if (message.hasMessageE())
             return getActionE(message);
         else if (message.hasMessageS())
@@ -248,27 +292,43 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         return null;
     }
 
-    private MessageAction getActionM(SendableMessage message) {
+    private MessageAction getActionM(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         Message messageM = message.getMessage();
         String from = message.getFrom();
 
-        try {
-            return channel.sendMessage(messageM);
-        } catch (Exception e) {
+        try 
+        {
+            List<AttachedFile> files = message.getFiles();
+            MessageAction action = channel.sendMessage(messageM);
+            for (AttachedFile file : files)
+                action.addFile(file.file);
+            return action;
+        }
+        catch (Exception e) 
+        {
             LOGGER.warn(from, e.getMessage());
         }
         return null;
     }
 
-    private MessageAction getActionS(SendableMessage message) {
+    private MessageAction getActionS(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         String messageS = message.getMessageS();
         String from = message.getFrom();
 
-        try {
-            return channel.sendMessage(messageS);
-        } catch (Exception e) {
+        try 
+        {
+            List<AttachedFile> files = message.getFiles();
+            MessageAction action = channel.sendMessage(messageS);
+            for (AttachedFile file : files)
+                action.addFile(file.file);
+            return action;
+        }
+        catch (Exception e) 
+        {
             LOGGER.warn(from, e.getMessage());
         }
         return null;
@@ -279,9 +339,16 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
 
-        try {
-            return channel.sendMessage(messageE);
-        } catch (Exception e) {
+        try 
+        {
+            List<AttachedFile> files = message.getFiles();
+            MessageAction action = channel.sendMessage(messageE);
+            for (AttachedFile file : files)
+                action.addFile(file.file);
+            return action;
+        }
+        catch (Exception e) 
+        {
             LOGGER.warn(from, e.getMessage());
         }
         return null;

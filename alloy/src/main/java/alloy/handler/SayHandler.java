@@ -1,6 +1,8 @@
 package alloy.handler;
 
+import java.io.File;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import alloy.main.Alloy;
@@ -11,6 +13,7 @@ import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -45,17 +48,69 @@ public class SayHandler {
         };
         ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, consumer);
 
+        
+        if (msg.getAttachments().size() != 0)
+            sendAttachments(msg,channel,bot);
+        else 
+            sendNormal(msg,channel,bot);
+        msg.delete().queue(null , handler);
+    }
+
+    private static void sendAttachments(Message msg, TextChannel channel, Sendable bot) 
+    {
+        List<Attachment> attachments = msg.getAttachments();
+        SendableMessage sm = new SendableMessage();
+        sm.setChannel(channel);
+        sm.setFrom("SayHandler");
+
+        for (Attachment attachment : attachments) 
+        {
+            String path = AlloyUtil.TMP_FOLDER;
+            path += msg.getChannel().getId() + "-" + msg.getId();
+            path += "." + attachment.getFileExtension();
+            File f = new File(path);
+
+            try 
+            {
+                File down = attachment.downloadToFile(f).get();
+                sm.addFile(down);
+            }
+            catch (InterruptedException | ExecutionException e1) 
+            {
+                Alloy.LOGGER.error("JDAEvents", e1);
+            }
+        }
+
+        try {
+            String out = msg.getContentRaw().toString().substring(5);
+            sm.setMessage(out);    
+        } catch (Exception e) 
+        {
+            sm.setMessage(" ");
+        }
+        bot.send(sm);
+    }
+
+    private static void sendNormal(Message msg, TextChannel channel, Sendable bot) 
+    {
+        if (msg.getContentRaw().length() > 5 )
+            return;
+
         String out = msg.getContentRaw().toString().substring(5);
+
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom("SayHandler");
         sm.setMessage(out);
         bot.send(sm);
-        msg.delete().queue(null , handler);
     }
 
     public static void sayAdmin(TextChannel channel, Sendable bot, Message msg) 
     {
+
+        if (msg.getContentRaw().length() > 5 )
+            return;
+        
         Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
         {
             @Override

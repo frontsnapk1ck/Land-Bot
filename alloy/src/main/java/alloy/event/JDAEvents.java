@@ -96,7 +96,8 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) 
+    {
         Guild g = e.getGuild();
         TextChannel c = e.getChannel();
         User u = e.getAuthor();

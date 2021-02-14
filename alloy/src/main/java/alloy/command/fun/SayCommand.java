@@ -30,7 +30,7 @@ public class SayCommand extends AbstractCommand {
         Member m = g.getMember(author);
         Message msg = data.getMessageActual();
 
-        if (data.getMessage().length() < 5)
+        if (data.getMessage().length() < 3)
             return;
 
         if ( SayHandler.isWhitelisted(m) )

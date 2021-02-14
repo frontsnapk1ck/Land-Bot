@@ -1,11 +1,13 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
+        "Affero",
         "Cooldown",
         "Leaderboard",
         "Queueable",
         "Unban",
         "Unmute",
+        "WIPO",
         "botcord",
         "delwarn",
         "dhms",
@@ -13,6 +15,7 @@
         "jqlt",
         "notmatch",
         "notmatches",
+        "openjdk",
         "rankups",
         "remindme",
         "rult",

@@ -8,6 +8,12 @@
             "type": "java",
             "name": "Launch Launcher",
             "request": "launch",
+            "mainClass": "alloy.main.Launcher"
+        },
+        {
+            "type": "java",
+            "name": "Launch Launcher",
+            "request": "launch",
             "mainClass": "alloy.main.Launcher",
             "projectName": "landbot"
         },

@@ -1,26 +1,94 @@
 package botcord.components.message;
 
+import java.util.List;
+
 import botcord.components.gui.BCPanel;
+import botcord.components.message.log.DisMessageLog;
+import botcord.event.BCListener;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 @SuppressWarnings("serial")
 public class DisMessagePanel extends BCPanel {
 
-    @Override
-    public void init() {
-        // TODO Auto-generated method stub
+    public static final float SPLIT = .90f;
 
+    private boolean init;
+    private MessageChannel channel;
+    
+    private DisMessageLog messageLog;
+
+
+    public DisMessagePanel(MessageChannel channel) 
+    {
+        super();
+        this.channel = channel;
+        if (channel == null)
+            return;
+        init();
+        config();
+        this.init = true;
     }
 
     @Override
-    public void config() {
-        // TODO Auto-generated method stub
-
+    public void init() 
+    {
+        this.messageLog = new DisMessageLog(channel.getHistory());
     }
 
     @Override
-    public void update() {
-        // TODO Auto-generated method stub
+    public void config() 
+    {
+        this.add(this.messageLog);
+        this.updateLayout();
+    }
+
+    private void updateLayout() 
+    {
+        setMessageLogBounds();
+    }
+
+    private void setMessageLogBounds() 
+    {
+        int x = 0;
+        int y = 0;
+        int w = this.getWidth();
+        int h = (int)(this.getHeight() * SPLIT);
+        this.messageLog.setBounds(x, y, w, h);
+    }
+
+    @Override
+    public void update() 
+    {
+        this.updateLayout();
+        this.messageLog.update();
+    }
+
+    public void setChannel(MessageChannel channel) 
+    {
+        this.channel = channel;
+        if (!this.init && channel != null)
+        {
+            this.init();
+            this.config();
+            this.init = true;
+        }
+        else if (channel != null)
+        {
+            this.remove(this.messageLog);
+            this.messageLog = new DisMessageLog(channel.getHistory());
+            this.add(this.messageLog);
+            updateLayout();
+        }
 
     }
+
+    public MessageChannel getChannel() {
+        return channel;
+    }
+
+	public void updateListeners(List<BCListener> listeners) 
+    {
+        this.messageLog.updateListeners(listeners);
+	}
     
 }

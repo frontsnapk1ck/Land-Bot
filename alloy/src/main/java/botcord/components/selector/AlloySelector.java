@@ -3,18 +3,18 @@ package botcord.components.selector;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.components.gui.BotCordPanel;
-import botcord.event.BotCordListener;
-import botcord.util.BotCordUtil;
+import botcord.components.gui.BCPanel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 
 @SuppressWarnings("serial")
-public class AlloySelector extends BotCordPanel {
+public class AlloySelector extends BCPanel {
 
     public static final float SCALE = 0.8f;
 
     private DebugButton debugButton;
     private PMButton pmButton;
-    private List<BotCordListener> listeners;
+    private List<BCListener> listeners;
 
     public AlloySelector() 
     {
@@ -28,8 +28,8 @@ public class AlloySelector extends BotCordPanel {
     {
         this.debugButton = new DebugButton();
         this.pmButton = new PMButton();
-        this.listeners = new ArrayList<BotCordListener>();
-        this.setBackground(BotCordUtil.SCREEN_SELECTOR);
+        this.listeners = new ArrayList<BCListener>();
+        this.setBackground(BCUtil.SCREEN_SELECTOR);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class AlloySelector extends BotCordPanel {
         this.debugButton.update();
     }
 
-    public void updateListeners(List<BotCordListener> listeners) 
+    public void updateListeners(List<BCListener> listeners) 
     {
         this.listeners = listeners;
         this.pmButton.setListeners(this.listeners);

@@ -2,8 +2,8 @@ package alloy.input.console;
 
 import java.util.List;
 
-import alloy.main.Queueable;
-import alloy.main.Sendable;
+import alloy.main.intefs.Queueable;
+import alloy.main.intefs.Sendable;
 import net.dv8tion.jda.api.JDA;
 
 public class ConsoleInputData {

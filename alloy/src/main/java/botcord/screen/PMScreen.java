@@ -5,10 +5,11 @@ import java.util.List;
 
 import botcord.collections.UserCollection;
 import botcord.components.channel.PMChannelSelector;
+import botcord.components.message.DisMessagePanel;
 import botcord.components.selector.ScreenSelector;
-import botcord.event.BotCordListener;
+import botcord.event.BCListener;
 import botcord.screen.util.BotCordScreen;
-import botcord.util.BotCordUtil;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -18,8 +19,9 @@ import net.dv8tion.jda.api.entities.User;
 public class PMScreen extends BotCordScreen {
 
     private JDA jda;
-    private List<BotCordListener> listeners;
+    private List<BCListener> listeners;
     private PMChannelSelector pmChannelSelector;
+    private DisMessagePanel messagePanel;
 
     public PMScreen(JDA jda) 
     {
@@ -39,7 +41,8 @@ public class PMScreen extends BotCordScreen {
     {
         this.setSelector(new ScreenSelector(this.jda));
         this.pmChannelSelector = new PMChannelSelector(new ArrayList<User>());
-        this.listeners = new ArrayList<BotCordListener>();
+        this.messagePanel = new DisMessagePanel(null);
+        this.listeners = new ArrayList<BCListener>();
     }
 
     private void getUsers() 
@@ -56,7 +59,7 @@ public class PMScreen extends BotCordScreen {
             @Override
             public void run() 
             {
-                List<User> users = BotCordUtil.loadAllUsers();
+                List<User> users = BCUtil.loadAllUsers();
                 List<Guild> guilds = jda.getGuilds();
                 for (Guild guild : guilds) 
                 {
@@ -75,7 +78,7 @@ public class PMScreen extends BotCordScreen {
                 }
                 pmChannelSelector.setUsers(users);
                 UserCollection uc = new UserCollection(users);
-                BotCordUtil.getCache().put(BotCordUtil.USER_CACHE, uc);
+                BCUtil.getCache().put(BCUtil.USER_CACHE, uc);
                 update();
             }
         };
@@ -87,6 +90,7 @@ public class PMScreen extends BotCordScreen {
     {
         getUsers();
         this.configSelector();
+        this.getPanel().add(this.messagePanel);
     }
 
     @Override
@@ -101,6 +105,18 @@ public class PMScreen extends BotCordScreen {
     {
         updateSelectorBounds();
         updateChannelBounds();
+        updateMessagePanelBounds();
+    }
+
+    private void updateMessagePanelBounds() 
+    {
+        int x = (int)( this.getWidth()  * SELECTOR_WIDTH) + 
+                (int)( this.getWidth()  * CHANNEL_SELECTOR_WIDTH);
+        int y = 0;
+        int width  = this.getWidth() - x;
+        int height = (int)( this.getHeight() * 1f);
+
+        this.messagePanel.setBounds(x, y, width, height);
     }
 
     private void updateSelectorBounds() 
@@ -131,33 +147,41 @@ public class PMScreen extends BotCordScreen {
         this.pmChannelSelector.update();
     }
 
-    public void setListeners(List<BotCordListener> listeners) 
+    public void setListeners(List<BCListener> listeners) 
     {
         this.listeners = listeners;
         getSelector().updateListeners(this.listeners);
+        this.pmChannelSelector.updateListeners(this.listeners);
+        this.messagePanel.updateListeners(this.listeners);
     }
 
-    public List<BotCordListener> getListeners() 
+    public List<BCListener> getListeners() 
     {
         return listeners;
     }
 
-    public void addListener(BotCordListener l)
+    public void addListener(BCListener l)
     {
         this.listeners.add(l);
         getSelector().updateListeners(this.listeners);
+        this.pmChannelSelector.updateListeners(this.listeners);
+        this.messagePanel.updateListeners(this.listeners);
     }
     
-    public boolean rmListener(BotCordListener l)
+    public boolean rmListener(BCListener l)
     {
         boolean b = this.listeners.remove(l);
+
         getSelector().updateListeners(this.listeners);
+        this.pmChannelSelector.updateListeners(this.listeners);
+        this.messagePanel.updateListeners(this.listeners);
+
         return b;
     }
 
-	public void setActiveChannel(PrivateChannel data) 
+	public void setActiveChannel(PrivateChannel channel)
     {
-        System.out.println(data.getUser().getName());
+        this.messagePanel.setChannel(channel);
 	}
     
 }

@@ -5,19 +5,23 @@ import java.util.List;
 
 import botcord.components.channel.ChannelSelector;
 import botcord.components.member.MemberList;
+import botcord.components.message.DisMessagePanel;
 import botcord.components.selector.ScreenSelector;
-import botcord.event.BotCordListener;
+import botcord.event.BCListener;
 import botcord.screen.util.BotCordScreen;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 public class GuildScreen extends BotCordScreen {
 
     public static final float       CHANNEL_SELECTOR_WIDTH              = 0.15f;
+    public static final float       MEMBER_LIST_WIDTH                   = 0.15f;
 
     private Guild guild;
-    private List<BotCordListener> listeners;
+    private List<BCListener> listeners;
     private ChannelSelector channelSelector;
+    private DisMessagePanel messagePanel;
     private MemberList memberList;
 
     public GuildScreen(Guild guild) 
@@ -39,21 +43,18 @@ public class GuildScreen extends BotCordScreen {
     {
         this.setSelector(new ScreenSelector(this.guild.getJDA()));
         this.channelSelector = new ChannelSelector(this.guild);
+        this.messagePanel = new DisMessagePanel(this.guild.getDefaultChannel());
         this.memberList = new MemberList(this.guild);
-        this.listeners = new ArrayList<BotCordListener>();
+        this.listeners = new ArrayList<BCListener>();
     }
 
     @Override
     public void config() 
     {
         this.configSelector();
-        this.configMemberList();
-    }
-
-    private void configMemberList() 
-    {
         this.getPanel().add(this.memberList);
-	}
+        this.getPanel().add(this.messagePanel);
+    }
 
 	@Override
     public void configSelector() 
@@ -68,6 +69,30 @@ public class GuildScreen extends BotCordScreen {
     {
         updateSelectorBounds();
         updateChannelBounds();
+        updateMessagePanelBounds();
+        updateMemberBounds();
+    }
+
+    private void updateMessagePanelBounds() 
+    {
+        int x = (int)( this.getWidth()  * SELECTOR_WIDTH) + 
+                (int)( this.getWidth()  * CHANNEL_SELECTOR_WIDTH);
+        int y = 0;
+        int maxOff = (int)( this.getWidth()  * MEMBER_LIST_WIDTH );
+        int width  = this.getWidth() - x - maxOff;
+        int height = (int)( this.getHeight() * 1f);
+
+        this.messagePanel.setBounds(x, y, width, height);
+    }
+
+    private void updateMemberBounds() 
+    {
+        int width  = (int)( this.getWidth()  * MEMBER_LIST_WIDTH );
+        int height = (int)( this.getHeight() * 1f);
+        int x = (int)( this.getWidth()  - width );
+        int y = 0;
+
+        this.memberList.setBounds(x, y, width, height);
     }
 
     private void updateSelectorBounds() 
@@ -96,34 +121,49 @@ public class GuildScreen extends BotCordScreen {
         updateBounds();
         this.getSelector().update();
         this.channelSelector.update();
+        this.memberList.update();
+        this.messagePanel.update();
     }
     
-    public void setListeners(List<BotCordListener> listeners) 
+    public void setListeners(List<BCListener> listeners) 
     {
         this.listeners = listeners;
+
         getSelector().updateListeners(this.listeners);
+        this.channelSelector.updateListeners(this.listeners);
+        this.messagePanel.updateListeners(this.listeners);
+
     }
 
-    public List<BotCordListener> getListeners() 
+    public List<BCListener> getListeners() 
     {
         return listeners;
     }
 
-    public void addListener(BotCordListener l)
+    public void addListener(BCListener l)
     {
         this.listeners.add(l);
+
         getSelector().updateListeners(this.listeners);
+        this.channelSelector.updateListeners(this.listeners);
+        this.messagePanel.updateListeners(this.listeners);
+
     }
     
-    public boolean rmListener(BotCordListener l)
+    public boolean rmListener(BCListener l)
     {
         boolean b = this.listeners.remove(l);
+        
         getSelector().updateListeners(this.listeners);
+        this.channelSelector.updateListeners(this.listeners);
+        this.messagePanel.updateListeners(this.listeners);
+
         return b;
     }
 
-    public void setActiveChannel(GuildChannel data) 
+    public void setActiveChannel(GuildChannel channel) 
     {
-
+        if (channel instanceof TextChannel)
+            this.messagePanel.setChannel((TextChannel)channel);
 	}
 }

@@ -3,7 +3,7 @@ package alloy.command.fun;
 import alloy.command.util.AbstractCommand;
 import alloy.handler.SayHandler;
 import alloy.input.discord.AlloyInputData;
-import alloy.main.Sendable;
+import alloy.main.intefs.Sendable;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
 import net.dv8tion.jda.api.entities.Guild;

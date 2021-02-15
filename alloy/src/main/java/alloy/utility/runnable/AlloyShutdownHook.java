@@ -7,8 +7,8 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.io.saver.EventQueueSaver;
 import alloy.main.Alloy;
-import alloy.main.Queueable;
-import alloy.main.SendableMessage;
+import alloy.main.intefs.Queueable;
+import alloy.main.util.SendableMessage;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.job.jobs.RemindJob;

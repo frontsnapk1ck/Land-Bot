@@ -4,7 +4,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import alloy.main.handler.ConsoleHandler;
+import alloy.main.intefs.handler.ConsoleHandler;
 import alloy.utility.runnable.InputRunnable;
 import input.device.DeviceListener;
 import net.dv8tion.jda.api.JDA;

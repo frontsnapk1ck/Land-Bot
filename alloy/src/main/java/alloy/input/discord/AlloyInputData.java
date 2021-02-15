@@ -1,10 +1,10 @@
 package alloy.input.discord;
 
 import alloy.gameobjects.Server;
-import alloy.main.Moderator;
-import alloy.main.Queueable;
-import alloy.main.Sendable;
-import alloy.main.handler.CooldownHandler;
+import alloy.main.intefs.Moderator;
+import alloy.main.intefs.Queueable;
+import alloy.main.intefs.Sendable;
+import alloy.main.intefs.handler.CooldownHandler;
 import alloy.utility.discord.perm.DisPerm;
 import input.device.InputType;
 import net.dv8tion.jda.api.JDA;

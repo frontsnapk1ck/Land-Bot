@@ -1,24 +1,23 @@
 package botcord.components.selector;
 
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import alloy.main.Alloy;
-import botcord.components.gui.BotCordButton;
-import botcord.event.BotCordListener;
+import botcord.components.gui.BCButton;
+import botcord.event.BCListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordUtil;
+import botcord.util.BCUtil;
 
 @SuppressWarnings("serial")
-public class PMButton extends BotCordButton {
+public class PMButton extends BCButton {
 
     public PMButton() 
     {
@@ -38,7 +37,6 @@ public class PMButton extends BotCordButton {
     public void config() 
     {
         this.configTooltip();
-        this.configListener();
         setImage();
     }
 
@@ -50,7 +48,7 @@ public class PMButton extends BotCordButton {
     private void setImage() {
         URL url;
         try {
-            url = new URL(BotCordUtil.PM_IMAGE);
+            url = new URL(BCUtil.PM_IMAGE);
             Image img = ImageIO.read(url);
             this.setIcon(new ImageIcon(img));
         } catch (IOException e) 
@@ -86,18 +84,11 @@ public class PMButton extends BotCordButton {
     }
 
     @Override
-    protected void configListener() 
+    protected void onRightClick(Set<MouseModifiers> modifiers) 
     {
-        this.addActionListener( new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent ignored) 
-            {
-                PressEvent e = new PressEvent(SwitchTarget.PM);
-                for (BotCordListener l : getListeners())
-                    l.onPress(e);
-            }
-        });
+        PressEvent e = new PressEvent(SwitchTarget.PM);
+        for (BCListener l : getListeners())
+            l.onPress(e);
     }
     
 }

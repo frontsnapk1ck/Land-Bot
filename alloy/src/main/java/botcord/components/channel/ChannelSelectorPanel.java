@@ -4,20 +4,20 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.components.gui.BotCordPanel;
-import botcord.event.BotCordListener;
-import botcord.util.BotCordUtil;
+import botcord.components.gui.BCPanel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import utility.Util;
 
 @SuppressWarnings("serial")
-public class ChannelSelectorPanel extends BotCordPanel {
+public class ChannelSelectorPanel extends BCPanel {
 
     private Guild guild;
     private List<ChannelGroup> groups;
-    private List<BotCordListener> listeners;
+    private List<BCListener> listeners;
 
     private int maxH = 0;
 
@@ -31,7 +31,7 @@ public class ChannelSelectorPanel extends BotCordPanel {
     @Override
     public void init() 
     {
-        this.setBackground(BotCordUtil.CHANNEL_SELECTOR);
+        this.setBackground(BCUtil.CHANNEL_SELECTOR);
     }
 
     @Override
@@ -110,14 +110,14 @@ public class ChannelSelectorPanel extends BotCordPanel {
         this.setToolTipText("Channel Selector");
     }
 
-    public void updateListeners(List<BotCordListener> listeners) 
+    public void updateListeners(List<BCListener> listeners) 
     {
         this.listeners = listeners;
         for (ChannelGroup g : this.groups)
             g.updateListeners(listeners);
     }
     
-    public List<BotCordListener> getListeners() {
+    public List<BCListener> getListeners() {
         return listeners;
     }
 

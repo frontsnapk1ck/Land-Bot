@@ -1,24 +1,23 @@
 package botcord.components.selector;
 
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import alloy.main.Alloy;
-import botcord.components.gui.BotCordButton;
-import botcord.event.BotCordListener;
+import botcord.components.gui.BCButton;
+import botcord.event.BCListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordUtil;
+import botcord.util.BCUtil;
 
 @SuppressWarnings("serial")
-public class DebugButton extends BotCordButton {
+public class DebugButton extends BCButton {
 
     public DebugButton() {
         super();
@@ -34,9 +33,9 @@ public class DebugButton extends BotCordButton {
     }
 
     @Override
-    public void config() {
+    public void config() 
+    {
         this.configTooltip();
-        configListener();
         setImage();
     }
 
@@ -44,7 +43,7 @@ public class DebugButton extends BotCordButton {
     {
         try 
         {
-            URL url = new URL(BotCordUtil.BUG_IMAGE);
+            URL url = new URL(BCUtil.BUG_IMAGE);
             Image img = ImageIO.read(url);
             this.setIcon(new ImageIcon(img));
         }
@@ -86,17 +85,11 @@ public class DebugButton extends BotCordButton {
     }
 
     @Override
-    protected void configListener() 
+    protected void onRightClick(Set<MouseModifiers> modifiers) 
     {
-        this.addActionListener( new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ignored) 
-            {
-                PressEvent e = new PressEvent(SwitchTarget.DEBUG);
-                for (BotCordListener l : getListeners())
-                    l.onPress(e);
-            }
-        });
+        PressEvent e = new PressEvent(SwitchTarget.DEBUG);
+        for (BCListener l : getListeners())
+            l.onPress(e);
     }
     
 }

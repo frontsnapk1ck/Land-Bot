@@ -35,6 +35,13 @@
   <dependencies>
 
     <dependency>
+      <groupId>org.kefirsf</groupId>
+      <artifactId>kefirbb</artifactId>
+      <version>1.5</version>
+    </dependency>
+
+
+    <dependency>
       <groupId>net.dv8tion</groupId>
       <artifactId>JDA</artifactId>
       <version>4.2.0_228</version>
@@ -109,7 +116,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>${checkstyle.version}</version>
+            <version>8.40</version>
           </dependency>
           <dependency>
             <groupId>com.github.ngeor</groupId>

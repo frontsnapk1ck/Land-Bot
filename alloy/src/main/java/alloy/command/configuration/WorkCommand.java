@@ -4,8 +4,8 @@ import alloy.command.util.AbstractCommand;
 import alloy.handler.WorkHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
-import alloy.main.Sendable;
-import alloy.main.SendableMessage;
+import alloy.main.intefs.Sendable;
+import alloy.main.util.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.perm.DisPermUtil;
@@ -25,7 +25,6 @@ public class WorkCommand extends AbstractCommand {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
-        Message msg = data.getMessageActual();
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
             Template t = Templates.noPermission(getPermission(), author);
@@ -37,8 +36,9 @@ public class WorkCommand extends AbstractCommand {
             return;
         }
 
-        if (args.length == 0) {
-            Template t = Templates.argumentsNotRecognized(msg);
+        if (args.length == 0) 
+        {
+            Template t = Templates.argumentsNotSupplied(args,getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom("WorkCommand");

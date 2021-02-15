@@ -1,17 +1,16 @@
 package botcord.components.channel;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Set;
 
-import botcord.components.gui.BotCordButton;
-import botcord.event.BotCordListener;
+import botcord.components.gui.BCButton;
+import botcord.event.BCListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordUtil;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 
 @SuppressWarnings("serial")
-public class PMChannelButton extends BotCordButton {
+public class PMChannelButton extends BCButton {
 
     private PrivateChannel channel;
 
@@ -33,9 +32,8 @@ public class PMChannelButton extends BotCordButton {
     @Override
     public void config() 
     {
-        this.setForeground(BotCordUtil.TEXT);
+        this.setForeground(BCUtil.TEXT);
 		this.configToolTip();
-		configListener();
 		configText();
     }
 
@@ -56,18 +54,12 @@ public class PMChannelButton extends BotCordButton {
     }
 
     @Override
-    protected void configListener() 
+    protected void onRightClick(Set<MouseModifiers> modifiers) 
     {
-        this.addActionListener( new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ignored) 
-			{
-				PressEvent e = new PressEvent(SwitchTarget.PRIVATE_CHANNEL);
-				e.setData(getChannel());
-				for (BotCordListener l : getListeners())
-					l.onPress(e);
-			}
-		});
+        PressEvent e = new PressEvent(SwitchTarget.PRIVATE_CHANNEL);
+        e.setData(getChannel());
+        for (BCListener l : getListeners())
+            l.onPress(e);
     }
 
     public PrivateChannel getChannel() 

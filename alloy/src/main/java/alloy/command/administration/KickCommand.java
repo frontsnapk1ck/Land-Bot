@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import alloy.command.util.AbstractModerationCommand;
 import alloy.command.util.PunishType;
 import alloy.main.Alloy;
-import alloy.main.Sendable;
+import alloy.main.intefs.Sendable;
 import alloy.utility.discord.perm.DisPerm;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;

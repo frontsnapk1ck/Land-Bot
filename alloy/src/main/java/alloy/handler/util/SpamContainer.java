@@ -3,8 +3,8 @@ package alloy.handler.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import alloy.main.Queueable;
-import alloy.main.Sendable;
+import alloy.main.intefs.Queueable;
+import alloy.main.intefs.Sendable;
 import alloy.utility.job.jobs.SendMessageJob;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;

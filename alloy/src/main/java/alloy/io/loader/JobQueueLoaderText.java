@@ -6,7 +6,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.io.loader.util.JobQueueData;
 import alloy.main.Alloy;
-import alloy.main.SendableMessage;
+import alloy.main.util.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.DisUtil;

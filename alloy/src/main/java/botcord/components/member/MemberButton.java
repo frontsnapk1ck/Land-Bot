@@ -1,5 +1,7 @@
 package botcord.components.member;
 
+import java.util.Set;
+
 import botcord.components.gui.BCButton;
 import net.dv8tion.jda.api.entities.Member;
 
@@ -27,7 +29,6 @@ public class MemberButton extends BCButton {
     public void config() 
     {
 		this.configToolTip();
-		configListener();
 		configText();
     }
 
@@ -49,9 +50,9 @@ public class MemberButton extends BCButton {
     }
 
     @Override
-    protected void configListener() 
+    protected void onLeftClick(Set<MouseModifiers> modifiers) 
     {
-        //TODO popup menu coming soon
+        // popup windows coming soon
     }
 
     public Member getMember() 

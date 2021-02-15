@@ -4,18 +4,25 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.components.gui.BotCordPanel;
-import botcord.util.BotCordUtil;
+import botcord.components.gui.BCPanel;
+import botcord.components.gui.base.BaseBCLabel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.User;
 
 @SuppressWarnings("serial")
-public class PMChannelSelectorPanel extends BotCordPanel {
+public class PMChannelSelectorPanel extends BCPanel {
 
     public static final int COMP_HEIGHT = 30;
+    public static final int BATCH_SIZE = 50;
 
     private List<User> users;
 
     private List<PMChannelButton> buttons;
+
+    private List<BCListener> listeners;
+
+    private BaseBCLabel tmpLabel;
 
     public PMChannelSelectorPanel(List<User> users) 
     {
@@ -28,7 +35,7 @@ public class PMChannelSelectorPanel extends BotCordPanel {
     @Override
     public void init() 
     {
-        this.setBackground(BotCordUtil.CHANNEL_SELECTOR);
+        this.setBackground(BCUtil.CHANNEL_SELECTOR);
     }
 
     @Override
@@ -38,6 +45,16 @@ public class PMChannelSelectorPanel extends BotCordPanel {
         this.configButtons();
         this.updateBounds();
         this.updateLayout();
+        this.setTempText();
+    }
+
+    private void setTempText() 
+    {
+        BaseBCLabel label = new BaseBCLabel();
+        label.setForeground(BCUtil.TEXT);
+        label.setText("<html>WORKING ON IT<P/>please dont touch anything</html>");
+        this.tmpLabel = label;
+        this.add(label);
     }
 
     private void configButtons() 
@@ -66,7 +83,8 @@ public class PMChannelSelectorPanel extends BotCordPanel {
 
     private void updateLayout() 
     {
-        this.setLayout(new GridLayout(this.users.size(),1,0,10));
+        int size = this.users.size() == 0 ? 1 : this.users.size();
+        this.setLayout(new GridLayout(size,1,0,10));
     }
 
     @Override
@@ -84,7 +102,9 @@ public class PMChannelSelectorPanel extends BotCordPanel {
 
 	public void setUsers(List<User> users) 
     {
+        this.remove(this.tmpLabel);
         this.users = users;
+        this.updateLayout();
         for (PMChannelButton b : this.buttons )
             this.remove(b);
 
@@ -94,10 +114,16 @@ public class PMChannelSelectorPanel extends BotCordPanel {
         {
             PMChannelButton b = new PMChannelButton(u.openPrivateChannel().complete());
             this.buttons.add(b);
-        }
-
-        for (PMChannelButton b : this.buttons )
+            b.setListeners(this.listeners);
             this.add(b);
+        }
+	}
+
+	public void setListeners(List<BCListener> listeners) 
+    {
+        this.listeners = listeners;
+        for (PMChannelButton b : this.buttons)
+            b.setListeners(listeners);
 	}
     
 }

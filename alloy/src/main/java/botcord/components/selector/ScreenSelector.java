@@ -2,13 +2,13 @@ package botcord.components.selector;
 
 import java.util.List;
 
-import botcord.components.gui.BotCordPanel;
-import botcord.event.BotCordListener;
-import botcord.util.BotCordUtil;
+import botcord.components.gui.BCPanel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.JDA;
 
 @SuppressWarnings("serial")
-public class ScreenSelector extends BotCordPanel {
+public class ScreenSelector extends BCPanel {
 
 	public static final float 		SPLIT 		= 0.20f;
 
@@ -35,7 +35,7 @@ public class ScreenSelector extends BotCordPanel {
 	public void config() 
 	{
 		updateBounds();
-		this.setBackground(BotCordUtil.BACKGROUND);
+		this.setBackground(BCUtil.BACKGROUND);
 		this.add(this.guildSelector);
 		this.add(this.alloySelector);
 		configTooltip();
@@ -68,7 +68,7 @@ public class ScreenSelector extends BotCordPanel {
 		this.guildSelector.update();
 	}
 
-	public void updateListeners(List<BotCordListener> listeners) 
+	public void updateListeners(List<BCListener> listeners) 
 	{
 		this.alloySelector.updateListeners(listeners);
 		this.guildSelector.updateListeners(listeners);

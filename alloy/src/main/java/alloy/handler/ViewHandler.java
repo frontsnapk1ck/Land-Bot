@@ -3,8 +3,8 @@ package alloy.handler;
 import java.util.List;
 
 import alloy.gameobjects.player.Building;
-import alloy.main.Sendable;
-import alloy.main.SendableMessage;
+import alloy.main.intefs.Sendable;
+import alloy.main.util.SendableMessage;
 import alloy.utility.discord.AlloyUtil;
 import io.FileReader;
 import net.dv8tion.jda.api.EmbedBuilder;

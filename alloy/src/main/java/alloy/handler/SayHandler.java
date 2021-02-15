@@ -6,8 +6,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import alloy.main.Alloy;
-import alloy.main.Sendable;
-import alloy.main.SendableMessage;
+import alloy.main.intefs.Sendable;
+import alloy.main.util.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
@@ -93,7 +93,7 @@ public class SayHandler {
 
     private static void sendNormal(Message msg, TextChannel channel, Sendable bot) 
     {
-        if (msg.getContentRaw().length() > 5 )
+        if (msg.getContentRaw().length() < 5 )
             return;
 
         String out = msg.getContentRaw().toString().substring(5);
@@ -108,7 +108,7 @@ public class SayHandler {
     public static void sayAdmin(TextChannel channel, Sendable bot, Message msg) 
     {
 
-        if (msg.getContentRaw().length() > 5 )
+        if (msg.getContentRaw().length() < 5 )
             return;
         
         Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 

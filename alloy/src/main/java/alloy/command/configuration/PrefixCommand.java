@@ -4,7 +4,7 @@ import alloy.command.util.AbstractCommand;
 import alloy.handler.PrefixHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
-import alloy.main.Sendable;
+import alloy.main.intefs.Sendable;
 import alloy.utility.discord.perm.DisPerm;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;

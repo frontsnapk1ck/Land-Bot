@@ -14,7 +14,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import alloy.main.SendableMessage;
+import alloy.main.util.SendableMessage;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.job.jobs.RemindJob;
 import io.SaverXML;

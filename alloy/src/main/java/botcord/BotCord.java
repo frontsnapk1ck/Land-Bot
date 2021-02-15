@@ -10,7 +10,7 @@ import alloy.event.DebugEvent;
 import alloy.event.DebugListener;
 import alloy.main.Alloy;
 import botcord.manager.ScreenManager;
-import botcord.util.BotCordUtil;
+import botcord.util.BCUtil;
 import botcord.util.event.BotCordLogger;
 import gui.WindowFramework;
 import net.dv8tion.jda.api.JDA;
@@ -38,7 +38,7 @@ public class BotCord extends WindowFramework{
     
     private void configCache() 
     {
-        BotCordUtil.loadCache(alloy);
+        BCUtil.loadCache(alloy);
     }
 
     private void configScreens() 
@@ -60,7 +60,7 @@ public class BotCord extends WindowFramework{
     {
         try 
         {
-            URL url = new URL(BotCordUtil.APP_ICON);
+            URL url = new URL(BCUtil.APP_ICON);
             return ImageIO.read(url);
         }
         catch (IOException e) 

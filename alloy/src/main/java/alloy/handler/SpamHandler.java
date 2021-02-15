@@ -5,8 +5,8 @@ import java.util.List;
 
 import alloy.gameobjects.Server;
 import alloy.handler.util.SpamContainer;
-import alloy.main.Queueable;
-import alloy.main.Sendable;
+import alloy.main.intefs.Queueable;
+import alloy.main.intefs.Sendable;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;

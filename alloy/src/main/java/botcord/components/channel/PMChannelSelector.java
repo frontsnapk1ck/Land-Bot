@@ -2,14 +2,16 @@ package botcord.components.channel;
 
 import java.util.List;
 
-import botcord.components.gui.BotCordScrollPanel;
-import botcord.util.BotCordUtil;
+import botcord.components.gui.BCScrollPanel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.User;
 
 @SuppressWarnings("serial")
-public class PMChannelSelector extends BotCordScrollPanel {
+public class PMChannelSelector extends BCScrollPanel {
 
     private PMChannelSelectorPanel panel;
+    private List<BCListener> listeners;
 
     public PMChannelSelector(List<User> users) 
     {
@@ -22,7 +24,7 @@ public class PMChannelSelector extends BotCordScrollPanel {
     @Override
     public void init() 
     {
-        this.setBackground(BotCordUtil.CHANNEL_SELECTOR);
+        this.setBackground(BCUtil.CHANNEL_SELECTOR);
     }
 
     @Override
@@ -47,5 +49,15 @@ public class PMChannelSelector extends BotCordScrollPanel {
     {
         this.panel.setUsers(users);
 	}
+
+	public void updateListeners(List<BCListener> listeners) 
+    {
+        this.listeners = listeners;
+        this.panel.setListeners(listeners);
+	}
     
+    public List<BCListener> getListeners() 
+    {
+        return listeners;
+    }
 }

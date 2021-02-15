@@ -3,7 +3,7 @@ package alloy.utility.job.jobs;
 import java.util.function.Consumer;
 
 import alloy.main.Alloy;
-import alloy.main.SendableMessage;
+import alloy.main.util.SendableMessage;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.ErrorResponse;

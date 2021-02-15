@@ -1,7 +1,7 @@
 package alloy.utility.job.jobs;
 
-import alloy.main.Sendable;
-import alloy.main.SendableMessage;
+import alloy.main.intefs.Sendable;
+import alloy.main.util.SendableMessage;
 import utility.event.Job;
 
 public class RemindJob extends Job {

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import botcord.components.selector.ScreenSelector;
-import botcord.event.BotCordListener;
+import botcord.event.BCListener;
 import botcord.screen.util.BotCordScreen;
 import net.dv8tion.jda.api.JDA;
 
 public class DebugScreen extends BotCordScreen {
 
     private JDA jda;
-    private List<BotCordListener> listeners;
+    private List<BCListener> listeners;
 
     public DebugScreen(JDA jda) 
     {
@@ -30,7 +30,7 @@ public class DebugScreen extends BotCordScreen {
     public void init() 
     {
         this.setSelector(new ScreenSelector(this.jda));
-        this.listeners = new ArrayList<BotCordListener>();
+        this.listeners = new ArrayList<BCListener>();
     }
 
     @Override
@@ -63,24 +63,24 @@ public class DebugScreen extends BotCordScreen {
         this.getSelector().update();
     }
 
-    public void setListeners(List<BotCordListener> listeners) 
+    public void setListeners(List<BCListener> listeners) 
     {
         this.listeners = listeners;
         getSelector().updateListeners(this.listeners);
     }
 
-    public List<BotCordListener> getListeners() 
+    public List<BCListener> getListeners() 
     {
         return listeners;
     }
 
-    public void addListener(BotCordListener l)
+    public void addListener(BCListener l)
     {
         this.listeners.add(l);
         getSelector().updateListeners(this.listeners);
     }
     
-    public boolean rmListener(BotCordListener l)
+    public boolean rmListener(BCListener l)
     {
         boolean b = this.listeners.remove(l);
         getSelector().updateListeners(this.listeners);

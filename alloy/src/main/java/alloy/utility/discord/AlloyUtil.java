@@ -20,7 +20,7 @@ import alloy.io.loader.PlayerLoaderText;
 import alloy.io.loader.RankLoaderText;
 import alloy.io.loader.ServerLoaderText;
 import alloy.io.loader.WarningLoaderText;
-import alloy.main.Queueable;
+import alloy.main.intefs.Queueable;
 import alloy.utility.discord.paths.AlloyExtensions;
 import alloy.utility.discord.paths.AlloyImages;
 import alloy.utility.discord.paths.AlloyPathsConstants;

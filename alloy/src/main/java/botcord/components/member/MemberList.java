@@ -1,11 +1,14 @@
 package botcord.components.member;
 
-import botcord.components.gui.BotCordScrollPanel;
-import botcord.util.BotCordUtil;
+import java.util.List;
+
+import botcord.components.gui.BCScrollPanel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Guild;
 
 @SuppressWarnings("serial")
-public class MemberList extends BotCordScrollPanel {
+public class MemberList extends BCScrollPanel {
 
     private MemberListPanel panel;
 
@@ -19,7 +22,7 @@ public class MemberList extends BotCordScrollPanel {
     @Override
     public void init() 
     {
-        this.setBackground(BotCordUtil.CHANNEL_SELECTOR);
+        this.setBackground(BCUtil.CHANNEL_SELECTOR);
     }
 
     @Override
@@ -33,6 +36,8 @@ public class MemberList extends BotCordScrollPanel {
     {
         panel.setBounds(this.getBounds());
         panel.update();
-        panel.setBounds(0,0,panel.getWidth(),panel.getMaxH());
     }
+
+	public void updateListeners(List<BCListener> listeners) {
+	}
 }

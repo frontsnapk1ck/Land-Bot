@@ -3,8 +3,7 @@ package botcord.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.BotCord;
-import botcord.event.BotCordListener;
+import botcord.event.BCListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
 import botcord.manager.util.ScreenProxy;
@@ -16,7 +15,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 
-public class ScreenSwitchManager implements BotCordListener {
+public class ScreenSwitchManager implements BCListener {
 
     private List<Switchable> listeners;
     private ScreenProxy proxy;
@@ -62,7 +61,6 @@ public class ScreenSwitchManager implements BotCordListener {
 
     private void debug() 
     {
-        BotCord.LOGGER.debug("ScreenSwitchManager" , "Switched to Debug Screen");
         SwitchEvent se = new SwitchEvent(this.proxy.getDebug());
         for (Switchable switchable : listeners) 
             switchable.onSwitch(se);
@@ -70,8 +68,6 @@ public class ScreenSwitchManager implements BotCordListener {
 
     private void pm() 
     {
-        BotCord.LOGGER.debug("ScreenSwitchManager" , "Switched to PM Screen");
-        
         SwitchEvent se = new SwitchEvent(this.proxy.getPm());
         for (Switchable switchable : listeners) 
             switchable.onSwitch(se);
@@ -79,8 +75,6 @@ public class ScreenSwitchManager implements BotCordListener {
 
     private void guild(Guild guild) 
     {
-        BotCord.LOGGER.debug("ScreenSwitchManager" , "Switched to Guild Screen for the guild " + guild.getName());
-        
         SwitchEvent se = new SwitchEvent(new GuildScreen(guild));
         for (Switchable switchable : listeners) 
             switchable.onSwitch(se);

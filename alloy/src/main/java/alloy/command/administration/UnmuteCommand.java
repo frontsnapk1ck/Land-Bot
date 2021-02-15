@@ -6,7 +6,7 @@ import alloy.command.util.AbstractModerationCommand;
 import alloy.command.util.PunishType;
 import alloy.gameobjects.Server;
 import alloy.main.Alloy;
-import alloy.main.Sendable;
+import alloy.main.intefs.Sendable;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.perm.DisPerm;
 import net.dv8tion.jda.api.entities.Guild;

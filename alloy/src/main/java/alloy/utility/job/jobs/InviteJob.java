@@ -1,7 +1,7 @@
 package alloy.utility.job.jobs;
 
-import alloy.main.Sendable;
-import alloy.main.SendableMessage;
+import alloy.main.intefs.Sendable;
+import alloy.main.util.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.Member;

@@ -2,8 +2,8 @@ package alloy.command.voice;
 
 import alloy.command.util.AbstractCommand;
 import alloy.input.discord.AlloyInputData;
-import alloy.main.Sendable;
-import alloy.main.SendableMessage;
+import alloy.main.intefs.Sendable;
+import alloy.main.util.SendableMessage;
 import alloy.templates.Template;
 import alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.Guild;

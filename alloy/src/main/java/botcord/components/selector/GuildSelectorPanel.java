@@ -4,21 +4,21 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.components.gui.BotCordPanel;
-import botcord.event.BotCordListener;
-import botcord.util.BotCordUtil;
+import botcord.components.gui.BCPanel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 
 @SuppressWarnings("serial")
-public class GuildSelectorPanel extends BotCordPanel {
+public class GuildSelectorPanel extends BCPanel {
     
     public static final float SCALE = 0.8f;
 
     private int maxH = 0;
 
     private JDA jda;
-    private List<BotCordListener> listeners;
+    private List<BCListener> listeners;
     private List<GuildButton> buttons;
 
     public GuildSelectorPanel(JDA jda) 
@@ -31,9 +31,9 @@ public class GuildSelectorPanel extends BotCordPanel {
     @Override
     public void init() 
     {
-        this.listeners = new ArrayList<BotCordListener>();
+        this.listeners = new ArrayList<BCListener>();
         this.buttons = new ArrayList<GuildButton>();
-        this.setBackground(BotCordUtil.SCREEN_SELECTOR);
+        this.setBackground(BCUtil.SCREEN_SELECTOR);
     }
 
     @Override
@@ -116,25 +116,25 @@ public class GuildSelectorPanel extends BotCordPanel {
         this.addButtons();
     }
 
-    public void setListeners(List<BotCordListener> listeners) {
+    public void setListeners(List<BCListener> listeners) {
         this.listeners = listeners;
     }
 
-    public List<BotCordListener> getListeners() {
+    public List<BCListener> getListeners() {
         return listeners;
     }
 
-    public void addListener(BotCordListener l)
+    public void addListener(BCListener l)
     {
         this.listeners.add(l);
     }
     
-    public boolean rmListener(BotCordListener l)
+    public boolean rmListener(BCListener l)
     {
         return this.listeners.remove(l);
     }
 
-    public void updateListeners(List<BotCordListener> listeners) 
+    public void updateListeners(List<BCListener> listeners) 
     {
         this.listeners = listeners;
         for (GuildButton guildButton : buttons) 

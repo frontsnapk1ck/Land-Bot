@@ -3,8 +3,8 @@ package alloy.command.util;
 import java.util.List;
 
 import alloy.gameobjects.Server;
-import alloy.main.Queueable;
-import alloy.main.handler.CooldownHandler;
+import alloy.main.intefs.Queueable;
+import alloy.main.intefs.handler.CooldownHandler;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;

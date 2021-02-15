@@ -1,6 +1,6 @@
 package alloy.utility.job.jobs;
 
-import alloy.main.handler.CooldownHandler;
+import alloy.main.intefs.handler.CooldownHandler;
 import net.dv8tion.jda.api.entities.Member;
 import utility.event.Job;
 

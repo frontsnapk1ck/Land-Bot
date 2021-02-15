@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import alloy.main.Queueable;
+import alloy.main.intefs.Queueable;
 import alloy.utility.job.jobs.PurgeCacheJob;
 
 public class Cache {

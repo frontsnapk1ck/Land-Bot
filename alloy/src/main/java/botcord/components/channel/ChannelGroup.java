@@ -5,14 +5,14 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import botcord.components.gui.BotCordPanel;
-import botcord.event.BotCordListener;
-import botcord.util.BotCordUtil;
+import botcord.components.gui.BCPanel;
+import botcord.event.BCListener;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.GuildChannel;
 
 @SuppressWarnings("serial")
-public class ChannelGroup extends BotCordPanel {
+public class ChannelGroup extends BCPanel {
 
     public static final int COMP_HEIGHT = 30;
 
@@ -21,7 +21,7 @@ public class ChannelGroup extends BotCordPanel {
     private List<GuildChannel> list;
     private String name;
     
-    private List<BotCordListener> listeners;
+    private List<BCListener> listeners;
     private List<ChannelButton> buttons;
     private JLabel label;
 
@@ -91,7 +91,7 @@ public class ChannelGroup extends BotCordPanel {
     private void configLabel() 
     {
         this.label.setText(this.name);
-        this.label.setForeground(BotCordUtil.TEXT);
+        this.label.setForeground(BCUtil.TEXT);
     }
 
     private void configToolTip() 
@@ -116,14 +116,14 @@ public class ChannelGroup extends BotCordPanel {
         }
     }
 
-    public void updateListeners(List<BotCordListener> listeners) 
+    public void updateListeners(List<BCListener> listeners) 
     {
         this.listeners = listeners;
         for (ChannelButton cb : this.buttons)
             cb.setListeners(listeners);
     }
     
-    public List<BotCordListener> getListeners() {
+    public List<BCListener> getListeners() {
         return listeners;
     }
 

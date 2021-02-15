@@ -1,11 +1,10 @@
 package botcord.components.selector;
 
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -14,16 +13,16 @@ import javax.swing.ImageIcon;
 import alloy.main.Alloy;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
-import botcord.components.gui.BotCordButton;
-import botcord.event.BotCordListener;
+import botcord.components.gui.BCButton;
+import botcord.event.BCListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
-import botcord.util.BotCordUtil;
+import botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
 @SuppressWarnings("serial")
-public class GuildButton extends BotCordButton {
+public class GuildButton extends BCButton {
 
     private Guild guild;
 
@@ -35,7 +34,7 @@ public class GuildButton extends BotCordButton {
 
     @Override
     public void init() {
-        this.setBackground(BotCordUtil.BACKGROUND);
+        this.setBackground(BCUtil.BACKGROUND);
         this.setBackground(null);
     }
 
@@ -44,7 +43,6 @@ public class GuildButton extends BotCordButton {
     {
         setImage();
         this.configToolTip();
-        this.configListener();
         this.setBorder(null);
     }
 
@@ -123,7 +121,7 @@ public class GuildButton extends BotCordButton {
     private Image getImage(String urlS) throws IOException 
     {
         if (urlS == null)
-            urlS = BotCordUtil.DEFAULT_DISCORD_PHOTO;
+            urlS = BCUtil.DEFAULT_DISCORD_PHOTO;
         URL url = new URL(urlS);
         Image img = ImageIO.read(url);
         return img;
@@ -142,18 +140,12 @@ public class GuildButton extends BotCordButton {
     }
 
     @Override
-    protected void configListener() 
+    protected void onRightClick(Set<MouseModifiers> modifiers) 
     {
-        this.addActionListener( new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ignored) 
-            {
-                PressEvent e = new PressEvent(SwitchTarget.GUILD);
-                e.setData(getGuild());
-                for (BotCordListener l : getListeners())
-                    l.onPress(e);
-            }
-        });
+        PressEvent e = new PressEvent(SwitchTarget.GUILD);
+        e.setData(getGuild());
+        for (BCListener l : getListeners())
+            l.onPress(e);
     }
 
 }

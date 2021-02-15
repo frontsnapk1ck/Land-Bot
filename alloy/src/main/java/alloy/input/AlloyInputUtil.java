@@ -64,7 +64,7 @@ public class AlloyInputUtil {
         map.put(    "warnings"          ,   AdministrationInputActions.WARNINGS_ACTION);
 
         map.put(    "building"          ,   ConfigurationInputActions.BUILDING_ACTION);
-        map.put(    "workC"             ,   ConfigurationInputActions.WORK_ACTION);
+        map.put(    "workO"             ,   ConfigurationInputActions.WORK_ACTION);
         map.put(    "view"              ,   ConfigurationInputActions.VIEW_ACTION);
         map.put(    "starting-balance"  ,   ConfigurationInputActions.STARTING_BALANCE_ACTION);
         map.put(    "cooldown"          ,   ConfigurationInputActions.COOLDOWN_ACTION);

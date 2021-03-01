@@ -2,7 +2,7 @@ package alloy.utility.job.jobs;
 
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
-import alloy.templates.Template;
+import disterface.util.template.Template;
 import alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;

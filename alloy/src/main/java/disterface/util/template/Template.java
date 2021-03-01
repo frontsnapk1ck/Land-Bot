@@ -1,5 +1,6 @@
-package alloy.templates;
+package disterface.util.template;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,15 +8,21 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 
-public class Template {
+public class Template implements Serializable {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2510318876797726797L;
+
+    
     private String message;
     private String title;
 
     private String footerName;
     private String footerURL;
     private String titleURL;
-    private List<Field> fields;
+    private List<DisField> fields;
     private String imageURL;
 
 
@@ -25,7 +32,7 @@ public class Template {
         this.titleURL = "";
         this.imageURL = "";
         this.message = s;
-        this.fields = new ArrayList<Field>();
+        this.fields = new ArrayList<DisField>();
     }
 
     public MessageEmbed getEmbed()
@@ -34,13 +41,13 @@ public class Template {
         EmbedBuilder eb = new EmbedBuilder();
 
         //check to see if they need to add a link to the title
-        if (titleURL == "")
+        if (titleURL.equals(""))
             eb.setTitle(title);
         else
             eb.setTitle(title, titleURL);
         
         //check to see if you need to add an image
-        if (this.imageURL != "")
+        if (!this.imageURL.equals( "" ))
             eb.setThumbnail(this.imageURL);
         
         //set descriptions
@@ -48,8 +55,8 @@ public class Template {
         eb.setFooter(footerName, footerURL);
 
         //add all fields in the list
-        for (Field field : fields)
-            eb.addField(field);
+        for (DisField field : fields)
+            eb.addField(field.build());
         
         //finally build and return the thing
         return eb.build();
@@ -83,15 +90,15 @@ public class Template {
         this.footerURL = footerURL;
     }
 
-    public void addFeild(String name, String value, boolean inline) 
+    public void addFelid(String name, String value, boolean inline) 
     {
         Field f = new Field(name, value, inline);
-        this.addFeild(f);
+        this.addFelid(f);
 	}
 
-    public void addFeild(Field f) 
+    public void addFelid(Field f) 
     {
-        this.fields.add(f);
+        this.fields.add(new DisField(f));
     }
 
     public void setTitle(String title, String url) 

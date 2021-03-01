@@ -175,4 +175,10 @@ public class AlloyData {
         this.discordInterface = discordInterface;
 	}
 
+	public void addGuildMap(Guild g) 
+    {
+        this.cooldownUsers.put(g.getIdLong(),new ArrayList<Long>());
+        this.xpCooldownUsers.put(g.getIdLong(),new ArrayList<Long>());
+	}
+
 }

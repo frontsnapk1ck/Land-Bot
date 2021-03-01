@@ -7,7 +7,7 @@ import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
 import alloy.main.intefs.handler.CooldownHandler;
 import alloy.main.util.SendableMessage;
-import alloy.templates.Template;
+import disterface.util.template.Template;
 import alloy.templates.Templates;
 import alloy.utility.job.jobs.HelpJob;
 import net.dv8tion.jda.api.entities.Guild;

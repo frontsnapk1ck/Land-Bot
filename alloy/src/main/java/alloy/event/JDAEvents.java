@@ -74,6 +74,7 @@ public class JDAEvents extends ListenerAdapter {
             EventHandler.onMemberJoinEvent(member);
 
         this.bot.guildCountUpdate();
+        this.bot.addGuildMap(g);
     }
 
     @Override
@@ -114,7 +115,10 @@ public class JDAEvents extends ListenerAdapter {
     {
         String tag = e.getAuthor().getAsTag();
         Message message = e.getMessage();
-        if (e.getMessage().getAttachments().size() != 0) {
+        if (e.getAuthor().equals(e.getJDA().getSelfUser()))
+            return;
+        if (e.getMessage().getAttachments().size() != 0) 
+        {
 
             DiscordInterface i = Alloy.LOGGER.getDisInterface();
             for (Attachment attachment : message.getAttachments()) {

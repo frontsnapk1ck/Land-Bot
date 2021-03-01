@@ -1,17 +1,18 @@
 package alloy.event;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 import java.util.Map;
 
-import alloy.templates.Template;
+import alloy.event.util.AlloyDIClient;
+import alloy.event.util.AlloyDIUtil;
+import disterface.util.template.Template;
 import alloy.templates.Templates;
-import net.dv8tion.jda.api.EmbedBuilder;
+import disterface.DisInterClient;
+import disterface.MessageData;
+import disterface.MessageData.Destination;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
-import utility.Util;
 import utility.logger.Level;
 import utility.logger.Logger;
 
@@ -19,25 +20,33 @@ public class DiscordInterface implements DebugListener {
 
     private Map<Level, TextChannel> logs;
     private Logger logger;
+    private DisInterClient disterface;
 
-    public DiscordInterface(Map<Level , TextChannel> logs)
+    public DiscordInterface(Map<Level, TextChannel> logs) 
     {
         super();
         this.logs = logs;
         this.logger = new Logger();
+        try 
+        {
+            this.disterface = new AlloyDIClient();
+        }
+        catch (IOException e) 
+        {
+            logger.error("DiscordInterface", e);
+            e.printStackTrace();
+        }
     }
 
 	@Override
     public void onReceive(DebugEvent e) 
     {
-        TextChannel log = this.logs.get(e.getLevel());
-        if (log == null)
-            return;
-        List<MessageEmbed> embeds = getDebugEmbeds(e);
+        Destination destination = AlloyDIUtil.parse(e.getLevel());
+        Template t = Templates.debug(e);
+        MessageData data = new MessageData(t,destination);
         try 
         {
-            for (MessageEmbed messageEmbed : embeds) 
-                log.sendMessage(messageEmbed).complete();
+            this.disterface.send(data);
         }
         catch (Exception ex) 
         {
@@ -45,40 +54,6 @@ public class DiscordInterface implements DebugListener {
         }
         return;
 	}
-
-	private List<MessageEmbed> getDebugEmbeds(DebugEvent e) 
-    {
-        List<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
-        Template t = Templates.debug(e);
-        try {
-            embeds.add(t.getEmbed());
-        } catch (Exception ex) 
-        {
-            String[] arr = t.getText().split("\n");
-            String title = arr[0];
-            String[] newLines = Util.arrRange(arr, 1);
-
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle(title);
-
-            String out = "";
-            for (int i = 0; i < newLines.length; i++) 
-            {
-                String tmp = out + newLines[i] + "\n";
-                if (tmp.length() > MessageEmbed.TEXT_MAX_LENGTH)
-                {
-                    eb.setDescription(out);
-                    embeds.add(eb.build());
-                    out = newLines[i];
-                }
-                else
-                    out = tmp;
-            }
-            eb.setDescription(out);
-            embeds.add(eb.build());
-        }
-        return embeds;
-    }
 
     public boolean debugFile(Message m, File down) 
     {
@@ -97,6 +72,19 @@ public class DiscordInterface implements DebugListener {
         {
             logger.error("DiscordInterface", ex);
             return false;
+        }
+	}
+
+	public void resetSocket() 
+    {
+        try 
+        {
+            this.disterface = new AlloyDIClient();
+        }
+        catch (IOException e) 
+        {
+            logger.error("DiscordInterface", e);
+            e.printStackTrace();
         }
 	}
     

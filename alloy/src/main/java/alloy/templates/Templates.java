@@ -16,6 +16,7 @@ import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
+import disterface.util.template.Template;
 import io.FileReader;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Emote;
@@ -255,9 +256,9 @@ public class Templates {
 
 		}
 		Template t = new Template("Building Save Success", "All available buildings");
-		t.addFeild("Name", names, true);
-		t.addFeild("Cost", costs, true);
-		t.addFeild("Generation", gener, true);
+		t.addFelid("Name", names, true);
+		t.addFelid("Cost", costs, true);
+		t.addFelid("Generation", gener, true);
 
 		return t;
 	}
@@ -361,9 +362,9 @@ public class Templates {
 
 		}
 		Template t = new Template("Building list", "All available buildings");
-		t.addFeild("Name", names, true);
-		t.addFeild("Cost", costs, true);
-		t.addFeild("Generation", gener, true);
+		t.addFelid("Name", names, true);
+		t.addFelid("Cost", costs, true);
+		t.addFelid("Generation", gener, true);
 
 		return t;
 	}
@@ -446,18 +447,18 @@ public class Templates {
 		Field createF = new Field("Account created on  (MM/DD/YYYY)", createOn, false);
 
 		Template t = new Template("User Info", "");
-		t.addFeild(userF);
-		t.addFeild(userIDF);
+		t.addFelid(userF);
+		t.addFelid(userIDF);
 
-		t.addFeild(roles);
+		t.addFelid(roles);
 
-		t.addFeild(nickF);
-		t.addFeild(botF);
+		t.addFelid(nickF);
+		t.addFelid(botF);
 
-		t.addFeild(permF);
+		t.addFelid(permF);
 
-		t.addFeild(joinF);
-		t.addFeild(createF);
+		t.addFelid(joinF);
+		t.addFelid(createF);
 
 		t.setImageURL(getURL(m));
 
@@ -534,24 +535,24 @@ public class Templates {
 
 		Template t = new Template("Server Info", "");
 
-		t.addFeild(nameF);
-		t.addFeild(ownerF);
+		t.addFelid(nameF);
+		t.addFelid(ownerF);
 
-		t.addFeild(membersF);
+		t.addFelid(membersF);
 
-		t.addFeild(idF);
-		t.addFeild(regionF);
+		t.addFelid(idF);
+		t.addFelid(regionF);
 
-		t.addFeild(channels);
+		t.addFelid(channels);
 
-		t.addFeild(emojis);
+		t.addFelid(emojis);
 
-		t.addFeild(boostF);
-		t.addFeild(boostsF);
+		t.addFelid(boostF);
+		t.addFelid(boostsF);
 
-		t.addFeild(rolesF);
+		t.addFelid(rolesF);
 
-		t.addFeild(createdF);
+		t.addFelid(createdF);
 
 		t.setImageURL(getURL(g));
 
@@ -674,18 +675,18 @@ public class Templates {
 
 		Template t = new Template("Role Info", "");
 
-		t.addFeild(nameF);
-		t.addFeild(idF);
+		t.addFelid(nameF);
+		t.addFelid(idF);
 
-		t.addFeild(permsF);
+		t.addFelid(permsF);
 
-		t.addFeild(memberCF);
-		t.addFeild(rolePosF);
-		t.addFeild(colorF);
+		t.addFelid(memberCF);
+		t.addFelid(rolePosF);
+		t.addFelid(colorF);
 
-		t.addFeild(members);
+		t.addFelid(members);
 
-		t.addFeild(createdF);
+		t.addFelid(createdF);
 
 		return t;
 	}
@@ -869,9 +870,9 @@ public class Templates {
 		}
 
 		Template t = new Template(author.getAsTag(), "the buildings you own");
-		t.addFeild("Name", StringUtil.joinStrings(data[0]), true);
-		t.addFeild("Generation", StringUtil.joinStrings(data[1]), true);
-		t.addFeild("Quantity", StringUtil.joinStrings(data[2]), true);
+		t.addFelid("Name", StringUtil.joinStrings(data[0]), true);
+		t.addFelid("Generation", StringUtil.joinStrings(data[1]), true);
+		t.addFelid("Quantity", StringUtil.joinStrings(data[2]), true);
 		return t;
 	}
 

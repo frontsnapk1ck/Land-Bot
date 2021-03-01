@@ -6,6 +6,7 @@ import java.util.List;
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.handler.EventHandler;
 import alloy.input.console.ConsoleInputData;
+import alloy.main.Alloy;
 import alloy.utility.discord.AlloyUtil;
 import io.Saver;
 import net.dv8tion.jda.api.JDA;
@@ -21,6 +22,21 @@ public class UpdateCommand extends AbstractConsoleCommand {
 
     @Override
     public void execute(ConsoleInputData data) 
+    {
+        List<String> args = data.getArgs();
+
+        if (args.size() == 1 )
+            updateFiles(data);
+        else if (args.get(1).equalsIgnoreCase("socket"))
+            updateSocket();
+    }
+
+    private void updateSocket() 
+    {
+        Alloy.LOGGER.getDisInterface().resetSocket();
+	}
+
+	private void updateFiles(ConsoleInputData data) 
     {
         JDA jda = data.getJda();
         List<Guild> guilds = jda.getGuilds();

@@ -14,7 +14,7 @@ import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
 import alloy.main.intefs.handler.CooldownHandler;
-import alloy.templates.Template;
+import disterface.util.template.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;

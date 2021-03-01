@@ -7,7 +7,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import alloy.io.loader.util.JobQueueData;
 import alloy.main.Alloy;
 import alloy.main.util.SendableMessage;
-import alloy.templates.Template;
+import disterface.util.template.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.job.jobs.AddUserCoolDownJob;

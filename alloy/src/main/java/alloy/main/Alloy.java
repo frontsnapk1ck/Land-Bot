@@ -496,4 +496,10 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
 		return data.getDiscordInterface();
 	}
 
+    @Override
+    public void addGuildMap(Guild g) 
+    {
+        this.data.addGuildMap(g);
+    }
+
 }

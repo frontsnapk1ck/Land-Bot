@@ -75,6 +75,10 @@
             
             <subcommand text = ""
                         description = "go though all the severs and all the members and make sure there is a file for them" />
+            
+            <subcommand text = "socket"
+                        description = "remakes the socket" />
+            
 
         </command>
 

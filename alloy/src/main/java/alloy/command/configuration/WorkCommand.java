@@ -6,7 +6,7 @@ import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
-import alloy.templates.Template;
+import disterface.util.template.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.perm.DisPermUtil;
 import net.dv8tion.jda.api.entities.Guild;
@@ -96,7 +96,7 @@ public class WorkCommand extends AbstractCommand {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        if (args.length < 1) {
+        if (args.length < 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -107,8 +107,8 @@ public class WorkCommand extends AbstractCommand {
         }
 
         try {
-            int i = Integer.parseInt(args[0]);
-            String s = WorkHandler.removeWork(i - 1, g);
+            int i = Integer.parseInt(args[1]);
+            String s = WorkHandler.removeWork(i, g);
             Template t = Templates.workRemoveSuccess(s);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);

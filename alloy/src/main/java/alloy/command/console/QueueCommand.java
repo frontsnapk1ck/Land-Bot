@@ -46,7 +46,7 @@ public class QueueCommand extends AbstractConsoleCommand {
             showQueue(data);
         else if (args.get(1).equalsIgnoreCase("clear"))
             clearQueue(data);
-        else if (args.get(1).equals("size"))
+        else if (args.get(1).equalsIgnoreCase("size"))
             size(data);
     }
 

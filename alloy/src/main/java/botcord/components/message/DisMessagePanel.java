@@ -1,5 +1,6 @@
 package botcord.components.message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import botcord.components.gui.BCPanel;
@@ -17,6 +18,8 @@ public class DisMessagePanel extends BCPanel {
     
     private DisMessageLog messageLog;
 
+    private List<BCListener> listeners;
+
 
     public DisMessagePanel(MessageChannel channel) 
     {
@@ -32,7 +35,9 @@ public class DisMessagePanel extends BCPanel {
     @Override
     public void init() 
     {
+        this.listeners = new ArrayList<BCListener>();
         this.messageLog = new DisMessageLog(channel.getHistory());
+        this.messageLog.updateListeners(this.listeners);
     }
 
     @Override
@@ -76,6 +81,7 @@ public class DisMessagePanel extends BCPanel {
         {
             this.remove(this.messageLog);
             this.messageLog = new DisMessageLog(channel.getHistory());
+            this.messageLog.updateListeners(this.listeners);
             this.add(this.messageLog);
             updateLayout();
         }
@@ -88,7 +94,9 @@ public class DisMessagePanel extends BCPanel {
 
 	public void updateListeners(List<BCListener> listeners) 
     {
-        this.messageLog.updateListeners(listeners);
+        this.listeners = listeners;
+        if (this.messageLog != null)
+            this.messageLog.updateListeners(listeners);
 	}
     
 }

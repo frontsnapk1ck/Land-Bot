@@ -5,7 +5,7 @@ import java.util.List;
 import alloy.gameobjects.Server;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
-import alloy.templates.Template;
+import disterface.util.template.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import net.dv8tion.jda.api.entities.Guild;

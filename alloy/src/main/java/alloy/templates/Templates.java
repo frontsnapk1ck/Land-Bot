@@ -935,8 +935,7 @@ public class Templates {
 
 	public static Template donate(User author) 
 	{
-		// String link = "https://paypal.me/frontsnapk1ck";
-		String link = "UNAVAILABLE RIGHT NOW";
+		String link = "http://paypal.me/frontsnapk1ckmedia";
 		Template t = new Template("Donations"  , "thank you so much for thinking of me " + author.getAsMention() + "\n\nyou can donate to me [here](" + link + ")" );
 		return t;
 	}
@@ -1029,6 +1028,42 @@ public class Templates {
 	{
 		Template t = new Template("USER BANNED", "the user " + user.getAsMention() + "has been banned from this server");
 		t.setImageURL(user.getAvatarUrl());
+		return t;
+	}
+
+	public static Template kicked(User u) 
+	{
+		return new Template("Member Kicked", "the user " + u.getAsTag() + " has been kicked from this server");
+	}
+
+	public static Template banned(User u) 
+	{
+		return new Template("Member Banned", "the user " + u.getAsTag() + " has been Banned from this server");
+	}
+
+	public static Template muted(Member member) 
+	{
+		return new Template("Member Muted", "the user " + member.getUser().getAsTag() + " has been muted");
+	}
+
+	public static Template unMuted(Member member) 
+	{
+		return new Template("Member Unmuted", "the user " + member.getUser().getAsTag() + " has been unmuted");
+	}
+
+	public static Template showHelpMessage() 
+	{
+		String commands = "https://sites.google.com/view/alloybot/docs/commands";
+		String faq = "https://sites.google.com/view/alloybot/docs/frequently-asked-questions";
+		String discordInv = "https://discord.com/invite/7UNxyXRxBh";
+		String alloyURL = "https://sites.google.com/view/alloybot/home";
+
+		String body = 	":green_circle: [click here](" + commands + ") for a list of commands\n\n" + 
+						":red_circle: [click here](" + faq + ") to see our FAQs\n\n" + 
+						":white_circle: [click here](" + discordInv + ") to get support in the Alloy Support Server";
+
+		Template t = new Template("Alloy Help", body);
+		t.setTitle("Alloy Help", alloyURL);
 		return t;
 	}
 

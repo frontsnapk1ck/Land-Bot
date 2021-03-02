@@ -49,7 +49,7 @@ public class CaseCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom("CaseCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -64,7 +64,7 @@ public class CaseCommand extends AbstractCommand {
 
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom("CaseCommand");
             sm.setMessage(embed);
             bot.send(sm);
             return;
@@ -80,7 +80,7 @@ public class CaseCommand extends AbstractCommand {
 
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom("CaseCommand");
             sm.setMessage(e);
             bot.send(sm);
             return;
@@ -89,7 +89,7 @@ public class CaseCommand extends AbstractCommand {
         Template t = Templates.invalidUse(channel);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("AbstractModerationCommand");
+        sm.setFrom("CaseCommand");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         return;
@@ -134,7 +134,7 @@ public class CaseCommand extends AbstractCommand {
         Template t = Templates.caseReasonModified(reason);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("AbstractModerationCommand");
+        sm.setFrom("CaseCommand");
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 

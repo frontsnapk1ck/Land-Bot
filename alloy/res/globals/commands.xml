@@ -266,6 +266,10 @@
         <subcommand text = "{time} {message}"
                         description = "sends you a message with a delay" />
 
+        <subcommand text = "dm {time} {message}"
+                        description = "sends you a message with a delay" />
+
+
     </command>
 
     <command name = "say" permission = "ADMINISTRATOR" cooldown = "false" type = "DISCORD">

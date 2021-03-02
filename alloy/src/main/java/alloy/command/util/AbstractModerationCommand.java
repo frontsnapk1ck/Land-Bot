@@ -28,7 +28,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
 
     protected abstract PunishType getPunishType();
 
-    protected abstract boolean punish(Sendable bot, Guild guild, Member member);
+    protected abstract boolean punish(Sendable bot, Guild guild, Member member, TextChannel chan);
 
     @Override
     public String[] getUsage() {
@@ -98,7 +98,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             return;
         }
 
-        boolean success = punish(bot, g, targetUser);
+        boolean success = punish(bot, g, targetUser, chan);
         if (!success) {
             Template t = Templates.moderationActionFailed(getPunishType());
             SendableMessage sm = new SendableMessage();

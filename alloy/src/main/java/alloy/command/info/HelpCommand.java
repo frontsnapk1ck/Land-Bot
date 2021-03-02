@@ -1,20 +1,17 @@
 package alloy.command.info;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.HelpHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
 import alloy.main.intefs.handler.CooldownHandler;
 import alloy.main.util.SendableMessage;
-import disterface.util.template.Template;
 import alloy.templates.Templates;
-import alloy.utility.job.jobs.HelpJob;
+import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import utility.event.Job;
 
 public class HelpCommand extends AbstractCooldownCommand {
 
@@ -40,10 +37,7 @@ public class HelpCommand extends AbstractCooldownCommand {
             return;
         }
 
-        Job j = new HelpJob(m.getUser(), HelpHandler.loadHelp(), bot);
-        q.queue(j);
-
-        Template t = Templates.helpSentTemplate();
+        Template t = Templates.showHelpMessage();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom("HelpCommand");

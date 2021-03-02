@@ -12,7 +12,6 @@ import alloy.templates.Templates;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.job.jobs.AddUserCoolDownJob;
 import alloy.utility.job.jobs.AddUserXPCooldownJob;
-import alloy.utility.job.jobs.HelpJob;
 import alloy.utility.job.jobs.InviteJob;
 import alloy.utility.job.jobs.PingJob;
 import alloy.utility.job.jobs.PurgeCacheJob;
@@ -48,7 +47,6 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
     {
         JOB_MAP.put(    "AddUserCoolDownJob"      ,        AddUserCoolDownJob.class        );
         JOB_MAP.put(    "AddUserXPCooldownJob"    ,        AddUserXPCooldownJob.class      );
-        JOB_MAP.put(    "HelpJob"                 ,        HelpJob.class                   );
         JOB_MAP.put(    "InviteJob"               ,        InviteJob.class                 );
         JOB_MAP.put(    "PingJob"                 ,        PingJob.class                   );
         JOB_MAP.put(    "PurgeCacheJob"           ,        PurgeCacheJob.class             );

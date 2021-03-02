@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class DisUtil {
+public class DisUtil implements EmojiConstants {
 
     public static Member findMember(Guild g, String[] args) 
     {

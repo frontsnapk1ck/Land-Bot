@@ -3,6 +3,7 @@ package botcord.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import alloy.main.Alloy;
 import alloy.main.intefs.Queueable;
 import botcord.collections.UserCollection;
 import botcord.util.constants.BCCacheIDs;
@@ -40,6 +41,13 @@ public class BCUtil implements BCColors, BCLinks, BCCacheIDs {
         }
         UserCollection collection = (UserCollection) cache.get(USER_CACHE);
         return collection.getList();
+	}
+
+
+
+	public static void loadQueue(Alloy alloy) 
+    {
+        
 	}
     
 }

@@ -33,9 +33,15 @@ public class BotCord extends WindowFramework{
     private void config() 
     {
         configCache();
+        configEventQueue();
         configScreens();
     }
     
+    private void configEventQueue() 
+    {
+        BCUtil.loadQueue(alloy);
+    }
+
     private void configCache() 
     {
         BCUtil.loadCache(alloy);
@@ -50,7 +56,7 @@ public class BotCord extends WindowFramework{
 
     private void init() 
     {
-        this.setTitle("BotCord Testing");
+        this.setTitle("BotCord");
         this.setSize(1600, 900);
         this.setIconImage(loadIcon());
         this.setVisible(true);

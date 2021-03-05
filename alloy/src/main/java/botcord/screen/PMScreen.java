@@ -3,16 +3,12 @@ package botcord.screen;
 import java.util.ArrayList;
 import java.util.List;
 
-import botcord.collections.UserCollection;
 import botcord.components.channel.PMChannelSelector;
 import botcord.components.message.DisMessagePanel;
 import botcord.components.selector.ScreenSelector;
 import botcord.event.BCListener;
 import botcord.screen.util.BotCordScreen;
-import botcord.util.BCUtil;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 
@@ -47,43 +43,44 @@ public class PMScreen extends BotCordScreen {
 
     private void getUsers() 
     {
-        Thread t = new Thread ( getUserRunnable() , "Getting Users");
-        t.setDaemon(true);
-        t.start();
+        // Thread t = new Thread ( getUserRunnable() , "Getting Users");
+        // t.setDaemon(true);
+        // t.start();
+        
 	}
 
-	private Runnable getUserRunnable() 
-    {
-        Runnable r = new Runnable()
-        {
-            @Override
-            public void run() 
-            {
-                List<User> users = BCUtil.loadAllUsers();
-                List<Guild> guilds = jda.getGuilds();
-                for (Guild guild : guilds) 
-                {
-                    List<Member> members = guild.getMembers();
-                    for (Member m : members) 
-                    {
-                        User u = m.getUser();
-                        try 
-                        {
-                            u.openPrivateChannel().complete();
-                            if (!users.contains(u))
-                                users.add(u);
-                        } catch (Exception ignored){
-                        }    
-                    }
-                }
-                pmChannelSelector.setUsers(users);
-                UserCollection uc = new UserCollection(users);
-                BCUtil.getCache().put(BCUtil.USER_CACHE, uc);
-                update();
-            }
-        };
-        return r;
-    }
+	// private Runnable getUserRunnable() 
+    // {
+    //     Runnable r = new Runnable()
+    //     {
+    //         @Override
+    //         public void run() 
+    //         {
+    //             List<User> users = BCUtil.loadAllUsers();
+    //             List<Guild> guilds = jda.getGuilds();
+    //             for (Guild guild : guilds) 
+    //             {
+    //                 List<Member> members = guild.getMembers();
+    //                 for (Member m : members) 
+    //                 {
+    //                     User u = m.getUser();
+    //                     try 
+    //                     {
+    //                         u.openPrivateChannel().complete();
+    //                         if (!users.contains(u))
+    //                             users.add(u);
+    //                     } catch (Exception ignored){
+    //                     }    
+    //                 }
+    //             }
+    //             pmChannelSelector.setUsers(users);
+    //             UserCollection uc = new UserCollection(users);
+    //             BCUtil.getCache().put(BCUtil.USER_CACHE, uc);
+    //             update();
+    //         }
+    //     };
+    //     return r;
+    // }
 
     @Override
     public void config() 

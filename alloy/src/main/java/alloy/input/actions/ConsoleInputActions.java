@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alloy.command.console.CacheCommand;
+import alloy.command.console.DMCommand;
 import alloy.command.console.InviteCommand;
 import alloy.command.console.MembersCommand;
 import alloy.command.console.NameCommand;
@@ -25,6 +26,7 @@ public class ConsoleInputActions extends AbstractActions {
     public static final InputAction QUEUE_ACTION;
     public static final InputAction CACHE_ACTION;
     public static final InputAction TEST_ACTION;
+    public static final InputAction DM_ACTION;
     public static final InputAction UPDATE_ACTION;
 
     static{
@@ -35,6 +37,7 @@ public class ConsoleInputActions extends AbstractActions {
         QUEUE_ACTION = loadQueueAction();
         CACHE_ACTION = loadCacheAction();
         TEST_ACTION = loadTestAction();
+        DM_ACTION = loadDMAction();
         UPDATE_ACTION = loadUpdateAction();
     }
 
@@ -50,6 +53,25 @@ public class ConsoleInputActions extends AbstractActions {
             public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new NameCommand();
+                command.execute(data);  
+            }
+
+        };
+        return action;
+    }
+
+    private static InputAction loadDMAction() 
+    {
+        InputAction action = new ConsoleInputAction()
+        {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(ConsoleInputData data) 
+            {
+                AbstractConsoleCommand command = new DMCommand();
                 command.execute(data);  
             }
 

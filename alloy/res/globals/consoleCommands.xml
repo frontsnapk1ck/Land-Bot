@@ -57,8 +57,14 @@
             <subcommand text = ""
                         description = "shows a list of items in the queue" />
 
-            <subcommand text = "clear"
+                <subcommand text = "clear"
                         description = "clears the queue of all events" />
+
+                <subcommand text = "size"
+                        description = "shows the size of the queue" />
+
+                <subcommand text = "workers"
+                        description = "shows information about the workers" />
 
         </command>
 
@@ -67,6 +73,9 @@
             
             <subcommand text = ""
                         description = "this will show what is in the cache" />
+
+            <subcommand text = "clear"
+                        description = "this will clear the cache" />
 
         </command>
 
@@ -79,6 +88,20 @@
             <subcommand text = "socket"
                         description = "remakes the socket" />
             
+
+        </command>
+
+        <command name = "dm" type = "CONSOLE" >
+            <trigger text = "dm"  />
+            
+            <subcommand text = "{user} {message}"
+                        description = "sends a user a message" />
+                    
+            <subcommand text = "list {user}"
+                        description = "sends a user a message" />
+
+            <subcommand text = "reply {user} {message_id} {message}"
+                        description = "replys to a message" />
 
         </command>
 

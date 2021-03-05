@@ -157,6 +157,7 @@ public class AlloyInputUtil {
         map.put(    "test"          ,   ConsoleInputActions.TEST_ACTION);
         map.put(    "cache"         ,   ConsoleInputActions.CACHE_ACTION);
         map.put(    "update"        ,   ConsoleInputActions.UPDATE_ACTION);
+        map.put(    "dm"            ,   ConsoleInputActions.DM_ACTION);
         
         return map;
     }

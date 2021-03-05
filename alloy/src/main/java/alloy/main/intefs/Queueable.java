@@ -1,9 +1,11 @@
 package alloy.main.intefs;
 
+import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import utility.event.EventManager.ScheduledJob;
 import utility.event.Job;
+import utility.event.Worker;
 
 public interface Queueable {
 
@@ -15,5 +17,7 @@ public interface Queueable {
     public PriorityBlockingQueue<ScheduledJob> getQueue();
 
 	public boolean unQueue( Job job);
+
+	public List<Worker> getWorkers();
 
 }

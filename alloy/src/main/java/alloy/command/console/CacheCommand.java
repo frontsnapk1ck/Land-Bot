@@ -1,5 +1,6 @@
 package alloy.command.console;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,6 +19,16 @@ public class CacheCommand extends AbstractConsoleCommand {
 
     @Override
     public void execute(ConsoleInputData data) 
+    {
+        List<String> args = data.getArgs();
+
+        if (args.size() == 1)
+            showCache(data);
+        else if (args.get(1).equalsIgnoreCase("clear"))
+            clearCache(data);
+    }
+
+    private void showCache(ConsoleInputData data) 
     {
         Cache cache = AlloyUtil.getCache();
         Map<String, Cacheable<?>> cacheable = cache.getCache();
@@ -38,7 +49,12 @@ public class CacheCommand extends AbstractConsoleCommand {
 
         String[] headers = { "~~Info~~" , "~~Type~~" , "~~Path~~"};
         System.out.println(StringUtil.makeTable(tableData , headers));
-        
+    }
+
+    private void clearCache(ConsoleInputData data) 
+    {
+        Cache cache = AlloyUtil.getCache();
+        cache.getCache().clear();
     }
 
     private String loadInfo(Cacheable<?> cacheable, ConsoleInputData data) 
@@ -59,7 +75,12 @@ public class CacheCommand extends AbstractConsoleCommand {
     private String player(Player p, JDA jda) 
     {
         Member m = AlloyUtil.getMember(p , jda);
-        return m.getUser().getAsTag();
+        try {
+            return m.getUser().getAsTag();
+        } catch (Exception e) 
+        {
+            return "null";
+        }
     }
     
 }

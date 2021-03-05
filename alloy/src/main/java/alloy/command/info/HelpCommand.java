@@ -2,7 +2,6 @@ package alloy.command.info;
 
 import alloy.command.util.AbstractCooldownCommand;
 import alloy.input.discord.AlloyInputData;
-import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
 import alloy.main.intefs.handler.CooldownHandler;
 import alloy.main.util.SendableMessage;
@@ -24,7 +23,6 @@ public class HelpCommand extends AbstractCooldownCommand {
         CooldownHandler handler = data.getCooldownHandler();
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
-        Queueable q = data.getQueue();
         
         if (userOnCooldown(author, g, handler))
         {

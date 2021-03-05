@@ -1,30 +1,47 @@
 package utility.event;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import alloy.main.Alloy;
 import alloy.utility.job.jobs.RemindJob;
+import utility.logger.Logger;
 
 public class EventManager {
 
     public static final Long COOLDOWN_INTERVAL = 50l;
+    public static final int MAX_WORKERS = 4;
 
-    private static final EventManager fake = new EventManager(false);
+    private Logger logger;
 
     private PriorityBlockingQueue<ScheduledJob> jobQueue;
+    private List<Worker> workers;
 
     private boolean running;
     private Thread eventThread;
 
     public EventManager() {
         this.jobQueue = new PriorityBlockingQueue<ScheduledJob>();
+        this.workers = new ArrayList<Worker>();
         init();
     }
 
-    private EventManager(boolean b) {
+    private void init() 
+    {
+        this.logger = new Logger();
+        this.makeWorkers();
+        this.configThread();
     }
 
-    private void init() {
+    private void makeWorkers() 
+    {
+        for (int i = 0; i < MAX_WORKERS; i++) 
+            this.workers.add(new Worker("" + i));
+    }
+
+    private void configThread() 
+    {
         this.eventThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -37,13 +54,15 @@ public class EventManager {
         this.eventThread.start();
     }
 
-    public void queueIn(Job action, long offset) {
+    public void queueIn(Job action, long offset) 
+    {
         long time = System.currentTimeMillis();
         time += offset;
         this.queue(time, action);
     }
 
-    public void queue(Job action) {
+    public void queue(Job action) 
+    {
         long time = System.currentTimeMillis();
         this.queue(time, action);
     }
@@ -57,11 +76,13 @@ public class EventManager {
     public boolean unQueue(Job job) 
     {
         ScheduledJob toRm = null;
+        System.err.println(jobQueue.size());
         for (ScheduledJob sJob : jobQueue) 
         {
             if (sJob.job == job)
-                toRm = sJob;
+                toRm = sJob; 
         }
+        System.err.println(toRm);
         if (toRm != null)
             return this.jobQueue.remove(toRm);
         return false;
@@ -98,22 +119,49 @@ public class EventManager {
 
     private void executeNextJob() 
     {
-        try {
+        try 
+        {
             // Remove the next job from queue
             // - same one you just "peeked" at.
             ScheduledJob job = this.jobQueue.take();
 
-            // execute the job
             if (job.job.toExecute())
-                job.job.execute();
+            {
+                // get next worker
+                Worker worker = getWorker();
+
+                if (worker == null)
+                {
+                    logger.warn("EventManger", "The Event manager is out of workers");
+                    //come back to this job later
+                    return;
+                }
+
+                // execute the job
+                worker.execute(job.job);
+
+            }
             if (job.job instanceof RepeatingJob)
                 this.queueIn(job.job,((RepeatingJob)job.job).getRepTime());
-        } catch (InterruptedException ex){
+        }
+        catch (InterruptedException ex)
+        {
             Alloy.LOGGER.debug("EventManager", ex );
         }
     }
 
-    public boolean isRunning() {
+    private Worker getWorker() 
+    {
+        for (Worker w : workers) 
+        {
+            if (w.isFinished() || w.isWaiting())
+                return w;
+        }
+        return null;
+    }
+
+    public boolean isRunning() 
+    {
         return running;
     }
 
@@ -122,11 +170,18 @@ public class EventManager {
         this.running = false;
     }
 
-    public PriorityBlockingQueue<ScheduledJob> getJobQueue() {
+    public PriorityBlockingQueue<ScheduledJob> getJobQueue() 
+    {
         return jobQueue;
     }
 
-    public void setJobQueue(PriorityBlockingQueue<ScheduledJob> jobQueue) {
+    public List<Worker> getWorkers() 
+    {
+		return this.workers;
+	}
+
+    public void setJobQueue(PriorityBlockingQueue<ScheduledJob> jobQueue) 
+    {
         this.jobQueue = jobQueue;
     }
     
@@ -134,17 +189,12 @@ public class EventManager {
 
     public static ScheduledJob newScheduledJob(Long time, RemindJob job) 
     {
-		return fake.newS(time,job);
-    }
-    
-    private ScheduledJob newS(Long time, RemindJob job) 
-    {
-        return new ScheduledJob(time, job);
+        return new ScheduledJob(time , job);
     }
 
     // ====================================================================
     
-    public class ScheduledJob implements Comparable<ScheduledJob> {
+    public static class ScheduledJob implements Comparable<ScheduledJob> {
 		
 		public Long time;
 		public Job job;

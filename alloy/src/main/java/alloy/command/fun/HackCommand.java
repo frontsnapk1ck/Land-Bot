@@ -102,6 +102,8 @@ public class HackCommand extends AbstractCooldownCommand {
         sm.setChannel(channel);
         sm.setFrom("HackCommand");
         MessageAction action = bot.getAction(sm);
+        if (action == null)
+            return;
         Message toEdit = action.complete();
 
         MessageEditJob mej1 = new MessageEditJob(toEdit, e1);

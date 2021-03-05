@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import utility.event.EventManager.ScheduledJob;
 import utility.event.Job;
+import utility.event.Worker;
 
 public class AlloyData {
 
@@ -179,6 +180,11 @@ public class AlloyData {
     {
         this.cooldownUsers.put(g.getIdLong(),new ArrayList<Long>());
         this.xpCooldownUsers.put(g.getIdLong(),new ArrayList<Long>());
+	}
+
+	public List<Worker> getWorkers() 
+    {
+        return this.eventManger.getWorkers();
 	}
 
 }

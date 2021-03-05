@@ -14,6 +14,7 @@ import utility.StringUtil;
 import utility.event.EventManager.ScheduledJob;
 import utility.event.Job;
 import utility.event.RepeatingJob;
+import utility.event.Worker;
 import utility.time.TimeUtil;
 import utility.time.TimesIncludes;
 
@@ -44,10 +45,31 @@ public class QueueCommand extends AbstractConsoleCommand {
 
         if (args.size() == 1)
             showQueue(data);
+        else if (args.get(1).equalsIgnoreCase("workers"))
+            workers(data);
         else if (args.get(1).equalsIgnoreCase("clear"))
             clearQueue(data);
         else if (args.get(1).equalsIgnoreCase("size"))
             size(data);
+    }
+
+    private void workers(ConsoleInputData data) 
+    {
+        List<Worker> workers = data.getQueue().getWorkers();
+        String[][] table = new String[workers.size()][3];
+        
+        int i = 0;
+        for (Worker worker : workers) 
+        {
+            table[i][0] = worker.getName();
+            table[i][1] = Worker.parseState(worker.getState());
+            if (worker.isWorking())
+                table[i][2] = worker.getJob().getClass().getSimpleName();
+            else
+                table[i][2] = "N/A";
+            i++;
+        }
+        System.out.println(StringUtil.makeTable(table, new String[]{"~~Worker Name~~","~~State~~","~~Job~~"}));
     }
 
     private void size(ConsoleInputData data) 

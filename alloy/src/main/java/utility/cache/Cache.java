@@ -36,7 +36,7 @@ public class Cache {
     {
         PurgeCacheJob job = new PurgeCacheJob(key);
         this.jobs.add( job );
-        if (time != Cacheable.FOREVER)
+        if (time >= 0)
             this.queue.queueIn(job, time );
     }
 
@@ -51,6 +51,7 @@ public class Cache {
     {
         if (!has(key))
             return;
+        
         PurgeCacheJob job = getJob(key);
         job.disable();
         this.queue.unQueue(job);
@@ -58,9 +59,9 @@ public class Cache {
         this.addToList(key,l);
     }
 
-    public void remove(String key) 
+    public boolean remove(String key) 
     {
-        this.cache.remove(key);
+        return this.cache.remove(key) != null;
 	}
 
     public PurgeCacheJob getJob(String key) 

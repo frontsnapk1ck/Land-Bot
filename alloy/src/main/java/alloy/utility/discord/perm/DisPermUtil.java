@@ -142,6 +142,9 @@ public class DisPermUtil {
 
         if (perm.equalsIgnoreCase("MANAGE_EMOTES"))
             return Permission.MANAGE_EMOTES;
+        
+        if (perm.equalsIgnoreCase("USE_SLASH_COMMANDS"))
+            return Permission.USE_SLASH_COMMANDS;
 
         throw new PermissionParseException(perm);
     }
@@ -245,6 +248,9 @@ public class DisPermUtil {
 
         if (perm.getName().equalsIgnoreCase("MANAGE_EMOTES"))
             return Permission.MANAGE_EMOTES;
+        
+        if (perm.getName().equalsIgnoreCase("USE_SLASH_COMMANDS"))
+            return Permission.USE_SLASH_COMMANDS;
 
         throw new PermissionParseException(perm);
     }
@@ -353,6 +359,9 @@ public class DisPermUtil {
         if (perm.equalsIgnoreCase("MOD"))
             return DisPerm.MOD;
 
+        if (perm.equalsIgnoreCase("USE_SLASH_COMMANDS"))
+            return DisPerm.USE_SLASH_COMMANDS;
+
         throw new PermissionParseException(perm);
     }
 
@@ -455,6 +464,9 @@ public class DisPermUtil {
 
         if (perm == Permission.MANAGE_EMOTES)
             return DisPerm.MANAGE_EMOTES;
+    
+        if (perm == Permission.USE_SLASH_COMMANDS)
+            return DisPerm.USE_SLASH_COMMANDS;
 
         throw new PermissionParseException(perm);
     }
@@ -503,6 +515,7 @@ public class DisPermUtil {
         perms.add(DisPerm.MANAGE_PERMISSIONS);
         perms.add(DisPerm.MANAGE_WEBHOOKS);
         perms.add(DisPerm.MANAGE_EMOTES);
+        perms.add(DisPerm.USE_SLASH_COMMANDS);
 
         return perms;
     }
@@ -529,19 +542,19 @@ public class DisPermUtil {
 
     public static boolean checkPermission(Member m, DisPerm permission, TextChannel channel) 
     {
-        boolean permised = false;
+        boolean premised = false;
         List<PermissionOverride> overrides = channel.getPermissionOverrides();
         for (PermissionOverride o : overrides) 
         {
             Role role = o.getRole();
             if (m.getRoles().contains(role))
-                permised = checkPermissed( o , role);
+                premised = checkPremised( o , role);
         }
         List<Long> whitelisted = AlloyUtil.getWhitelisted();
-        return permised || whitelisted.contains(m.getIdLong());
+        return premised || whitelisted.contains(m.getIdLong());
 	}
 
-    private static boolean checkPermissed(PermissionOverride o, Role role) 
+    private static boolean checkPremised(PermissionOverride o, Role role) 
     {
         boolean b = false;
         for (Permission p : o.getAllowed())

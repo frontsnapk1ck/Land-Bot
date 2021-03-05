@@ -76,13 +76,11 @@ public class EventManager {
     public boolean unQueue(Job job) 
     {
         ScheduledJob toRm = null;
-        System.err.println(jobQueue.size());
         for (ScheduledJob sJob : jobQueue) 
         {
             if (sJob.job == job)
                 toRm = sJob; 
         }
-        System.err.println(toRm);
         if (toRm != null)
             return this.jobQueue.remove(toRm);
         return false;

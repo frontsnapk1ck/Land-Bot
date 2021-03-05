@@ -26,6 +26,7 @@ public class DisPerm {
     public static final DisPerm VOICE_CONNECT               = new DisPerm(  "VOICE_CONNECT"             );
     public static final DisPerm VOICE_SPEAK                 = new DisPerm(  "VOICE_SPEAK"               );
     public static final DisPerm VOICE_MUTE_OTHERS           = new DisPerm(  "VOICE_MUTE_OTHERS"         );
+    public static final DisPerm USE_SLASH_COMMANDS          = new DisPerm(  "USE_SLASH_COMMANDS"        );
     public static final DisPerm VOICE_DEAF_OTHERS           = new DisPerm(  "VOICE_DEAF_OTHERS"         );
     public static final DisPerm VOICE_MOVE_OTHERS           = new DisPerm(  "VOICE_MOVE_OTHERS"         );
     public static final DisPerm VOICE_USE_VAD               = new DisPerm(  "VOICE_USE_VAD"             );

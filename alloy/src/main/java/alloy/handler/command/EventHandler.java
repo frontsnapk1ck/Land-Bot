@@ -116,7 +116,7 @@ public class EventHandler {
                 Server.MOD_LOG_CHANNEL + ":",
                 Server.USER_LOG_CHANNEL + ":", 
                 Server.MUTE_ROLE_ID + ":", 
-                Server.BAN_APPEAL_LINK + ":" ,
+                Server.BAN_APPEAL_LINK + ":none" ,
             };
 
         return boSS;

@@ -40,7 +40,7 @@ public class ServerSettings extends AbstractSettings {
         this.modLogChannel = 0l;
         this.userLogChannel = 0l;
         this.muteRole = 0l;
-        this.banAppealLink = "";
+        this.banAppealLink = "none";
     }
 
     public List<Long> getBlacklistedChannels() 

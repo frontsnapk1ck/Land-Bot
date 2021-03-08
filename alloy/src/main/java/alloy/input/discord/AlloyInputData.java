@@ -1,6 +1,7 @@
 package alloy.input.discord;
 
 import alloy.gameobjects.Server;
+import alloy.main.intefs.Audible;
 import alloy.main.intefs.Moderator;
 import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
@@ -26,6 +27,7 @@ public class AlloyInputData {
     private Moderator moderator;
     private CooldownHandler cooldownHandler;
     private Queueable queue;
+    private Audible audible;
 
     public AlloyInputData() 
     {
@@ -117,6 +119,11 @@ public class AlloyInputData {
         return cooldownHandler;
     }
 
+    public Audible getAudible() 
+    {
+        return audible;
+    }
+
     public void setBot(Sendable sendable) 
     {
         this.sendable = sendable;
@@ -190,6 +197,11 @@ public class AlloyInputData {
     public void setQueue(Queueable queue)
     {
         this.queue = queue;
+    }
+
+    public void setAudible(Audible audible) 
+    {
+        this.audible = audible;
     }
 
 }

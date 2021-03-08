@@ -22,13 +22,13 @@ public class AlloyInput extends Input {
         this.data.setEvent(event);
     }
 
-    public AlloyInput(String name, String command, DisPerm p, boolean b, String descrption, InputType type) 
+    public AlloyInput(String name, String command, DisPerm p, boolean b, String description, InputType type) 
     {
         super(name, command);
         this.data = new AlloyInputData();
         this.data.setRequiredPerm( p );
         this.data.setCooldown( b );
-        this.data.setDescription( descrption );
+        this.data.setDescription( description );
         this.data.setInputType( type );
 	}
 
@@ -108,6 +108,7 @@ public class AlloyInput extends Input {
         this.data.setMod( bot );
         this.data.setCooldown( bot );
         this.data.setQueue( bot );
+        this.data.setAudible( bot );
     }
 
     public void setJDA ( JDA jda )

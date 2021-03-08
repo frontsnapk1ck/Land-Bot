@@ -1,4 +1,4 @@
-package alloy.handler;
+package alloy.handler.command;
 
 import java.io.File;
 import java.io.IOException;

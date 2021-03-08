@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import alloy.handler.EventHandler;
+import alloy.handler.command.EventHandler;
 import alloy.input.discord.AlloyInput;
 import alloy.input.discord.AlloyInputEvent;
 import alloy.main.Alloy;
@@ -66,7 +66,7 @@ public class JDAEvents extends ListenerAdapter {
     @Override
     public void onGuildJoin(GuildJoinEvent e) {
         Guild g = e.getGuild();
-        Alloy.LOGGER.info("JDAEvents", "[event] JOINED SERVER! " + g.getName());
+        Alloy.LOGGER.info("JDAEvents", "JOINED SERVER! " + g.getName());
         EventHandler.onGuildJoinEvent(g);
 
         List<Member> members = g.getMembers();
@@ -80,7 +80,7 @@ public class JDAEvents extends ListenerAdapter {
     @Override
     public void onGuildLeave(GuildLeaveEvent e) {
         Guild g = e.getGuild();
-        Alloy.LOGGER.info("JDAEvents", "[event] LEFT SERVER! " + g.getName());
+        Alloy.LOGGER.info("JDAEvents", "LEFT SERVER! " + g.getName());
         EventHandler.onGuildLeaveEvent(g);
 
         this.bot.guildCountUpdate();

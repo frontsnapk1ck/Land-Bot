@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import alloy.command.util.AbstractConsoleCommand;
-import alloy.handler.EventHandler;
+import alloy.handler.command.EventHandler;
 import alloy.input.console.ConsoleInputData;
 import alloy.main.Alloy;
 import alloy.utility.discord.AlloyUtil;

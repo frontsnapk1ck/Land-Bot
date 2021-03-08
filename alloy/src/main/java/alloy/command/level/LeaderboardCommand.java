@@ -3,14 +3,14 @@ package alloy.command.level;
 import java.util.List;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.BankHandler;
-import alloy.handler.RankHandler;
+import alloy.handler.command.BankHandler;
+import alloy.handler.command.RankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
-import disterface.util.template.Template;
 import alloy.templates.Templates;
+import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 

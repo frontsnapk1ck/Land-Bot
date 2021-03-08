@@ -3,15 +3,15 @@ package alloy.command.fun;
 import java.util.function.Consumer;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.FunChatHandler;
+import alloy.handler.command.FunChatHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Alloy;
 import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
-import alloy.main.util.SendableMessage;
 import alloy.main.intefs.handler.CooldownHandler;
-import disterface.util.template.Template;
+import alloy.main.util.SendableMessage;
 import alloy.templates.Templates;
+import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;

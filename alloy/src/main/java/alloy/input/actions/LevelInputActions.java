@@ -18,7 +18,7 @@ public class LevelInputActions extends AbstractActions {
     public static final InputAction RANKUP_ACTION;
 
     static {
-        LEADERBOARD_ACTION = loadLeaderboardActoin();
+        LEADERBOARD_ACTION = loadLeaderboardAction();
         RANK_ACTION = loadRankAction();
         RANKUP_ACTION = loadRankUpAction();
     }
@@ -66,7 +66,7 @@ public class LevelInputActions extends AbstractActions {
         return action;
     }
 
-    private static InputAction loadLeaderboardActoin() 
+    private static InputAction loadLeaderboardAction() 
     {
         InputAction action = new AlloyInputAction() {
             @Override

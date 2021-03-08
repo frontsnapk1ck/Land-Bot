@@ -407,6 +407,51 @@
 
     </command>
 
+    <!-- LEVEL COMMANDS-->
+    <command name = "join" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "join" />
+        <trigger text = "j" />
+
+        <subcommand text = ""
+                        description = "joins the voice channel the user is in" />
+
+    </command>
+
+    <command name = "leave" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "leave" />
+
+        <subcommand text = ""
+                        description = "leaves the voice channel the user is in" />
+
+    </command>
+
+    <command name = "play" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "play" />
+        <trigger text = "p" />
+
+        <subcommand text = "{song}"
+                        description = "plays a song" />
+
+    </command>
+
+    <command name = "skip" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "skip" />
+        <trigger text = "s" />
+
+        <subcommand text = ""
+                        description = "skips a song" />
+
+    </command>
+
+    <command name = "queue" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "queue" />
+        <trigger text = "q" />
+
+        <subcommand text = ""
+                        description = "shows the queue" />
+
+    </command>
+
 
     <!-- ===================== COMMAND MAP =============================== -->
 

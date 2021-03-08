@@ -10,15 +10,19 @@ import java.util.concurrent.RejectedExecutionException;
 
 import javax.security.auth.login.LoginException;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+
+import alloy.audio.GuildMusicManager;
 import alloy.event.AlloyLogger;
 import alloy.event.DebugListener;
 import alloy.event.DiscordInterface;
 import alloy.event.JDAEvents;
 import alloy.gameobjects.Server;
-import alloy.handler.CommandHandler;
-import alloy.handler.RankHandler;
+import alloy.handler.command.CommandHandler;
+import alloy.handler.command.RankHandler;
 import alloy.input.console.ConsoleInput;
 import alloy.input.discord.AlloyInput;
+import alloy.main.intefs.Audible;
 import alloy.main.intefs.Loggable;
 import alloy.main.intefs.Moderator;
 import alloy.main.intefs.Queueable;
@@ -55,7 +59,7 @@ import utility.event.Worker;
 import utility.logger.Level;
 
 public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler,
-        UncaughtExceptionHandler {
+        UncaughtExceptionHandler, Audible {
 
     public static final AlloyLogger LOGGER = new AlloyLogger();
 
@@ -490,6 +494,18 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     public List<Worker> getWorkers() 
     {
         return data.getWorkers();
+    }
+
+    @Override
+    public GuildMusicManager getGuildAudioPlayer(Guild g) 
+    {
+        return this.data.getGuildMusicManager(g);
+    }
+
+    @Override
+    public AudioPlayerManager getPlayerManager() 
+    {
+        return this.data.getPlayerManager();
     }
 
 }

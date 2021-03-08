@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+
+import alloy.audio.GuildMusicManager;
 import alloy.event.DebugListener;
 import alloy.event.DiscordInterface;
 import alloy.gameobjects.Server;
@@ -31,16 +36,31 @@ public class AlloyData {
     protected Map<Long, List<Long>> xpCooldownUsers = new HashMap<Long, List<Long>>();
     private Console console = new Console();
     private AlloyEventHandler eventManger;
-    private Alloy alloy;
-
+    
+    //audio
+    private AudioPlayerManager playerManager;
+    private Map<Long, GuildMusicManager> musicManagers;  
+    
     private JDA jda;
     private DiscordInterface discordInterface;
-
+    
+    private Alloy alloy;
+    
     public AlloyData(JDA jda, Alloy alloy) 
     {
         this.jda = jda;
         this.alloy = alloy;
         console.setHandler(alloy,alloy);
+        configAudio();
+    }
+
+    private void configAudio() 
+    {
+        this.musicManagers = new HashMap<Long, GuildMusicManager>();
+
+        this.playerManager = new DefaultAudioPlayerManager();
+        AudioSourceManagers.registerRemoteSources(playerManager);
+        AudioSourceManagers.registerLocalSource(playerManager);
     }
 
     private AlloyEventHandler loadEventManager() 
@@ -186,5 +206,26 @@ public class AlloyData {
     {
         return this.eventManger.getWorkers();
 	}
+
+    public synchronized GuildMusicManager getGuildMusicManager(Guild g)
+    {
+        long guildId = Long.parseLong(g.getId());
+        GuildMusicManager musicManager = musicManagers.get(guildId);
+    
+        if (musicManager == null) {
+          musicManager = new GuildMusicManager(playerManager);
+          musicManagers.put(guildId, musicManager);
+        }
+    
+        g.getAudioManager().setSendingHandler(musicManager.getSendHandler());
+    
+        return musicManager;
+    }
+
+    public AudioPlayerManager getPlayerManager() 
+    {
+        return playerManager;
+    }
+    
 
 }

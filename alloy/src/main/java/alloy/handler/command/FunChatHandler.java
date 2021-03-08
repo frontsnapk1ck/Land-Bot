@@ -1,4 +1,4 @@
-package alloy.handler;
+package alloy.handler.command;
 
 import alloy.utility.discord.AlloyUtil;
 import io.FileReader;

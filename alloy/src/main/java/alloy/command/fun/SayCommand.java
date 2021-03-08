@@ -1,7 +1,7 @@
 package alloy.command.fun;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.SayHandler;
+import alloy.handler.command.SayHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.utility.discord.perm.DisPerm;

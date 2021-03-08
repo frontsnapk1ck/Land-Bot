@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.Case;
 import alloy.gameobjects.Server;
-import alloy.handler.CaseHandler;
+import alloy.handler.command.CaseHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Alloy;

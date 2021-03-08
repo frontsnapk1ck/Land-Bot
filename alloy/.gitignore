@@ -33,6 +33,9 @@ buildNumber.properties
 res/servers
 res/token.token
 res/token2.token
+res/youtube.token
+src/main/resources/client_secrets.json
+
 TODO
 res/event.queue
 res/queue.xml

@@ -1,15 +1,15 @@
 package alloy.command.fun;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.SpamHandler;
+import alloy.handler.command.SpamHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
-import alloy.main.util.SendableMessage;
 import alloy.main.intefs.handler.CooldownHandler;
-import disterface.util.template.Template;
+import alloy.main.util.SendableMessage;
 import alloy.templates.Templates;
+import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;

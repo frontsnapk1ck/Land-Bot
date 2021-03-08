@@ -20,6 +20,7 @@ import alloy.input.actions.EconomyInputActions;
 import alloy.input.actions.FunInputActions;
 import alloy.input.actions.InfoInputActions;
 import alloy.input.actions.LevelInputActions;
+import alloy.input.actions.VoiceInputActions;
 import alloy.input.builder.AlloyInputMapBuilder;
 import alloy.input.builder.ConsoleInputMapBuilder;
 import alloy.input.discord.AlloyInputData;
@@ -54,6 +55,7 @@ public class AlloyInputUtil {
     {
 		ActionMap map = new ActionMap();
 
+        //admin
         map.put(    "purge"             ,   AdministrationInputActions.PURGE_ACTION);
         map.put(    "ban"               ,   AdministrationInputActions.BAN_ACTION);
         map.put(    "case"              ,   AdministrationInputActions.CASE_ACTION);
@@ -63,6 +65,7 @@ public class AlloyInputUtil {
         map.put(    "mute"              ,   AdministrationInputActions.MUTE_ACTION);
         map.put(    "warnings"          ,   AdministrationInputActions.WARNINGS_ACTION);
 
+        //config
         map.put(    "building"          ,   ConfigurationInputActions.BUILDING_ACTION);
         map.put(    "workO"             ,   ConfigurationInputActions.WORK_ACTION);
         map.put(    "view"              ,   ConfigurationInputActions.VIEW_ACTION);
@@ -72,6 +75,7 @@ public class AlloyInputUtil {
         map.put(    "blacklist"         ,   ConfigurationInputActions.XP_BLACKLIST_ACTION);
         map.put(    "set"               ,   ConfigurationInputActions.SET_ACTION);
     
+        //economy
         map.put(    "bank"              ,   EconomyInputActions.BANK_ACTION);
         map.put(    "buy"               ,   EconomyInputActions.BUY_ACTION);
         map.put(    "pay"               ,   EconomyInputActions.PAY_ACTION);
@@ -79,6 +83,7 @@ public class AlloyInputUtil {
         map.put(    "me"                ,   EconomyInputActions.ME_ACTION);
         map.put(    "work"              ,   EconomyInputActions.WORK_ACTION);
     
+        //fun
         map.put(    "dead-chat"         ,   FunInputActions.DEAD_CHAT_ACTION);
         map.put(    "link"              ,   FunInputActions.LINK_ACTION);
         map.put(    "!rank"             ,   FunInputActions.RANK_ACTION);
@@ -87,6 +92,7 @@ public class AlloyInputUtil {
         map.put(    "spam"              ,   FunInputActions.SPAM_ACTION);
         map.put(    "hack"              ,   FunInputActions.HACK_ACTION);
     
+        //info
         map.put(    "donate"            ,   InfoInputActions.DONATE_ACTION);
         map.put(    "help"              ,   InfoInputActions.HELP_ACTION);
         map.put(    "invite"            ,   InfoInputActions.INVITE_ACTION);
@@ -95,9 +101,18 @@ public class AlloyInputUtil {
         map.put(    "info"              ,   InfoInputActions.INFO_ACTION);
         map.put(    "uptime"            ,   InfoInputActions.UPTIME_ACTION);
 
+        //level
         map.put(    "rank"              ,   LevelInputActions.RANK_ACTION);
         map.put(    "rankup"            ,   LevelInputActions.RANKUP_ACTION);
         map.put(    "leaderboard"       ,   LevelInputActions.LEADERBOARD_ACTION);
+        
+        //voice
+        map.put(    "join"              ,   VoiceInputActions.JOIN_ACTION);
+        map.put(    "play"              ,   VoiceInputActions.PLAY_ACTION);
+        map.put(    "skip"              ,   VoiceInputActions.SKIP_ACTION);
+        map.put(    "queue"             ,   VoiceInputActions.QUEUE_ACTION);
+        map.put(    "leave"             ,   VoiceInputActions.LEAVE_ACTION);
+
 
         return map;
 	}

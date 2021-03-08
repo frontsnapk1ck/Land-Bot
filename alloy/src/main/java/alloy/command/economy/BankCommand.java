@@ -2,15 +2,15 @@ package alloy.command.economy;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Player;
-import alloy.handler.BankHandler;
+import alloy.handler.command.BankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
-import disterface.util.template.Template;
 import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
+import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;

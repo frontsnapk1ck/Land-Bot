@@ -3,12 +3,12 @@ package alloy.command.voice;
 import java.util.List;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.VoiceHandler;
+import alloy.handler.command.VoiceHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
-import disterface.util.template.Template;
 import alloy.templates.Templates;
+import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -26,8 +26,10 @@ public class JoinCommand extends AbstractCommand {
         Member m = g.getMember(author);
 
         List<VoiceChannel> vcs = g.getVoiceChannels();
-        for (VoiceChannel vc : vcs) {
-            if (VoiceHandler.memberIn(vc, m)) {
+        for (VoiceChannel vc : vcs) 
+        {
+            if (VoiceHandler.memberIn(vc, m)) 
+            {
                 joinVc(vc, bot, channel);
                 return;
             }

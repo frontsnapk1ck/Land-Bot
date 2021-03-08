@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import alloy.command.util.PunishType;
 import alloy.event.DebugEvent;
@@ -11,7 +14,7 @@ import alloy.gameobjects.RankUp;
 import alloy.gameobjects.Warning;
 import alloy.gameobjects.player.Building;
 import alloy.gameobjects.player.Player;
-import alloy.handler.BankHandler;
+import alloy.handler.command.BankHandler;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;
@@ -1066,5 +1069,24 @@ public class Templates {
 		t.setTitle("Alloy Help", alloyURL);
 		return t;
 	}
+
+    public static Template musicQueue(BlockingQueue<AudioTrack> queue) 
+	{
+		String out = "";
+		for (AudioTrack t : queue) 
+		{
+			String title = t.getInfo().title;
+			String author = t.getInfo().author;
+			String trackInfo = "[" + title + " - " + author + "]("  + t.getInfo().uri + ")";
+			trackInfo += "\nDuration: `";
+			trackInfo += TimeUtil.getRelativeTime(t.getDuration()) + "`";
+			out += trackInfo + "\n\n";
+		}
+		if (out.equalsIgnoreCase(""))
+			out = "Nothing in the queue";
+		
+		Template t = new Template("Music Queue", out);
+		return t;
+    }
 
 }

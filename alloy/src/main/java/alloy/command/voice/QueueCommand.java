@@ -1,40 +1,39 @@
-package alloy.command.economy;
+package alloy.command.voice;
 
-import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+
+import alloy.audio.GuildMusicManager;
 import alloy.command.util.AbstractCommand;
-import alloy.gameobjects.player.Building;
-import alloy.handler.command.MeHandler;
 import alloy.input.discord.AlloyInputData;
+import alloy.main.intefs.Audible;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
 import alloy.templates.Templates;
 import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 
-public class MeCommand extends AbstractCommand {
+public class QueueCommand extends AbstractCommand {
 
     @Override
     public void execute(AlloyInputData data) 
     {
-        Guild g = data.getGuild();
-        User author = data.getUser();
-        Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
-        Member m = g.getMember(author);
+        Guild g = data.getGuild();
+        Sendable bot = data.getSendable();
+        Audible audible = data.getAudible();
 
-        Map<Building , Integer> owned = MeHandler.getOwned(m);
-        Template t = Templates.showBuildings( author , owned );
+        GuildMusicManager musicManager = audible.getGuildAudioPlayer(g);
+        BlockingQueue<AudioTrack> queue = musicManager.scheduler.getQueue();
+
+        Template t = Templates.musicQueue(queue);
         SendableMessage sm = new SendableMessage();
+        sm.setFrom("WarningsCommand");
         sm.setChannel(channel);
-        sm.setFrom("MeCommand");
         sm.setMessage(t.getEmbed());
-        bot.send(sm);   
+        bot.send(sm);
     }
-
-
     
 }

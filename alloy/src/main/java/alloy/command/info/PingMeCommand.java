@@ -1,7 +1,7 @@
 package alloy.command.info;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.PrefixHandler;
+import alloy.handler.command.PrefixHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Alloy;
 import alloy.main.intefs.Sendable;

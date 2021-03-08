@@ -12,6 +12,8 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
 import alloy.handler.security.Auth;
+import alloy.main.Alloy;
+import alloy.main.intefs.Audible;
 import alloy.utility.discord.AlloyUtil;
 import io.FileReader;
 import net.dv8tion.jda.api.entities.Guild;
@@ -22,7 +24,7 @@ import utility.StringUtil;
 
 public class VoiceHandler {
 
-    public static final long        NUMBER_OF_VIDEOS_RETURNED   = 25;
+    public static final long        NUMBER_OF_VIDEOS_RETURNED   = 10;
     
     public static final String      YOUTUBE_LINK_BASE           = "https://www.youtube.com/watch?v=";
 
@@ -31,6 +33,8 @@ public class VoiceHandler {
      * to make YouTube Data API requests.
      */
     private static YouTube youtube;
+
+    private static Audible audible;
 
     public static boolean join(VoiceChannel channel) {
         AudioManager manager = channel.getGuild().getAudioManager();
@@ -129,6 +133,17 @@ public class VoiceHandler {
         SearchListResponse searchResponse = search.execute();
         List<SearchResult> searchResultList = searchResponse.getItems();
         return searchResultList;
+    }
+
+    public static void clearQueue(Guild guild) 
+    {
+        audible.getGuildAudioPlayer(guild).player.stopTrack();
+        audible.getGuildAudioPlayer(guild).scheduler.clear();
+    }
+
+    public static void setAudible(Audible a) 
+    {
+        VoiceHandler.audible = a;
     }
 
 }

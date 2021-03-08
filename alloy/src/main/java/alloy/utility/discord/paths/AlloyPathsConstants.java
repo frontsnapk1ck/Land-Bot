@@ -20,7 +20,7 @@ public interface AlloyPathsConstants {
     public static final String KEY_FILE                         = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\token.token";
     public static final String KEY_FILE_2                       = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\token2.token";
 
-    public static final String YOUTUBE_FILE                     = "youtube.properties";
+    public static final String YOUTUBE_FILE                     = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\youtube.token";
 
     public static final String EVENT_FILE                       = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\event.queue";
 

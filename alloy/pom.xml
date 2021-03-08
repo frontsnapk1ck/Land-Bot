@@ -46,7 +46,7 @@
     <dependency>
       <groupId>net.dv8tion</groupId>
       <artifactId>JDA</artifactId>
-      <version>4.2.0_236</version>
+      <version>4.2.0_231</version>
     </dependency>
 
     <dependency>
@@ -78,7 +78,7 @@
     <dependency>
       <groupId>com.sedmelluq</groupId>
       <artifactId>lavaplayer</artifactId>
-      <version>1.3.73</version>
+      <version>1.3.72</version>
     </dependency>
 
     <dependency>
@@ -101,6 +101,19 @@
       <version>1.25.0</version>
     </dependency>
     
+    <dependency>
+      <groupId>com.google.http-client</groupId>
+      <artifactId>google-http-client</artifactId>
+      <version>1.12.0-beta</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-util -->
+    <dependency>
+      <groupId>com.google.api.client</groupId>
+      <artifactId>google-api-client-util</artifactId>
+      <version>1.2.3-alpha</version>
+    </dependency>
+  
   </dependencies>
   <build>
     <plugins>

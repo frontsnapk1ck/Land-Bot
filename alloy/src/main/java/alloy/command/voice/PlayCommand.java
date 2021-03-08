@@ -12,10 +12,12 @@ import alloy.handler.command.VoiceHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Audible;
+import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
 import alloy.templates.Templates;
 import alloy.utility.discord.perm.DisPermUtil;
+import alloy.utility.job.jobs.DelayJob;
 import disterface.util.template.Template;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -68,51 +70,83 @@ public class PlayCommand extends AbstractCommand  {
             @Override
             public void trackLoaded(AudioTrack track) 
             {
-                //TODO
-                channel.sendMessage("Adding to queue " + track.getInfo().title).queue();
+                if (play(data, musicManager, track))
+                {   
+                    Template t = Templates.addedToMusicQueue(track);
+                    SendableMessage sm = new SendableMessage();
+                    sm.setFrom("WarningsCommand");
+                    sm.setChannel(channel);
+                    sm.setMessage(t.getEmbed());
+                    bot.send(sm);
+                }
         
-                play(data, musicManager, track);
             }
         
             @Override
-            public void playlistLoaded(AudioPlaylist playlist) {
+            public void playlistLoaded(AudioPlaylist playlist) 
+            {
                 AudioTrack firstTrack = playlist.getSelectedTrack();
         
                 if (firstTrack == null)
                     firstTrack = playlist.getTracks().get(0);
-        
-                //TODO
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
-        
-                play(data, musicManager, firstTrack);
+
+                if (play(data, musicManager, firstTrack))
+                {
+             
+                    Template t = Templates.addedToMusicQueue(playlist);
+                    SendableMessage sm = new SendableMessage();
+                    sm.setFrom("WarningsCommand");
+                    sm.setChannel(channel);
+                    sm.setMessage(t.getEmbed());
+                    bot.send(sm);
+                }
             }
         
             @Override
             public void noMatches() 
             {
-                channel.sendMessage("Nothing found by " + trackUrl).queue();
+                Template t = Templates.notingFoundBy(args);
+                SendableMessage sm = new SendableMessage();
+                sm.setFrom("WarningsCommand");
+                sm.setChannel(channel);
+                sm.setMessage(t.getEmbed());
+                bot.send(sm);
             }
         
             @Override
             public void loadFailed(FriendlyException exception) 
             {
-                channel.sendMessage("Could not play: " + exception.getMessage()).queue();
+                Template t = Templates.couldNotPlay(exception);
+                SendableMessage sm = new SendableMessage();
+                sm.setFrom("WarningsCommand");
+                sm.setChannel(channel);
+                sm.setMessage(t.getEmbed());
+                bot.send(sm);
             }
         });
       }
     
-    private void play(AlloyInputData data, GuildMusicManager musicManager, AudioTrack track) 
+    private boolean play(AlloyInputData data, GuildMusicManager musicManager, AudioTrack track)
     {
+        Queueable q = data.getQueue();
         Guild g = data.getGuild();
 
-        if ( VoiceHandler.isConnected(g))    
+        if ( VoiceHandler.isConnected(g))
+        {
             musicManager.scheduler.queue(track);
+            return true;
+        }
         else
         {
             JoinCommand command = new JoinCommand();
             command.execute(data);
+        // }
+        // if ( VoiceHandler.isConnected(g))    
+        // {
+            DelayJob<AudioTrack> j = new DelayJob<AudioTrack>(musicManager.scheduler::queue , track);
+            q.queueIn(j, 1500);
+            return true;
         }
-        if ( VoiceHandler.isConnected(g))    
-            musicManager.scheduler.queue(track);
+        // return false;
     }
 }

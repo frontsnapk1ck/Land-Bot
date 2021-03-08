@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import alloy.handler.command.EventHandler;
+import alloy.handler.command.VoiceHandler;
 import alloy.input.discord.AlloyInput;
 import alloy.input.discord.AlloyInputEvent;
 import alloy.main.Alloy;
@@ -177,9 +178,10 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) 
+    public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) 
     {
-        super.onGuildVoiceLeave(event);
+        if (e.getMember().equals(e.getGuild().getSelfMember()))
+            VoiceHandler.clearQueue(e.getGuild());
     }
 
     @Override

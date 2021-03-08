@@ -72,4 +72,9 @@ public class TrackScheduler extends AudioEventAdapter {
     {
         return queue;
     }
+
+    public void clear() 
+    {
+        this.queue.clear();
+    }
 }

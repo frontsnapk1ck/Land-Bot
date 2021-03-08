@@ -14,6 +14,7 @@ import alloy.audio.GuildMusicManager;
 import alloy.event.DebugListener;
 import alloy.event.DiscordInterface;
 import alloy.gameobjects.Server;
+import alloy.handler.command.VoiceHandler;
 import alloy.input.console.Console;
 import alloy.io.loader.JobQueueLoaderText;
 import alloy.io.loader.util.JobQueueData;
@@ -61,6 +62,8 @@ public class AlloyData {
         this.playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
+
+        VoiceHandler.setAudible(alloy);
     }
 
     private AlloyEventHandler loadEventManager() 

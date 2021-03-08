@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import alloy.command.util.PunishType;
@@ -1088,5 +1090,35 @@ public class Templates {
 		Template t = new Template("Music Queue", out);
 		return t;
     }
+
+    public static Template notingFoundBy(String[] args) 
+	{
+		String search = StringUtil.joinStrings(args);
+		Template t = new Template("Nothing Found", "I could not find anything by the name: `" + search + "`");
+        return t;
+    }
+
+    public static Template couldNotPlay(FriendlyException exception) 
+	{
+		Template t = new Template("Could Not Play", exception.getMessage());
+		return t;
+    }
+
+    public static Template addedToMusicQueue(AudioPlaylist playlist) 
+	{
+		AudioTrack firstTrack = playlist.getSelectedTrack();
+        
+		if (firstTrack == null)
+			firstTrack = playlist.getTracks().get(0);
+		String message = "Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")";
+		Template t = new Template ("Queue" , message);
+		return t;
+    }
+
+	public static Template addedToMusicQueue(AudioTrack track) 
+	{
+		Template t = new Template("Queue" , "Adding to queue " + track.getInfo().title);
+		return t;
+	}
 
 }

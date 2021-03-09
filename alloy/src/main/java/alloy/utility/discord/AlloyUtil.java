@@ -143,7 +143,19 @@ public class AlloyUtil implements AlloyPathsConstants, AlloyExtensions, AlloyIma
         if (!cache.has(path))
         {
             PlayerLoaderText plt = new PlayerLoaderText();
-            PlayerCollection collection = new PlayerCollection( plt.loadALl(path) );
+            
+            List<Player> players = plt.loadALl(path);
+            List<Player> toRm = new ArrayList<Player>();
+            JDA jda = g.getJDA();
+            for (Player player : players) 
+            {
+                User u = jda.getUserById(player.getId());
+                if (u.isBot())
+                    toRm.add(player);
+            }
+            players.removeAll(toRm);
+
+            PlayerCollection collection = new PlayerCollection( players );
             cache.put(path, collection);
         }
         PlayerCollection collection = (PlayerCollection) cache.get(path);

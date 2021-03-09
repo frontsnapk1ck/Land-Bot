@@ -16,6 +16,8 @@ import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
 import alloy.templates.Templates;
+import alloy.utility.discord.perm.AlloyPerm;
+import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
 import alloy.utility.job.jobs.DelayJob;
 import disterface.util.template.Template;
@@ -25,6 +27,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class PlayCommand extends AbstractCommand  {
+
+    @Override
+    public DisPerm getPermission() 
+    {
+        return AlloyPerm.CREATOR;
+    }
 
     @Override
     public void execute(AlloyInputData data) 
@@ -43,10 +51,10 @@ public class PlayCommand extends AbstractCommand  {
 
         if (!DisPermUtil.checkPermission(m, getPermission())) 
         {
-            Template t = Templates.noPermission(getPermission(), author);
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
+            sm.setFrom(getClass());
             sm.setChannel(channel);
-            sm.setFrom("WarningsCommand");
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -56,7 +64,7 @@ public class PlayCommand extends AbstractCommand  {
         {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("WarningsCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
@@ -74,7 +82,7 @@ public class PlayCommand extends AbstractCommand  {
                 {   
                     Template t = Templates.addedToMusicQueue(track);
                     SendableMessage sm = new SendableMessage();
-                    sm.setFrom("WarningsCommand");
+                    sm.setFrom(getClass());
                     sm.setChannel(channel);
                     sm.setMessage(t.getEmbed());
                     bot.send(sm);
@@ -95,7 +103,7 @@ public class PlayCommand extends AbstractCommand  {
              
                     Template t = Templates.addedToMusicQueue(playlist);
                     SendableMessage sm = new SendableMessage();
-                    sm.setFrom("WarningsCommand");
+                    sm.setFrom(getClass());
                     sm.setChannel(channel);
                     sm.setMessage(t.getEmbed());
                     bot.send(sm);
@@ -107,7 +115,7 @@ public class PlayCommand extends AbstractCommand  {
             {
                 Template t = Templates.notingFoundBy(args);
                 SendableMessage sm = new SendableMessage();
-                sm.setFrom("WarningsCommand");
+                sm.setFrom(getClass());
                 sm.setChannel(channel);
                 sm.setMessage(t.getEmbed());
                 bot.send(sm);
@@ -118,14 +126,14 @@ public class PlayCommand extends AbstractCommand  {
             {
                 Template t = Templates.couldNotPlay(exception);
                 SendableMessage sm = new SendableMessage();
-                sm.setFrom("WarningsCommand");
+                sm.setFrom(getClass());
                 sm.setChannel(channel);
                 sm.setMessage(t.getEmbed());
                 bot.send(sm);
             }
         });
       }
-    
+
     private boolean play(AlloyInputData data, GuildMusicManager musicManager, AudioTrack track)
     {
         Queueable q = data.getQueue();
@@ -140,13 +148,9 @@ public class PlayCommand extends AbstractCommand  {
         {
             JoinCommand command = new JoinCommand();
             command.execute(data);
-        // }
-        // if ( VoiceHandler.isConnected(g))    
-        // {
             DelayJob<AudioTrack> j = new DelayJob<AudioTrack>(musicManager.scheduler::queue , track);
-            q.queueIn(j, 1500);
+            q.queueIn(j, 2000L );
             return true;
         }
-        // return false;
     }
 }

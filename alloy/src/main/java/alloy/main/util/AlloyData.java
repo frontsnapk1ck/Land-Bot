@@ -52,6 +52,11 @@ public class AlloyData {
         this.jda = jda;
         this.alloy = alloy;
         console.setHandler(alloy,alloy);
+        configHandlers();
+    }
+    
+    private void configHandlers() 
+    {
         configAudio();
     }
 

@@ -41,7 +41,7 @@ public class DayCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("DayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);   
             return;
@@ -54,7 +54,7 @@ public class DayCommand extends AbstractCommand {
         Template t = Templates.daySuccess(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("DayCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);  
     }

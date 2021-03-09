@@ -31,9 +31,7 @@ buildNumber.properties
 #Custom
 #
 res/servers
-res/token.token
-res/token2.token
-res/youtube.token
+res/key/*
 src/main/resources/client_secrets.json
 
 TODO

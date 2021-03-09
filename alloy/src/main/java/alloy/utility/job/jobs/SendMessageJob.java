@@ -24,7 +24,7 @@ public class SendMessageJob extends Job {
     {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("SendMessageJob");
+        sm.setFrom(getClass());
         sm.setMessage(this.message);
         this.sendable.send(sm);
     }

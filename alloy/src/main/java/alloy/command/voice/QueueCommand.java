@@ -26,11 +26,12 @@ public class QueueCommand extends AbstractCommand {
         Audible audible = data.getAudible();
 
         GuildMusicManager musicManager = audible.getGuildAudioPlayer(g);
+        AudioTrack nowPlaying = musicManager.player.getPlayingTrack();
         BlockingQueue<AudioTrack> queue = musicManager.scheduler.getQueue();
 
-        Template t = Templates.musicQueue(queue);
+        Template t = Templates.musicQueue(queue,nowPlaying);
         SendableMessage sm = new SendableMessage();
-        sm.setFrom("WarningsCommand");
+        sm.setFrom(getClass());
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
         bot.send(sm);

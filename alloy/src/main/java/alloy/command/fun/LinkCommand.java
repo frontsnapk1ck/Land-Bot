@@ -55,7 +55,7 @@ public class LinkCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("LinkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -65,7 +65,7 @@ public class LinkCommand extends AbstractCommand {
         Template t = Templates.linkEmbed(link,text);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("LinkCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         

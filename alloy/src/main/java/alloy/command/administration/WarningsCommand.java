@@ -27,7 +27,8 @@ public class WarningsCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(AlloyInputData data) {
+    public void execute(AlloyInputData data) 
+    {
         Guild guild = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -39,7 +40,7 @@ public class WarningsCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WarningsCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -48,7 +49,7 @@ public class WarningsCommand extends AbstractCommand {
         if (args.length < 1) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("WarningsCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
@@ -61,7 +62,7 @@ public class WarningsCommand extends AbstractCommand {
             Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WarningsCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -73,7 +74,7 @@ public class WarningsCommand extends AbstractCommand {
         Template t = Templates.warnings(warningString);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("WarningsCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 

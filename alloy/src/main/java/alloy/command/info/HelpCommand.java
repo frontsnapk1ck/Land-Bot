@@ -29,7 +29,7 @@ public class HelpCommand extends AbstractCooldownCommand {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("HelpCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);  
             return;
@@ -38,7 +38,7 @@ public class HelpCommand extends AbstractCooldownCommand {
         Template t = Templates.showHelpMessage();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("HelpCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }

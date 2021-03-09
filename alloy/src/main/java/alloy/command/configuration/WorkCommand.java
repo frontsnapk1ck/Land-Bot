@@ -30,7 +30,7 @@ public class WorkCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -41,7 +41,7 @@ public class WorkCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args,getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -57,7 +57,7 @@ public class WorkCommand extends AbstractCommand {
         Template t = Templates.workOptions(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("WorkCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }
@@ -73,7 +73,7 @@ public class WorkCommand extends AbstractCommand {
             Template t = Templates.argumentsNotRecognized(msg);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -84,7 +84,7 @@ public class WorkCommand extends AbstractCommand {
         Template t = Templates.workOptionAddSuccess(args);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("WorkCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 
@@ -100,7 +100,7 @@ public class WorkCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -112,7 +112,7 @@ public class WorkCommand extends AbstractCommand {
             Template t = Templates.workRemoveSuccess(s);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -120,7 +120,7 @@ public class WorkCommand extends AbstractCommand {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -128,7 +128,7 @@ public class WorkCommand extends AbstractCommand {
             Template t = Templates.numberOutOfBounds(e);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -145,7 +145,7 @@ public class WorkCommand extends AbstractCommand {
         Template t = Templates.workOptions(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("WorkCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }

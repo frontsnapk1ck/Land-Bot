@@ -24,7 +24,7 @@ public class LeaveCommand extends AbstractCommand {
             Template t = Templates.voiceDisconnectSuccess(vc);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("LeaveCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
 
@@ -32,7 +32,7 @@ public class LeaveCommand extends AbstractCommand {
             Template t = Templates.voiceDisconnectFail();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("LeaveCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         }

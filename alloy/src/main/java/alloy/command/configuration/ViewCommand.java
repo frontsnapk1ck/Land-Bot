@@ -24,7 +24,7 @@ public class ViewCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage() );
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("ViewCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -46,7 +46,7 @@ public class ViewCommand extends AbstractCommand {
         Template t = Templates.workOptions(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("ViewCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);        
     }
@@ -60,7 +60,7 @@ public class ViewCommand extends AbstractCommand {
         Template t = Templates.buildingsList(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("ViewCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);    }
     

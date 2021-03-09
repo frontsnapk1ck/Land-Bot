@@ -31,7 +31,7 @@ public class PrefixHandler {
         Template t = Templates.prefixIs(prefix);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(tc);
-        sm.setFrom("PrefixHandler");
+        sm.setFrom(PrefixHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }

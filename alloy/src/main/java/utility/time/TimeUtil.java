@@ -30,7 +30,8 @@ public class TimeUtil {
         TIME_SYMBOLS.put('s', 1000L);
     }
 
-    public static String getTimestampFormat(long time) {
+    public static String getTimestampFormat(long time) 
+    {
         try {
             return timestamp.format(new Date(time));
         } catch (Exception e) {
@@ -353,6 +354,36 @@ public class TimeUtil {
 
         String date = hourS + ":" + minS + ":" + secS + "." + miliS;
         return date;
+    }
+
+    /**
+     * 
+     * @param time the length, in millis, that you are converting to normal time
+     */
+    public static String getTimeShortFromRealitive (long time)
+    {
+        String timeS = String.valueOf(time);
+        boolean roundup = false;
+
+        if (timeS.length() > 3)
+        {
+            String sub = timeS.substring(timeS.length() - 3);
+            if ( Long.parseLong(sub) >- 500L )
+                roundup = true;
+        }
+
+        int seconds = (int) (time / 1000) + (roundup ? 1 : 0);
+        int mins = (int)(seconds/60);
+        int hours = (int)(mins/60);
+
+        seconds %= 60;
+        mins %= 60;
+        
+        String out = "";
+        if (hours != 0)
+            out += hours + ":";
+        out += fixHangingZero( mins ) + ":" + fixHangingZero( seconds );
+        return out;
     }
 
     public static String getTimeTill(long time, TimesIncludes includes) 

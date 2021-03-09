@@ -58,7 +58,7 @@ public class KickCommand extends AbstractModerationCommand {
         Template t = Templates.kicked(u);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         

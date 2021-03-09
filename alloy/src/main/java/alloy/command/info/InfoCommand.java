@@ -40,7 +40,7 @@ public class InfoCommand extends AbstractCommand {
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
-            sm.setFrom("InfoCommand");
+            sm.setFrom(getClass());
             bot.send(sm);
             return;
         }
@@ -57,7 +57,7 @@ public class InfoCommand extends AbstractCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("InfoCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
 
@@ -71,7 +71,7 @@ public class InfoCommand extends AbstractCommand {
             Template t = Templates.userNotFound( user );
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WarnCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -83,7 +83,7 @@ public class InfoCommand extends AbstractCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("InfoCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
 
@@ -93,7 +93,7 @@ public class InfoCommand extends AbstractCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("InfoCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
 
@@ -108,7 +108,7 @@ public class InfoCommand extends AbstractCommand {
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
-            sm.setFrom("InfoCommand");
+            sm.setFrom(getClass());
             bot.send(sm);
         }
 
@@ -116,7 +116,7 @@ public class InfoCommand extends AbstractCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("InfoCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
     

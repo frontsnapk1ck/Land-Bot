@@ -21,7 +21,7 @@ public class ViewHandler {
         embedBuildingList(eb, buildings);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("ViewHandler");
+        sm.setFrom(ViewHandler.class);
         sm.setMessage(eb.build());
         bot.send(sm);
     }
@@ -53,7 +53,7 @@ public class ViewHandler {
         embedWorkArray(eb, wO);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("ViewHandler");
+        sm.setFrom(ViewHandler.class);
         sm.setMessage(eb.build());
         bot.send(sm);
 

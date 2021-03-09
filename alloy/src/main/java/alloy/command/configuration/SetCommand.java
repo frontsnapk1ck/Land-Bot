@@ -43,7 +43,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -53,7 +53,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -87,7 +87,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -103,7 +103,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.invalidURL(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -116,7 +116,7 @@ public class SetCommand extends AbstractCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("SetCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
 
@@ -132,7 +132,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -147,7 +147,7 @@ public class SetCommand extends AbstractCommand {
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             bot.send(sm);
             return;
         }
@@ -159,7 +159,7 @@ public class SetCommand extends AbstractCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("SetCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
 
@@ -175,7 +175,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -190,7 +190,7 @@ public class SetCommand extends AbstractCommand {
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             bot.send(sm);
             return;
         }
@@ -209,7 +209,7 @@ public class SetCommand extends AbstractCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("SetCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
 
@@ -225,7 +225,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -240,7 +240,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.adminBypassCooldown(false);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         }
@@ -251,7 +251,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.adminBypassCooldown(true);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         }
@@ -260,7 +260,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         }
@@ -281,7 +281,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -291,7 +291,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -303,7 +303,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -313,7 +313,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.invalidNumberFormat(args[2]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -325,7 +325,7 @@ public class SetCommand extends AbstractCommand {
         Template t = Templates.xpSetSuccess(target, xp);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RankupCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         return;
@@ -343,7 +343,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -354,7 +354,7 @@ public class SetCommand extends AbstractCommand {
             Template t = Templates.invalidChannel(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SetCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -365,7 +365,7 @@ public class SetCommand extends AbstractCommand {
         Template t = Templates.spamChannelChanged(target);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("SetCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 

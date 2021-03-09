@@ -34,7 +34,7 @@ public class RankupHandler {
             Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupHandler");
+            sm.setFrom(RankupHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -44,7 +44,7 @@ public class RankupHandler {
             Template t = Templates.invalidRole(args[2]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupHandler");
+            sm.setFrom(RankupHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -58,7 +58,7 @@ public class RankupHandler {
             Template t = Templates.duplicateRankup(level);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupHandler");
+            sm.setFrom(RankupHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -91,7 +91,7 @@ public class RankupHandler {
             Template t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupHandler");
+            sm.setFrom(RankupHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -103,7 +103,7 @@ public class RankupHandler {
             Template t = Templates.duplicateRankup(level);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupHandler");
+            sm.setFrom(RankupHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -125,7 +125,7 @@ public class RankupHandler {
         Template t = Templates.rankupAddSuccess(ru);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RankupHandler");
+        sm.setFrom(RankupHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         return;
@@ -146,7 +146,7 @@ public class RankupHandler {
             Template t = Templates.rankupRemoveSuccess(toRm);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupHandler");
+            sm.setFrom(RankupHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -156,7 +156,7 @@ public class RankupHandler {
             Template t = Templates.levelNotFound("" + level);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankupHandler");
+            sm.setFrom(RankupHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;

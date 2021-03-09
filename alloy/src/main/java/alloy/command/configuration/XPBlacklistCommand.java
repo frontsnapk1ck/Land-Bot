@@ -36,7 +36,7 @@ public class XPBlacklistCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BlacklistCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -49,7 +49,7 @@ public class XPBlacklistCommand extends AbstractCommand {
         if (args.length != 2) {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("BlacklistCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
@@ -67,7 +67,7 @@ public class XPBlacklistCommand extends AbstractCommand {
         if (!DisUtil.isValidChannel(g, c)) {
             Template t = Templates.invalidChannel(c);
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("BlacklistCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
@@ -77,7 +77,7 @@ public class XPBlacklistCommand extends AbstractCommand {
         if (BlacklistHandler.isBlacklisted(g, channel.getAsMention())) {
             Template t = Templates.channelIsAlreadyBlacklisted(channel);
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("BlacklistCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
@@ -88,7 +88,7 @@ public class XPBlacklistCommand extends AbstractCommand {
 
         Template t = Templates.blackListAddSuccess(c);
         SendableMessage sm = new SendableMessage();
-        sm.setFrom("BlacklistCommand");
+        sm.setFrom(getClass());
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
@@ -100,7 +100,7 @@ public class XPBlacklistCommand extends AbstractCommand {
         if (!DisUtil.isValidChannel(g, c)) {
             Template t = Templates.invalidChannel(c);
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("BlacklistCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
@@ -110,7 +110,7 @@ public class XPBlacklistCommand extends AbstractCommand {
         if (!BlacklistHandler.isBlacklisted(g, c)) {
             Template t = Templates.channelIsNotBlacklisted(c);
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("BlacklistCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
@@ -120,7 +120,7 @@ public class XPBlacklistCommand extends AbstractCommand {
         BlacklistHandler.remove(g, c);
         Template t = Templates.blackListRemoveSuccess(c);
         SendableMessage sm = new SendableMessage();
-        sm.setFrom("BlacklistCommand");
+        sm.setFrom(getClass());
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
         bot.send(sm);

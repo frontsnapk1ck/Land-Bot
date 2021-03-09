@@ -31,7 +31,7 @@ public class RemindCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RemindCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -58,7 +58,7 @@ public class RemindCommand extends AbstractCommand {
             Template t = Templates.timeNotRecognized(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RemindCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -72,7 +72,7 @@ public class RemindCommand extends AbstractCommand {
         Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RemindCommand {...} RemindJob");
+        sm.setFrom(getClass());
         sm.setMessage(outM);
 
         RemindJob job = new RemindJob(bot, sm);
@@ -80,7 +80,7 @@ public class RemindCommand extends AbstractCommand {
 
         SendableMessage sm2 = new SendableMessage();
         sm2.setChannel(channel);
-        sm2.setFrom("RemindCommand");
+        sm2.setFrom(getClass());
         sm2.setMessage(template.getEmbed());
         bot.send(sm2);
     }
@@ -99,7 +99,7 @@ public class RemindCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RemindCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -111,7 +111,7 @@ public class RemindCommand extends AbstractCommand {
             Template t = Templates.timeNotRecognized(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RemindCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -122,7 +122,7 @@ public class RemindCommand extends AbstractCommand {
             Template t = Templates.privateMessageFailed(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RemindCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -136,7 +136,7 @@ public class RemindCommand extends AbstractCommand {
         Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(pc);
-        sm.setFrom("RemindCommand {...} RemindJob");
+        sm.setFrom(getClass());
         sm.setMessage(outM);
 
         RemindJob job = new RemindJob(bot, sm);
@@ -144,7 +144,7 @@ public class RemindCommand extends AbstractCommand {
 
         SendableMessage sm2 = new SendableMessage();
         sm2.setChannel(channel);
-        sm2.setFrom("RemindCommand");
+        sm2.setFrom(getClass());
         sm2.setMessage(template.getEmbed());
         bot.send(sm2);
 

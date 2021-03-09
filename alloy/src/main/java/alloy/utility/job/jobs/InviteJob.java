@@ -27,7 +27,7 @@ public class InviteJob extends Job {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(pc);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("InviteCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
     

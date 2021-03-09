@@ -42,7 +42,7 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -72,7 +72,7 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -89,7 +89,7 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -99,7 +99,7 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.invalidBuildingName(name);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -115,7 +115,7 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.buildingsNameOutOfBounds(b);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -127,7 +127,7 @@ public class BuildingCommand extends AbstractCommand {
         Template t = Templates.buildingSaveSuccess(buildings);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("BuildingCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 
@@ -143,7 +143,7 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -155,14 +155,14 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.buildingsRemoveSuccess(b);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         } catch (NumberFormatException e) {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -170,7 +170,7 @@ public class BuildingCommand extends AbstractCommand {
             Template t = Templates.numberOutOfBounds(e);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuildingCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;

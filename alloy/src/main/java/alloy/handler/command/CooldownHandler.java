@@ -34,7 +34,7 @@ public class CooldownHandler {
         Template t = Templates.showXPCooldown(cooldown);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownHandler");
+        sm.setFrom(CooldownHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }
@@ -50,7 +50,7 @@ public class CooldownHandler {
         Template t = Templates.showCooldown(cooldown);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownHandler");
+        sm.setFrom(CooldownHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }

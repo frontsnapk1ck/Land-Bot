@@ -24,7 +24,7 @@ public class StartingBalanceHandler {
         Template t = Templates.viewStartingBalance(s.getStartingBalance());
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("StartingBalanceHandler");
+        sm.setFrom(StartingBalanceHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);  
 	}
@@ -47,7 +47,7 @@ public class StartingBalanceHandler {
             Template t = Templates.invalidNumberFormat(balS);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("StartingBalanceHandler");
+            sm.setFrom(StartingBalanceHandler.class);
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;

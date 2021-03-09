@@ -17,10 +17,10 @@ public interface AlloyPathsConstants {
     public static final String RANKS_FILE                       = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\globals\\random\\ranks.txt";
     public static final String WARNS_FILE                       = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\globals\\random\\warns.txt";
 
-    public static final String KEY_FILE                         = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\token.token";
-    public static final String KEY_FILE_2                       = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\token2.token";
+    public static final String KEY_FILE                         = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\key\\token.token";
+    public static final String KEY_FILE_2                       = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\key\\token2.token";
 
-    public static final String YOUTUBE_FILE                     = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\youtube.token";
+    public static final String YOUTUBE_FILE                     = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\key\\youtube.token";
 
     public static final String EVENT_FILE                       = "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\event.queue";
 

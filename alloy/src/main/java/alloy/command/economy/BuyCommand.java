@@ -43,7 +43,7 @@ public class BuyCommand extends AbstractCooldownCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuyCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -54,7 +54,7 @@ public class BuyCommand extends AbstractCooldownCommand {
             Template t = Templates.buildingNameNotRecognized(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuyCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -66,7 +66,7 @@ public class BuyCommand extends AbstractCooldownCommand {
             Template t = Templates.bankInsufficientFunds(author, toBuy.getCost());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BuyCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -76,7 +76,7 @@ public class BuyCommand extends AbstractCooldownCommand {
         Template t = Templates.buildingBuySuccess(toBuy, author);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("BuyCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 

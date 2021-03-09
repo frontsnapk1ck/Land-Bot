@@ -57,7 +57,7 @@ public class PurgeCommand extends AbstractCommand {
             Template t = Templates.noPermission(DisPerm.ADMINISTRATOR, author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PurgeCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -226,7 +226,7 @@ public class PurgeCommand extends AbstractCommand {
             Template t = Templates.bulkDeleteSuccessful(channel, messagesToDelete.size() - 1);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PurgeCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             Job j = new PurgeJob(messagesToDelete, channel);

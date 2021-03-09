@@ -37,7 +37,7 @@ public class WorkCommand extends AbstractCooldownCommand {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WorkCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -51,7 +51,7 @@ public class WorkCommand extends AbstractCooldownCommand {
         Template t = Templates.workSuccess(option, amt);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("WorkCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 

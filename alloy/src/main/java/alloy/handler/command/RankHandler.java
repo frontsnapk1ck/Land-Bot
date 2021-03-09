@@ -178,7 +178,7 @@ public class RankHandler {
         Template t = Templates.rank(target, level, progress);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RankHandler");
+        sm.setFrom(RankHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }
@@ -194,7 +194,7 @@ public class RankHandler {
                 String message = replace(m, rankup);
                 SendableMessage sm = new SendableMessage();
                 sm.setChannel(channel);
-                sm.setFrom("RankHandler");
+                sm.setFrom(RankHandler.class);
                 sm.setMessage(message);
                 bot.send(sm);
                 if (rankup.getId() != 0l && addLevel)
@@ -205,7 +205,7 @@ public class RankHandler {
         String message = loadDefaultMessage(m, rank);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RankHandler");
+        sm.setFrom(RankHandler.class);
         sm.setMessage(message);
         bot.send(sm);
     }

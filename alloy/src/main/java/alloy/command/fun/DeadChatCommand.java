@@ -62,7 +62,7 @@ public class DeadChatCommand extends AbstractCooldownCommand {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("DeadChatCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);  
             return;
@@ -75,7 +75,7 @@ public class DeadChatCommand extends AbstractCooldownCommand {
         SendableMessage sm = new SendableMessage();
         sm.setMessage(message);
         sm.setChannel(channel);
-        sm.setFrom("DeadChatCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
 
         msg.delete().queue(null , eHandler);

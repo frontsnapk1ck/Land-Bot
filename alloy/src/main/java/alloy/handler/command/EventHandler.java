@@ -140,7 +140,7 @@ public class EventHandler {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("EventHandler");
+        sm.setFrom(EventHandler.class);
         bot.send(sm);
     }
 
@@ -152,7 +152,7 @@ public class EventHandler {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("EventHandler");
+        sm.setFrom(EventHandler.class);
         bot.send(sm);
     }
 

@@ -63,7 +63,7 @@ public class WarnCommand extends AbstractCommand {
             Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WarnCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -74,7 +74,7 @@ public class WarnCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WarnCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -90,7 +90,7 @@ public class WarnCommand extends AbstractCommand {
             Template t = Templates.privateMessageFailed(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WarnCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -99,14 +99,14 @@ public class WarnCommand extends AbstractCommand {
         Template warn = Templates.getWarn(w);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(pc);
-        sm.setFrom("WarnCommand");
+        sm.setFrom(getClass());
         sm.setMessage(warn.getEmbed());
         bot.send(sm);
 
         Template t = Templates.warnSuccess(target, w, author);
         SendableMessage sm2 = new SendableMessage();
         sm2.setChannel(chan);
-        sm2.setFrom("WarnCommand");
+        sm2.setFrom(getClass());
         sm2.setMessage(t.getEmbed());
         bot.send(sm2);
     }
@@ -122,7 +122,7 @@ public class WarnCommand extends AbstractCommand {
         String message = chats[i];
 
         sm.setChannel(channel);
-        sm.setFrom("CooldownCommand");
+        sm.setFrom(getClass());
         sm.setMessage(message);
         bot.send(sm);
     }
@@ -139,7 +139,7 @@ public class WarnCommand extends AbstractCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RemoveWarnings");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -149,7 +149,7 @@ public class WarnCommand extends AbstractCommand {
             Template t = Templates.warningNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RemoveWarnings");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -160,7 +160,7 @@ public class WarnCommand extends AbstractCommand {
         Template t = Templates.warningsRemovedSuccess(args[0], warned);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RemoveWarnings");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }

@@ -30,7 +30,7 @@ public class MeCommand extends AbstractCommand {
         Template t = Templates.showBuildings( author , owned );
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("MeCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);   
     }

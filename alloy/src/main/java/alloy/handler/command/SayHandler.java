@@ -61,7 +61,7 @@ public class SayHandler {
         List<Attachment> attachments = msg.getAttachments();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("SayHandler");
+        sm.setFrom(SayHandler.class);
 
         for (Attachment attachment : attachments) 
         {
@@ -100,7 +100,7 @@ public class SayHandler {
 
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("SayHandler");
+        sm.setFrom(SayHandler.class);
         sm.setMessage(out);
         bot.send(sm);
     }
@@ -131,7 +131,7 @@ public class SayHandler {
         Template t = Templates.sayAdmin(out, msg);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("SayHandler");
+        sm.setFrom(SayHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         msg.delete().queue(null, handler);

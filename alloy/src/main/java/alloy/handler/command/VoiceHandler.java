@@ -12,7 +12,6 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
 import alloy.handler.security.Auth;
-import alloy.main.Alloy;
 import alloy.main.intefs.Audible;
 import alloy.utility.discord.AlloyUtil;
 import io.FileReader;
@@ -100,12 +99,16 @@ public class VoiceHandler {
         // This object is used to make YouTube Data API requests. The last
         // argument is required, but since we don't need anything
         // initialized when the HttpRequest is initialized, we override
-        // the interface and provide a no-op function.            
-        youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, new HttpRequestInitializer() 
+        // the interface and provide a no-op function.
+        HttpRequestInitializer req = new HttpRequestInitializer()
         {
-            public void initialize(HttpRequest request) throws IOException {
+            public void initialize(HttpRequest request) throws IOException 
+            {
             }
-        }).setApplicationName("alloy-search-youtube").build();
+        };
+        youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, req)
+                                        .setApplicationName("alloy-search-youtube")
+                                        .build();
 
         // Prompt the user to enter a query term.
         String queryTerm = StringUtil.joinStrings(args);

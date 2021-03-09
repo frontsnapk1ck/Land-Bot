@@ -25,7 +25,7 @@ public class PingJob extends Job {
         long start = System.currentTimeMillis();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("PingCommand");
+        sm.setFrom(getClass());
         sm.setMessage("checking ping");
         MessageAction action = bot.getAction( sm );
         if (action != null)

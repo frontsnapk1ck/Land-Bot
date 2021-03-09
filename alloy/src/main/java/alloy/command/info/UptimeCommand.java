@@ -26,7 +26,7 @@ public class UptimeCommand extends AbstractCooldownCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("UptimeCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
 

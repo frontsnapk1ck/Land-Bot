@@ -1072,21 +1072,34 @@ public class Templates {
 		return t;
 	}
 
-    public static Template musicQueue(BlockingQueue<AudioTrack> queue) 
+    public static Template musicQueue(BlockingQueue<AudioTrack> queue, AudioTrack nowPlaying) 
 	{
 		String out = "";
+		int i = 1;
 		for (AudioTrack t : queue) 
 		{
 			String title = t.getInfo().title;
-			String author = t.getInfo().author;
-			String trackInfo = "[" + title + " - " + author + "]("  + t.getInfo().uri + ")";
+			String trackInfo = "" + i + ".   [" + title + "]("  + t.getInfo().uri + ")";
 			trackInfo += "\nDuration: `";
 			trackInfo += TimeUtil.getRelativeTime(t.getDuration()) + "`";
 			out += trackInfo + "\n\n";
+			i++;
 		}
 		if (out.equalsIgnoreCase(""))
 			out = "Nothing in the queue";
 		
+		if (nowPlaying == null)
+		{
+			Template t = new Template("Music Queue", "Nothing in the queue");
+			return t;
+		}
+
+		String title = nowPlaying.getInfo().title;
+		String trackInfo = "[" + title + "]("  + nowPlaying.getInfo().uri + ")";
+		trackInfo += "\nDuration: `";
+		trackInfo += TimeUtil.getTimeShortFromRealitive(nowPlaying.getDuration()) + "`";
+		out = "Now Playing:\n" + trackInfo + "\n\nQueue:\n" + out;
+
 		Template t = new Template("Music Queue", out);
 		return t;
     }
@@ -1120,5 +1133,23 @@ public class Templates {
 		Template t = new Template("Queue" , "Adding to queue " + track.getInfo().title);
 		return t;
 	}
+
+    public static Template nowPlaying(AudioTrack nowPlaying) 
+	{
+		String title = nowPlaying.getInfo().title;
+		String author = nowPlaying.getInfo().author;
+		String trackInfo = "[" + title + " - " + author + "]("  + nowPlaying.getInfo().uri + ")";
+		trackInfo += "\nDuration: `";
+		trackInfo += TimeUtil.getTimeShortFromRealitive(nowPlaying.getDuration()) + "`";
+
+		Template t = new Template("Now Playing", trackInfo);
+		return t;
+    }
+
+    public static Template musicSkipped() 
+	{
+		Template t = new Template("Skipped", "The song has been skipped");
+		return t;
+    }
 
 }

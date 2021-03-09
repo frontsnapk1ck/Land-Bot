@@ -58,7 +58,7 @@ public class BanCommand extends AbstractModerationCommand {
         Template t = Templates.banned(u);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 

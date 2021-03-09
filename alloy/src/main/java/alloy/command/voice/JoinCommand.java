@@ -38,7 +38,7 @@ public class JoinCommand extends AbstractCommand {
         Template t = Templates.voiceMemberNotInChannel(m);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("JoinCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }
@@ -48,14 +48,14 @@ public class JoinCommand extends AbstractCommand {
             Template t = Templates.voiceJoinSuccess(vc);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("JoinCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         } else {
             Template t = Templates.voiceJoinFail(vc);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("JoinCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         }

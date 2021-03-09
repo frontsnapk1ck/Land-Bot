@@ -37,7 +37,7 @@ public class LeaderboardCommand extends AbstractCooldownCommand {
         List<String> lb = BankHandler.loadLeaderboardMoney(g);
         Template t = Templates.leaderboard(lb);
         SendableMessage sm = new SendableMessage();
-        sm.setFrom("LeaderboardCommand");
+        sm.setFrom(getClass());
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
@@ -52,7 +52,7 @@ public class LeaderboardCommand extends AbstractCooldownCommand {
         List<String> lb = RankHandler.loadLeaderboard(g);
         Template t = Templates.leaderboard(lb);
         SendableMessage sm = new SendableMessage();
-        sm.setFrom("LeaderboardCommand");
+        sm.setFrom(getClass());
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
         bot.send(sm);

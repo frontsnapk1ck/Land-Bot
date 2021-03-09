@@ -51,7 +51,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
         if (fail != null) {
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(fail);
             bot.send(sm);
             return;
@@ -61,7 +61,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             Template t = Templates.moderationActionEmpty(chan, getPunishType());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -72,7 +72,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -82,7 +82,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             Template t = Templates.cannotModerateSelf();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -92,7 +92,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             Template t = Templates.cannotModerateModerators();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -103,7 +103,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             Template t = Templates.moderationActionFailed(getPunishType());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -116,7 +116,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             Case c = CaseHandler.buildCase(caseID, author, getPunishType(), message, targetUser, msg);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(modLog);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(CaseHandler.toEmbed(c));
             bot.send(sm);
         }
@@ -125,7 +125,7 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
             Template t = Templates.modlogNotFound();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
-            sm.setFrom("AbstractModerationCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -137,14 +137,14 @@ public abstract class AbstractModerationCommand extends AbstractCommand {
         TextChannel tc = DisUtil.findChannel(chan.getGuild(), s.getModLogChannel());
         SendableMessage sm = new SendableMessage();
         sm.setChannel(tc);
-        sm.setFrom("AbstractModerationCommand");
+        sm.setFrom(getClass());
         sm.setMessage(log.getEmbed());
         bot.send(sm);
 
         Template t = Templates.moderationActionSuccess(chan, targetUser, getPunishType().getVerb());
         SendableMessage sm2 = new SendableMessage();
         sm.setChannel(chan);
-        sm.setFrom("AbstractModerationCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm2);
     }

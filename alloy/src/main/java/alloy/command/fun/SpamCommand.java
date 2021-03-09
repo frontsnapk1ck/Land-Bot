@@ -33,7 +33,7 @@ public class SpamCommand extends AbstractCooldownCommand {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -44,7 +44,7 @@ public class SpamCommand extends AbstractCooldownCommand {
             MessageEmbed embed = startSpam(channel, args, author, queueable , bot);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SpamCommand");
+            sm.setFrom(getClass());
             sm.setMessage(embed);
             bot.send(sm);
             return;
@@ -54,7 +54,7 @@ public class SpamCommand extends AbstractCooldownCommand {
             MessageEmbed embed = stopSpam(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("SpamCommand");
+            sm.setFrom(getClass());
             sm.setMessage(embed);
             bot.send(sm);
             return;
@@ -63,7 +63,7 @@ public class SpamCommand extends AbstractCooldownCommand {
         Template t = Templates.argumentsNotRecognized(data.getMessageActual());
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("SpamCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }

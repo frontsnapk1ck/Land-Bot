@@ -21,7 +21,7 @@ public class DonateCommand extends AbstractCommand {
         Template t = Templates.donate(author);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("HelpCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
     }

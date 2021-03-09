@@ -65,9 +65,24 @@ public class SendableMessage {
         this.channel = channel;
     }
 
+    /**
+     * sets the name to be displayed on event that this needs to be output to the console
+     * @see {@link SendableMessage#setFrom(Class)}
+     * @param from the name of the class of which the message is originating 
+     */
+    @Deprecated
     public void setFrom(String from)
     {
         this.from = from;
+    }
+
+    /**
+     * sets the name to be displayed on event that this needs to be output to the console
+     * @param from the name of the class of which the message is originating 
+     */
+    public void setFrom(Class<?> clazz) 
+    {
+        this.from = clazz.getSimpleName();
     }
 
     public void setMessage(MessageEmbed messageE) 
@@ -130,7 +145,7 @@ public class SendableMessage {
         return this.sent != null;
     }
 
-    public boolean hadFiles()
+    public boolean hasFiles()
     {
         return this.files.size() != 0;
     }

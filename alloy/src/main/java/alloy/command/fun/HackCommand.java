@@ -46,7 +46,7 @@ public class HackCommand extends AbstractCooldownCommand {
             Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("WarningsCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -57,7 +57,7 @@ public class HackCommand extends AbstractCooldownCommand {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("HackCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);  
             return;
@@ -68,7 +68,7 @@ public class HackCommand extends AbstractCooldownCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("HackCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -81,7 +81,7 @@ public class HackCommand extends AbstractCooldownCommand {
             Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("HackCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -100,7 +100,7 @@ public class HackCommand extends AbstractCooldownCommand {
         SendableMessage sm = new SendableMessage();
         sm.setMessage(message);
         sm.setChannel(channel);
-        sm.setFrom("HackCommand");
+        sm.setFrom(getClass());
         MessageAction action = bot.getAction(sm);
         if (action == null)
             return;

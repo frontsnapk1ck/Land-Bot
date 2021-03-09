@@ -42,7 +42,7 @@ public class BankCommand extends AbstractCommand {
             Template t = Templates.bankCurrentBalance(p);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BankCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -55,7 +55,7 @@ public class BankCommand extends AbstractCommand {
         if (eb != null) {
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("BankCommand");
+            sm.setFrom(getClass());
             sm.setMessage(eb);
             bot.send(sm);
             return;
@@ -64,7 +64,7 @@ public class BankCommand extends AbstractCommand {
         Template t = Templates.argumentsNotRecognized(msg);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("BankCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         return;

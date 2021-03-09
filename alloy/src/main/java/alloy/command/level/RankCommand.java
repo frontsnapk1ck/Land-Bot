@@ -32,7 +32,7 @@ public class RankCommand extends AbstractCommand {
         if (target == null) {
             Template t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
-            sm.setFrom("RankCommand");
+            sm.setFrom(getClass());
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
             bot.send(sm);

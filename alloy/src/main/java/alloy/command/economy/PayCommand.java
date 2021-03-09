@@ -40,7 +40,7 @@ public class PayCommand extends AbstractCooldownCommand {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -50,7 +50,7 @@ public class PayCommand extends AbstractCooldownCommand {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -62,7 +62,7 @@ public class PayCommand extends AbstractCooldownCommand {
             Template t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -71,7 +71,7 @@ public class PayCommand extends AbstractCooldownCommand {
             Template t = Templates.bankTransferMinimum();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -90,7 +90,7 @@ public class PayCommand extends AbstractCooldownCommand {
             Template t = Templates.bankTransferSuccess(from, to, amount, message);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
@@ -98,7 +98,7 @@ public class PayCommand extends AbstractCooldownCommand {
             Template t = Templates.bankInsufficientFunds(author, amount);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("PayCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;

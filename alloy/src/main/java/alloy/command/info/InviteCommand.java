@@ -30,7 +30,7 @@ public class InviteCommand extends AbstractCooldownCommand {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("InviteCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
 
         Job j = new InviteJob(m, bot);

@@ -26,7 +26,7 @@ public class BlacklistHandler {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
-        sm.setFrom("BlacklistHandler");
+        sm.setFrom(BlacklistHandler.class);
         bot.send( sm );
 	}
 

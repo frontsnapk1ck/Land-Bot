@@ -31,7 +31,7 @@ public class RankCommand extends AbstractCooldownCommand {
             Template t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
-            sm.setFrom("RankCommand");
+            sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);  
             return;
@@ -44,7 +44,7 @@ public class RankCommand extends AbstractCooldownCommand {
         SendableMessage sm = new SendableMessage();
         sm.setMessage(message);
         sm.setChannel(channel);
-        sm.setFrom("RankCommand");
+        sm.setFrom(getClass());
         bot.send(sm);
     }
     

@@ -110,7 +110,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
                             .build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("RemindCommand {...} JobQueueLoaderText {...} RemindJob");
+        sm.setFrom(getClass());
         sm.setMessage(outM);
 
         RemindJob rJob = new RemindJob(alloy, sm);

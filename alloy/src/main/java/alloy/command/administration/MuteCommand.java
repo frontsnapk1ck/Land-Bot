@@ -67,7 +67,7 @@ public class MuteCommand extends AbstractModerationCommand {
         Template t = Templates.muted(member);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
-        sm.setFrom("CooldownCommand");
+        sm.setFrom(getClass());
         sm.setMessage(t.getEmbed());
         bot.send(sm);
 

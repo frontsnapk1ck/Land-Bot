@@ -2,7 +2,7 @@ package alloy.command.economy;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Player;
-import alloy.handler.command.BankHandler;
+import alloy.handler.command.econ.BankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;

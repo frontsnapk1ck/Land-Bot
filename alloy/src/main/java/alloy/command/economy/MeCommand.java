@@ -4,7 +4,7 @@ import java.util.Map;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Building;
-import alloy.handler.command.MeHandler;
+import alloy.handler.command.econ.MeHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;

@@ -21,9 +21,8 @@ import alloy.io.loader.RankLoaderText;
 import alloy.io.loader.ServerLoaderText;
 import alloy.io.loader.WarningLoaderText;
 import alloy.main.intefs.Queueable;
-import alloy.utility.discord.paths.AlloyExtensions;
+import alloy.utility.discord.paths.AlloyFiles;
 import alloy.utility.discord.paths.AlloyImages;
-import alloy.utility.discord.paths.AlloyPathsConstants;
 import io.FileReader;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -32,7 +31,7 @@ import net.dv8tion.jda.api.entities.User;
 import utility.StringUtil;
 import utility.cache.Cache;
 
-public class AlloyUtil implements AlloyPathsConstants, AlloyExtensions, AlloyImages {
+public class AlloyUtil implements AlloyFiles, AlloyImages {
 
     private static Cache cache;
 

@@ -1,4 +1,4 @@
-package alloy.handler.command;
+package alloy.handler.command.info;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,6 @@ public class HelpHandler {
     private static void filterMap(Map<String, List<Class<? extends AbstractCommand>>> map) 
     {
         map.remove("alloy.command.console");
-        map.remove("alloy.command.voice");
         
     }
 

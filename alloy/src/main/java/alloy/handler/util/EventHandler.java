@@ -1,9 +1,10 @@
-package alloy.handler.command;
+package alloy.handler.util;
 
 import java.io.File;
 import java.io.IOException;
 
 import alloy.gameobjects.Server;
+import alloy.main.Alloy;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
 import disterface.util.template.Template;
@@ -15,9 +16,11 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import utility.event.annotation.RequiredJob;
 
 public class EventHandler {
 
+    @RequiredJob
     public static void onGuildJoinEvent(Guild g) 
     {
         String path = AlloyUtil.getGuildPath(g);
@@ -52,6 +55,7 @@ public class EventHandler {
         Saver.saveOverwrite(botS.getAbsolutePath(), loadBotSettingsArr(g));
     }
 
+    @RequiredJob
     public static void onMemberJoinEvent(Member m) 
     {
         Guild g = m.getGuild();
@@ -95,8 +99,7 @@ public class EventHandler {
             Saver.deleteFiles(path);
         } catch (Exception e) 
         {
-            System.err.println(path);
-            System.err.println(e.getMessage());
+            Alloy.LOGGER.warn("EventHandler", e.getClass().getSimpleName() + " error at path " + path + " with message: " + e.getMessage());
         }
     }
 

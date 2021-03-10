@@ -9,6 +9,7 @@ public class CaseSettings extends AbstractSettings {
     private String reason;
     private PunishType punishType;
     private long messageId;
+    private long target;
 
     public CaseSettings() 
     {
@@ -17,6 +18,7 @@ public class CaseSettings extends AbstractSettings {
         this.reason = "No Reason Provided";
         this.punishType = null;
         this.messageId = 0l;
+        this.target = 0l;
         setPath("");
     }
 
@@ -38,6 +40,11 @@ public class CaseSettings extends AbstractSettings {
 
     public String getReason() {
         return reason;
+    }
+
+    public long getTargetId() 
+    {
+        return target;
     }
 
     @Override
@@ -78,6 +85,12 @@ public class CaseSettings extends AbstractSettings {
         return this;
     }
 
+    public CaseSettings setTarget(long target) 
+    {
+        this.target = target;
+        return this;
+    }
+
     public CaseSettings copy() 
     {
         CaseSettings settings = new CaseSettings();
@@ -85,11 +98,10 @@ public class CaseSettings extends AbstractSettings {
                 .setMessageId(messageId)
                 .setNum(num)
                 .setPath(getPath())
-                .setReason(reason);
+                .setReason(reason)
+                .setTarget(target);
         
         return settings;
     }
-
-
 
 }

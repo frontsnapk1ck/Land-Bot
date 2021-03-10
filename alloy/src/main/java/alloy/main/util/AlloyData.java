@@ -14,7 +14,7 @@ import alloy.audio.GuildMusicManager;
 import alloy.event.DebugListener;
 import alloy.event.DiscordInterface;
 import alloy.gameobjects.Server;
-import alloy.handler.command.VoiceHandler;
+import alloy.handler.command.audio.VoiceHandler;
 import alloy.input.console.Console;
 import alloy.io.loader.JobQueueLoaderText;
 import alloy.io.loader.util.JobQueueData;

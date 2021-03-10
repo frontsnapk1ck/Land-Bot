@@ -1,5 +1,6 @@
-package alloy.handler.command;
+package alloy.handler.command.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import alloy.command.util.PunishType;
@@ -32,7 +33,7 @@ public class CaseHandler {
         String path = getCasePath(msg.getGuild(), caseID);
 
         CaseSettings settings = new CaseSettings();
-        settings.setIssuer(author.getIdLong()).setMessageId(msg.getIdLong()).setNum(caseID).setPunishType(punishType)
+        settings.setIssuer(author.getIdLong()).setMessageId(msg.getIdLong()).setNum(caseID).setPunishType(punishType).setTarget(targetUser.getIdLong())
                 .setReason(message).setPath(path);
 
         return new Case(settings);
@@ -47,7 +48,8 @@ public class CaseHandler {
         return path;
     }
 
-    public static MessageEmbed toEmbed(Case c) {
+    public static MessageEmbed toEmbed(Case c) 
+    {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Case " + c.getNum());
         eb.addField(c.getPunishType().getKeyword(), "", true);
@@ -71,6 +73,19 @@ public class CaseHandler {
 
     public static void update(Case c) {
 
+    }
+
+    public static List<Case> allCases(Member target) 
+    {
+        Guild g = target.getGuild();
+        List<Case> all = AlloyUtil.loadAllCases(g);
+        List<Case> cases = new ArrayList<Case>();
+        for (Case c : all) 
+        {
+            if (c.getTargetId() == target.getIdLong())
+                cases.add(c);
+        }
+        return cases;
     }
 
 }

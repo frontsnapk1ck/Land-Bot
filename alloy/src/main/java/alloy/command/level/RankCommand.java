@@ -1,7 +1,7 @@
 package alloy.command.level;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.command.RankHandler;
+import alloy.handler.command.fun.RankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;

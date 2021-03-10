@@ -34,6 +34,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         String modLogString         = loadSetting(Server.MOD_LOG_CHANNEL, serverArray);
         String muteRoleString       = loadSetting(Server.MUTE_ROLE_ID, serverArray);
         String banAppealString      = loadSetting(Server.BAN_APPEAL_LINK, serverArray);
+        String isLoadedString       = loadSetting(Server.IS_LOADED, serverArray);
 
 
         String prefix               = String.valueOf(prefixString);
@@ -41,6 +42,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         int cool                    = Integer.parseInt(coolString);
         boolean roleAssign          = Boolean.parseBoolean(boolString1);
         boolean adminBypass         = Boolean.parseBoolean(boolString2);
+        boolean loaded              = Boolean.parseBoolean(isLoadedString);
         Long spamChannel            = Long.parseLong(spamString);
         List<Long> blacklist        = loadBlacklist(combinedBlackList);
         int xpCooldown              = Integer.parseInt(xpCooldownString);
@@ -65,6 +67,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
                 .setPrefix(prefix)
                 .setMuteRole(muteRole)
                 .setBanAppealLink(banAppealString)
+                .setLoaded(loaded)
                 .setPath(file);
 
         Server s = new Server( settings );

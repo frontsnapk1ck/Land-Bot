@@ -1,11 +1,12 @@
 package alloy.command.administration;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.Case;
 import alloy.gameobjects.Server;
-import alloy.handler.command.CaseHandler;
+import alloy.handler.command.admin.CaseHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Alloy;
@@ -13,6 +14,7 @@ import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;
 import alloy.templates.Templates;
 import alloy.utility.discord.AlloyUtil;
+import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;
 import alloy.utility.discord.perm.DisPermUtil;
 import disterface.util.template.Template;
@@ -38,7 +40,8 @@ public class CaseCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(AlloyInputData data) {
+    public void execute(AlloyInputData data) 
+    {
         Guild guild = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -55,10 +58,23 @@ public class CaseCommand extends AbstractCommand {
             return;
         }
 
+        if (args.length < 1) 
+        {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            SendableMessage sm = new SendableMessage();
+            sm.setFrom(getClass());
+            sm.setChannel(channel);
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
         boolean show = args.length > 0 && args[0].equalsIgnoreCase("show") && args.length < 3;
         boolean reason = args.length > 0 && args[0].equalsIgnoreCase("reason");
-        boolean validInt = Util.validInt(args[1]);
-        if (reason) {
+        boolean user = args.length > 1 && args[0].equalsIgnoreCase("user");
+        boolean validInt = args.length > 2 && Util.validInt(args[1]);
+        if (reason) 
+        {
             MessageEmbed embed = editReason(bot, guild, guild.getMember(author), channel, args[1],
                     StringUtil.joinStrings(args, 2));
 
@@ -70,7 +86,8 @@ public class CaseCommand extends AbstractCommand {
             return;
         }
 
-        if (show && validInt) {
+        if (show && validInt) 
+        {
             Case c = CaseHandler.getCase(guild.getIdLong(), args[1]);
             MessageEmbed e;
             if (c == null)
@@ -82,6 +99,30 @@ public class CaseCommand extends AbstractCommand {
             sm.setChannel(channel);
             sm.setFrom(getClass());
             sm.setMessage(e);
+            bot.send(sm);
+            return;
+        }
+
+        if (user)
+        {
+            Member target = DisUtil.findMember(guild, args[1]);
+            if (target == null)
+            {
+                Template t = Templates.userNotFound(args[1]);
+                SendableMessage sm = new SendableMessage();
+                sm.setFrom(getClass());
+                sm.setChannel(channel);
+                sm.setMessage(t.getEmbed());
+                bot.send(sm);
+                return;
+            }
+            List<Case> cases = CaseHandler.allCases(target);
+
+            Template t = Templates.caseList(cases);
+            SendableMessage sm = new SendableMessage();
+            sm.setFrom(getClass());
+            sm.setChannel(channel);
+            sm.setMessage(t.getEmbed());
             bot.send(sm);
             return;
         }

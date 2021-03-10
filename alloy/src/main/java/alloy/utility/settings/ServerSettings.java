@@ -22,6 +22,7 @@ public class ServerSettings extends AbstractSettings {
     private Long userLogChannel;
     private long muteRole;
     private String banAppealLink;
+    private boolean loaded;
 
 
     public ServerSettings() 
@@ -41,6 +42,7 @@ public class ServerSettings extends AbstractSettings {
         this.userLogChannel = 0l;
         this.muteRole = 0l;
         this.banAppealLink = "none";
+        this.loaded = false;
     }
 
     public List<Long> getBlacklistedChannels() 
@@ -91,6 +93,21 @@ public class ServerSettings extends AbstractSettings {
 
     public String getBanAppealLink() {
         return banAppealLink;
+    }
+
+    public boolean isLoaded() 
+    {
+        return loaded;
+    }
+
+    public boolean isAdminBypassCooldown() 
+    {
+        return adminBypassCooldown;
+    }
+
+    public boolean isRoleAssignOnBuy() 
+    {
+        return roleAssignOnBuy;
     }
 
     public ServerSettings setBanAppealLink(String banAppealLink) 
@@ -230,13 +247,11 @@ public class ServerSettings extends AbstractSettings {
         super.setPath(path);
         return this;
     }
- 
-    public boolean isAdminBypassCooldown() {
-        return adminBypassCooldown;
-    }
-
-    public boolean isRoleAssignOnBuy() {
-        return roleAssignOnBuy;
+    
+    public ServerSettings setLoaded(boolean loaded) 
+    {
+        this.loaded = loaded;
+        return this;
     }
 
     public ServerSettings copy()
@@ -256,7 +271,8 @@ public class ServerSettings extends AbstractSettings {
                 .setStartingBalance(startingBalance)
                 .setUserLogChannel(userLogChannel)
                 .setXpCooldown(xpCooldown)
-                .setBanAppealLink(banAppealLink);
+                .setBanAppealLink(banAppealLink)
+                .setLoaded(loaded);
         
         return settings;
     }

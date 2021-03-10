@@ -3,15 +3,19 @@ package alloy.event;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
-import alloy.handler.command.EventHandler;
-import alloy.handler.command.VoiceHandler;
+import alloy.gameobjects.Server;
+import alloy.handler.command.audio.VoiceHandler;
+import alloy.handler.util.EventHandler;
 import alloy.input.discord.AlloyInput;
 import alloy.input.discord.AlloyInputEvent;
 import alloy.main.Alloy;
+import alloy.main.intefs.Queueable;
 import alloy.main.intefs.Sendable;
 import alloy.main.intefs.handler.AlloyHandler;
 import alloy.utility.discord.AlloyUtil;
+import alloy.utility.job.jobs.DelayJob;
 import io.Saver;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -48,15 +52,18 @@ import net.dv8tion.jda.api.events.role.update.RoleUpdateColorEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import utility.event.annotation.RequiredJob;
 
 public class JDAEvents extends ListenerAdapter {
 
     private AlloyHandler bot;
     private Sendable sendable;
+    private Queueable queueable;
 
     public JDAEvents(Alloy alloy) {
         this.bot = alloy;
         this.sendable = alloy;
+        this.queueable = alloy;
     }
 
     @Override
@@ -65,10 +72,29 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildJoin(GuildJoinEvent e) {
+    public void onGuildJoin(GuildJoinEvent e) 
+    {
+        Consumer<GuildJoinEvent> con = new Consumer<GuildJoinEvent>()
+        {
+            public void accept(GuildJoinEvent t) 
+            {
+                onGuildJoinImp(e);    
+            };
+        };
+        DelayJob<GuildJoinEvent> j = new DelayJob<GuildJoinEvent>(con , e );
+        this.queueable.queue(j);
+    }
+
+    @RequiredJob
+    protected void onGuildJoinImp(GuildJoinEvent e) 
+    {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "JOINED SERVER! " + g.getName());
+        
         EventHandler.onGuildJoinEvent(g);
+
+        Server s = AlloyUtil.loadServer(g);
+        s.setLoaded(false);
 
         List<Member> members = g.getMembers();
         for (Member member : members)
@@ -76,10 +102,12 @@ public class JDAEvents extends ListenerAdapter {
 
         this.bot.guildCountUpdate();
         this.bot.addGuildMap(g);
+        s.setLoaded(true);
     }
 
     @Override
-    public void onGuildLeave(GuildLeaveEvent e) {
+    public void onGuildLeave(GuildLeaveEvent e) 
+    {
         Guild g = e.getGuild();
         Alloy.LOGGER.info("JDAEvents", "LEFT SERVER! " + g.getName());
         EventHandler.onGuildLeaveEvent(g);
@@ -153,6 +181,19 @@ public class JDAEvents extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent e) 
+    {
+        Consumer<GuildMemberJoinEvent> con = new Consumer<GuildMemberJoinEvent>()
+        {
+            public void accept(GuildMemberJoinEvent t) 
+            {
+                onMemberJoinImp(t);    
+            };
+        };
+        DelayJob<GuildMemberJoinEvent> j = new DelayJob<GuildMemberJoinEvent>(con, e);
+        this.queueable.queue(j);
+    }
+    
+    protected void onMemberJoinImp(GuildMemberJoinEvent e) 
     {
         Member m = e.getMember();
         EventHandler.onMemberJoinEvent(m);

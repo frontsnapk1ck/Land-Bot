@@ -3,7 +3,7 @@ package alloy.command.fun;
 import java.util.function.Consumer;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.command.FunChatHandler;
+import alloy.handler.command.fun.FunChatHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.Alloy;
 import alloy.main.intefs.Queueable;

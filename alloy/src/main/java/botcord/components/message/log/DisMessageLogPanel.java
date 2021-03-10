@@ -48,7 +48,7 @@ public class DisMessageLogPanel extends BCPanel {
 
     private void updateLayout() 
     {
-        this.setLayout( new GridLayout(this.disMessages.size(),1));
+        this.setLayout( new GridLayout(this.disMessages.size(),1,0,0));
     }
 
     private void configMessages()

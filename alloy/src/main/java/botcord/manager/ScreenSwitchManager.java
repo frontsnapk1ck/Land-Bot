@@ -2,7 +2,10 @@ package botcord.manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
+import alloy.main.intefs.Queueable;
+import alloy.utility.job.jobs.DelayJob;
 import botcord.event.BCListener;
 import botcord.event.PressEvent;
 import botcord.event.SwitchTarget;
@@ -14,13 +17,17 @@ import botcord.screen.PMScreen;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import utility.event.Job;
+import utility.event.annotation.RequiredJob;
 
 public class ScreenSwitchManager implements BCListener {
 
     private List<Switchable> listeners;
     private ScreenProxy proxy;
+    private Queueable queueable;
+    private List<Job> tmpQueue;
 
-    public ScreenSwitchManager() 
+    public ScreenSwitchManager()
     {
         super();
         init();
@@ -29,10 +36,29 @@ public class ScreenSwitchManager implements BCListener {
     private void init() 
     {
         this.listeners = new ArrayList<Switchable>();
+        this.tmpQueue = new ArrayList<Job>();
     }
 
     @Override
+    @RequiredJob
     public void onPress(PressEvent e) 
+    {
+        Consumer<PressEvent> c = new Consumer<PressEvent>()
+        {
+            @Override
+            public void accept(PressEvent e) 
+            {
+                onPressImp(e);
+            }
+        };
+        DelayJob<PressEvent> j = new DelayJob<PressEvent>(c, e);
+        if (this.queueable == null)
+            this.tmpQueue.add(j);
+        else
+            this.queueable.queue(j);
+    }
+
+    protected void onPressImp(PressEvent e) 
     {
         if (e.getTarget().equals(SwitchTarget.GUILD))
             guild((Guild)e.getData());
@@ -44,7 +70,6 @@ public class ScreenSwitchManager implements BCListener {
             channel((GuildChannel)e.getData());
         if (e.getTarget().equals(SwitchTarget.PRIVATE_CHANNEL))
             channel((PrivateChannel)e.getData());
-
     }
 
     private void channel(PrivateChannel data) 
@@ -103,6 +128,13 @@ public class ScreenSwitchManager implements BCListener {
     public void setProxy(ScreenProxy proxy) 
     {
         this.proxy = proxy;
+    }
+
+    public void setQueueable(Queueable queueable) 
+    {
+        this.queueable = queueable;
+        for (Job job : this.tmpQueue) 
+            this.queueable.queue(job);
     }
     
 }

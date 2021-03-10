@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import alloy.event.DebugEvent;
 import alloy.event.DebugListener;
 import alloy.main.Alloy;
+import alloy.main.intefs.Queueable;
 import botcord.manager.ScreenManager;
 import botcord.util.BCUtil;
 import botcord.util.event.BotCordLogger;
@@ -111,5 +112,10 @@ public class BotCord extends WindowFramework{
         config();
         update();
 	}
+
+    public Queueable getQueueable() 
+    {
+        return alloy;
+    }
 
 }

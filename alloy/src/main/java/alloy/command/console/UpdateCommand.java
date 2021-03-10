@@ -2,13 +2,15 @@ package alloy.command.console;
 
 import java.io.File;
 import java.util.List;
+import java.util.function.Consumer;
 
 import alloy.command.util.AbstractConsoleCommand;
 import alloy.gameobjects.Server;
-import alloy.handler.command.EventHandler;
+import alloy.handler.util.EventHandler;
 import alloy.input.console.ConsoleInputData;
 import alloy.main.Alloy;
 import alloy.utility.discord.AlloyUtil;
+import alloy.utility.job.jobs.DelayJob;
 import io.Saver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -63,6 +65,19 @@ public class UpdateCommand extends AbstractConsoleCommand {
 
 	private void updateFiles(ConsoleInputData data) 
     {
+        Consumer<ConsoleInputData> con = new Consumer<ConsoleInputData>()
+        {
+            public void accept(ConsoleInputData data) 
+            {
+                updateFilesImp(data);
+            };
+        };
+        DelayJob<ConsoleInputData> j = new DelayJob<ConsoleInputData>(con , data);
+        data.getQueue().queue(j);
+    }
+
+    protected void updateFilesImp(ConsoleInputData data) 
+    {
         JDA jda = data.getJda();
         List<Guild> guilds = jda.getGuilds();
         for (Guild guild : guilds)
@@ -81,6 +96,7 @@ public class UpdateCommand extends AbstractConsoleCommand {
         if (!new File(path).exists())
         {
             EventHandler.onGuildJoinEvent(guild);
+
             guildChanges++;
         }
         List<Member> members = guild.getMembers();

@@ -27,6 +27,7 @@ public class ScreenManager implements Switchable, ScreenProxy {
         this.debugScreen.addListener(this.manager);
         this.manager.addListener(this);
         this.manager.setProxy(this);
+        this.manager.setQueueable(main.getQueueable());
     }
 
     private void init() 

@@ -3,7 +3,7 @@ package alloy.command.voice;
 import java.util.List;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.command.VoiceHandler;
+import alloy.handler.command.audio.VoiceHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.main.util.SendableMessage;

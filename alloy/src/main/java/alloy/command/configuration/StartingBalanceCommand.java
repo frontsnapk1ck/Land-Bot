@@ -1,7 +1,7 @@
 package alloy.command.configuration;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.command.StartingBalanceHandler;
+import alloy.handler.command.config.StartingBalanceHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;

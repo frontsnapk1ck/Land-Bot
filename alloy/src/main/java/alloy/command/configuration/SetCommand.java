@@ -5,7 +5,7 @@ import java.net.URL;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.Server;
-import alloy.handler.command.RankHandler;
+import alloy.handler.command.fun.RankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
@@ -141,7 +141,7 @@ public class SetCommand extends AbstractCommand {
         String role = args[1];
 
         Role r = DisUtil.parseRole( role , g );
-        if (r == null || !role.equalsIgnoreCase("none"))
+        if (r == null && !role.equalsIgnoreCase("none"))
         {
             Template t = Templates.roleNotFound(role);
             SendableMessage sm = new SendableMessage();

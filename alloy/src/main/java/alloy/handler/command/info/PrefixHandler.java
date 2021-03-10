@@ -1,4 +1,4 @@
-package alloy.handler.command;
+package alloy.handler.command.info;
 
 import alloy.gameobjects.Server;
 import alloy.main.intefs.Sendable;

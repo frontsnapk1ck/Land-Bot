@@ -1,4 +1,4 @@
-package alloy.handler.command;
+package alloy.handler.command.admin;
 
 import java.io.File;
 import java.util.ArrayList;

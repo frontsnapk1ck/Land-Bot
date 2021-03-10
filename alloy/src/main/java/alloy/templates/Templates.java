@@ -12,11 +12,13 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import alloy.command.util.PunishType;
 import alloy.event.DebugEvent;
+import alloy.gameobjects.Case;
 import alloy.gameobjects.RankUp;
 import alloy.gameobjects.Warning;
 import alloy.gameobjects.player.Building;
 import alloy.gameobjects.player.Player;
-import alloy.handler.command.BankHandler;
+import alloy.handler.command.admin.CaseHandler;
+import alloy.handler.command.econ.BankHandler;
 import alloy.utility.discord.AlloyUtil;
 import alloy.utility.discord.DisUtil;
 import alloy.utility.discord.perm.DisPerm;
@@ -1151,5 +1153,26 @@ public class Templates {
 		Template t = new Template("Skipped", "The song has been skipped");
 		return t;
     }
+
+	public static Template botStillLoading() 
+	{
+		return new Template("Still Loading", "please wait a moment before using any commands, the bot is still loading");
+	}
+
+	public static Template caseList(List<Case> cases) 
+	{
+		String title = "Cases - " + cases.size();
+		String out = "";
+
+		for (Case c : cases) 
+		{	
+			String tmp = "Case `" + c.getNum() + "` " + c.getPunishType().getKeyword();
+			tmp += "\n" + c.getReason() + "\nissued by: <@!" + c.getIssuer() + ">";
+
+			out += tmp + "\n\n";
+		}
+		out = out.trim();
+		return new Template(title, out);
+	}
 
 }

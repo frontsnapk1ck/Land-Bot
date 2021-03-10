@@ -1,7 +1,7 @@
 package alloy.command.fun;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.command.SpamHandler;
+import alloy.handler.command.fun.SpamHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Queueable;

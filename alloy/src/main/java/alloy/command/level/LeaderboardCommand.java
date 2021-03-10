@@ -3,8 +3,8 @@ package alloy.command.level;
 import java.util.List;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.command.BankHandler;
-import alloy.handler.command.RankHandler;
+import alloy.handler.command.econ.BankHandler;
+import alloy.handler.command.fun.RankHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;

@@ -1,7 +1,7 @@
 package alloy.command.configuration;
 
 import alloy.command.util.AbstractCommand;
-import alloy.handler.command.BlacklistHandler;
+import alloy.handler.command.config.BlacklistHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;

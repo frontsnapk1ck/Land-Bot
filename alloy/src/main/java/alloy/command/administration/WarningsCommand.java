@@ -4,7 +4,7 @@ import java.util.List;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.Warning;
-import alloy.handler.command.WarningHandler;
+import alloy.handler.command.admin.WarningHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;

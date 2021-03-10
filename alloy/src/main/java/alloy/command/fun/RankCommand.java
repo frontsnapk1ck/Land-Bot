@@ -1,7 +1,7 @@
 package alloy.command.fun;
 
 import alloy.command.util.AbstractCooldownCommand;
-import alloy.handler.command.FunChatHandler;
+import alloy.handler.command.fun.FunChatHandler;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;
 import alloy.main.intefs.handler.CooldownHandler;

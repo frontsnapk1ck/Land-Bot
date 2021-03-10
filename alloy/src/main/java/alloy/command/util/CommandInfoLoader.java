@@ -29,6 +29,7 @@ public class CommandInfoLoader {
     {
         Map<String,String> map  = new HashMap<String, String>();
 
+        //CONFIG
         map.put ( "alloy.command.configuration.SetCommand"              ,       "set"      );
         map.put ( "alloy.command.configuration.StartingBalanceCommand"  ,       "starting-balance"      );
         map.put ( "alloy.command.configuration.XPBlacklistCommand"      ,       "blacklist"      );
@@ -38,6 +39,7 @@ public class CommandInfoLoader {
         map.put ( "alloy.command.configuration.ViewCommand"             ,       "view"      );
         map.put ( "alloy.command.configuration.WorkCommand"             ,       "workO"      );
         
+        //FUN
         map.put ( "alloy.command.fun.DeadChatCommand"                   ,       "dead-chat"      );
         map.put ( "alloy.command.fun.SpamCommand"                       ,       "spam"      );
         map.put ( "alloy.command.fun.RemindCommand"                     ,       "remindme"      );
@@ -46,6 +48,7 @@ public class CommandInfoLoader {
         map.put ( "alloy.command.fun.LinkCommand"                       ,       "link"      );
         map.put ( "alloy.command.fun.HackCommand"                       ,       "hack"      );
         
+        //ECON
         map.put ( "alloy.command.economy.PayCommand"                    ,       "pay"      );
         map.put ( "alloy.command.economy.BuyCommand"                    ,       "buy"      );
         map.put ( "alloy.command.economy.WorkCommand"                   ,       "work"      );
@@ -53,6 +56,7 @@ public class CommandInfoLoader {
         map.put ( "alloy.command.economy.MeCommand"                     ,       "me"      );
         map.put ( "alloy.command.economy.DayCommand"                    ,       "day"      );
         
+        //ADMIN
         map.put ( "alloy.command.administration.MuteCommand"            ,       "mute"      );
         map.put ( "alloy.command.administration.KickCommand"            ,       "kick"      );
         map.put ( "alloy.command.administration.BanCommand"             ,       "ban"      );
@@ -62,6 +66,7 @@ public class CommandInfoLoader {
         map.put ( "alloy.command.administration.WarningsCommand"        ,       "warnings"      );
         map.put ( "alloy.command.administration.UnmuteCommand"          ,       "unmute"      );
         
+        //CONSOLE
         map.put ( "alloy.command.console.MembersCommand"                ,       "members"      );
         map.put ( "alloy.command.console.CacheCommand"                  ,       "cache"      );
         map.put ( "alloy.command.console.UpdateCommand"                 ,       "update"      );
@@ -71,6 +76,7 @@ public class CommandInfoLoader {
         map.put ( "alloy.command.console.NameCommand"                   ,       "name"      );
         map.put ( "alloy.command.console.InviteCommand"                 ,       "invite"      );
        
+        //INFO
         map.put ( "alloy.command.info.InviteCommand"                    ,       "invite"      );
         map.put ( "alloy.command.info.HelpCommand"                      ,       "help"      );
         map.put ( "alloy.command.info.InfoCommand"                      ,       "info"      );
@@ -79,12 +85,18 @@ public class CommandInfoLoader {
         map.put ( "alloy.command.info.DonateCommand"                    ,       "donate"      );
         map.put ( "alloy.command.info.UptimeCommand"                    ,       "uptime"      );
         
+        //LEVEL
         map.put ( "alloy.command.level.LeaderboardCommand"              ,       "leaderboard"      );
         map.put ( "alloy.command.level.RankupCommand"                   ,       "rankup"      );
         map.put ( "alloy.command.level.RankCommand"                     ,       "rank"      );
        
-        map.put ( "alloy.command.voice.JoinCommand"                     ,       "TODO"      );
-        map.put ( "alloy.command.voice.LeaveCommand"                    ,       "TODO"      );
+        //VOICE
+        map.put ( "alloy.command.voice.JoinCommand"                     ,       "join"      );
+        map.put ( "alloy.command.voice.LeaveCommand"                    ,       "leave"      );
+        map.put ( "alloy.command.voice.NowPlayingCommand"               ,       "TODO"      );
+        map.put ( "alloy.command.voice.PlayCommand"                     ,       "play"      );
+        map.put ( "alloy.command.voice.QueueCommand"                    ,       "queue"      );
+        map.put ( "alloy.command.voice.SkipCommand"                     ,       "skip"      );
         
         return map;
     }
@@ -106,7 +118,10 @@ public class CommandInfoLoader {
     private static String getName(Class<? extends AbstractCommand> c) 
     {
         String tmp = c.getName();
-        return MAP.get(tmp);
+        String name = MAP.get(tmp);
+        if (name == null)
+            System.out.println(tmp);
+        return name;
     }
 
     private static AbstractCommand fill(Class<? extends AbstractCommand> c, List<AlloyInput> inputs) 

@@ -2,7 +2,7 @@ package alloy.command.util;
 
 import alloy.gameobjects.Case;
 import alloy.gameobjects.Server;
-import alloy.handler.command.CaseHandler;
+import alloy.handler.command.admin.CaseHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Moderator;

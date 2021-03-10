@@ -44,6 +44,11 @@ public class DisUtil implements EmojiConstants {
                 return null;
             }
         }
+        try {
+            Member u = g.getMemberById(member);
+            return u;
+        } catch (Exception e) {
+        }
         return null;
     }
 
@@ -152,8 +157,13 @@ public class DisUtil implements EmojiConstants {
         channel = channel.replace("<#", "");
         channel = channel.replace(">", "");
 
-        GuildChannel c = g.getGuildChannelById(channel);
-        return c != null;
+        try {
+            GuildChannel c = g.getGuildChannelById(channel);
+            return c != null;
+        } catch (Exception e) 
+        {
+            return false;
+        }
 
 	}
 

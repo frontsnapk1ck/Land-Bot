@@ -16,7 +16,8 @@ import io.FileReader;
 public class CaseLoaderText extends DataLoader<Case, String> {
 
     @Override
-    public Case load(String file) {
+    public Case load(String file) 
+    {
         String[] arr = FileReader.read(file);
         String[][] caseArray = configureCaseArray(arr);
 
@@ -25,15 +26,17 @@ public class CaseLoaderText extends DataLoader<Case, String> {
         String punishString = loadSetting(Case.PUNISH_TYPE, caseArray);
         String reasonString = loadSetting(Case.REASON, caseArray);
         String messageIDString = loadSetting(Case.MESSAGE_ID, caseArray);
+        String targetString = loadSetting(Case.TARGET, caseArray);
 
         int num = Integer.parseInt(numString);
         Long issuer = Long.parseLong(issuerString);
         PunishType punishType = PunishType.parseType(punishString);
         String reason = String.valueOf(reasonString);
         Long messageID = Long.parseLong(messageIDString);
+        Long target = Long.parseLong(targetString);
 
         CaseSettings settings = new CaseSettings();
-        settings.setIssuer(issuer).setMessageId(messageID).setNum(num).setPunishType(punishType).setReason(reason)
+        settings.setIssuer(issuer).setMessageId(messageID).setNum(num).setPunishType(punishType).setReason(reason).setTarget(target)
                 .setPath(file);
 
         Case c = new Case(settings);

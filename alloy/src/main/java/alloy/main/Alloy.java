@@ -18,8 +18,8 @@ import alloy.event.DebugListener;
 import alloy.event.DiscordInterface;
 import alloy.event.JDAEvents;
 import alloy.gameobjects.Server;
-import alloy.handler.command.CommandHandler;
-import alloy.handler.command.RankHandler;
+import alloy.handler.command.fun.RankHandler;
+import alloy.handler.util.CommandHandler;
 import alloy.input.console.ConsoleInput;
 import alloy.input.discord.AlloyInput;
 import alloy.main.intefs.Audible;
@@ -132,13 +132,16 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     }
 
     @Override
-    public void handleMessage(AlloyInput in) {
+    public void handleMessage(AlloyInput in) 
+    {
         if (!this.started)
             return;
 
         User author = in.getUser();
 
-        boolean ignore = author == null || author.isBot() || AlloyUtil.isBlackListed(author);
+        boolean ignore =    author == null || 
+                            author.isBot() || 
+                            AlloyUtil.isBlackListed(author);
         if (ignore)
             return;
 
@@ -147,12 +150,23 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
         in.setBot(this);
         in.setServer(s);
 
-        RankHandler.addXP(in.getData());
+        if (s.isLoaded())
+            RankHandler.addXP(in.getData());
+
         String message = in.getMessage();
-        if (CommandHandler.isCommand(message, mentionMe, mentionMeAlias, s)) {
+
+        boolean normal =    CommandHandler.isCommand(message, mentionMe, mentionMeAlias, s) &&
+                            s.isLoaded();
+
+        boolean warning =   CommandHandler.isCommand(message, mentionMe, mentionMeAlias, s) &&
+                            !s.isLoaded();
+        if (normal)
+        {
             in = CommandHandler.removePrefix(in, s);
             CommandHandler.process(in);
         }
+        else if (warning)
+            CommandHandler.warnServerNotLoaded(in);
     }
 
     @Override

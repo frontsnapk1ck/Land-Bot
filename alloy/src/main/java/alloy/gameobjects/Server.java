@@ -22,6 +22,7 @@ public class Server extends GameObject {
     public static final String ID = "id";
     public static final String MUTE_ROLE_ID = "mute roll";
     public static final String BAN_APPEAL_LINK = "appeal link";
+	public static final String IS_LOADED = "loaded";
 
     private ServerSettings settings;
 
@@ -75,18 +76,20 @@ public class Server extends GameObject {
         String[] rankups = getRankupsSave();
         String[] out = new String[] 
         {
-            PREFIX +                ":" + this.settings.getPrefix() ,
-            STARTING_BALANCE +      ":" + this.settings.getStartingBalance() ,
-            COOLDOWN +              ":" + this.settings.getCooldown() ,
-            ROLE_ASSIGN_ON_BUY +    ":" + this.settings.isRoleAssignOnBuy() ,
-            ADMIN_BYPASS_COOLDOWN + ":" + this.settings.isAdminBypassCooldown() ,
-            SPAM_CHANNEL +          ":" + this.settings.getSpamChannel() , 
-            BLACKLISTED_CHANNELS + ":" + blacklistedChannels , 
-            XP_COOLDOWN +           ":" + this.settings.getXpCooldown() , 
-            ID +                    ":" + this.settings.getId() , 
-            MOD_LOG_CHANNEL +       ":" + this.settings.getModLogChannel(),
-            USER_LOG_CHANNEL +      ":" + this.settings.getUserLogChannel() ,
-            BAN_APPEAL_LINK +       ":" + this.settings.getBanAppealLink() ,
+            PREFIX                  + ":" + this.settings.getPrefix() ,
+            STARTING_BALANCE        + ":" + this.settings.getStartingBalance() ,
+            COOLDOWN                + ":" + this.settings.getCooldown() ,
+            ROLE_ASSIGN_ON_BUY      + ":" + this.settings.isRoleAssignOnBuy() ,
+            ADMIN_BYPASS_COOLDOWN   + ":" + this.settings.isAdminBypassCooldown() ,
+            SPAM_CHANNEL            + ":" + this.settings.getSpamChannel() , 
+            BLACKLISTED_CHANNELS    + ":" + blacklistedChannels , 
+            XP_COOLDOWN             + ":" + this.settings.getXpCooldown() , 
+            ID                      + ":" + this.settings.getId() , 
+            MOD_LOG_CHANNEL         + ":" + this.settings.getModLogChannel(),
+            USER_LOG_CHANNEL        + ":" + this.settings.getUserLogChannel() ,
+            BAN_APPEAL_LINK         + ":" + this.settings.getBanAppealLink() ,
+            MUTE_ROLE_ID            + ":" + this.settings.getMuteRoleID() ,
+            IS_LOADED               + ":" + this.settings.isLoaded() ,
 
         };
         Saver.saveOverwrite(this.settings.getPath() + "\\settings\\bot.settings", out );
@@ -249,4 +252,15 @@ public class Server extends GameObject {
     {
 		return this.settings.getBanAppealLink();
 	}
+
+    public boolean isLoaded() 
+    {
+        return this.settings.isLoaded();
+    }
+
+    public void setLoaded(boolean b) 
+    {
+        this.settings.setLoaded(b);
+        this.save();
+    }
 }

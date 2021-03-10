@@ -4,8 +4,8 @@ import java.util.List;
 
 import alloy.command.util.AbstractCommand;
 import alloy.gameobjects.player.Building;
-import alloy.handler.command.BuildingHandler;
-import alloy.handler.command.ViewHandler;
+import alloy.handler.command.config.ViewHandler;
+import alloy.handler.command.econ.BuildingHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Sendable;

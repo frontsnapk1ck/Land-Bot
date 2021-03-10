@@ -1,4 +1,4 @@
-package alloy.handler.command;
+package alloy.handler.command.econ;
 
 import java.util.Collections;
 import java.util.List;

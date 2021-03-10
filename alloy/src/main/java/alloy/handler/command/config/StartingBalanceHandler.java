@@ -1,4 +1,4 @@
-package alloy.handler.command;
+package alloy.handler.command.config;
 
 import alloy.gameobjects.Server;
 import alloy.input.discord.AlloyInputData;

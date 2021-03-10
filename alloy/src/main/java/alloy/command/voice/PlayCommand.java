@@ -8,7 +8,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import alloy.audio.GuildMusicManager;
 import alloy.command.util.AbstractCommand;
-import alloy.handler.command.VoiceHandler;
+import alloy.handler.command.audio.VoiceHandler;
 import alloy.input.AlloyInputUtil;
 import alloy.input.discord.AlloyInputData;
 import alloy.main.intefs.Audible;

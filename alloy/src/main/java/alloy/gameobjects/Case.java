@@ -11,6 +11,7 @@ public class Case extends GameObject {
     public static final String REASON = "reason";
     public static final String PUNISH_TYPE = "punish type";
     public static final String MESSAGE_ID = "message";
+    public static final String TARGET = "target";
 
 
     private CaseSettings settings;
@@ -46,6 +47,11 @@ public class Case extends GameObject {
         return this.settings.getMessageId();
     }
 
+    public long getTargetId()
+    {
+        return this.settings.getTargetId();
+    }
+
     public void setReason(String reason) 
     {
         this.settings.setReason(reason);
@@ -62,6 +68,7 @@ public class Case extends GameObject {
             Case.PUNISH_TYPE + ":" + this.settings.getPunishType() ,
             Case.REASON + ":" + this.settings.getReason() ,
             Case.MESSAGE_ID + ":" + this.settings.getMessageId() ,
+            Case.TARGET + ":" + this.settings.getTargetId() ,
         };
 
         String path = this.settings.getPath();
@@ -79,6 +86,5 @@ public class Case extends GameObject {
     {
         return this;
     }
-
     
 }

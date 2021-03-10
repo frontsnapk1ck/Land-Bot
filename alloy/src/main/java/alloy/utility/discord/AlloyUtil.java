@@ -150,7 +150,7 @@ public class AlloyUtil implements AlloyPathsConstants, AlloyExtensions, AlloyIma
             for (Player player : players) 
             {
                 User u = jda.getUserById(player.getId());
-                if (u.isBot())
+                if (u != null && u.isBot())
                     toRm.add(player);
             }
             players.removeAll(toRm);

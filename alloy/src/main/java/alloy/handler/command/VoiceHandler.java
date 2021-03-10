@@ -3,6 +3,7 @@ package alloy.handler.command;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.api.client.http.HttpRequest;
@@ -114,7 +115,7 @@ public class VoiceHandler {
         String queryTerm = StringUtil.joinStrings(args);
 
         // Define the API request for retrieving search results.
-        YouTube.Search.List search = youtube.search().list("id,snippet");
+        YouTube.Search.List search = youtube.search().list(Arrays.asList("id","snippet"));
 
         // Set your developer key from the {{ Google Cloud Console }} for
         // non-authenticated requests. See:
@@ -125,7 +126,7 @@ public class VoiceHandler {
 
         // Restrict the search results to only include videos. See:
         // https://developers.google.com/youtube/v3/docs/search/list#type
-        search.setType("video");
+        search.setType(Arrays.asList("video"));
 
         // To increase efficiency, only retrieve the fields that the
         // application uses.

@@ -1,5 +1,6 @@
 package frontsnapk1ck.alloy.main;
 
+import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.botcord.BotCord;
 
 public class Launcher {
@@ -13,8 +14,9 @@ public class Launcher {
         VERSION = findVersion();
     }
 
-    private static String findVersion() {
-        return "0.2.0";
+    private static String findVersion() 
+    {
+        return AlloyUtil.getVersion();
     }
 
     public static void main(String[] args) {

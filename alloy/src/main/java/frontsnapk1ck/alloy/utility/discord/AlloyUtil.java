@@ -1,8 +1,20 @@
 package frontsnapk1ck.alloy.utility.discord;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import frontsnapk1ck.alloy.gameobjects.Case;
 import frontsnapk1ck.alloy.gameobjects.Server;
@@ -363,6 +375,31 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
     {
         String[] arr = FileReader.read(GLOBAL_BLACKLISTED_WORDS);
         return Arrays.asList(arr);
+    }
+
+    public static String getVersion() 
+    {
+        File xmlFile = new File(POM_FILE);
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder;
+        try {
+            dBuilder = factory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+            Element e = doc.getDocumentElement();
+            NodeList children = e.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) 
+            {
+                Node child = children.item(i);
+                if (child.getNodeName().equals("version"))
+                    return child.getTextContent();
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException e) 
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

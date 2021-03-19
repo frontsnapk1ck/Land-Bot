@@ -1,6 +1,8 @@
 package frontsnapk1ck.alloy.utility.discord.paths;
 
 public interface AlloyFileConstants extends AlloyFolders {
+
+    public static final String POM_FILE                         = ALLOY_PATH + "pom.xml";
     
     public static final String COMMANDS_FILE                    = ALLOY_PATH + "res\\globals\\commands.xml";
     public static final String CONSOLE_COMMANDS_FILE            = ALLOY_PATH + "res\\globals\\consoleCommands.xml";

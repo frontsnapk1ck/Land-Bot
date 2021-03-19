@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "java",
+			"label": "java: exportjar:Alloy",
+			"mainClass": "alloy.main.Launcher",
+			"targetPath": "${workspaceFolder}/builds/${workspaceFolderBasename}.jar",
+			"elements": [
+				"${compileOutput}",
+				"${dependencies}"
+			],
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	],
+	
+	
+}

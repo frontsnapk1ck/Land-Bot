@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>frontsnapk1ck</groupId>
   <artifactId>alloy</artifactId>
-  <version>0.2.1</version>
+  <version>0.3.0</version>
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.7.1</junit.version>
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>

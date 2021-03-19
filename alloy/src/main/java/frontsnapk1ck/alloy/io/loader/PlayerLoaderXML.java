@@ -1,0 +1,13 @@
+package frontsnapk1ck.alloy.io.loader;
+
+import javax.lang.model.element.Element;
+
+import frontsnapk1ck.alloy.gameobjects.player.Player;
+import frontsnapk1ck.io.DataLoader;
+
+/**
+ * not yet implemented
+ */
+public class PlayerLoaderXML extends DataLoader<Player, Element> {
+    
+}

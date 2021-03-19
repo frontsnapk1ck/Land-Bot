@@ -443,12 +443,30 @@
 
     </command>
 
+    <command name = "force-skip" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "force-skip" />
+        <trigger text = "fs" />
+
+        <subcommand text = ""
+                        description = "skips a song" />
+
+    </command>
+
     <command name = "queue" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
         <trigger text = "queue" />
         <trigger text = "q" />
 
         <subcommand text = ""
                         description = "shows the queue" />
+
+    </command>
+
+    <command name = "now-playing" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "now-playing" />
+        <trigger text = "np" />
+
+        <subcommand text = ""
+                        description = "shows the current playing song" />
 
     </command>
 

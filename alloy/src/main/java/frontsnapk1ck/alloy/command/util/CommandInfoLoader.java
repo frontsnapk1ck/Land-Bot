@@ -30,73 +30,79 @@ public class CommandInfoLoader {
         Map<String,String> map  = new HashMap<String, String>();
 
         //CONFIG
-        map.put ( "frontsnapk1ck.alloy.command.configuration.SetCommand"              ,       "set"      );
-        map.put ( "frontsnapk1ck.alloy.command.configuration.StartingBalanceCommand"  ,       "starting-balance"      );
-        map.put ( "frontsnapk1ck.alloy.command.configuration.XPBlacklistCommand"      ,       "blacklist"      );
-        map.put ( "frontsnapk1ck.alloy.command.configuration.BuildingCommand"         ,       "building"      );
-        map.put ( "frontsnapk1ck.alloy.command.configuration.CooldownCommand"         ,       "cooldown"      );
-        map.put ( "frontsnapk1ck.alloy.command.configuration.PrefixCommand"           ,       "prefix"      );
-        map.put ( "frontsnapk1ck.alloy.command.configuration.ViewCommand"             ,       "view"      );
-        map.put ( "frontsnapk1ck.alloy.command.configuration.WorkCommand"             ,       "workO"      );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.SetCommand"              ,       "set"                 );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.StartingBalanceCommand"  ,       "starting-balance"    );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.XPBlacklistCommand"      ,       "blacklist"           );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.BuildingCommand"         ,       "building"            );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.CooldownCommand"         ,       "cooldown"            );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.PrefixCommand"           ,       "prefix"              );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.ViewCommand"             ,       "view"                );
+        map.put ( "frontsnapk1ck.alloy.command.configuration.WorkCommand"             ,       "workO"               );
         
         //FUN
-        map.put ( "frontsnapk1ck.alloy.command.fun.DeadChatCommand"                   ,       "dead-chat"      );
-        map.put ( "frontsnapk1ck.alloy.command.fun.SpamCommand"                       ,       "spam"      );
-        map.put ( "frontsnapk1ck.alloy.command.fun.RemindCommand"                     ,       "remindme"      );
-        map.put ( "frontsnapk1ck.alloy.command.fun.RankCommand"                       ,       "!rank"      );
-        map.put ( "frontsnapk1ck.alloy.command.fun.SayCommand"                        ,       "say"      );
-        map.put ( "frontsnapk1ck.alloy.command.fun.LinkCommand"                       ,       "link"      );
-        map.put ( "frontsnapk1ck.alloy.command.fun.HackCommand"                       ,       "hack"      );
+        map.put ( "frontsnapk1ck.alloy.command.fun.DeadChatCommand"                   ,       "dead-chat"           );
+        map.put ( "frontsnapk1ck.alloy.command.fun.SpamCommand"                       ,       "spam"                );
+        map.put ( "frontsnapk1ck.alloy.command.fun.RemindCommand"                     ,       "remindme"            );
+        map.put ( "frontsnapk1ck.alloy.command.fun.RankCommand"                       ,       "!rank"               );
+        map.put ( "frontsnapk1ck.alloy.command.fun.SayCommand"                        ,       "say"                 );
+        map.put ( "frontsnapk1ck.alloy.command.fun.LinkCommand"                       ,       "link"                );
+        map.put ( "frontsnapk1ck.alloy.command.fun.HackCommand"                       ,       "hack"                );
         
         //ECON
-        map.put ( "frontsnapk1ck.alloy.command.economy.PayCommand"                    ,       "pay"      );
-        map.put ( "frontsnapk1ck.alloy.command.economy.BuyCommand"                    ,       "buy"      );
-        map.put ( "frontsnapk1ck.alloy.command.economy.WorkCommand"                   ,       "work"      );
-        map.put ( "frontsnapk1ck.alloy.command.economy.BankCommand"                   ,       "bank"      );
-        map.put ( "frontsnapk1ck.alloy.command.economy.MeCommand"                     ,       "me"      );
-        map.put ( "frontsnapk1ck.alloy.command.economy.DayCommand"                    ,       "day"      );
+        map.put ( "frontsnapk1ck.alloy.command.economy.PayCommand"                    ,       "pay"                 );
+        map.put ( "frontsnapk1ck.alloy.command.economy.BuyCommand"                    ,       "buy"                 );
+        map.put ( "frontsnapk1ck.alloy.command.economy.WorkCommand"                   ,       "work"                );
+        map.put ( "frontsnapk1ck.alloy.command.economy.BankCommand"                   ,       "bank"                );
+        map.put ( "frontsnapk1ck.alloy.command.economy.MeCommand"                     ,       "me"                  );
+        map.put ( "frontsnapk1ck.alloy.command.economy.DayCommand"                    ,       "day"                 );
         
         //ADMIN
-        map.put ( "frontsnapk1ck.alloy.command.administration.MuteCommand"            ,       "mute"      );
-        map.put ( "frontsnapk1ck.alloy.command.administration.KickCommand"            ,       "kick"      );
-        map.put ( "frontsnapk1ck.alloy.command.administration.BanCommand"             ,       "ban"      );
-        map.put ( "frontsnapk1ck.alloy.command.administration.CaseCommand"            ,       "case"      );
-        map.put ( "frontsnapk1ck.alloy.command.administration.WarnCommand"            ,       "warn"      );
-        map.put ( "frontsnapk1ck.alloy.command.administration.PurgeCommand"           ,       "purge"      );
-        map.put ( "frontsnapk1ck.alloy.command.administration.WarningsCommand"        ,       "warnings"      );
-        map.put ( "frontsnapk1ck.alloy.command.administration.UnmuteCommand"          ,       "unmute"      );
+        map.put ( "frontsnapk1ck.alloy.command.administration.MuteCommand"            ,       "mute"                );
+        map.put ( "frontsnapk1ck.alloy.command.administration.KickCommand"            ,       "kick"                );
+        map.put ( "frontsnapk1ck.alloy.command.administration.BanCommand"             ,       "ban"                 );
+        map.put ( "frontsnapk1ck.alloy.command.administration.CaseCommand"            ,       "case"                );
+        map.put ( "frontsnapk1ck.alloy.command.administration.WarnCommand"            ,       "warn"                );
+        map.put ( "frontsnapk1ck.alloy.command.administration.PurgeCommand"           ,       "purge"               );
+        map.put ( "frontsnapk1ck.alloy.command.administration.WarningsCommand"        ,       "warnings"            );
+        map.put ( "frontsnapk1ck.alloy.command.administration.UnmuteCommand"          ,       "unmute"              );
         
         //CONSOLE
-        map.put ( "frontsnapk1ck.alloy.command.console.MembersCommand"                ,       "members"      );
-        map.put ( "frontsnapk1ck.alloy.command.console.CacheCommand"                  ,       "cache"      );
-        map.put ( "frontsnapk1ck.alloy.command.console.UpdateCommand"                 ,       "update"      );
-        map.put ( "frontsnapk1ck.alloy.command.console.RolesCommand"                  ,       "roles"      );
-        map.put ( "frontsnapk1ck.alloy.command.console.QueueCommand"                  ,       "queue"      );
-        map.put ( "frontsnapk1ck.alloy.command.console.TestCommand"                   ,       "test"      );
-        map.put ( "frontsnapk1ck.alloy.command.console.NameCommand"                   ,       "name"      );
-        map.put ( "frontsnapk1ck.alloy.command.console.InviteCommand"                 ,       "invite"      );
+        map.put ( "frontsnapk1ck.alloy.command.console.MembersCommand"                ,       "members"             );
+        map.put ( "frontsnapk1ck.alloy.command.console.CacheCommand"                  ,       "cache"               );
+        map.put ( "frontsnapk1ck.alloy.command.console.UpdateCommand"                 ,       "update"              );
+        map.put ( "frontsnapk1ck.alloy.command.console.RolesCommand"                  ,       "roles"               );
+        map.put ( "frontsnapk1ck.alloy.command.console.QueueCommand"                  ,       "queue"               );
+        map.put ( "frontsnapk1ck.alloy.command.console.TestCommand"                   ,       "test"                );
+        map.put ( "frontsnapk1ck.alloy.command.console.NameCommand"                   ,       "name"                );
+        map.put ( "frontsnapk1ck.alloy.command.console.InviteCommand"                 ,       "invite"              );
        
         //INFO
-        map.put ( "frontsnapk1ck.alloy.command.info.InviteCommand"                    ,       "invite"      );
-        map.put ( "frontsnapk1ck.alloy.command.info.HelpCommand"                      ,       "help"      );
-        map.put ( "frontsnapk1ck.alloy.command.info.InfoCommand"                      ,       "info"      );
-        map.put ( "frontsnapk1ck.alloy.command.info.PingMeCommand"                    ,       "prefixShow"      );
-        map.put ( "frontsnapk1ck.alloy.command.info.PingCommand"                      ,       "ping"      );
-        map.put ( "frontsnapk1ck.alloy.command.info.DonateCommand"                    ,       "donate"      );
-        map.put ( "frontsnapk1ck.alloy.command.info.UptimeCommand"                    ,       "uptime"      );
+        map.put ( "frontsnapk1ck.alloy.command.info.InviteCommand"                    ,       "invite"              );
+        map.put ( "frontsnapk1ck.alloy.command.info.HelpCommand"                      ,       "help"                );
+        map.put ( "frontsnapk1ck.alloy.command.info.InfoCommand"                      ,       "info"                );
+        map.put ( "frontsnapk1ck.alloy.command.info.PingMeCommand"                    ,       "prefixShow"          );
+        map.put ( "frontsnapk1ck.alloy.command.info.PingCommand"                      ,       "ping"                );
+        map.put ( "frontsnapk1ck.alloy.command.info.DonateCommand"                    ,       "donate"              );
+        map.put ( "frontsnapk1ck.alloy.command.info.UptimeCommand"                    ,       "uptime"              );
         
         //LEVEL
-        map.put ( "frontsnapk1ck.alloy.command.level.LeaderboardCommand"              ,       "leaderboard"      );
-        map.put ( "frontsnapk1ck.alloy.command.level.RankupCommand"                   ,       "rankup"      );
-        map.put ( "frontsnapk1ck.alloy.command.level.RankCommand"                     ,       "rank"      );
+        map.put ( "frontsnapk1ck.alloy.command.level.LeaderboardCommand"              ,       "leaderboard"         );
+        map.put ( "frontsnapk1ck.alloy.command.level.RankupCommand"                   ,       "rankup"              );
+        map.put ( "frontsnapk1ck.alloy.command.level.RankCommand"                     ,       "rank"                );
        
         //VOICE
-        map.put ( "frontsnapk1ck.alloy.command.voice.JoinCommand"                     ,       "join"      );
-        map.put ( "frontsnapk1ck.alloy.command.voice.LeaveCommand"                    ,       "leave"      );
-        map.put ( "frontsnapk1ck.alloy.command.voice.NowPlayingCommand"               ,       "TODO"      );
-        map.put ( "frontsnapk1ck.alloy.command.voice.PlayCommand"                     ,       "play"      );
-        map.put ( "frontsnapk1ck.alloy.command.voice.QueueCommand"                    ,       "queue"      );
-        map.put ( "frontsnapk1ck.alloy.command.voice.SkipCommand"                     ,       "skip"      );
+        map.put ( "frontsnapk1ck.alloy.command.voice.JoinCommand"                     ,       "join"                );
+        map.put ( "frontsnapk1ck.alloy.command.voice.LeaveCommand"                    ,       "leave"               );
+        map.put ( "frontsnapk1ck.alloy.command.voice.PlayCommand"                     ,       "play"                );
+        map.put ( "frontsnapk1ck.alloy.command.voice.PlayNowCommand"                  ,       "play-now"            );
+        map.put ( "frontsnapk1ck.alloy.command.voice.PlayTopCommand"                  ,       "play-top"            );
+        map.put ( "frontsnapk1ck.alloy.command.voice.SkipCommand"                     ,       "skip"                );
+        map.put ( "frontsnapk1ck.alloy.command.voice.ForceSkipCommnand"               ,       "force-skip"          );
+        map.put ( "frontsnapk1ck.alloy.command.voice.QueueCommand"                    ,       "queue"               );
+        map.put ( "frontsnapk1ck.alloy.command.voice.NowPlayingCommand"               ,       "now-playing"         );
+        map.put ( "frontsnapk1ck.alloy.command.voice.LyricsCommand"                   ,       "lyrics"              );
+        map.put ( "frontsnapk1ck.alloy.command.voice.RemoveCommand"                   ,       "remove"              );
+
         
         return map;
     }

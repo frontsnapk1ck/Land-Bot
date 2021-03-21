@@ -407,7 +407,7 @@
 
     </command>
 
-    <!-- LEVEL COMMANDS-->
+    <!-- VOICE COMMANDS-->
     <command name = "join" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
         <trigger text = "join" />
         <trigger text = "j" />
@@ -467,6 +467,46 @@
 
         <subcommand text = ""
                         description = "shows the current playing song" />
+
+    </command>
+
+    <command name = "lyrics" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "lyrics" />
+        <trigger text = "l" />
+
+        <subcommand text = ""
+                        description = "shows the current playing song's lyrics" />
+
+        <subcommand text = "{song}"
+                        description = "shows the given song's lyrics" />
+    </command>
+
+    <command name = "play-top" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "play-top" />
+        <trigger text = "playtop" />
+        <trigger text = "pt" />
+
+        <subcommand text = "{song}"
+                        description = "queues a song at the top of the playlist" />
+
+    </command>
+
+    <command name = "play-now" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "play-now" />
+        <trigger text = "playnow" />
+        <trigger text = "pn" />
+
+        <subcommand text = "{song}"
+                        description = "skips the remaining portion of the current song and plays a new song" />
+
+    </command>
+
+    <command name = "remove" permission = "MESSAGE_WRITE" cooldown = "false" type = "DISCORD">
+        <trigger text = "remove" />
+        <trigger text = "rm" />
+
+        <subcommand text = "{index}"
+                        description = "removes a song from the queue" />
 
     </command>
 

@@ -16,13 +16,11 @@ import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
-import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
 import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 
 public class PlayCommand extends AbstractCommand  {
 
@@ -31,26 +29,13 @@ public class PlayCommand extends AbstractCommand  {
     {
         Guild g = data.getGuild();
         Sendable bot = data.getSendable();
-        User author = data.getUser();
         TextChannel channel = data.getChannel();
         Audible audible = data.getAudible();
-        Member m = g.getMember(author);
 
         GuildMusicManager musicManager = audible.getGuildAudioPlayer(g);
         AudioPlayerManager playerManager = audible.getPlayerManager();
 
         String[] args = AlloyInputUtil.getArgs(data);
-
-        if (!DisPermUtil.checkPermission(m, getPermission())) 
-        {
-            Template t = Templates.noPermission(getPermission(), author);
-            SendableMessage sm = new SendableMessage();
-            sm.setFrom(getClass());
-            sm.setChannel(channel);
-            sm.setMessage(t.getEmbed());
-            bot.send(sm);
-            return;
-        }
 
         if (args.length == 0)
         {
@@ -64,6 +49,17 @@ public class PlayCommand extends AbstractCommand  {
         }
 
         String trackUrl = AudioHandler.getUrl(args);
+
+        if (trackUrl == null)
+        {
+            Template t = Templates.songNotFound(StringUtil.joinStrings(args));
+            SendableMessage sm = new SendableMessage();
+            sm.setFrom(getClass());
+            sm.setChannel(channel);
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() 
         {

@@ -21,6 +21,7 @@ public interface AlloyFileConstants extends AlloyFolders {
     public static final String KEY_FILE_2                       = ALLOY_PATH + "res\\key\\token2.token";
 
     public static final String YOUTUBE_FILE                     = ALLOY_PATH + "res\\key\\youtube.token";
+    public static final String GENIUS_KEY                       = ALLOY_PATH + "res\\key\\genius.token";
 
     public static final String EVENT_FILE                       = ALLOY_PATH + "res\\event.queue";
 
@@ -36,7 +37,5 @@ public interface AlloyFileConstants extends AlloyFolders {
     public static final String SUB                              = "\\";
 
     public static final String COMMANDS_PATH                    = "alloy.command";
-
-
 
 }

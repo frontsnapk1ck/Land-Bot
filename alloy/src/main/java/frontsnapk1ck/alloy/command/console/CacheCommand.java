@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import frontsnapk1ck.alloy.audio.GuildMusicManager;
 import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.gameobjects.player.Player;
@@ -47,7 +48,7 @@ public class CacheCommand extends AbstractConsoleCommand {
             i++;
         }
 
-        String[] headers = { "~~Info~~" , "~~Type~~" , "~~Path~~"};
+        String[] headers = { "~~Info~~" , "~~Type~~" , "~~Key~~"};
         System.out.println(StringUtil.makeTable(tableData , headers));
     }
 
@@ -63,8 +64,15 @@ public class CacheCommand extends AbstractConsoleCommand {
             return player( (Player) cacheable.getData() , data.getJda() );
         if (cacheable.getClass() == Server.class)
             return server( (Server) cacheable.getData() , data.getJda() );
+        if (cacheable.getClass() == GuildMusicManager.class)
+            return gmm( (GuildMusicManager) cacheable.getData() , data.getJda() );
 
         return "No Info...";
+    }
+
+    private String gmm(GuildMusicManager data, JDA jda) 
+    {
+        return "Audio Disconnect Timer";
     }
 
     private String server(Server server, JDA jda) 

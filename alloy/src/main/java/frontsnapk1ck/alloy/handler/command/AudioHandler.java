@@ -74,7 +74,7 @@ public class AudioHandler {
                 String id = list.get(0).getId().getVideoId();
                 String out = YOUTUBE_LINK_BASE + id;
                 return out;
-            } catch (IOException e) 
+            } catch (IOException | IndexOutOfBoundsException e) 
             {
                 return null;
             }

@@ -15,6 +15,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 public class NowPlayingCommand extends AbstractCommand {
 
+
+    //TODO show the position in the song
     @Override
     public void execute(AlloyInputData data) 
     {

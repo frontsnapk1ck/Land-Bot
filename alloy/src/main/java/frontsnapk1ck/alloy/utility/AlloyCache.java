@@ -8,10 +8,14 @@ import java.util.Map;
 import org.apache.commons.collections4.MapIterator;
 import org.apache.commons.collections4.map.LRUMap;
 
+import frontsnapk1ck.alloy.audio.GuildMusicManager;
 import frontsnapk1ck.utility.cache.Cache;
 import frontsnapk1ck.utility.cache.Cacheable;
+import net.dv8tion.jda.api.entities.Guild;
 
-public class AlloyCache extends Cache<String> {
+public class AlloyCache extends Cache<String , Cacheable<?>> {
+
+    public static final long GMM_KEEP_TIME = 300000L;
 
     public Map<String, Cacheable<?>> getCache() 
     {
@@ -53,6 +57,17 @@ public class AlloyCache extends Cache<String> {
             {
                 actual.remove(key);
             }
+        }
+    }
+
+    @Override
+    protected void removed(Cacheable<?> value) 
+    {
+        if (value instanceof GuildMusicManager)
+        {
+            GuildMusicManager gmm = (GuildMusicManager) value;
+            Guild g = gmm.getGuild();
+            g.getAudioManager().closeAudioConnection();
         }
     }
     

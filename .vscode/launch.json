@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Launch Launcher",
             "request": "launch",
-            "mainClass": "alloy.main.Launcher"
+            "mainClass": "frontsnapk1ck.alloy.main.Launcher"
         },
     ]
 }

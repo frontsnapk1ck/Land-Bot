@@ -1,11 +1,13 @@
 package frontsnapk1ck.alloy.templates;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 
+import com.github.connyscode.ctils.jTrack.Song;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -25,6 +27,12 @@ import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.io.FileReader;
+import frontsnapk1ck.utility.StringUtil;
+import frontsnapk1ck.utility.Util;
+import frontsnapk1ck.utility.logger.Level;
+import frontsnapk1ck.utility.time.TimeUtil;
+import frontsnapk1ck.utility.time.TimesIncludes;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
@@ -32,21 +40,51 @@ import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
-import frontsnapk1ck.utility.StringUtil;
-import frontsnapk1ck.utility.logger.Level;
-import frontsnapk1ck.utility.time.TimeUtil;
-import frontsnapk1ck.utility.time.TimesIncludes;
 
 public class Templates {
 
 	public static final int MAX_ROLE_SHOW = 15;
 	public static final int MAX_SERVER_ROLE_SHOW = 30;
 	public static final int MAX_ROLE_MEMBERS_SHOW = 30;
+
+	public static List<MessageEmbed> getEmbeds(Template t) 
+    {
+        List<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
+        try {
+            embeds.add(t.getEmbed());
+        } catch (Exception ex) 
+        {
+            String[] arr = t.getText().split("\n");
+            String title = arr[0];
+            String[] newLines = Util.arrRange(arr, 1);
+
+            EmbedBuilder eb = new EmbedBuilder();
+            eb.setTitle(title);
+
+            String out = "";
+            for (int i = 0; i < newLines.length; i++) 
+            {
+                String tmp = out + newLines[i] + "\n";
+                if (tmp.length() > MessageEmbed.TEXT_MAX_LENGTH)
+                {
+                    eb.setDescription(out);
+                    embeds.add(eb.build());
+                    out = newLines[i];
+                }
+                else
+                    out = tmp;
+            }
+            eb.setDescription(out);
+            embeds.add(eb.build());
+        }
+        return embeds;
+    }
 
 	public static Template noPermission(DisPerm p, User u) {
 		String s = "The user " + u.getAsMention() + " does not have the permission `" + p.getName() + "`";
@@ -280,7 +318,8 @@ public class Templates {
 		return t;
 	}
 
-	public static Template numberOutOfBounds(IndexOutOfBoundsException e) {
+	public static Template numberOutOfBounds(IndexOutOfBoundsException e) 
+	{
 		Template t = new Template("Number out of bounds",
 				"lol, that number threw an error, you're lucky i caught it\n\n" + e.getMessage());
 		return t;
@@ -1092,7 +1131,7 @@ public class Templates {
 		
 		if (nowPlaying == null)
 		{
-			Template t = new Template("Music Queue", "Nothing in the queue");
+			Template t = new Template("Music Queue", out);
 			return t;
 		}
 
@@ -1201,5 +1240,70 @@ public class Templates {
 	{
 		return new Template("No Music Playing", "To use that command, music must be playing");
     }
+
+    public static Template noLyricsFound(String name) 
+	{
+        return new Template("No Lyrics Found", String.format("I couldn't find anything for the song: `%s`", name));
+    }
+
+    public static Template songLyrics(Song song) 
+	{
+        String name = song.songFullName();
+		String lyrics = song.songLyrics();
+
+		Template t = new Template(name , lyrics);
+		return t;
+    }
+
+	public static Template addedSongToTop(AudioPlaylist playlist) 
+	{
+		AudioTrack firstTrack = playlist.getSelectedTrack();
+        
+		if (firstTrack == null)
+			firstTrack = playlist.getTracks().get(0);
+		String message = "Adding to top of queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")";
+		Template t = new Template ("Queue" , message);
+		return t;
+	}
+
+    public static Template addedSongToTop(AudioTrack track) 
+	{
+        Template t = new Template("Queue" , "Adding to top of queue " + track.getInfo().title);
+		return t;
+    }
+
+    public static Template playingSongNow(AudioTrack track) 
+	{
+		Template t = new Template("Queue" , "Playing now: " + track.getInfo().title);
+		return t;
+    }
+
+    public static Template playingSongNow(AudioPlaylist playlist) 
+	{
+		AudioTrack firstTrack = playlist.getSelectedTrack();
+        
+		if (firstTrack == null)
+			firstTrack = playlist.getTracks().get(0);
+		String message = "Playing now: " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")";
+		Template t = new Template ("Queue" , message);
+		return t;
+    }
+
+	public static Template songRemove(AudioTrack removed) 
+	{
+		return new Template("Removed Song", "removed song: " + removed.getInfo().title);
+	}
+
+	public static Template songNotFound(String song) 
+	{
+		return new Template( 
+			"Nothing Found", 
+			String.format(
+				"I couldn't find anything by the name: `%s` on %s YouTube" ,
+				song , 
+				EmojiConstants.YOUTUBE
+			)
+		);
+	}
 
 }

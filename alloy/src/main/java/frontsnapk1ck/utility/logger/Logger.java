@@ -26,6 +26,14 @@ public class Logger {
         logger = null;
     }
 
+    public void error( String className, String message ) 
+    {
+        onReceive(className, message, ERROR);
+        logger = LoggerFactory.getLogger(className);
+        logger.error(message);
+        logger = null;
+    }
+
     public void debug(String className, String message) {
         onReceive(className, message, DEBUG);
         logger = LoggerFactory.getLogger(className);

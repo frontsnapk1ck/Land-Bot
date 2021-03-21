@@ -115,6 +115,10 @@ public class AlloyInputUtil {
         map.put(    "skip"              ,   VoiceInputActions.SKIP_ACTION);
         map.put(    "queue"             ,   VoiceInputActions.QUEUE_ACTION);
         map.put(    "leave"             ,   VoiceInputActions.LEAVE_ACTION);
+        map.put(    "lyrics"            ,   VoiceInputActions.LYRICS_ACTION);
+        map.put(    "play-now"          ,   VoiceInputActions.PLAY_NOW_ACTION);
+        map.put(    "play-top"          ,   VoiceInputActions.PLAY_TOP_ACTION);
+        map.put(    "remove"            ,   VoiceInputActions.REMOVE_ACTION);
 
 
         return map;

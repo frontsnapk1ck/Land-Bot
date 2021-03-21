@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import frontsnapk1ck.alloy.audio.GuildMusicManager;
 import frontsnapk1ck.alloy.gameobjects.Case;
 import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.gameobjects.Warning;
@@ -400,6 +401,20 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void audioStopped(GuildMusicManager gmm) 
+    {
+        String id = gmm.getGuild().getId();
+        id = "GMM: " + id;
+        cache.put( id , gmm , AlloyCache.GMM_KEEP_TIME);
+    }
+
+    public static void audioStarted(GuildMusicManager gmm) 
+    {
+        String id = gmm.getGuild().getId();
+        id = "GMM: " + id;
+        cache.remove(id);
     }
 
 }

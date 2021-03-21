@@ -6,12 +6,15 @@ import java.util.List;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
+import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
+import frontsnapk1ck.utility.cache.Cacheable;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 
 /**
  * Holder for both the player and a track scheduler for one guild.
  */
-public class GuildMusicManager {
+public class GuildMusicManager implements TrackListener , Cacheable<GuildMusicManager> {
 
     /**
      * Audio player for the guild.
@@ -28,16 +31,21 @@ public class GuildMusicManager {
      */
     private List<User> skipped;
 
+    private Guild guild;
+
     /**
      * Creates a player and a track scheduler.
      * @param manager Audio player manager to use for creating the player.
+     * @param g the guild that this player is managing
      */
-    public GuildMusicManager(AudioPlayerManager manager) 
+    public GuildMusicManager(AudioPlayerManager manager, Guild g) 
     {
         player = manager.createPlayer();
         scheduler = new TrackScheduler(player);
         player.addListener(scheduler);
+        scheduler.addListener(this);
         this.skipped = new ArrayList<User>();
+        this.guild = g;
     }
 
     /**
@@ -95,5 +103,29 @@ public class GuildMusicManager {
     {
         this.scheduler.nextTrack();
         this.skipped.clear();
+    }
+
+    @Override
+    public void onTrackEnd() 
+    {
+        this.skipped.clear();
+        AlloyUtil.audioStopped(this);
+    }
+
+    @Override
+    public GuildMusicManager getData() 
+    {
+        return this;
+    }
+
+    public Guild getGuild() 
+    {
+        return guild;
+    }
+
+    @Override
+    public void onTrackStart() 
+    {
+        AlloyUtil.audioStarted(this);
     }
 }

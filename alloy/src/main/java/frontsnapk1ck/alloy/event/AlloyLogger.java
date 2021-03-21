@@ -63,5 +63,7 @@ public class AlloyLogger extends Logger {
     public DiscordInterface getDisInterface() {
         return disInterface;
     }
+
+
     
 }

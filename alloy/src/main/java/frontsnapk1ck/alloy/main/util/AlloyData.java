@@ -220,9 +220,10 @@ public class AlloyData {
         long guildId = Long.parseLong(g.getId());
         GuildMusicManager musicManager = musicManagers.get(guildId);
     
-        if (musicManager == null) {
-          musicManager = new GuildMusicManager(playerManager);
-          musicManagers.put(guildId, musicManager);
+        if (musicManager == null) 
+        {
+            musicManager = new GuildMusicManager(playerManager , g);
+            musicManagers.put(guildId, musicManager);
         }
     
         g.getAudioManager().setSendingHandler(musicManager.getSendHandler());

@@ -26,7 +26,8 @@ public class PayCommand extends AbstractCooldownCommand {
     }
 
     @Override
-    public void execute(AlloyInputData data) {
+    public void execute(AlloyInputData data) 
+    {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);

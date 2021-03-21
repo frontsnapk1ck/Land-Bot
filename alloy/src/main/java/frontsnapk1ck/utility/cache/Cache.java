@@ -6,17 +6,17 @@ import java.util.List;
 import org.apache.commons.collections4.MapIterator;
 import org.apache.commons.collections4.map.LRUMap;
 
-public class Cache<T> {
+public class Cache<K , H> {
 
     public static final long DEFAULT_TIME = 5000L;
-    public static final long DEFAULT_INTERVAL = 5000L;
+    public static final long DEFAULT_INTERVAL = 50L;
     public static final int  DEFAULT_MAX_ITEMS = 1000;
 
     public static final long FOREVER = -1L;
 
     private long keepTime;
     private long interval;
-    private LRUMap< T , CacheObject > cacheMap;
+    private LRUMap< K , CacheObject > cacheMap;
     private Thread cacheThread;
 
     private boolean running;
@@ -46,7 +46,7 @@ public class Cache<T> {
     {
         this.keepTime = keepTime;
         this.interval = interval;
-        this.cacheMap = new LRUMap< T, CacheObject >(maxItems);
+        this.cacheMap = new LRUMap< K, CacheObject >(maxItems);
         this.cacheThread = makeCacheThread();
         this.start();
     }
@@ -94,40 +94,51 @@ public class Cache<T> {
     {
         long now = System.currentTimeMillis();
 
-        List<T> toRm = new ArrayList<T>();
+        List<K> toRm = new ArrayList<K>();
 
         synchronized (cacheMap) 
         {
-            MapIterator<T, CacheObject> itr = cacheMap.mapIterator();            
+            MapIterator<K, CacheObject> itr = cacheMap.mapIterator();            
             while (itr.hasNext())
             {
-                T key = itr.next();
+                K key = itr.next();
                 CacheObject c = itr.getValue();
 
-                if (c != null && (now > (keepTime + c.lastAccessed)))
+                if (c != null && (now > (c.keepTime + c.lastAccessed)))
                     toRm.add(key);
             }
 
         }
 
-        for (T key : toRm) 
+        for (K key : toRm) 
         {
             synchronized (cacheMap) 
             {
-                cacheMap.remove(key);
+                CacheObject removed = cacheMap.remove(key);
+                removed(removed.value);
             }
         }
     }
 
-    public void put(T key, Cacheable<?> value) 
+    protected void removed(H value) 
+    {
+        //nothing to do yet
+    }
+
+    public void put(K key, H value) 
+    {
+        this.put(key, value, keepTime);
+    }
+
+    public void put(K key, H value , long keepTime) 
     {
         synchronized (cacheMap) 
         {
-            cacheMap.put(key, new CacheObject(value));
+            cacheMap.put(key, new CacheObject(value , keepTime));
         }
     }
  
-    public Cacheable<?> get(T key) 
+    public H get(K key) 
     {
         synchronized (cacheMap) 
         {
@@ -142,7 +153,7 @@ public class Cache<T> {
         }
     }
  
-    public boolean remove(T key) 
+    public boolean remove(K key)
     {
         synchronized (cacheMap) 
         {
@@ -158,7 +169,7 @@ public class Cache<T> {
         }
     }
 
-    public boolean has(T key) 
+    public boolean has(K key) 
     {
         synchronized (cacheMap) 
         {
@@ -178,7 +189,7 @@ public class Cache<T> {
      * 
      * @return the {@link LRUMap} of a parameterized type to the {@link CacheObject}. 
      */
-    protected LRUMap<T, CacheObject> getCacheMap() 
+    protected LRUMap<K, CacheObject> getCacheMap() 
     {
         return cacheMap;
     }
@@ -186,12 +197,14 @@ public class Cache<T> {
     protected class CacheObject 
     {
         public long lastAccessed;
-        public Cacheable<?> value;
- 
-        protected CacheObject(Cacheable<?> value) 
+        public H value;
+        public long keepTime;
+         
+        public CacheObject(H value, long keepTime) 
         {
             this.value = value;
             this.lastAccessed = System.currentTimeMillis();
+            this.keepTime = keepTime;
         }
     }
     

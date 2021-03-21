@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>frontsnapk1ck</groupId>
   <artifactId>alloy</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
@@ -26,15 +26,15 @@
 
   <repositories>
 
-    <repository>
-      <id>central</id>
-      <name>bintray</name>
-      <url>https://jcenter.bintray.com</url>
-    </repository>
-
   </repositories>
 
   <dependencies>
+
+    <dependency>
+      <groupId>com.squareup.okio</groupId>
+      <artifactId>okio</artifactId>
+      <version>3.0.0-alpha.1</version>
+    </dependency>
 
     <dependency>
       <groupId>org.kefirsf</groupId>
@@ -42,6 +42,12 @@
       <version>1.5</version>
     </dependency>
 
+    <dependency>
+      <!-- jTrack - Collecting Track Data @ https://github.com/ConnysCode/jTrack -->
+      <groupId>com.github.connyscode.ctils</groupId>
+      <artifactId>jtrack</artifactId>
+      <version>2.0.1</version>
+    </dependency>
 
     <dependency>
       <groupId>net.dv8tion</groupId>

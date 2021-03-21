@@ -1179,11 +1179,21 @@ public class Templates {
 	{
 		if (nowPlaying == null)
 			return new Template("Now Playing" , "Nothing is playing right now");
+		
 		String title = nowPlaying.getInfo().title;
-		String author = nowPlaying.getInfo().author;
-		String trackInfo = "[" + title + " - " + author + "]("  + nowPlaying.getInfo().uri + ")";
-		trackInfo += "\nDuration: `";
-		trackInfo += TimeUtil.getTimeShortFromRelative(nowPlaying.getDuration()) + "`";
+
+		String pos = TimeUtil.getTimeShortFromRelative(nowPlaying.getPosition());
+		String total = TimeUtil.getTimeShortFromRelative(nowPlaying.getDuration());
+
+		String link = nowPlaying.getInfo().uri;
+		if (link.contains("youtu"));
+			link += "?t=" + nowPlaying.getPosition() / 1000 + "s";
+		String trackInfo = "[" + title + "]("  + link + ")\n";
+		trackInfo += String.format(
+			"Duration: `%s`/`%s`" ,
+			pos ,
+			total 
+		);
 
 		Template t = new Template("Now Playing", trackInfo);
 		return t;

@@ -31,7 +31,6 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import frontsnapk1ck.utility.StringUtil;
 import frontsnapk1ck.utility.Util;
 
-//TODO make this less shit...
 public class CaseCommand extends AbstractCommand {
 
 
@@ -71,56 +70,24 @@ public class CaseCommand extends AbstractCommand {
             return;
         }
 
-        boolean show = args.length > 0 && args[0].equalsIgnoreCase("show") && args.length < 3;
-        boolean reason = args.length > 0 && args[0].equalsIgnoreCase("reason");
-        boolean user = args.length > 1 && args[0].equalsIgnoreCase("user");
-        boolean validInt = args.length > 1 && Util.validInt(args[1]);
-        if (reason) 
+        if (args[0].equalsIgnoreCase("show"))
+            show(data);
+        if (args[0].equalsIgnoreCase("reason"))
+            reason(data);
+        if (args[0].equalsIgnoreCase("user"))
+            user(data);
+    }
+
+    private void show(AlloyInputData data) 
+    {
+        Guild guild = data.getGuild();
+        String[] args = AlloyInputUtil.getArgs(data);
+        Sendable bot = data.getSendable();
+        TextChannel channel = data.getChannel();
+
+        if (args.length < 2) 
         {
-            MessageEmbed embed = editReason(bot, guild, guild.getMember(author), channel, args[1],
-                    StringUtil.joinStrings(args, 2));
-
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom(getClass());
-            sm.setMessage(embed);
-            bot.send(sm);
-            return;
-        }
-
-        if (show && validInt) 
-        {
-            Case c = AdminHandler.getCase(guild.getIdLong(), args[1]);
-            MessageEmbed e;
-            if (c == null)
-                e = Templates.caseNotFound(args[1]).getEmbed();
-            else
-                e = AdminHandler.toEmbed(c);
-
-            SendableMessage sm = new SendableMessage();
-            sm.setChannel(channel);
-            sm.setFrom(getClass());
-            sm.setMessage(e);
-            bot.send(sm);
-            return;
-        }
-
-        if (user)
-        {
-            Member target = DisUtil.findMember(guild, args[1]);
-            if (target == null)
-            {
-                Template t = Templates.userNotFound(args[1]);
-                SendableMessage sm = new SendableMessage();
-                sm.setFrom(getClass());
-                sm.setChannel(channel);
-                sm.setMessage(t.getEmbed());
-                bot.send(sm);
-                return;
-            }
-            List<Case> cases = AdminHandler.allCases(target);
-
-            Template t = Templates.caseList(cases);
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -129,10 +96,73 @@ public class CaseCommand extends AbstractCommand {
             return;
         }
 
-        Template t = Templates.argumentsNotSupplied(args, getUsage());
+        if (!Util.validInt(args[1])) 
+        {
+            Template t = Templates.invalidNumberFormat(args[1]);
+            SendableMessage sm = new SendableMessage();
+            sm.setFrom(getClass());
+            sm.setChannel(channel);
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        Case c = AdminHandler.getCase(guild.getIdLong(), args[1]);
+        MessageEmbed e;
+        if (c == null)
+            e = Templates.caseNotFound(args[1]).getEmbed();
+        else
+            e = AdminHandler.toEmbed(c);
+
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
+        sm.setMessage(e);
+        bot.send(sm);
+    }
+
+    private void reason(AlloyInputData data) 
+    {
+        Guild guild = data.getGuild();
+        User author = data.getUser();
+        String[] args = AlloyInputUtil.getArgs(data);
+        Sendable bot = data.getSendable();
+        TextChannel channel = data.getChannel();
+
+        MessageEmbed embed = editReason(bot, guild, guild.getMember(author), channel, args[1],
+        StringUtil.joinStrings(args, 2));
+        SendableMessage sm = new SendableMessage();
+        sm.setChannel(channel);
+        sm.setFrom(getClass());
+        sm.setMessage(embed);
+        bot.send(sm);
+        return;
+    }
+
+    private void user(AlloyInputData data) 
+    {
+        Guild guild = data.getGuild();
+        String[] args = AlloyInputUtil.getArgs(data);
+        Sendable bot = data.getSendable();
+        TextChannel channel = data.getChannel();
+
+        Member target = DisUtil.findMember(guild, args[1]);
+        if (target == null)
+        {
+            Template t = Templates.userNotFound(args[1]);
+            SendableMessage sm = new SendableMessage();
+            sm.setFrom(getClass());
+            sm.setChannel(channel);
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+        List<Case> cases = AdminHandler.allCases(target);
+
+        Template t = Templates.caseList(cases);
+        SendableMessage sm = new SendableMessage();
+        sm.setFrom(getClass());
+        sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         return;

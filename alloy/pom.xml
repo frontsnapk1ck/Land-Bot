@@ -3,6 +3,28 @@
   <groupId>frontsnapk1ck</groupId>
   <artifactId>alloy</artifactId>
   <version>0.3.2</version>
+
+  <name>Alloy</name>
+  <description>
+    A moderation and an economy bot that makes your server that much better.
+    Also includes a level system and numerous fun commands.
+  </description>
+
+  <licenses>
+    <license>
+      <name>GNU General Public License v3.0</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>frontsnapk1ck</id>
+      <name>Shawn W</name>
+      <email>frontsnapk1ck.shawn@gmail.com</email>
+    </developer>
+  </developers>
+
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>

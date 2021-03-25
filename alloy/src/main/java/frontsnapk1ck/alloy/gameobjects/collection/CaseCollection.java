@@ -5,7 +5,7 @@ import java.util.List;
 import frontsnapk1ck.alloy.gameobjects.Case;
 import frontsnapk1ck.utility.cache.AbstractCollection;
 
-public class CaseCollection extends AbstractCollection<CaseCollection> {
+public class CaseCollection extends AbstractCollection<Case> {
 
     public CaseCollection(List<Case> cases) 
     {
@@ -16,13 +16,6 @@ public class CaseCollection extends AbstractCollection<CaseCollection> {
     public CaseCollection getData() 
     {
         return this;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Case> getList() 
-    {
-        return (List<Case>) super.getList();
     }
     
 }

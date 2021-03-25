@@ -1,22 +1,17 @@
 package frontsnapk1ck.alloy.command.fun;
 
-import java.util.function.Consumer;
-
 import frontsnapk1ck.alloy.command.util.AbstractCommand;
 import frontsnapk1ck.alloy.input.AlloyInputUtil;
 import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
+import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.exceptions.ErrorHandler;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.requests.ErrorResponse;
-import frontsnapk1ck.utility.StringUtil;
 
 public class LinkCommand extends AbstractCommand {
 
@@ -33,22 +28,6 @@ public class LinkCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         String[] args = AlloyInputUtil.getArgs(data);
         Message msg = data.getMessageActual();
-
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
-        {
-            @Override
-            public void accept(ErrorResponseException t) 
-            {
-                Alloy.LOGGER.warn("LinkCommand", t.getMessage());
-            }
-
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, consumer);
         
         if (args.length < 2)
         {
@@ -69,7 +48,14 @@ public class LinkCommand extends AbstractCommand {
         sm.setMessage(t.getEmbed());
         bot.send(sm);
         
-        msg.delete().queue(null,handler);
+        try 
+        {
+            msg.delete().complete();
+        }
+        catch (Exception e)
+        {
+            Alloy.LOGGER.warn(getClass().getSimpleName(), e.getMessage());
+        }
 
     }
     

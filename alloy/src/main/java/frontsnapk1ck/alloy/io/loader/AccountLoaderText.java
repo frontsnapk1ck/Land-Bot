@@ -1,5 +1,7 @@
 package frontsnapk1ck.alloy.io.loader;
 
+import java.util.function.Consumer;
+
 import frontsnapk1ck.alloy.gameobjects.player.Account;
 import frontsnapk1ck.alloy.utility.settings.AccountSettings;
 import frontsnapk1ck.io.DataLoader;
@@ -13,7 +15,17 @@ public class AccountLoaderText extends DataLoader<Account, String> {
     @Override
     public Account load(String file) 
     {
-        String[] args = FileReader.read(file);
+        Consumer<Exception> c = new Consumer<Exception>()
+        {
+            public void accept(Exception t) 
+            {
+            };
+        };
+
+        String[] args = FileReader.read(file , c);
+        if (args == null)
+            throw new NullPointerException(" could not read the file or something");
+        
         String[][] accountArray = configureAccountArray(args);
 
         String balString = loadSetting(Account.BAL, accountArray);

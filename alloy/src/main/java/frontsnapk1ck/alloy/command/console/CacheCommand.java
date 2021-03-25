@@ -9,7 +9,8 @@ import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.gameobjects.player.Player;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
-import frontsnapk1ck.alloy.utility.AlloyCache;
+import frontsnapk1ck.alloy.utility.cache.AlloyCache;
+import frontsnapk1ck.alloy.utility.cache.AlloyCacheObject;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.utility.StringUtil;
 import frontsnapk1ck.utility.cache.Cacheable;
@@ -32,23 +33,24 @@ public class CacheCommand extends AbstractConsoleCommand {
     private void showCache(ConsoleInputData data) 
     {
         AlloyCache cache = AlloyUtil.getCache();
-        Map<String, Cacheable<?>> cacheable = cache.getCache();
+        Map<String, AlloyCacheObject> cacheable = cache.getCacheObjects();
         
         Set<String> set = cacheable.keySet();
 
-        String[][] tableData = new String[set.size()][3];
+        String[][] tableData = new String[set.size()][4];
 
         int i = 0;
         for (String string : set) 
         {
-            tableData[i][0] = loadInfo(cacheable.get(string) , data);
-            tableData[i][1] = cacheable.get(string).getClass().getSimpleName();
-            tableData[i][2] = string;
+            tableData[i][0] = loadInfo(cacheable.get(string).getValueRaw() , data);
+            tableData[i][1] = cacheable.get(string).getValueRaw().getClass().getSimpleName();
+            tableData[i][2] = "" + cacheable.get(string).getAccessed();
+            tableData[i][3] = string;
 
             i++;
         }
 
-        String[] headers = { "~~Info~~" , "~~Type~~" , "~~Key~~"};
+        String[] headers = { "~~Info~~" , "~~Type~~" , "~~Accessed~~" , "~~Key~~"};
         System.out.println(StringUtil.makeTable(tableData , headers));
     }
 
@@ -58,7 +60,7 @@ public class CacheCommand extends AbstractConsoleCommand {
         cache.clear();
     }
 
-    private String loadInfo(Cacheable<?> cacheable, ConsoleInputData data) 
+    private String loadInfo(Cacheable cacheable, ConsoleInputData data) 
     {
         if (cacheable.getClass() == Player.class)
             return player( (Player) cacheable.getData() , data.getJda() );

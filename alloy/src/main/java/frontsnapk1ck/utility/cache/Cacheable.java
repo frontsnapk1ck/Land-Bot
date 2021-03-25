@@ -1,7 +1,7 @@
 package frontsnapk1ck.utility.cache;
 
-public interface Cacheable<T> {
+public interface Cacheable {
 
-    public T getData();
+    public Cacheable getData();
         
 }

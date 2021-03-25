@@ -38,7 +38,7 @@ public class SkipCommand extends AbstractCommand {
         }
 
         GuildMusicManager musicManager = audible.getGuildAudioPlayer(g);
-        int numInVC = getNumInVC(g);
+        int numInVC = getNumInVC(g) - 1;
         int majority = Math.round(numInVC * MAJORITY);
 
         if (musicManager.getPlayer().getPlayingTrack() == null)

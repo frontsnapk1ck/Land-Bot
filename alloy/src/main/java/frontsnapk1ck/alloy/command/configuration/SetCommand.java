@@ -71,9 +71,87 @@ public class SetCommand extends AbstractCommand {
             mute(data);
         else if (args[0].equalsIgnoreCase("appeal"))
             appeal(data);
+        else if (args[0].equalsIgnoreCase("econ-role"))
+            econRole(data);
             
     }
     
+
+    private void econRole(AlloyInputData data) 
+    {
+        Guild g = data.getGuild();
+        String[] args = AlloyInputUtil.getArgs(data);
+        Sendable bot = data.getSendable();
+        TextChannel channel = data.getChannel();
+
+        if (!DisPermUtil.checkPermission(g.getSelfMember(), DisPerm.MANAGE_ROLES))
+        {
+            Template t = Templates.noPermission(DisPerm.MANAGE_ROLES, g.getSelfMember().getUser());
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+        }
+
+        Server s = AlloyUtil.loadServer(g);
+        if (!DisPermUtil.checkPermission(g.getSelfMember(), DisPerm.MANAGE_ROLES))
+        {
+            s.changeAssignRolesOnBuy(false);
+
+            Template t = Templates.assignRolesOnBuy(false);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+        
+        if (args.length < 2) 
+        {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        String bool = args[1];
+        if (bool.equalsIgnoreCase("false") || bool.equalsIgnoreCase("off"))
+        {
+            s.changeAssignRolesOnBuy(false);
+
+            Template t = Templates.assignRolesOnBuy(false);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+        }
+        else if (bool.equalsIgnoreCase("true") || bool.equalsIgnoreCase("on"))
+        {
+            s.changeAssignRolesOnBuy(true);
+
+            Template t = Templates.assignRolesOnBuy(true);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+        }
+        else
+        {
+            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+        }
+    }
 
     private void appeal(AlloyInputData data) 
     {

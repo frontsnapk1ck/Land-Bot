@@ -3,6 +3,7 @@ package frontsnapk1ck.alloy.command.configuration;
 import java.util.List;
 
 import frontsnapk1ck.alloy.command.util.AbstractCommand;
+import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.gameobjects.player.Building;
 import frontsnapk1ck.alloy.handler.command.ConfigHandler;
 import frontsnapk1ck.alloy.handler.command.EconHandler;
@@ -16,17 +17,17 @@ import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.alloy.utility.settings.BuildingSettings;
 import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import frontsnapk1ck.utility.StringUtil;
 
 public class BuildingCommand extends AbstractCommand {
 
     @Override
     public DisPerm getPermission() {
-        return DisPerm.ADMINISTRATOR;
+        return DisPerm.MANAGER;
     }
 
     @Override
@@ -38,8 +39,23 @@ public class BuildingCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission(m, getPermission())) {
+        if (!DisPermUtil.checkPermission(m, getPermission())) 
+        {
             Template t = Templates.noPermission(getPermission(), author);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        Server s = AlloyUtil.loadServer(g);
+        if (s.getRoleAssignOnBuy() && !DisPermUtil.checkPermission(g.getSelfMember(), DisPerm.MANAGE_ROLES))
+        {
+            s.changeAssignRolesOnBuy(false);
+
+            Template t = Templates.assignRolesOnBuy(false);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -181,15 +197,18 @@ public class BuildingCommand extends AbstractCommand {
 
     }
 
-    private void resetBuilding(AlloyInputData data) {
+    private void resetBuilding(AlloyInputData data) 
+    {
         Guild g = data.getGuild();
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
         EconHandler.removeAllBuildings(g);
+        
         EconHandler.copyOverBuildings(g);
 
         ConfigHandler.viewBuildings(g, channel, bot);
+
     }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import frontsnapk1ck.alloy.gameobjects.Warning;
 import frontsnapk1ck.utility.cache.AbstractCollection;
 
-public class WarningCollection extends AbstractCollection<WarningCollection> {
+public class WarningCollection extends AbstractCollection<Warning> {
     
     public WarningCollection(List<Warning> warnings) 
     {
@@ -18,10 +18,4 @@ public class WarningCollection extends AbstractCollection<WarningCollection> {
         return this;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Warning> getList() 
-    {
-        return (List<Warning>) super.getList();
-    }
 }

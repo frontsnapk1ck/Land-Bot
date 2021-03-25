@@ -92,6 +92,7 @@ public class UpdateCommand extends AbstractConsoleCommand {
 
     private void updateGuild(Guild guild) 
     {
+        AlloyUtil.loadServer(guild).setLoaded(false);
         String path = AlloyUtil.getGuildPath(guild);
         if (!new File(path).exists())
         {
@@ -102,6 +103,7 @@ public class UpdateCommand extends AbstractConsoleCommand {
         List<Member> members = guild.getMembers();
         for (Member member : members) 
             updateMember(member);
+        AlloyUtil.loadServer(guild).setLoaded(true);
     }
 
     private void updateMember(Member member) 

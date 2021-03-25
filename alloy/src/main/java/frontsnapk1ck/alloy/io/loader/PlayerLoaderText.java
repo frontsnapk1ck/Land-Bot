@@ -27,6 +27,7 @@ public class PlayerLoaderText extends DataLoader<Player, String> {
         String warningsPath = file  +   AlloyUtil.WARNINGS_FOLDER;
 
         Account a = alt.load(accountPath);
+        
         List<Warning> warnings = wlt.loadALl(warningsPath);
         int xp = loadXP(file);
         long id = AlloyUtil.parseID(file);

@@ -16,7 +16,7 @@ public class Cache<K , H> {
 
     private long keepTime;
     private long interval;
-    private LRUMap< K , CacheObject > cacheMap;
+    private LRUMap< K , CacheObject<H> > cacheMap;
     private Thread cacheThread;
 
     private boolean running;
@@ -46,7 +46,7 @@ public class Cache<K , H> {
     {
         this.keepTime = keepTime;
         this.interval = interval;
-        this.cacheMap = new LRUMap< K, CacheObject >(maxItems);
+        this.cacheMap = new LRUMap< K, CacheObject<H> >(maxItems);
         this.cacheThread = makeCacheThread();
         this.start();
     }
@@ -98,13 +98,13 @@ public class Cache<K , H> {
 
         synchronized (cacheMap) 
         {
-            MapIterator<K, CacheObject> itr = cacheMap.mapIterator();            
+            MapIterator<K, CacheObject<H>> itr = cacheMap.mapIterator();            
             while (itr.hasNext())
             {
                 K key = itr.next();
-                CacheObject c = itr.getValue();
+                CacheObject<H> c = itr.getValue();
 
-                if (c != null && (now > (c.keepTime + c.lastAccessed)))
+                if (c != null && (now > (c.getKeepTime() + c.getLastAccessed())))
                     toRm.add(key);
             }
 
@@ -114,8 +114,8 @@ public class Cache<K , H> {
         {
             synchronized (cacheMap) 
             {
-                CacheObject removed = cacheMap.remove(key);
-                removed(removed.value);
+                CacheObject<H> removed = cacheMap.remove(key);
+                removed(removed.getValue());
             }
         }
     }
@@ -134,7 +134,7 @@ public class Cache<K , H> {
     {
         synchronized (cacheMap) 
         {
-            cacheMap.put(key, new CacheObject(value , keepTime));
+            cacheMap.put(key, new CacheObject<H>(value , keepTime));
         }
     }
  
@@ -142,14 +142,12 @@ public class Cache<K , H> {
     {
         synchronized (cacheMap) 
         {
-            CacheObject c = (CacheObject) cacheMap.get(key);
+            CacheObject<H> c = (CacheObject<H>) cacheMap.get(key);
  
             if (c == null)
                 return null;
-            else {
-                c.lastAccessed = System.currentTimeMillis();
-                return c.value;
-            }
+            else 
+                return c.getValue();
         }
     }
  
@@ -187,25 +185,11 @@ public class Cache<K , H> {
      * make sure you are careful and dont trigger any concurrent modification 
      * errors.
      * 
-     * @return the {@link LRUMap} of a parameterized type to the {@link CacheObject}. 
+     * @return the {@link LRUMap} of a parameterized type to the {@link CacheObject<H>}. 
      */
-    protected LRUMap<K, CacheObject> getCacheMap() 
+    protected LRUMap<K, CacheObject<H>> getCacheMap() 
     {
         return cacheMap;
-    }
-
-    protected class CacheObject 
-    {
-        public long lastAccessed;
-        public H value;
-        public long keepTime;
-         
-        public CacheObject(H value, long keepTime) 
-        {
-            this.value = value;
-            this.lastAccessed = System.currentTimeMillis();
-            this.keepTime = keepTime;
-        }
     }
     
 }

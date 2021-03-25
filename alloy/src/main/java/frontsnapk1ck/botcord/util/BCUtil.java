@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frontsnapk1ck.alloy.main.Alloy;
-import frontsnapk1ck.alloy.utility.AlloyCache;
+import frontsnapk1ck.alloy.utility.cache.AlloyCache;
 import frontsnapk1ck.botcord.collections.UserCollection;
 import frontsnapk1ck.botcord.util.constants.BCCacheIDs;
 import frontsnapk1ck.botcord.util.constants.BCColors;

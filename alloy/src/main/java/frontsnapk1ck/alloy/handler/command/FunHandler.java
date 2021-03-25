@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 
 import frontsnapk1ck.alloy.gameobjects.RankUp;
 import frontsnapk1ck.alloy.gameobjects.Server;
@@ -28,18 +27,15 @@ import frontsnapk1ck.alloy.utility.job.jobs.AddUserXPCooldownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserXPCooldownJob;
 import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.io.FileReader;
+import frontsnapk1ck.utility.event.Job;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.Message.Attachment;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.exceptions.ErrorHandler;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.requests.ErrorResponse;
-import frontsnapk1ck.utility.event.Job;
 
 public class FunHandler {
 
@@ -179,29 +175,19 @@ public class FunHandler {
     }
 
     public static void sayRaw(TextChannel channel, Sendable bot, Message msg) 
-    {
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
-        {
-            @Override
-            public void accept(ErrorResponseException t) 
-            {
-                Alloy.LOGGER.warn("DeleteMessageJob", t.getMessage());
-            }
-
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, consumer);
-
-        
+    {        
         if (msg.getAttachments().size() != 0)
             sendAttachments(msg,channel,bot);
         else 
             sendNormal(msg,channel,bot);
-        msg.delete().queue(null , handler);
+        try 
+        {
+            msg.delete().complete();
+        }
+        catch (Exception e)
+        {
+            Alloy.LOGGER.warn("FunHandler", e.getMessage());
+        }
     }
 
     private static void sendAttachments(Message msg, TextChannel channel, Sendable bot) 
@@ -259,22 +245,6 @@ public class FunHandler {
         if (msg.getContentRaw().length() < 5 )
             return;
         
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
-        {
-            @Override
-            public void accept(ErrorResponseException t) 
-            {
-                Alloy.LOGGER.warn("DeleteMessageJob", t.getMessage());
-            }
-
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, consumer);
-
         String out = msg.getContentRaw().toString().substring(5);
         Template t = Templates.sayAdmin(out, msg);
         SendableMessage sm = new SendableMessage();
@@ -282,10 +252,18 @@ public class FunHandler {
         sm.setFrom(FunHandler.class);
         sm.setMessage(t.getEmbed());
         bot.send(sm);
-        msg.delete().queue(null, handler);
+        try 
+        {
+            msg.delete().complete();
+        }
+        catch (Exception e)
+        {
+            Alloy.LOGGER.warn("FunHandler", e.getMessage());
+        }
     }
 
-    public static void addXP(AlloyInputData data) {
+    public static void addXP(AlloyInputData data) 
+    {
         Guild g = data.getGuild();
         User author = data.getUser();
         CooldownHandler handler = data.getCooldownHandler();
@@ -294,7 +272,24 @@ public class FunHandler {
         Queueable q = data.getQueue();
 
         Server s = AlloyUtil.loadServer(g);
-        Player p = AlloyUtil.loadPlayer(g, m);
+
+        if (!s.isLoaded())
+            return;
+
+        Player p = null;
+        try {
+             p = AlloyUtil.loadPlayer(g, m);
+        } catch (Exception e) 
+        {
+            Alloy.LOGGER.warn(
+                "FunHandler", 
+                "User: " + author.getAsTag() + 
+                    "\tError Type: " + e.getClass().getSimpleName() + 
+                    "\tError Message: " + e.getMessage() +
+                    "\tguild: " + g.getId() + " " + g.getName()
+            );
+            return;
+        }
 
         List<TextChannel> blacklisted = getBlacklistedChannels(g, s);
         if (channelIn(blacklisted, channel))

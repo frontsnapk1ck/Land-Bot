@@ -24,9 +24,10 @@ import frontsnapk1ck.utility.Util;
 
 public class ConfigHandler {
 
-    public static void viewBuildings(Guild g, TextChannel channel, Sendable bot) {
+    public static void viewBuildings(Guild g, TextChannel channel, Sendable bot) 
+    {
         EmbedBuilder eb = new EmbedBuilder();
-        List<Building> buildings = AlloyUtil.loadBuildings(g);
+        List<Building> buildings = AlloyUtil.reloadBuildings(g);
 
         eb.setTitle("All available buildings");
         embedBuildingList(eb, buildings);

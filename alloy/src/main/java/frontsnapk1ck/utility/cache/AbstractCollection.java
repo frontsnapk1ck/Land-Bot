@@ -2,19 +2,19 @@ package frontsnapk1ck.utility.cache;
 
 import java.util.List;
 
-public abstract class AbstractCollection<T> implements Cacheable<T> {
+public abstract class AbstractCollection<T> implements Cacheable {
 
-    private List<?> data;
+    private List<T> data;
 
-    public AbstractCollection(List<?> data) 
+    public AbstractCollection(List<T> data) 
     {
         super();
         this.data = data;
     }
 
-    public List<?> getList()
+    public List<T> getList()
     {
-        return this.data;
+        return data;
     }
     
 }

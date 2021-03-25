@@ -11,7 +11,7 @@ import frontsnapk1ck.utility.logger.Logger;
 public class EventManager {
 
     public static final Long COOLDOWN_INTERVAL = 50l;
-    public static final int MAX_WORKERS = 4;
+    public static final int MAX_WORKERS = 6;
 
     private Logger logger;
 

@@ -20,8 +20,8 @@ public class DataMap<T,K> {
     {
         for (MapNode<T,K> mapNode : nodes) 
         {
-            if (mapNode.getArg0().equals(key))
-                return mapNode.getArg1();
+            if (mapNode.getKey().equals(key))
+                return mapNode.getValue();
         }
         return null;
     }

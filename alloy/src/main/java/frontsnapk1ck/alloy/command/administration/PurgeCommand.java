@@ -3,47 +3,83 @@ package frontsnapk1ck.alloy.command.administration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
-import frontsnapk1ck.alloy.command.util.AbstractCommand;
+import frontsnapk1ck.alloy.command.util.AbstractCooldownCommand;
 import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.input.AlloyInputUtil;
 import frontsnapk1ck.alloy.input.discord.AlloyInputData;
+import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
+import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
+import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
 import frontsnapk1ck.alloy.utility.job.jobs.DeleteMessageJob;
-import frontsnapk1ck.alloy.utility.job.jobs.PurgeJob;
+import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.utility.StringUtil;
+import frontsnapk1ck.utility.Util;
+import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.time.TimeUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import frontsnapk1ck.utility.StringUtil;
-import frontsnapk1ck.utility.Util;
-import frontsnapk1ck.utility.event.Job;
-import frontsnapk1ck.utility.time.TimeUtil;
+import net.dv8tion.jda.api.exceptions.ErrorHandler;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 
-public class PurgeCommand extends AbstractCommand {
+public class PurgeCommand extends AbstractCooldownCommand {
 
     public static final int MAX_DELETE_COUNT = 2500;
     public static final int MAX_BULK_SIZE = 100;
 
     @Override
-    public void execute(AlloyInputData data) {
+    public long getCooldownTime(Guild g) 
+    {
+        return 20l;
+    }
+
+    @Override
+    public DisPerm getPermission() 
+    {
+        return DisPerm.MANAGER;
+    }
+
+    @Override
+    public void execute(AlloyInputData data) 
+    {
+        Consumer<AlloyInputData> consumer = new Consumer<AlloyInputData>()
+        {
+            @Override
+            public void accept(AlloyInputData t) 
+            {
+                exeImp(t);
+            }
+        };
+        DelayJob<AlloyInputData> j = new DelayJob<AlloyInputData>(consumer, data);
+        data.getQueue().queue(j);
+    }
+
+    private void exeImp(AlloyInputData data) 
+    {
+        
         Guild guild = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
+        CooldownHandler handler = data.getCooldownHandler();
         Queueable q = data.getQueue();
+        Member m = guild.getMember(author);
 
-        boolean hasManageMessages = DisPermUtil.checkPermission(guild.getSelfMember(), DisPerm.MESSAGE_MANAGE);
+        boolean hasManageMessages = DisPermUtil.checkPermission(guild.getSelfMember(), getPermission());
         List<Message> messagesToDelete = new ArrayList<>();
         Member toDeleteFrom = null;
         String deletePattern = null;
@@ -51,15 +87,27 @@ public class PurgeCommand extends AbstractCommand {
         int toDelete = 100;
         PurgeStyle style = PurgeStyle.UNKNOWN;
 
-        boolean valid = DisPermUtil.checkPermission(guild.getMember(author), DisPerm.ADMINISTRATOR)
+        boolean valid = DisPermUtil.checkPermission(guild.getMember(author), getPermission())
                 || channel.getJDA().getSelfUser().equals(author);
-        if (!valid) {
-            Template t = Templates.noPermission(DisPerm.ADMINISTRATOR, author);
+        if (!valid) 
+        {
+            Template t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
+            return;
+        }
+
+        if (userOnCooldown(author, guild, handler))
+        {
+            Template t = Templates.onCooldown(m);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);  
             return;
         }
 
@@ -101,7 +149,7 @@ public class PurgeCommand extends AbstractCommand {
             part = Math.min(MAX_BULK_SIZE, totalMessages);
         }
         deleteBulk(bot, (TextChannel) channel, hasManageMessages, messagesToDelete, q);
-
+        addUserCooldown(m, guild, handler, getCooldownTime(guild) , q);
     }
 
     private int getToDelete(int toDelete, PurgeStyle style, String[] args) {
@@ -223,16 +271,52 @@ public class PurgeCommand extends AbstractCommand {
 
         if (hasManageMessages) 
         {
+            Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+            {
+                @Override
+                public void accept(ErrorResponseException t) 
+                {
+                    Alloy.LOGGER.warn("KickCommand", t.getMessage());
+                }
+    
+                @Override
+                public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
+                {
+                    return Consumer.super.andThen(after);
+                }
+            };
+            ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.INVALID_BULK_DELETE, consumer);
+    
+            for (int index = 0; index < messagesToDelete.size(); index += PurgeCommand.MAX_BULK_SIZE) 
+            {
+                if (messagesToDelete.size() - index < 2)
+                    messagesToDelete.get(index).delete().queue(null,handler);
+                else
+                    channel.deleteMessages(messagesToDelete.subList(index, Math.min(index + PurgeCommand.MAX_BULK_SIZE, messagesToDelete.size()))).queue(null,handler);
+                cooldown(2000l);
+            }
+            
             Template t = Templates.bulkDeleteSuccessful(channel, messagesToDelete.size() - 1);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
-            Job j = new PurgeJob(messagesToDelete, channel);
-            q.queue(j);
+    
             Job j2 = new DeleteMessageJob(sm);
             q.queueIn(j2, 5000l);
+        }
+
+        
+    }
+
+    private void cooldown(long l) 
+    {
+        try 
+        {
+            Thread.sleep(l);
+        } 
+        catch (Exception ignored){
         }
     }
 

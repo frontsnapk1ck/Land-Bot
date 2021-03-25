@@ -19,24 +19,39 @@ public class Launcher {
         return AlloyUtil.getVersion();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         Launcher l = new Launcher();
         l.launchAll(args);
+        l.config();
     }
 
-    public Launcher() {
-        System.out.println("Launched Alloy with version " + Launcher.VERSION);
+    private void config() 
+    {
+        setLoggerInterceptor();
+        updateActivityRunnable();
     }
 
-    private void launchAll(String[] args) {
-        try {
+    public Launcher() 
+    {
+        System.out.println("Launching Alloy with version " + Launcher.VERSION);
+    }
+
+    private void launchAll(String[] args) 
+    {
+        try 
+        {
             alloy = new Alloy();
             botCord = new BotCord(alloy);
-            updateActivityRunnable();
         } catch (Exception e) {
             Alloy.LOGGER.error("Launcher", e);
             return;
         }
+    }
+
+    private static void setLoggerInterceptor()
+    {
+        //todo
     }
 
     private static void updateActivityRunnable() 
@@ -45,7 +60,7 @@ public class Launcher {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

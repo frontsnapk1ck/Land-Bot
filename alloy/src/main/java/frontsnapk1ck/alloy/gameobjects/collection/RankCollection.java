@@ -5,7 +5,7 @@ import java.util.List;
 import frontsnapk1ck.alloy.gameobjects.player.Rank;
 import frontsnapk1ck.utility.cache.AbstractCollection;
 
-public class RankCollection extends AbstractCollection<RankCollection> {
+public class RankCollection extends AbstractCollection<Rank> {
     
     public RankCollection(List<Rank> ranks) 
     {
@@ -18,10 +18,4 @@ public class RankCollection extends AbstractCollection<RankCollection> {
         return this;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Rank> getList() 
-    {
-        return (List<Rank>) super.getList();
-    }
 }

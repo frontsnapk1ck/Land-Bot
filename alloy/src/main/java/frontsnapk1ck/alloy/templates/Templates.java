@@ -356,7 +356,7 @@ public class Templates {
 	}
 
 	public static Template voiceMemberNotInChannel(Member m) {
-		Template t = new Template("Voice Join Fail", "you have to be in a voice channel to use that command");
+		Template t = new Template("Not In Voice Channel", "you have to be in a voice channel to use that command");
 		return t;
 	}
 
@@ -1314,6 +1314,17 @@ public class Templates {
 				EmojiConstants.YOUTUBE
 			)
 		);
+	}
+
+	public static Template assignRolesOnBuy(boolean b) 
+	{
+		Template t = new Template("Role Assign on Buy" , "the role assign on buy had been change to `" + (b?"on`":"off`"));
+		return t;
+	}
+
+	public static Template caseEditFailed() 
+	{
+		return new Template("Case Edit Failed" , "the edit you requested failed");
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import frontsnapk1ck.alloy.gameobjects.player.Building;
 import frontsnapk1ck.utility.cache.AbstractCollection;
 
-public class BuildingCollection extends AbstractCollection<BuildingCollection> {
+public class BuildingCollection extends AbstractCollection<Building> {
 
     public BuildingCollection(List<Building> data) 
     {
@@ -16,13 +16,6 @@ public class BuildingCollection extends AbstractCollection<BuildingCollection> {
     public BuildingCollection getData() 
     {
         return this;
-    }
-    
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Building> getList() 
-    {
-        return (List<Building>) super.getList();
     }
 
 }

@@ -1,7 +1,6 @@
 package frontsnapk1ck.alloy.command.administration;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import frontsnapk1ck.alloy.command.util.AbstractCommand;
 import frontsnapk1ck.alloy.gameobjects.Case;
@@ -9,7 +8,6 @@ import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.handler.command.AdminHandler;
 import frontsnapk1ck.alloy.input.AlloyInputUtil;
 import frontsnapk1ck.alloy.input.discord.AlloyInputData;
-import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
@@ -18,6 +16,8 @@ import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.utility.StringUtil;
+import frontsnapk1ck.utility.Util;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -25,18 +25,14 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.exceptions.ErrorHandler;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.requests.ErrorResponse;
-import frontsnapk1ck.utility.StringUtil;
-import frontsnapk1ck.utility.Util;
 
 public class CaseCommand extends AbstractCommand {
 
 
     @Override
-    public DisPerm getPermission() {
-        return DisPerm.ADMINISTRATOR;
+    public DisPerm getPermission() 
+    {
+        return DisPerm.MANAGER;
     }
 
     @Override
@@ -170,22 +166,6 @@ public class CaseCommand extends AbstractCommand {
 
     private MessageEmbed editReason(Sendable bot, Guild guild, Member moderator, MessageChannel channel, String caseId, String reason) 
     {
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
-        {
-            @Override
-            public void accept(ErrorResponseException t) 
-            {
-                Alloy.LOGGER.warn("DeleteMessageJob", t.getMessage());
-            }
-
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, consumer);
-
         Case c = AdminHandler.getCase(guild.getIdLong(), caseId);
         if (c == null) {
             Template t = Templates.caseNotFound(caseId);
@@ -202,7 +182,18 @@ public class CaseCommand extends AbstractCommand {
         }
 
         Message m = tc.getHistory().getMessageById(c.getMessageId());
-        m.editMessage(AdminHandler.toEmbed(c)).queue(null, handler);
+        try {
+            m.editMessage(AdminHandler.toEmbed(c)).complete();
+        } catch (Exception e) 
+        {
+            Template t = Templates.caseEditFailed();
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+    
+        }
 
         Template t = Templates.caseReasonModified(reason);
         SendableMessage sm = new SendableMessage();

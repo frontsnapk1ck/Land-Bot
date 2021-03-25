@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
+//TODO implement error handler system
 public class FileReader {
 
     /**
@@ -32,7 +34,14 @@ public class FileReader {
      *    "2" ,
      *    "3" ,
      * }
-     * * </pre></blockquote><p></p>
+     * </pre></blockquote><p></p>
+     * 
+     * <p> on event of failure, this runs the default code of 
+     * <blockquote><pre>
+     *      System.err.println("error reading " + file.getAbsolutePath());
+     *      t.printStackTrace();
+     * </pre></blockquote></p>
+     * 
      * @see FileReader#read(File)
      * @param path the path of the file that is being read from
      * @return an array of strings split at newlines in the given
@@ -43,6 +52,49 @@ public class FileReader {
         try 
         {
             return read(new File(path));
+        }
+        catch (Exception e) 
+        {
+            return null;
+        }
+    }
+
+        /**
+     * <p>takes in a given path and if the file exits, it will read it
+     * and take all the lines in that file and split them into a separate 
+     * string</p>
+     * <p>example: File contents: <blockquote><pre>
+     * i love java
+     * it is my favorite programing language
+     * i like it a lot
+     * 
+     * 1
+     * 2
+     * 3
+     * </pre></blockquote><p></p>
+     * Return contents:
+     * <blockquote><pre>
+     * String[] {
+     *    "i love java" ,
+     *    "it is my favorite programing language" ,
+     *    "i like it a lot" ,
+     *    "" ,
+     *    "1" ,
+     *    "2" ,
+     *    "3" ,
+     * }
+     * </pre></blockquote><p></p>
+     * @see FileReader#read(File)
+     * @param path the path of the file that is being read from
+     * @param consumer the code that is to be run on event of an error
+     * @return an array of strings split at newlines in the given
+     *          file
+     */
+    public static String[] read(String path , Consumer<Exception> consumer) 
+    {
+        try 
+        {
+            return read(new File(path) , consumer);
         }
         catch (Exception e) 
         {
@@ -74,15 +126,69 @@ public class FileReader {
      *    "2" ,
      *    "3" ,
      * }
-     * * </pre></blockquote><p></p>
+     * </pre></blockquote><p></p>
+     * 
+     * <p> on event of failure, this runs the default code of 
+     * <blockquote><pre>
+     *      System.err.println("error reading " + file.getAbsolutePath());
+     *      t.printStackTrace();
+     * </pre></blockquote></p>
      * 
      * @param file the file that is being read from
      * @return an array of strings split at newlines in the given
      *          file
      */
-    public static String[] read( File file) 
+    public static String[] read( File file ) 
     {
-        try {
+        Consumer<Exception> consumer = new Consumer<Exception>()
+        {
+            @Override
+            public void accept(Exception t) 
+            {
+                System.err.println("error reading " + file.getAbsolutePath());
+                t.printStackTrace();
+            }    
+        };
+        return read( file , consumer );
+    }
+    
+
+    /**
+     * <p>takes in a given path and if the file exits, it will read it
+     * and take all the lines in that file and split them into a separate 
+     * string</p>
+     * <p>example: File contents: <blockquote><pre>
+     * i love java
+     * it is my favorite programing language
+     * i like it a lot
+     * 
+     * 1
+     * 2
+     * 3
+     * </pre></blockquote><p></p>
+     * Return contents:
+     * <blockquote><pre>
+     * String[] {
+     *    "i love java" ,
+     *    "it is my favorite programing language" ,
+     *    "i like it a lot" ,
+     *    "" ,
+     *    "1" ,
+     *    "2" ,
+     *    "3" ,
+     * }
+     * </pre></blockquote></p>
+     * 
+     * 
+     * @param file the file that is being read from
+     * @param consumer the code that is to be run on event of an error
+     * @return an array of strings split at newlines in the given
+     *          file
+     */
+    private static String[] read(File file, Consumer<Exception> consumer) 
+    {
+        try
+        {
             Scanner s = new Scanner(file);
             List<String> data = new ArrayList<String>();
             
@@ -101,13 +207,12 @@ public class FileReader {
 
             return sArr;
 
-        } catch (IOException e) {
-            System.err.println("error reading " + file.getAbsolutePath());
-            e.printStackTrace();
+        } catch (IOException e) 
+        {
+            consumer.accept(e);
         }
         return null;
     }
-    
 
     /**
      * <p>takes in a given folder path, and provided that the path specified

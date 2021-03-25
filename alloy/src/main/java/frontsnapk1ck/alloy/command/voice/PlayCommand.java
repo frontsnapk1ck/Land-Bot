@@ -1,5 +1,7 @@
 package frontsnapk1ck.alloy.command.voice;
 
+import java.util.function.Consumer;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -136,7 +138,20 @@ public class PlayCommand extends AbstractCommand  {
         {
             JoinCommand command = new JoinCommand();
             command.execute(data);
-            DelayJob<AudioTrack> j = new DelayJob<AudioTrack>(musicManager.getScheduler()::queue , track);
+
+            Consumer<AudioTrack> consumer = new Consumer<AudioTrack>()
+            {
+                @Override
+                public void accept(AudioTrack t) 
+                {
+                    musicManager.getScheduler().queue(t);
+                }
+            };
+
+            if (!AudioHandler.isConnected(g))
+                return false;
+            
+            DelayJob<AudioTrack> j = new DelayJob<AudioTrack>(consumer , track);
             q.queueIn(j, 2000L );
             return true;
         }

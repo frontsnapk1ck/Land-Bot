@@ -37,7 +37,7 @@ import frontsnapk1ck.alloy.io.loader.WarningLoaderText;
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.alloy.utility.AlloyCache;
+import frontsnapk1ck.alloy.utility.cache.AlloyCache;
 import frontsnapk1ck.alloy.utility.discord.paths.AlloyFiles;
 import frontsnapk1ck.alloy.utility.discord.paths.AlloyImages;
 import frontsnapk1ck.disterface.util.template.Template;
@@ -171,6 +171,20 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
         }
         BuildingCollection collection = (BuildingCollection) cache.get(bPath);
         return collection.getList();
+    }
+
+    public static List<Building> reloadBuildings(Guild g) 
+    {
+        String bPath = AlloyUtil.getGuildPath(g) + AlloyUtil.SUB + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB + AlloyUtil.BUILDING_FILE;
+        if (cache.has(bPath))
+            cache.remove(bPath);
+        
+        BuildingLoaderText blt = new BuildingLoaderText();
+        BuildingCollection collection = new BuildingCollection(blt.loadALl(bPath));
+        cache.put(bPath, collection);
+
+        BuildingCollection collectionFrom = (BuildingCollection) cache.get(bPath);
+        return collectionFrom.getList();
     }
 
     public static Player loadPlayer(Member m) 
@@ -406,14 +420,18 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
     public static void audioStopped(GuildMusicManager gmm) 
     {
         String id = gmm.getGuild().getId();
-        id = "GMM: " + id;
+        String name = gmm.getGuild().getName();
+        id = "GMM: " + id + name;
+
         cache.put( id , gmm , AlloyCache.GMM_KEEP_TIME);
     }
 
     public static void audioStarted(GuildMusicManager gmm) 
     {
         String id = gmm.getGuild().getId();
-        id = "GMM: " + id;
+        String name = gmm.getGuild().getName();
+        id = "GMM: " + id + " " + name;
+        
         cache.remove(id);
     }
 

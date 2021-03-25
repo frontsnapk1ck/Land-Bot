@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.gameobjects.player.Building;
 import frontsnapk1ck.alloy.gameobjects.player.Player;
 import frontsnapk1ck.alloy.main.Alloy;
@@ -16,12 +15,12 @@ import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.error.InvalidUserFormat;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.io.Saver;
+import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
-import frontsnapk1ck.utility.StringUtil;
 
 public class EconHandler {
 
@@ -216,8 +215,18 @@ public class EconHandler {
         if (rm >= 0 && rm < buildings.size()) 
         {
             b = buildings.remove(rm);
-            List<Player> players = AlloyUtil.loadAllPlayers(g);
-            removeBuildingFromPlayers(players, b, g);
+            if (AlloyUtil.loadServer(g).getRoleAssignOnBuy())
+            {
+                try 
+                {
+                    Role role = g.getRolesByName(b.getName(), true).get(0);
+                    role.delete().complete();
+                }
+                catch (Exception e) 
+                {
+                    Alloy.LOGGER.warn("EconHandler", e.getMessage());
+                }
+            }
             writeBuildings(buildings, g);
             return b;
         }
@@ -225,26 +234,11 @@ public class EconHandler {
             throw new IndexOutOfBoundsException("" + rm + " is out of bounds for " + buildings.size());
     }
 
-    private static void removeBuildingFromPlayers(List<Player> players, Building b, Guild g) 
-    {
-        Server s = AlloyUtil.loadServer(g);
-
-        for (Player p : players) {
-            p.removeBuilding(b);
-            if (s.getRoleAssignOnBuy()) {
-                Role roll = g.getRolesByName(b.getName(), true).get(0);
-                Member m = AlloyUtil.getMember(g, p);
-                g.removeRoleFromMember(m, roll).queue();
-                roll.delete().queue();
-            }
-        }
-    }
-
     public static void removeAllBuildings(Guild g) 
     {
-        List<Building> buildings = AlloyUtil.loadBuildings(g);
+        int max = AlloyUtil.loadBuildings(g).size();
 
-        for (int i = 0; i < buildings.size(); i++)
+        for (int i = 0; i < max; i++)
             removeBuilding(0, g);
 
     }
@@ -252,11 +246,10 @@ public class EconHandler {
     public static void copyOverBuildings(Guild g) 
     {
         String defaultBuildings = AlloyUtil.GLOBAL_BUILDINGS_PATH;
-        String currentBuildings = AlloyUtil.getGuildPath(g) + AlloyUtil.SUB + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB
-                + AlloyUtil.BUILDING_FILE;
+        String currentBuildings = AlloyUtil.getGuildPath(g) + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB + AlloyUtil.BUILDING_FILE;
 
         Saver.copyFrom(defaultBuildings, currentBuildings);
-
+        
     }
 
     public static boolean validBuildingName(String name, List<Building> buildings) 
@@ -346,7 +339,8 @@ public class EconHandler {
 
     public static void resetWork(Guild g) 
     {
-        String to = AlloyUtil.getGuildPath(g) + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB + AlloyUtil.WORK_OPTIONS_FILE;        String from = AlloyUtil.GLOBAL_WORK_OPTIONS_PATH;
+        String to = AlloyUtil.getGuildPath(g) + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB + AlloyUtil.WORK_OPTIONS_FILE;
+        String from = AlloyUtil.GLOBAL_WORK_OPTIONS_PATH;
 
         Saver.copyFrom(from, to);
     }

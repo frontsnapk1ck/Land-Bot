@@ -89,16 +89,19 @@ public class EventHandler {
         Saver.deleteFiles(path);
     }
 
-    public static void onMemberLeaveEvent(Member m) {
+    public static void onMemberLeaveEvent(Member m) 
+    {
         Guild g = m.getGuild();
 
         String path = AlloyUtil.getGuildPath(g);
         path += AlloyUtil.USER_FOLDER + AlloyUtil.SUB;
         path += m.getId();
 
-        try {
+        try 
+        {
             Saver.deleteFiles(path);
-        } catch (Exception e) 
+        }
+        catch (Exception e) 
         {
             Alloy.LOGGER.warn("EventHandler", e.getClass().getSimpleName() + " error at path " + path + " with message: " + e.getMessage());
         }

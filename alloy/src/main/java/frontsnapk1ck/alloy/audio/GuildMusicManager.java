@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.entities.User;
 /**
  * Holder for both the player and a track scheduler for one guild.
  */
-public class GuildMusicManager implements TrackListener , Cacheable<GuildMusicManager> {
+public class GuildMusicManager implements TrackListener , Cacheable {
 
     /**
      * Audio player for the guild.

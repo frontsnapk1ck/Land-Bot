@@ -6,6 +6,7 @@ import java.util.List;
 import frontsnapk1ck.utility.logger.Level;
 import frontsnapk1ck.utility.logger.Logger;
 
+
 public class AlloyLogger extends Logger {
 
     private List<DebugListener> listeners;
@@ -63,7 +64,5 @@ public class AlloyLogger extends Logger {
     public DiscordInterface getDisInterface() {
         return disInterface;
     }
-
-
     
 }

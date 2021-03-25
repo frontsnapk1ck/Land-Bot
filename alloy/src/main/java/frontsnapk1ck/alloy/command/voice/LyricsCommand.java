@@ -1,6 +1,7 @@
 package frontsnapk1ck.alloy.command.voice;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.github.connyscode.ctils.jTrack.Song;
 import com.github.connyscode.ctils.jTrack.backend.SongNotFoundException;
@@ -29,11 +30,20 @@ public class LyricsCommand extends AbstractCommand {
     @Override
     public void execute(AlloyInputData data) 
     {
-        DelayJob<AlloyInputData> j = new DelayJob<AlloyInputData>(this::searchImp, data);
+        Consumer<AlloyInputData> consumer = new Consumer<AlloyInputData>()
+        {
+            @Override
+            public void accept(AlloyInputData t) 
+            {
+                searchImp(t);
+            }    
+        };
+
+        DelayJob<AlloyInputData> j = new DelayJob<AlloyInputData>(consumer, data);
         data.getQueue().queue(j);
     }
 
-    private void searchImp(AlloyInputData data) 
+    protected void searchImp(AlloyInputData data) 
     {
         String[] args = AlloyInputUtil.getArgs(data);
 

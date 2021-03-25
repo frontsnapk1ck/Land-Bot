@@ -11,6 +11,10 @@ public class Logger {
 
     private org.slf4j.Logger logger;
 
+    public Logger() 
+    {
+    }
+
     public void warn(String className, String error) {
         onReceive(className, error, WARN);
         logger = LoggerFactory.getLogger(className);

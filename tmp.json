@@ -1,0 +1,26 @@
+{
+    "prefix"            : "!" ,
+    "starting balance"  : 1000,
+    "cooldown"          : 10 ,
+    "xp cooldown"       : 4 ,
+    "role assign"       : false ,
+    "channels"          : 
+    {
+        "spam"              : null,
+        "blacklisted"       : [] ,
+        "mod"               : null, 
+        "user"              : null
+    } ,
+    "id"                : null ,
+    "roles"             : 
+    {
+        "mute"              : "none" ,
+        "building"          : [
+            {
+                "name"  : null,
+                "id"    : null 
+            }
+        ]
+    }
+
+}

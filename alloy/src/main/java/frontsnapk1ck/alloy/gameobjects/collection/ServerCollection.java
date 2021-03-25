@@ -5,7 +5,7 @@ import java.util.List;
 import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.utility.cache.AbstractCollection;
 
-public class ServerCollection extends AbstractCollection<ServerCollection> {
+public class ServerCollection extends AbstractCollection<Server> {
     
     public ServerCollection(List<Server> servers) 
     {
@@ -16,12 +16,5 @@ public class ServerCollection extends AbstractCollection<ServerCollection> {
     public ServerCollection getData() 
     {
         return this;    
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Server> getList() 
-    {
-        return (List<Server>) super.getList();
     }
 }

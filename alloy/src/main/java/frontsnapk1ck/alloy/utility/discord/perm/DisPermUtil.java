@@ -28,7 +28,6 @@ public class DisPermUtil {
         perms.add(DisPerm.MANAGE_ROLES);
         perms.add(DisPerm.MANAGE_PERMISSIONS);
         perms.add(DisPerm.MANAGE_WEBHOOKS);
-        perms.add(DisPerm.MANAGE_EMOTES);
         perms.add(DisPerm.MANAGE_SERVER);
         perms.add(DisPerm.MANAGE_CHANNEL);
 
@@ -555,6 +554,11 @@ public class DisPermUtil {
 
         if (requiredPermission == DisPerm.MOD) {
             if (isMod(perms))
+                return true;
+        }
+        
+        if (requiredPermission == DisPerm.MANAGER) {
+            if (isManager(perms))
                 return true;
         }
 

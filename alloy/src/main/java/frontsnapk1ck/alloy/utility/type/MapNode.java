@@ -2,20 +2,22 @@ package frontsnapk1ck.alloy.utility.type;
 
 public class MapNode<T,K> {
 
-    private T arg0;
-    private K arg1;
+    private T key;
+    private K value;
 
-    public MapNode(T arg0 , K arg1) 
+    public MapNode(T key , K value) 
     {
-        this.arg0 = arg0;
-        this.arg1 = arg1;
+        this.key = key;
+        this.value = value;
     }
     
-    public T getArg0() {
-        return arg0;
+    public T getKey() 
+    {
+        return key;
     }
 
-    public K getArg1() {
-        return arg1;
+    public K getValue() 
+    {
+        return value;
     }
 }

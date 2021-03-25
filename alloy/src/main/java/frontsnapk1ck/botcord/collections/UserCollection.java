@@ -5,7 +5,7 @@ import java.util.List;
 import frontsnapk1ck.utility.cache.AbstractCollection;
 import net.dv8tion.jda.api.entities.User;
 
-public class UserCollection extends AbstractCollection<UserCollection> {
+public class UserCollection extends AbstractCollection<User> {
 
     public UserCollection(List<User> data) 
     {
@@ -16,13 +16,6 @@ public class UserCollection extends AbstractCollection<UserCollection> {
     public UserCollection getData() 
     {
         return this;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<User> getList() 
-    {
-        return (List<User>) super.getList();
     }
     
 }

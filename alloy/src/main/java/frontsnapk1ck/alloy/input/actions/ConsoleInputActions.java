@@ -5,8 +5,10 @@ import java.util.List;
 
 import frontsnapk1ck.alloy.command.console.CacheCommand;
 import frontsnapk1ck.alloy.command.console.DMCommand;
+import frontsnapk1ck.alloy.command.console.GuildsCommand;
 import frontsnapk1ck.alloy.command.console.InviteCommand;
 import frontsnapk1ck.alloy.command.console.MembersCommand;
+import frontsnapk1ck.alloy.command.console.MessagesCommand;
 import frontsnapk1ck.alloy.command.console.NameCommand;
 import frontsnapk1ck.alloy.command.console.QueueCommand;
 import frontsnapk1ck.alloy.command.console.RolesCommand;
@@ -27,6 +29,8 @@ public class ConsoleInputActions extends AbstractActions {
     public static final InputAction CACHE_ACTION;
     public static final InputAction TEST_ACTION;
     public static final InputAction DM_ACTION;
+    public static final InputAction MESSAGES_ACTION;
+    public static final InputAction GUILDS_ACTION;
     public static final InputAction UPDATE_ACTION;
 
     static{
@@ -38,6 +42,8 @@ public class ConsoleInputActions extends AbstractActions {
         CACHE_ACTION = loadCacheAction();
         TEST_ACTION = loadTestAction();
         DM_ACTION = loadDMAction();
+        GUILDS_ACTION = loadGuildsAction();
+        MESSAGES_ACTION = loadMessagesAction();
         UPDATE_ACTION = loadUpdateAction();
     }
 
@@ -53,6 +59,44 @@ public class ConsoleInputActions extends AbstractActions {
             public void execute(ConsoleInputData data) 
             {
                 AbstractConsoleCommand command = new NameCommand();
+                command.execute(data);  
+            }
+
+        };
+        return action;
+    }
+
+    private static InputAction loadGuildsAction() 
+    {
+        InputAction action = new ConsoleInputAction()
+        {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(ConsoleInputData data) 
+            {
+                AbstractConsoleCommand command = new GuildsCommand();
+                command.execute(data);  
+            }
+
+        };
+        return action;
+    }
+
+    private static InputAction loadMessagesAction() 
+    {
+        InputAction action = new ConsoleInputAction()
+        {
+            @Override
+            public void execute() {
+            }
+
+            @Override
+            public void execute(ConsoleInputData data) 
+            {
+                AbstractConsoleCommand command = new MessagesCommand();
                 command.execute(data);  
             }
 

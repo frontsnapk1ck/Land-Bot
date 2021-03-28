@@ -7,7 +7,6 @@ import java.util.concurrent.PriorityBlockingQueue;
 import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
 import frontsnapk1ck.alloy.utility.job.jobs.DayJob;
-import frontsnapk1ck.alloy.utility.job.jobs.PurgeCacheJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserCoolDownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserXPCooldownJob;
 import frontsnapk1ck.utility.StringUtil;
@@ -33,7 +32,6 @@ public class QueueCommand extends AbstractConsoleCommand {
 
             RmUserCoolDownJob.class, 
             RmUserXPCooldownJob.class,
-            PurgeCacheJob.class,
             DayJob.class,
         };
     }

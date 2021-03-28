@@ -105,6 +105,23 @@
 
         </command>
 
+        <command name = "messages" type = "CONSOLE" >
+            <trigger text = "messages"  />
+            
+            <subcommand text = ""
+                        description = "shows the number of messages the bot has recived" />
+
+        </command>
+
+        <command name = "guilds" type = "CONSOLE" >
+            <trigger text = "guilds"  />
+            <trigger text = "guild"  />
+            
+            <subcommand text = ""
+                        description = "shows the number of messages the bot has recived" />
+
+        </command>
+
         <command name = "test" type = "CONSOLE" >
             <trigger text = "test"  />
             

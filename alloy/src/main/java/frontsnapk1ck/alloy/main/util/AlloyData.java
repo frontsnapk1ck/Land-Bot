@@ -1,5 +1,6 @@
 package frontsnapk1ck.alloy.main.util;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ public class AlloyData {
     protected Map<Long, List<Long>> xpCooldownUsers = new HashMap<Long, List<Long>>();
     private Console console = new Console();
     private AlloyEventHandler eventManger;
+    private BigInteger messages;
     
     //audio
     private AudioPlayerManager playerManager;
@@ -51,6 +53,7 @@ public class AlloyData {
     {
         this.jda = jda;
         this.alloy = alloy;
+        this.messages = BigInteger.ZERO;
         console.setHandler(alloy,alloy);
         configHandlers();
     }
@@ -235,6 +238,15 @@ public class AlloyData {
     {
         return playerManager;
     }
-    
+
+    public void messageReceived() 
+    {
+        this.messages = this.messages.add(BigInteger.ONE);
+    }
+
+    public BigInteger getMessages() 
+    {
+        return messages;
+    }
 
 }

@@ -23,7 +23,6 @@ import frontsnapk1ck.alloy.handler.util.CommandHandler;
 import frontsnapk1ck.alloy.input.console.ConsoleInput;
 import frontsnapk1ck.alloy.input.discord.AlloyInput;
 import frontsnapk1ck.alloy.main.intefs.Audible;
-import frontsnapk1ck.alloy.main.intefs.Loggable;
 import frontsnapk1ck.alloy.main.intefs.Moderator;
 import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
@@ -58,7 +57,7 @@ import frontsnapk1ck.utility.event.Job;
 import frontsnapk1ck.utility.event.Worker;
 import frontsnapk1ck.utility.logger.Level;
 
-public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler,
+public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler,
         UncaughtExceptionHandler, Audible {
 
     public static final AlloyLogger LOGGER = new AlloyLogger();
@@ -138,6 +137,8 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
             return;
 
         User author = in.getUser();
+
+        data.messageReceived();
 
         boolean ignore =    author == null || 
                             author.isBot() || 
@@ -520,6 +521,11 @@ public class Alloy implements Sendable, Moderator, Loggable, Queueable, ConsoleH
     public AudioPlayerManager getPlayerManager() 
     {
         return this.data.getPlayerManager();
+    }
+
+    public AlloyData getData() 
+    {
+        return data;
     }
 
 }

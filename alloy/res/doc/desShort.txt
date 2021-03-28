@@ -1,1 +1,0 @@
-A moderation and an economy bot that makes your server that much better. also includes a level system and numerous fun commands

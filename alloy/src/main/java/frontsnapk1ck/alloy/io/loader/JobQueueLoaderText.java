@@ -7,25 +7,24 @@ import java.util.concurrent.PriorityBlockingQueue;
 import frontsnapk1ck.alloy.io.loader.util.JobQueueData;
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.job.jobs.AddUserCoolDownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.AddUserXPCooldownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.InviteJob;
 import frontsnapk1ck.alloy.utility.job.jobs.PingJob;
-import frontsnapk1ck.alloy.utility.job.jobs.PurgeCacheJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RemindJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserCoolDownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserXPCooldownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.SendMessageJob;
+import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.io.DataLoader;
 import frontsnapk1ck.io.FileReader;
+import frontsnapk1ck.utility.event.EventManager;
+import frontsnapk1ck.utility.event.EventManager.ScheduledJob;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import frontsnapk1ck.utility.event.EventManager;
-import frontsnapk1ck.utility.event.EventManager.ScheduledJob;
 
 public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<ScheduledJob>, JobQueueData> {
     
@@ -48,7 +47,6 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         JOB_MAP.put(    "AddUserXPCooldownJob"    ,        AddUserXPCooldownJob.class      );
         JOB_MAP.put(    "InviteJob"               ,        InviteJob.class                 );
         JOB_MAP.put(    "PingJob"                 ,        PingJob.class                   );
-        JOB_MAP.put(    "PurgeCacheJob"           ,        PurgeCacheJob.class             );
         JOB_MAP.put(    "RemindJob"               ,        RemindJob.class                 );
         JOB_MAP.put(    "RmUserCoolDownJob"       ,        RmUserCoolDownJob.class         );
         JOB_MAP.put(    "RmUserXPCooldownJob"     ,        RmUserXPCooldownJob.class       );

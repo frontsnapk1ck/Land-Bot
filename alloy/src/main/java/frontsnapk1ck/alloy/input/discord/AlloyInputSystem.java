@@ -43,7 +43,7 @@ public class AlloyInputSystem extends InputSystem {
 
     private boolean isPingMe(AlloyInputData data, Input input) 
     {
-        String message = input.getTrigger().replace("<@","").replace("!","").replace(">","");
+        String message = input.getTrigger().replace("<","").replace("@","").replace("!","").replace(">","");
         String selfID = data.getJDA().getSelfUser().getId();
         return message.equalsIgnoreCase(selfID);
     }

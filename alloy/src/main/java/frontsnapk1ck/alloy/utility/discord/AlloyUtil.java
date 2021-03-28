@@ -421,7 +421,7 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
     {
         String id = gmm.getGuild().getId();
         String name = gmm.getGuild().getName();
-        id = "GMM: " + id + name;
+        id = "GMM: " + id + " " + name;
 
         cache.put( id , gmm , AlloyCache.GMM_KEEP_TIME);
     }

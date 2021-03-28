@@ -182,6 +182,8 @@ public class AlloyInputUtil {
         map.put(    "roles"         ,   ConsoleInputActions.ROLES_ACTION);
         map.put(    "queue"         ,   ConsoleInputActions.QUEUE_ACTION);
         map.put(    "test"          ,   ConsoleInputActions.TEST_ACTION);
+        map.put(    "messages"      ,   ConsoleInputActions.MESSAGES_ACTION);
+        map.put(    "guilds"        ,   ConsoleInputActions.GUILDS_ACTION);
         map.put(    "cache"         ,   ConsoleInputActions.CACHE_ACTION);
         map.put(    "update"        ,   ConsoleInputActions.UPDATE_ACTION);
         map.put(    "dm"            ,   ConsoleInputActions.DM_ACTION);

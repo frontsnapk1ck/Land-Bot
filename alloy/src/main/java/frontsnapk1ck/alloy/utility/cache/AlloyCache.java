@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.collections4.MapIterator;
 
 import frontsnapk1ck.alloy.audio.GuildMusicManager;
+import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.utility.cache.Cache;
 import frontsnapk1ck.utility.cache.CacheObject;
 import frontsnapk1ck.utility.cache.Cacheable;
@@ -88,9 +89,16 @@ public class AlloyCache extends Cache<String , Cacheable> {
     {
         if (value instanceof GuildMusicManager)
         {
-            GuildMusicManager gmm = (GuildMusicManager) value;
-            Guild g = gmm.getGuild();
-            g.getAudioManager().closeAudioConnection();
+            try 
+            {
+                GuildMusicManager gmm = (GuildMusicManager) value;
+                Guild g = gmm.getGuild();
+                g.getAudioManager().closeAudioConnection();
+            }
+            catch (Exception e)
+            {
+                Alloy.LOGGER.warn("AlloyCache", e.getMessage());
+            }
         }
     }
 

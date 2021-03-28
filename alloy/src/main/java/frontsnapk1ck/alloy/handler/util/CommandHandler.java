@@ -67,7 +67,7 @@ public class CommandHandler {
     {
         String prefix = s.getPrefix();
         String message = in.getMessage();
-        String trigger = message.replaceFirst(prefix , "" );
+        String trigger = message.substring(prefix.length());
         in.setTrigger(trigger);
         return in;
 	}

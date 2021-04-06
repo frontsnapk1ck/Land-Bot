@@ -1,5 +1,6 @@
 package frontsnapk1ck.alloy.gameobjects;
 
+import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.utility.settings.WarningSettings;
 import frontsnapk1ck.io.Saver;
 
@@ -28,7 +29,12 @@ public class Warning extends GameObject {
             ID      + ":" + this.settings.getID() ,
             TARGET  + ":" + this.settings.getTarget() ,
         };
-        Saver.saveOverwrite(this.settings.getPath(), out);
+        try {
+            Saver.saveOverwrite(this.settings.getPath(), out);
+        } catch (Exception e) 
+        {
+            Alloy.LOGGER.warn("Warning", e.getMessage());
+        }
     }
 
     public String getId() 

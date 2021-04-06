@@ -8,6 +8,10 @@ import java.util.function.Consumer;
 import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
 import frontsnapk1ck.alloy.main.Alloy;
+import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
+import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
+import frontsnapk1ck.utility.StringUtil;
+import frontsnapk1ck.utility.Util;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -15,9 +19,9 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.managers.RoleManager;
 import net.dv8tion.jda.api.requests.ErrorResponse;
-import frontsnapk1ck.utility.StringUtil;
-import frontsnapk1ck.utility.Util;
+import net.dv8tion.jda.internal.managers.RoleManagerImpl;
 
 public class RolesCommand extends AbstractConsoleCommand {
 
@@ -41,10 +45,58 @@ public class RolesCommand extends AbstractConsoleCommand {
             removeUser(args, jda);
         if (command.equalsIgnoreCase("roles"))
             listServer(args, jda);
+        if (command.equalsIgnoreCase("role"))
+            role(args , jda);
         if (command.equalsIgnoreCase("selfPerms"))
             listSelf(args, jda);
         if (command.equalsIgnoreCase("userPerms"))
             listUser(args, jda);
+    }
+
+    private void role(List<String> args, JDA jda) 
+    {
+        if (args.size() != 6)
+            return;
+        if (args.get(2).equalsIgnoreCase("add"))
+            roleAdd(args, jda);
+        if (args.get(2).equalsIgnoreCase("remove"))
+            roleRemove(args , jda);
+    }
+
+    private void roleRemove(List<String> args, JDA jda) 
+    {
+        try 
+        {
+            Guild g = jda.getGuildById(args.get(3));
+            Role r = g.getRoleById(args.get(4));
+            DisPerm p = DisPermUtil.parse(args.get(5));
+            RoleManager rm = new RoleManagerImpl(r);
+            rm.revokePermissions(DisPermUtil.parseStockPerm(p)).complete();
+            
+            System.out.println("Removed Permission: " + p.getName() + " to role: " + r.getName());
+        }
+        catch (Exception e) 
+        {
+            System.out.println("Failed with message: " + e.getMessage());
+        }
+    }
+
+    private void roleAdd(List<String> args, JDA jda) 
+    {
+        try 
+        {
+            Guild g = jda.getGuildById(args.get(3));
+            Role r = g.getRoleById(args.get(4));
+            DisPerm p = DisPermUtil.parse(args.get(5));
+            RoleManager rm = new RoleManagerImpl(r);
+            rm.givePermissions(DisPermUtil.parseStockPerm(p)).complete();
+            
+            System.out.println("Added Permission: " + p.getName() + " to role: " + r.getName());
+        }
+        catch (Exception e) 
+        {
+            System.out.println("Failed with message: " + e.getMessage());
+        }
     }
 
     private void listServer(List<String> args, JDA jda) {

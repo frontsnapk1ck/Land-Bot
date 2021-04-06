@@ -9,14 +9,11 @@ public class TestCommand extends AbstractConsoleCommand {
     @Override
     public void execute(ConsoleInputData data) 
     {
-        DelayJob<String[]> s = new DelayJob<String[]>(TestCommand::string, new String[]{"test 1000" , "test"});
+        DelayJob<String[]> s = new DelayJob<String[]>( strings -> {
+            for (String string : strings)
+                System.out.println(string);
+        }, new String[]{"test 1000" , "test"});
         s.execute();
-    }
-
-    public static void string(String[] s) 
-    {
-        for (String string : s) 
-            System.err.println(string);
     }
     
 }

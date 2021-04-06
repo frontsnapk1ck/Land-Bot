@@ -1,6 +1,5 @@
 package frontsnapk1ck.alloy.main;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,13 +21,7 @@ import frontsnapk1ck.alloy.handler.command.FunHandler;
 import frontsnapk1ck.alloy.handler.util.CommandHandler;
 import frontsnapk1ck.alloy.input.console.ConsoleInput;
 import frontsnapk1ck.alloy.input.discord.AlloyInput;
-import frontsnapk1ck.alloy.main.intefs.Audible;
-import frontsnapk1ck.alloy.main.intefs.Moderator;
-import frontsnapk1ck.alloy.main.intefs.Queueable;
-import frontsnapk1ck.alloy.main.intefs.Sendable;
-import frontsnapk1ck.alloy.main.intefs.handler.AlloyHandler;
-import frontsnapk1ck.alloy.main.intefs.handler.ConsoleHandler;
-import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
+import frontsnapk1ck.alloy.main.intefs.util.AlloyIntefs;
 import frontsnapk1ck.alloy.main.util.AlloyData;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.main.util.SendableMessage.AttachedFile;
@@ -36,6 +29,10 @@ import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.runnable.AlloyShutdownHook;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.io.Saver;
+import frontsnapk1ck.utility.event.EventManager.ScheduledJob;
+import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.Worker;
+import frontsnapk1ck.utility.logger.Level;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -52,13 +49,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import frontsnapk1ck.utility.event.EventManager.ScheduledJob;
-import frontsnapk1ck.utility.event.Job;
-import frontsnapk1ck.utility.event.Worker;
-import frontsnapk1ck.utility.logger.Level;
 
-public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, AlloyHandler, CooldownHandler,
-        UncaughtExceptionHandler, Audible {
+public class Alloy implements AlloyIntefs {
 
     public static final AlloyLogger LOGGER = new AlloyLogger();
 
@@ -71,61 +63,75 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
 
     private AlloyData data;
 
-    public Alloy() {
+    public Alloy()
+    {
         boolean startedL = false;
-        while (!startedL) {
-            try {
+        while (!startedL)
+        {
+            try
+            {
                 start();
                 config();
                 startedL = true;
                 makeMentions();
-            } catch (LoginException e) {
+            }
+            catch (LoginException e)
+            {
                 e.printStackTrace();
                 cooldown(5);
             }
         }
     }
 
-    private void config() {
+    private void config()
+    {
         configThread();
         data = new AlloyData(jda, this);
         AlloyUtil.loadCache();
         Alloy.startupTimeStamp = System.currentTimeMillis();
     }
 
-    private void configThread() {
+    private void configThread()
+    {
         Runtime r = Runtime.getRuntime();
         AlloyShutdownHook hook = new AlloyShutdownHook(this);
         r.addShutdownHook(hook);
     }
 
-    private void makeMentions() {
+    private void makeMentions()
+    {
         this.mentionMe = "<@" + jda.getSelfUser().getId() + ">";
         this.mentionMeAlias = "<@!" + jda.getSelfUser().getId() + ">";
     }
 
-    private void start() throws LoginException {
+    private void start() throws LoginException 
+    {
         String key = loadKey();
         jda = JDABuilder.createDefault(key).enableIntents(GatewayIntent.GUILD_MEMBERS)
                 .setMemberCachePolicy(MemberCachePolicy.ALL).setChunkingFilter(ChunkingFilter.ALL).build();
         jda.addEventListener(new JDAEvents(this));
     }
 
-    private String loadKey() {
+    private String loadKey()
+    {
         String[] keyA = FileReader.read(AlloyUtil.KEY_FILE);
         return keyA[0];
     }
 
-    public static long getStartupTimeStamp() {
+    public static long getStartupTimeStamp()
+    {
         return startupTimeStamp;
     }
 
-    private void cooldown(int seconds) {
-        try {
+    private void cooldown(int seconds)
+    {
+        try
+        {
             Thread.sleep(seconds * 1000);
         }
 
-        catch (InterruptedException e) {
+        catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
     }
@@ -171,22 +177,26 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public void handleConsoleMessage(ConsoleInput in) {
+    public void handleConsoleMessage(ConsoleInput in)
+    {
         in.getData().setQueue(this);
         in.getData().setSendable(this);
         CommandHandler.process(in);
     }
 
     @Override
-    public JDA getJDA() {
+    public JDA getJDA() 
+    {
         return jda;
     }
 
-    public static String getGuildPath(Guild guild) {
+    public static String getGuildPath(Guild guild)
+    {
         return AlloyUtil.SERVERS_PATH + AlloyUtil.SUB + guild.getId();
     }
 
-    public void updateActivity() {
+    public void updateActivity()
+    {
         int size = jda.getGuilds().size();
         String message = "Ping for Help | " + size + " servers";
 
@@ -194,12 +204,14 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public TextChannel getModLogChannel(long gid) {
+    public TextChannel getModLogChannel(long gid)
+    {
         return data.getModLogChannel(gid);
     }
 
     @Override
-    public void send(SendableMessage message) {
+    public void send(SendableMessage message) 
+    {
         if (message.hasMessageE())
             sendE(message);
         else if (message.hasMessageS())
@@ -208,12 +220,14 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
             sendM(message);
     }
 
-    private void sendM(SendableMessage message) {
+    private void sendM(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         Message messageM = message.getMessage();
         String from = message.getFrom();
 
-        try {
+        try 
+        {
             List<AttachedFile> files = message.getFiles();
             MessageAction action = channel.sendMessage(messageM);
             for (AttachedFile attFile : files)
@@ -224,74 +238,119 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
                     Saver.deleteFile(attFile.file.getAbsolutePath());
             }
             message.setSent(m);
-        } catch (InsufficientPermissionException | ErrorResponseException e) {
+        }
+        catch (InsufficientPermissionException | ErrorResponseException e) 
+        {
             String info = "";
             if (channel instanceof TextChannel)
                 info += "Guild: " + ((TextChannel) channel).getGuild().getName() + "\t";
             info += "Channel: " + channel.getName() + "\t";
             info += "Error Type: " + e.getClass().getSimpleName();
             LOGGER.warn(from, e.getMessage() + "\t" + info);
-        } catch (RejectedExecutionException ignored) {
+        }
+        catch (RejectedExecutionException ignored) {
         }
     }
 
-    private void sendS(SendableMessage message) {
+    private void sendS(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         String messageS = message.getMessageS();
         String from = message.getFrom();
 
-        try {
+        try 
+        {
             List<AttachedFile> files = message.getFiles();
             MessageAction action = channel.sendMessage(messageS);
+            
             for (AttachedFile attFile : files)
                 action.addFile(attFile.file);
+            
             Message m = action.complete();
-            for (AttachedFile attFile : files) {
+            
+            for (AttachedFile attFile : files) 
+            {
                 if (!attFile.save)
                     Saver.deleteFile(attFile.file.getAbsolutePath());
             }
             message.setSent(m);
-        } catch (InsufficientPermissionException | ErrorResponseException e) {
+        }
+        catch (InsufficientPermissionException | ErrorResponseException e) {
             String info = "";
             if (channel instanceof TextChannel)
                 info += "Guild: " + ((TextChannel) channel).getGuild().getName() + "\t";
             info += "Channel: " + channel.getName() + "\t";
             info += "Error Type: " + e.getClass().getSimpleName();
             LOGGER.warn(from, e.getMessage() + "\t" + info);
-        } catch (RejectedExecutionException ignored) {
+        }
+        catch (IllegalArgumentException e)
+        {
+            String[] newLines = messageS.split("\n");
+            List<String> outStrings = new ArrayList<String>();
+
+            String out = "";
+            for (int i = 0; i < newLines.length; i++) 
+            {
+                String tmp = out + newLines[i] + "\n";
+                if (tmp.length() > Message.MAX_CONTENT_LENGTH)
+                {
+                    outStrings.add(out);
+                    out = newLines[i];
+                }
+                else
+                    out = tmp;
+                
+                if ( i == newLines.length - 1)
+                    outStrings.add(out);
+            }
+
+            for (String part : outStrings) 
+            {
+                message.setMessage(part);
+                send(message);
+            }
+        }
+        catch (RejectedExecutionException ignored) {
         }
 
     }
 
-    private void sendE(SendableMessage message) {
+    private void sendE(SendableMessage message)
+    {
         MessageChannel channel = message.getChannel();
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
 
-        try {
+        try
+        {
             List<AttachedFile> files = message.getFiles();
             MessageAction action = channel.sendMessage(messageE);
             for (AttachedFile attFile : files)
                 action.addFile(attFile.file);
             Message m = action.complete();
-            for (AttachedFile attFile : files) {
+            for (AttachedFile attFile : files) 
+            {
                 if (!attFile.save)
                     Saver.deleteFile(attFile.file.getAbsolutePath());
             }
             message.setSent(m);
-        } catch (InsufficientPermissionException | ErrorResponseException e) {
+        }
+        catch (InsufficientPermissionException | ErrorResponseException e) 
+        {
             String info = "";
             if (channel instanceof TextChannel)
                 info += "Guild: " + ((TextChannel) channel).getGuild().getName() + "\t";
             info += "Channel: " + channel.getName() + "\t";
             info += "Error Type: " + e.getClass().getSimpleName();
             LOGGER.warn(from, e.getMessage() + "\t" + info);
-        } catch (RejectedExecutionException ignored) {
+        }
+        catch (RejectedExecutionException ignored) {
         }
     }
 
     @Override
-    public MessageAction getAction(SendableMessage message) {
+    public MessageAction getAction(SendableMessage message) 
+    {
         if (message.hasMessageE())
             return getActionE(message);
         else if (message.hasMessageS())
@@ -301,12 +360,14 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
         return null;
     }
 
-    private MessageAction getActionM(SendableMessage message) {
+    private MessageAction getActionM(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         Message messageM = message.getMessage();
         String from = message.getFrom();
 
-        try {
+        try
+        {
             List<AttachedFile> files = message.getFiles();
             MessageAction action = channel.sendMessage(messageM);
             for (AttachedFile file : files)
@@ -314,7 +375,9 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
             if (action == null)
                 throw new NullPointerException("The Action is Null");
             return action;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             String info = "";
             if (channel instanceof TextChannel)
                 info += "Guild: " + ((TextChannel) channel).getGuild().getName() + "\t";
@@ -326,12 +389,14 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
         return null;
     }
 
-    private MessageAction getActionS(SendableMessage message) {
+    private MessageAction getActionS(SendableMessage message) 
+    {
         MessageChannel channel = message.getChannel();
         String messageS = message.getMessageS();
         String from = message.getFrom();
 
-        try {
+        try
+        {
             List<AttachedFile> files = message.getFiles();
             MessageAction action = channel.sendMessage(messageS);
             for (AttachedFile file : files)
@@ -339,7 +404,9 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
             if (action == null)
                 throw new NullPointerException("The Action is Null");
             return action;
-        } catch (Exception e) {
+        }
+        catch (Exception e) 
+        {
             String info = "";
             if (channel instanceof TextChannel)
                 info += "Guild: " + ((TextChannel) channel).getGuild().getName() + "\t";
@@ -351,12 +418,14 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
         return null;
     }
 
-    private MessageAction getActionE(SendableMessage message) {
+    private MessageAction getActionE(SendableMessage message)
+    {
         MessageChannel channel = message.getChannel();
         MessageEmbed messageE = message.getMessageE();
         String from = message.getFrom();
 
-        try {
+        try
+        {
             List<AttachedFile> files = message.getFiles();
             MessageAction action = channel.sendMessage(messageE);
             for (AttachedFile file : files)
@@ -364,7 +433,9 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
             if (action == null)
                 throw new NullPointerException("The Action is Null");
             return action;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             String info = "";
             if (channel instanceof TextChannel)
                 info += "Guild: " + ((TextChannel) channel).getGuild().getName() + "\t";
@@ -376,7 +447,8 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public void addCooldownUser(Member m) {
+    public void addCooldownUser(Member m) 
+    {
         Guild g = m.getGuild();
         Map<Long, List<Long>> cooldownUsers = data.getCooldownUsers();
         if (!cooldownUsers.containsKey(g.getIdLong()))
@@ -385,7 +457,8 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public boolean removeCooldownUser(Member m) {
+    public boolean removeCooldownUser(Member m) 
+    {
         Guild g = m.getGuild();
         Map<Long, List<Long>> cooldownUsers = data.getCooldownUsers();
         List<Long> list = cooldownUsers.get(g.getIdLong());
@@ -394,11 +467,13 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public List<Long> getCooldownUsers(Guild g) {
+    public List<Long> getCooldownUsers(Guild g) 
+    {
         return data.getCooldownUsers(g);
     }
 
-    public void update() {
+    public void update() 
+    {
         this.started = true;
         this.updateActivity();
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -406,7 +481,8 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
         configDiscordInterface();
     }
 
-    private void configDiscordInterface() {
+    private void configDiscordInterface() 
+    {
         final long ALLOY_ID = 771814337420460072L;
 
         final long ERROR_ID = 805626387100467210L;
@@ -428,14 +504,16 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public void uncaughtException(Thread t, Throwable e) {
+    public void uncaughtException(Thread t, Throwable e) 
+    {
         LOGGER.error(t.getName(), e);
         t.run();
         this.update();
     }
 
     @Override
-    public boolean removeXpCooldownUser(Member m) {
+    public boolean removeXpCooldownUser(Member m)
+    {
         Guild g = m.getGuild();
         Map<Long, List<Long>> cooldownUsers = data.getXpCooldownUsers();
         List<Long> list = cooldownUsers.get(g.getIdLong());
@@ -444,12 +522,14 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public List<Long> getXpCooldownUsers(Guild g) {
+    public List<Long> getXpCooldownUsers(Guild g) 
+    {
         return data.getXpCooldownUsers(g);
     }
 
     @Override
-    public void addXpCooldownUser(Member m) {
+    public void addXpCooldownUser(Member m) 
+    {
         Guild g = m.getGuild();
         Map<Long, List<Long>> cooldownUsers = data.getXpCooldownUsers();
         if (!cooldownUsers.containsKey(g.getIdLong()))
@@ -459,49 +539,61 @@ public class Alloy implements Sendable, Moderator, Queueable, ConsoleHandler, Al
     }
 
     @Override
-    public void queueIn(Job action, long offset) {
+    public void queueIn(Job action, long offset)
+    {
         data.queueIn(action, offset);
     }
 
     @Override
-    public void queue(Job action) {
+    public void queue(Job action)
+    {
         data.queue(action);
     }
 
-    public void setDebugListener(DebugListener debugListener) {
+    public void setDebugListener(DebugListener debugListener) 
+    {
         LOGGER.addListener(debugListener);
     }
 
     @Override
-    public void guildCountUpdate() {
+    public void guildCountUpdate()
+    {
         updateActivity();
     }
 
     @Override
-    public PriorityBlockingQueue<ScheduledJob> getQueue() {
-        try {
+    public PriorityBlockingQueue<ScheduledJob> getQueue() 
+    {
+        try 
+        {
             return data.getEventHandler().getJobQueue();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             return new PriorityBlockingQueue<ScheduledJob>();
         }
     }
 
     @Override
-    public boolean unQueue(Job job) {
+    public boolean unQueue(Job job) 
+    {
         return this.data.unQueue(job);
     }
 
-    public void finishInit() {
+    public void finishInit() 
+    {
         this.update();
         data.makeJobs();
     }
 
-    public DebugListener getInterfaceListener() {
+    public DebugListener getInterfaceListener()
+    {
         return data.getDiscordInterface();
     }
 
     @Override
-    public void addGuildMap(Guild g) {
+    public void addGuildMap(Guild g)
+    {
         this.data.addGuildMap(g);
     }
 

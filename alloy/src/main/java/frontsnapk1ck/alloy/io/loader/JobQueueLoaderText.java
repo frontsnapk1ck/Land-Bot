@@ -12,7 +12,6 @@ import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.job.jobs.AddUserCoolDownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.AddUserXPCooldownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.InviteJob;
-import frontsnapk1ck.alloy.utility.job.jobs.PingJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RemindJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserCoolDownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserXPCooldownJob;
@@ -46,7 +45,6 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         JOB_MAP.put(    "AddUserCoolDownJob"      ,        AddUserCoolDownJob.class        );
         JOB_MAP.put(    "AddUserXPCooldownJob"    ,        AddUserXPCooldownJob.class      );
         JOB_MAP.put(    "InviteJob"               ,        InviteJob.class                 );
-        JOB_MAP.put(    "PingJob"                 ,        PingJob.class                   );
         JOB_MAP.put(    "RemindJob"               ,        RemindJob.class                 );
         JOB_MAP.put(    "RmUserCoolDownJob"       ,        RmUserCoolDownJob.class         );
         JOB_MAP.put(    "RmUserXPCooldownJob"     ,        RmUserXPCooldownJob.class       );

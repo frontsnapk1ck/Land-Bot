@@ -14,6 +14,7 @@ public class MessagesCommand extends AbstractConsoleCommand {
         Alloy bot = (Alloy)data.getQueue();
         BigInteger count = bot.getData().getMessages();
         System.out.println("Messages: " + count);
+        System.out.println();
     }
     
 }

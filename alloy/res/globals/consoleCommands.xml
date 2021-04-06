@@ -43,6 +43,9 @@
 
             <subcommand text = "roles {guild id}"
                         description = "gets a list of roles in a server"/>
+
+            <subcommand text = "role update add {guild id} {role id} {permission}"
+                        description = "gets a list of roles in a server"/>
                     
             <subcommand text = "selfPerms {guild id}"
                         description = "shows my permissions in a given server"/>
@@ -119,6 +122,15 @@
             
             <subcommand text = ""
                         description = "shows the number of messages the bot has recived" />
+                    
+            <subcommand text = "{id} bans"
+                        description = "shows the banned useres in a guild"/>
+                    
+            <subcommand text = "{id} unban {id}"
+                        description = "shows the banned useres in a guild"/>
+
+            <subcommand text = "{id} ban {id}"
+                        description = "shows the banned useres in a guild"/>
 
         </command>
 

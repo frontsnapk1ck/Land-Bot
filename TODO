@@ -1,14 +1,19 @@
 ~~~rn~~~
 handle large queues
     i like the way rythm does it but that would take some serious work
+
 if a message action fails because of permssions let the user know
+
 make it store the role names in a map somewhere
     maybe switch the server over to json
+
 add in support for more languages
+
 emulate discord
     have a way to do dms
     make it so it can upload files - backend only
 
+make it so that you have more controll over markdown
 
 change the buttons
     make my own
@@ -30,4 +35,3 @@ comment everything
 
 ~~~work on next~~~
 reaction roles
-  

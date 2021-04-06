@@ -109,6 +109,8 @@ public class Template implements Serializable {
     
     public void setImageURL(String imageURL)
     {
+        if (imageURL == null)
+            imageURL = "";
         this.imageURL = imageURL;
     }
 }

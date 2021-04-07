@@ -55,7 +55,7 @@
     <dependency>
       <groupId>com.squareup.okio</groupId>
       <artifactId>okio</artifactId>
-      <version>3.0.0-alpha.2</version>
+      <version>3.0.0-alpha.3</version>
     </dependency>
 
     <dependency>

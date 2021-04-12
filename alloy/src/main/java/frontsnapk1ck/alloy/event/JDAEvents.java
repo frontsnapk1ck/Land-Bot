@@ -237,8 +237,14 @@ public class JDAEvents extends ListenerAdapter {
     @Override
     public void onGuildMemberRemove(GuildMemberRemoveEvent e) 
     {
-        Member m = e.getMember();
-        EventHandler.onMemberLeaveEvent(m);
+
+        try {
+            Member m = e.getMember();
+            EventHandler.onMemberLeaveEvent(m);
+        } catch (Exception ex) 
+        {
+            Alloy.LOGGER.warn("JDAEvents", "Guild member removed failed with error " + ex.getClass().getSimpleName() + " with message: " + ex.getMessage());
+        }
     }
 
     @Override

@@ -3,7 +3,8 @@ package frontsnapk1ck.alloy.command.console;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.function.Consumer;
+
+import java.awt.Color;
 
 import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
@@ -17,10 +18,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.exceptions.ErrorHandler;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.managers.RoleManager;
-import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.internal.managers.RoleManagerImpl;
 
 public class RolesCommand extends AbstractConsoleCommand {
@@ -51,16 +49,93 @@ public class RolesCommand extends AbstractConsoleCommand {
             listSelf(args, jda);
         if (command.equalsIgnoreCase("userPerms"))
             listUser(args, jda);
+        if (command.equalsIgnoreCase("create"))
+            createRole(args,jda);
+    }
+
+    private void createRole(List<String> args, JDA jda) 
+    {
+        try {
+            Guild g = jda.getGuildById(args.get(1));
+            List<String> sub = args.subList(2, args.size());
+            String[] arr = sub.toArray(new String[]{});
+            String name = StringUtil.joinStrings(arr);
+            
+            Role r = g.createRole()
+                      .setName(name)
+                      .setPermissions()
+                      .complete();
+
+            System.out.println("Created Role " + name + " " + r.getId());
+
+        } catch (Exception e) 
+        {
+            System.out.println("Failed with message: " + e.getMessage());
+        }
     }
 
     private void role(List<String> args, JDA jda) 
     {
-        if (args.size() != 6)
-            return;
         if (args.get(2).equalsIgnoreCase("add"))
             roleAdd(args, jda);
         if (args.get(2).equalsIgnoreCase("remove"))
             roleRemove(args , jda);
+        if (args.get(2).equalsIgnoreCase("set"))
+            roleSet(args , jda);
+    }
+
+    private void roleSet(List<String> args, JDA jda) 
+    {
+        try 
+        {
+            Guild g = jda.getGuildById(args.get(3));
+            Role r = g.getRoleById(args.get(4));
+
+            String message = "";
+            if (args.get(5).equalsIgnoreCase("hoisted"))
+                message = setHoisted(r , args.get(6));
+            if (args.get(5).equalsIgnoreCase("color"))
+                message = setColor(r , args.get(6));
+            
+            System.out.println(message);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Failed with message: " + e.getMessage());
+        }
+    }
+
+    private String setColor(Role role, String color) 
+    {
+        String rString = color.substring( 0 , 2 );
+        String gString = color.substring( 2 , 4 );
+        String bString = color.substring( 4 , 6 );
+
+        int r = Integer.parseInt(rString, 16);
+        int g = Integer.parseInt(gString, 16);
+        int b = Integer.parseInt(bString, 16);
+
+        Color c = new Color(r, g, b);
+
+        RoleManager rm = new RoleManagerImpl(role);
+        rm.setColor(c).complete();
+
+        return "Role " + role.getName() + " " + role.getId() + " color changed to" + color;
+
+    }
+
+    private String setHoisted(Role r, String string) 
+    {
+        boolean b = false;
+        if (string.equalsIgnoreCase("true"))
+            b = true;
+        else if (string.equalsIgnoreCase("false"))
+            b = false;
+        else
+            return "Value not parsed, nothing changed, the role " + r.getName() +  " " + r.getId() + " is " + r.isHoisted();
+        RoleManager rm = new RoleManagerImpl(r);
+        rm.setHoisted(b).complete();
+        return "the role " + r.getName() +  " " + r.getId() + " is now " + r.isHoisted();
     }
 
     private void roleRemove(List<String> args, JDA jda) 
@@ -161,66 +236,44 @@ public class RolesCommand extends AbstractConsoleCommand {
 
     private void addUser(List<String> args, JDA jda) 
     {
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+        try {
+            String gid = args.get(1);
+            String mid = args.get(2);
+            String rid = args.get(3);
+            
+            Guild g = jda.getGuildById(gid);
+            Member m = g.getMemberById(mid);
+            Role r = g.getRoleById(rid);
+            g.addRoleToMember(m, r).complete();
+
+            System.out.println("Added Role " + r.getName() + " " + r.getId() + " to user " + m.getUser().getAsTag() + " " + m.getId());
+            
+        } catch (Exception e) 
         {
-            @Override
-            public void accept(ErrorResponseException t) 
-            {
-                Alloy.LOGGER.warn("BanCommand", t.getMessage());
-            }
+            System.out.println("Failed with message: " + e.getMessage());
+        }
 
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_USER, consumer);
-
-        if (args.size() != 4)
-            return;
-        String gid = args.get(1);
-        String mid = args.get(2);
-        String rid = args.get(3);
-        if (gid == null || mid == null || rid == null)
-            return;
-        Guild g = jda.getGuildById(gid);
-        Member m = g.getMemberById(mid);
-
-        Role r = g.getRoleById(rid);
-        g.addRoleToMember(m, r).queue(null,handler);
     }
 
     private void removeUser(List<String> args, JDA jda) 
     {
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
+
+        try {
+            String gid = args.get(1);
+            String mid = args.get(2);
+            String rid = args.get(3);
+            
+            Guild g = jda.getGuildById(gid);
+            Member m = g.getMemberById(mid);
+            Role r = g.getRoleById(rid);
+            g.removeRoleFromMember(m, r).complete();
+
+            System.out.println("Removed Role " + r.getName() + " " + r.getId() + " to user " + m.getUser().getAsTag() + m.getId());
+            
+        } catch (Exception e) 
         {
-            @Override
-            public void accept(ErrorResponseException t) 
-            {
-                Alloy.LOGGER.warn("BanCommand", t.getMessage());
-            }
-
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.UNKNOWN_USER, consumer);
-
-        if (args.size() != 4)
-            return;
-        String gid = args.get(1);
-        String mid = args.get(2);
-        String rid = args.get(3);
-        if (gid == null || mid == null || rid == null)
-            return;
-        Guild g = jda.getGuildById(gid);
-        Member m = g.getMemberById(mid);
-
-        Role r = g.getRoleById(rid);
-        g.removeRoleFromMember(m, r).queue(null,handler);
+            System.out.println("Failed with message: " + e.getMessage());
+        }
     }
 
     private void stripUser(List<String> args, JDA jda) 
@@ -250,26 +303,10 @@ public class RolesCommand extends AbstractConsoleCommand {
 
         int i = 0;
 
-        Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
-        {
-            @Override
-            public void accept(ErrorResponseException t) 
-            {
-                Alloy.LOGGER.warn("RolesCommand", t.getMessage());
-            }
-
-            @Override
-            public Consumer<ErrorResponseException> andThen(Consumer<? super ErrorResponseException> after) 
-            {
-                return Consumer.super.andThen(after);
-            }
-        };
-        ErrorHandler handler = new ErrorHandler().handle(ErrorResponse.MISSING_PERMISSIONS, consumer);
-
         for (Role r : roles) 
         {
             try {
-                g.removeRoleFromMember(m, r).queue(null , handler);
+                g.removeRoleFromMember(m, r).complete();
                 data = Util.addOneToArray(data);
                 String addBack = "add " + gid + " " + mid + " " + r.getId();
                 data[i] = new String[] { r.getName(), r.getId(), addBack, };

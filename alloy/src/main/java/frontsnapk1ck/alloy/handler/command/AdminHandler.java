@@ -308,7 +308,8 @@ public class AdminHandler {
         String[] newArr = new String[args.length];
 
         int i = 0;
-        for (String s : args) {
+        for (String s : args) 
+        {
             if (DisUtil.isRole(s, g))
                 s = DisUtil.parseRole(s, g).getName();
             else if (DisUtil.isUserMention(s))

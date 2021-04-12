@@ -31,7 +31,8 @@ public class SetCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(AlloyInputData data) {
+    public void execute(AlloyInputData data) 
+    {
         Guild g = data.getGuild();
         User author = data.getUser();
         String[] args = AlloyInputUtil.getArgs(data);
@@ -49,7 +50,8 @@ public class SetCommand extends AbstractCommand {
             return;
         }
 
-        if (args.length < 1) {
+        if (args.length < 1) 
+        {
             Template t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -258,8 +260,9 @@ public class SetCommand extends AbstractCommand {
             bot.send(sm);
             return;
         }
-
+        
         String channelT = args[1];
+        Server s = AlloyUtil.loadServer(g);
 
         TextChannel tc = DisUtil.findChannel(g, channelT);
         if (tc == null && !channelT.equalsIgnoreCase("none"))
@@ -272,8 +275,7 @@ public class SetCommand extends AbstractCommand {
             bot.send(sm);
             return;
         }
-
-        Server s = AlloyUtil.loadServer(g);
+        
         try 
         {
             s.setModLog(tc.getIdLong());

@@ -24,7 +24,7 @@ import frontsnapk1ck.alloy.main.Alloy;
 
 public class AlloyGeniusAPI extends GeniusAPI {
 
-    public static JSONArray performSongSearch(String searchPhrase, String ACCESS_TOKEN) {
+    public static JSONArray performSongSearch(String searchPhrase, final String ACCESS_TOKEN) {
         try {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()

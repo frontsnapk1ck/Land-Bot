@@ -6,7 +6,7 @@ import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 
 public class NameCommand extends AbstractConsoleCommand {
 
@@ -19,8 +19,19 @@ public class NameCommand extends AbstractConsoleCommand {
 
         if (args.size() == 2)
             gName(jda , args);
-        if (args.size() == 3)
-            mName(jda , args);
+        if (args.size() == 3 && args.get(1).equalsIgnoreCase("user"))
+            user(jda , args);
+        if (args.size() == 3 && args.get(1).equalsIgnoreCase("guild"))
+            gName(jda , args);
+    }
+
+    private void user(JDA jda, List<String> args) 
+    {
+        try {
+            User u = jda.getUserById(args.get(2));
+            System.out.println(u.getAsTag());
+        } catch (Exception ignored){
+        }
     }
 
     private void gName(JDA jda, List<String> args) 
@@ -32,16 +43,5 @@ public class NameCommand extends AbstractConsoleCommand {
         if (g == null)
             return;
         System.out.println(g.getName());
-    }
-
-    private void mName(JDA jda, List<String> args) 
-    {
-        String gid = args.get(1);
-        String mid = args.get(2);
-        Guild g = jda.getGuildById(gid);
-        if (g == null)
-            return;
-        Member m = g.getMemberById(mid);
-        System.out.println(m.getUser().getAsTag());
     }
 }

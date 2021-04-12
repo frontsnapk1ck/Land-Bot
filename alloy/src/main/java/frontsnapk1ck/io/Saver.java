@@ -81,7 +81,9 @@ public class Saver {
     {
         try 
         {
-            String[] prev = FileReader.read(file);
+            String[] prev = null;
+            if (file.exists())
+                prev = FileReader.read(file);
             FileWriter fw = new FileWriter(file);
             fw.write("");
             

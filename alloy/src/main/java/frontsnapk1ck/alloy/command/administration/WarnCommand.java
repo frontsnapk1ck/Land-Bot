@@ -115,7 +115,14 @@ public class WarnCommand extends AbstractCommand {
             bot.send(sm);
         }
 
-        AdminHandler.makeCase(bot, mod, punishType, chan, msg, target);
+        try 
+        {
+            AdminHandler.makeCase(bot, mod, punishType, chan, msg, target);    
+        }
+        catch (NullPointerException e) 
+        {
+            
+        }
     
         Template t = Templates.warnSuccess(target, w, author);
         SendableMessage sm2 = new SendableMessage();

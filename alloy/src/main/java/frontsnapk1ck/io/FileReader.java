@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-//TODO implement error handler system
 public class FileReader {
 
     /**
@@ -302,4 +301,28 @@ public class FileReader {
         }
         return arr;
 	}
+
+    /**
+     * checks a given path of a file to see if that file exists. this method simply
+     * returns the call of {@code File.exists()}
+     * 
+     * @return {@code true} if the file exists or {@code false} if it does not
+     * @see FileReader#exists(File)
+     */
+    public static boolean exists(String path) 
+    {
+        return exists(new File(path));
+    }
+
+    /**
+     * checks a given path of a file to see if that file exists. this method simply
+     * returns the call of {@code File.exists()}
+     * 
+     * @param path the path of a file that is to be checked
+     * @return {@code true} if the file exists or {@code false} if it does not
+     */
+    public static boolean exists(File file) 
+    {
+        return file.exists();
+    }
 }

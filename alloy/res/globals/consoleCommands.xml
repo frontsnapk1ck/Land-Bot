@@ -45,10 +45,19 @@
                         description = "gets a list of roles in a server"/>
 
             <subcommand text = "role update add {guild id} {role id} {permission}"
-                        description = "gets a list of roles in a server"/>
+                        description = "adds a permission to a given role"/>
+
+            <subcommand text = "role update remove {guild id} {role id} {permission}"
+                        description = "removed a permission from a given role"/>
+
+            <subcommand text = "role update set {guild id} {role id} {feild} {vlaue}"
+                        description = "updates a feild to a new value in a given role"/>
                     
             <subcommand text = "selfPerms {guild id}"
                         description = "shows my permissions in a given server"/>
+
+            <subcommand text = "create {guild id} {role name}"
+                        description = "create a blank role in a given server with a given name"/>
 
             <subcommand text = "userPerms {guild id} {member id}"
                         description = "shows the persmissinos of a given user in a given server"/>

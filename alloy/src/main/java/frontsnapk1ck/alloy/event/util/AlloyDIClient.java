@@ -10,7 +10,7 @@ public class AlloyDIClient extends DisInterClient {
 
     public AlloyDIClient() throws IOException 
     {
-        super();
+        super("Alloy");
     }
 
     @Override

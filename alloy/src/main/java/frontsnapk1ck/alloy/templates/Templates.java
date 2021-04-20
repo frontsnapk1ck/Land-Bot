@@ -2,6 +2,7 @@ package frontsnapk1ck.alloy.templates;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +29,6 @@ import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.utility.StringUtil;
-import frontsnapk1ck.utility.Util;
 import frontsnapk1ck.utility.logger.Level;
 import frontsnapk1ck.utility.time.TimeUtil;
 import frontsnapk1ck.utility.time.TimesIncludes;
@@ -57,27 +57,34 @@ public class Templates {
     {
         List<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
         try
-		{
+        {
             embeds.add(t.getEmbed());
         }
-		catch (Exception ex) 
+        catch (Exception ex) 
         {
             String[] arr = t.getText().split("\n");
-            String title = arr[0];
-            String[] newLines = Util.arrRange(arr, 1);
+            List<String> roArray = Arrays.asList(arr);
+            List<String> list = new ArrayList<String>(roArray);
+            String title = list.get(0);
+            
+            int lastIndex = list.size() -1;
+            if (list.get( lastIndex ).equals("null"))
+                list.remove( lastIndex );
+
+            List<String> newLines = list.subList(1, list.size());
 
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle(title);
 
             String out = "";
-            for (int i = 0; i < newLines.length; i++) 
+            for (int i = 0; i < newLines.size(); i++) 
             {
-                String tmp = out + newLines[i] + "\n";
+                String tmp = out + newLines.get(i) + "\n";
                 if (tmp.length() > MessageEmbed.TEXT_MAX_LENGTH)
                 {
                     eb.setDescription(out);
                     embeds.add(eb.build());
-                    out = newLines[i];
+                    out = newLines.get(i);
                 }
                 else
                     out = tmp;

@@ -7,7 +7,7 @@ import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.AlloyPerm;
@@ -43,7 +43,7 @@ public class HackCommand extends AbstractCooldownCommand {
         Queueable q = data.getQueue();
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -54,7 +54,7 @@ public class HackCommand extends AbstractCooldownCommand {
 
         if (userOnCooldown(author, g, handler))
         {
-            Template t = Templates.onCooldown(m);
+            AlloyTemplate t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -65,7 +65,7 @@ public class HackCommand extends AbstractCooldownCommand {
 
         if (args.length < 1)
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -78,7 +78,7 @@ public class HackCommand extends AbstractCooldownCommand {
 
         if (target == null) 
         {
-            Template t = Templates.userNotFound(args[0]);
+            AlloyTemplate t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

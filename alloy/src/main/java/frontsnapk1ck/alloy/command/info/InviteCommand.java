@@ -5,7 +5,7 @@ import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.job.jobs.InviteJob;
 import net.dv8tion.jda.api.entities.Guild;
@@ -26,7 +26,7 @@ public class InviteCommand extends AbstractCooldownCommand {
         Member m = g.getMember(author);
         Queueable q = data.getQueue();
 
-        Template t = Templates.invite();
+        AlloyTemplate t = Templates.invite();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());

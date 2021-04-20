@@ -9,7 +9,7 @@ import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -30,7 +30,7 @@ public class SpamCommand extends AbstractCooldownCommand {
         Queueable queueable = data.getQueue();
 
         if (userOnCooldown(author, g, handler)) {
-            Template t = Templates.onCooldown(m);
+            AlloyTemplate t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -60,7 +60,7 @@ public class SpamCommand extends AbstractCooldownCommand {
             return;
         }
 
-        Template t = Templates.argumentsNotRecognized(data.getMessageActual());
+        AlloyTemplate t = Templates.argumentsNotRecognized(data.getMessageActual());
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -73,15 +73,15 @@ public class SpamCommand extends AbstractCooldownCommand {
         try {
             id = Long.parseLong(args[1]);
         } catch (NumberFormatException e) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             return t.getEmbed();
         }
 
         if (FunHandler.stopSpam(id)) {
-            Template t = Templates.spamRunnableStopped(id);
+            AlloyTemplate t = Templates.spamRunnableStopped(id);
             return t.getEmbed();
         } else {
-            Template t = Templates.spamRunnableIdNotFound(id);
+            AlloyTemplate t = Templates.spamRunnableIdNotFound(id);
             return t.getEmbed();
         }
     }
@@ -90,13 +90,13 @@ public class SpamCommand extends AbstractCooldownCommand {
     {
         if (!FunHandler.validCommand(args)) 
         {
-            Template temp = Templates.invalidNumberFormat(args);
+            AlloyTemplate temp = Templates.invalidNumberFormat(args);
             return temp.getEmbed();
         }
 
         Long id = FunHandler.makeRunnable(chan.getGuild(), args, author, bot, queueable).getID();
 
-        Template temp = Templates.spamRunnableCreated(id);
+        AlloyTemplate temp = Templates.spamRunnableCreated(id);
         return temp.getEmbed();
     }
 

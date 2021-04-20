@@ -36,6 +36,7 @@ public class AlloyData {
     private Map<Long, TextChannel> modLogs = new HashMap<Long, TextChannel>();
     protected Map<Long, List<Long>> cooldownUsers = new HashMap<Long, List<Long>>();
     protected Map<Long, List<Long>> xpCooldownUsers = new HashMap<Long, List<Long>>();
+    private List<Job> tmpQueue = new ArrayList<Job>();
     private Console console = new Console();
     private AlloyEventHandler eventManger;
     private BigInteger messages;
@@ -86,6 +87,10 @@ public class AlloyData {
             Alloy.LOGGER.info("AlloyData", "loaded the queue, there are " + jobQueue.size() + " events");
         handler.setJobQueue(jobQueue);
         Saver.clear(AlloyUtil.EVENT_FILE);
+
+        for (Job j : tmpQueue)
+            handler.queue(j);
+
         return handler;
     }
 
@@ -171,7 +176,10 @@ public class AlloyData {
 
     public void queue(Job action) 
     {
-        this.eventManger.queue(action);
+        if( this.eventManger == null)
+            this.tmpQueue.add(action);
+        else
+            this.eventManger.queue(action);
 	}
 
     public void queueIn(Job action, long offset) 
@@ -188,6 +196,8 @@ public class AlloyData {
 
     public boolean unQueue(Job job) 
     {
+        if( this.eventManger == null)
+            return this.tmpQueue.remove(job);
 		return this.eventManger.unQueue(job);
 	}
 

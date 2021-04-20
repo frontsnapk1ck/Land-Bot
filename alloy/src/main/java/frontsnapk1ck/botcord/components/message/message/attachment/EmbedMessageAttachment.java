@@ -2,7 +2,6 @@ package frontsnapk1ck.botcord.components.message.message.attachment;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-@SuppressWarnings("serial")
 public class EmbedMessageAttachment extends AbstractMessageAttachment {
 
 	private MessageEmbed embed;

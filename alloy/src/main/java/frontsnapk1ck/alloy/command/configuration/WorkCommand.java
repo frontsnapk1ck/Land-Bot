@@ -8,7 +8,7 @@ import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -27,7 +27,7 @@ public class WorkCommand extends AbstractCommand {
         Member m = g.getMember(author);
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -38,7 +38,7 @@ public class WorkCommand extends AbstractCommand {
 
         if (args.length == 0) 
         {
-            Template t = Templates.argumentsNotSupplied(args,getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args,getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -54,7 +54,7 @@ public class WorkCommand extends AbstractCommand {
         else if (args[0].equalsIgnoreCase("reset"))
             resetWork(data);
 
-        Template t = Templates.workOptions(g);
+        AlloyTemplate t = Templates.workOptions(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -70,7 +70,7 @@ public class WorkCommand extends AbstractCommand {
         Message msg = data.getMessageActual();
 
         if (args.length == 1) {
-            Template t = Templates.argumentsNotRecognized(msg);
+            AlloyTemplate t = Templates.argumentsNotRecognized(msg);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -81,7 +81,7 @@ public class WorkCommand extends AbstractCommand {
 
         EconHandler.addWorkOption(g, args);
 
-        Template t = Templates.workOptionAddSuccess(args);
+        AlloyTemplate t = Templates.workOptionAddSuccess(args);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -97,7 +97,7 @@ public class WorkCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
 
         if (args.length < 2) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -109,7 +109,7 @@ public class WorkCommand extends AbstractCommand {
         try {
             int i = Integer.parseInt(args[1]);
             String s = EconHandler.removeWork(i, g);
-            Template t = Templates.workRemoveSuccess(s);
+            AlloyTemplate t = Templates.workRemoveSuccess(s);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -117,7 +117,7 @@ public class WorkCommand extends AbstractCommand {
             bot.send(sm);
             return;
         } catch (NumberFormatException e) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -125,7 +125,7 @@ public class WorkCommand extends AbstractCommand {
             bot.send(sm);
             return;
         } catch (IndexOutOfBoundsException e) {
-            Template t = Templates.numberOutOfBounds(e);
+            AlloyTemplate t = Templates.numberOutOfBounds(e);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -142,7 +142,7 @@ public class WorkCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
 
         EconHandler.resetWork(g);
-        Template t = Templates.workOptions(g);
+        AlloyTemplate t = Templates.workOptions(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

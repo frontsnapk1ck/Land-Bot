@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import frontsnapk1ck.botcord.BotCord;
 
-@SuppressWarnings("serial")
 public class BaseBCImagePanel extends BaseBCPanel {
 
     private Image image;

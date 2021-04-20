@@ -19,7 +19,7 @@ import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -41,7 +41,7 @@ public class PlayCommand extends AbstractCommand  {
 
         if (args.length == 0)
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -54,7 +54,7 @@ public class PlayCommand extends AbstractCommand  {
 
         if (trackUrl == null)
         {
-            Template t = Templates.songNotFound(StringUtil.joinStrings(args));
+            AlloyTemplate t = Templates.songNotFound(StringUtil.joinStrings(args));
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -70,7 +70,7 @@ public class PlayCommand extends AbstractCommand  {
             {
                 if (play(data, musicManager, track))
                 {   
-                    Template t = Templates.addedToMusicQueue(track);
+                    AlloyTemplate t = Templates.addedToMusicQueue(track);
                     SendableMessage sm = new SendableMessage();
                     sm.setFrom(getClass());
                     sm.setChannel(channel);
@@ -91,7 +91,7 @@ public class PlayCommand extends AbstractCommand  {
                 if (play(data, musicManager, firstTrack))
                 {
              
-                    Template t = Templates.addedToMusicQueue(playlist);
+                    AlloyTemplate t = Templates.addedToMusicQueue(playlist);
                     SendableMessage sm = new SendableMessage();
                     sm.setFrom(getClass());
                     sm.setChannel(channel);
@@ -103,7 +103,7 @@ public class PlayCommand extends AbstractCommand  {
             @Override
             public void noMatches() 
             {
-                Template t = Templates.notingFoundBy(args);
+                AlloyTemplate t = Templates.notingFoundBy(args);
                 SendableMessage sm = new SendableMessage();
                 sm.setFrom(getClass());
                 sm.setChannel(channel);
@@ -114,7 +114,7 @@ public class PlayCommand extends AbstractCommand  {
             @Override
             public void loadFailed(FriendlyException exception) 
             {
-                Template t = Templates.couldNotPlay(exception);
+                AlloyTemplate t = Templates.couldNotPlay(exception);
                 SendableMessage sm = new SendableMessage();
                 sm.setFrom(getClass());
                 sm.setChannel(channel);

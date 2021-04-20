@@ -8,7 +8,6 @@ import frontsnapk1ck.botcord.components.message.log.DisMessageLog;
 import frontsnapk1ck.botcord.event.BCListener;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-@SuppressWarnings("serial")
 public class DisMessagePanel extends BCPanel {
 
     public static final float SPLIT = .90f;

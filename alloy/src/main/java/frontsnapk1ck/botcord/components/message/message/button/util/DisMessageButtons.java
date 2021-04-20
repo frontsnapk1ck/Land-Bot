@@ -20,7 +20,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 
-@SuppressWarnings("serial")
 public class DisMessageButtons extends BCPanel {
 
     public static final int COMP_SIZE = 30;

@@ -8,7 +8,7 @@ import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
@@ -38,7 +38,7 @@ public class DayCommand extends AbstractCommand {
         
         if (!DisPermUtil.checkPermission(m, getPermission()))
         {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -51,7 +51,7 @@ public class DayCommand extends AbstractCommand {
         for (Player p : players)
             p.day();
 
-        Template t = Templates.daySuccess(g);
+        AlloyTemplate t = Templates.daySuccess(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

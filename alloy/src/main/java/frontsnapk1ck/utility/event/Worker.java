@@ -2,6 +2,8 @@ package frontsnapk1ck.utility.event;
 
 import java.math.BigInteger;
 
+import frontsnapk1ck.utility.logger.Logger;
+
 public class Worker {
 
     public static final int WAITING     = 0;
@@ -9,12 +11,17 @@ public class Worker {
     public static final int FINISHED    = 2;
     public static final int STOP        = 10;
 
+    private static Logger logger;
 
     private int state;
     private Thread workerThread;
     protected Job job;
     private BigInteger count;
     private String id;
+
+    static {
+        logger = new Logger();
+    }
 
     public Worker(String id ) 
     {
@@ -23,6 +30,11 @@ public class Worker {
         this.state = WAITING;
         this.count = BigInteger.ZERO;
         config();
+    }
+
+    public static void setLogger(Logger logger) 
+    {
+        Worker.logger = logger;
     }
 
     private void config() 
@@ -43,16 +55,28 @@ public class Worker {
     {
         while (this.state != STOP)
         {
-            if ( this.job == null)
-                cooldown(EventManager.COOLDOWN_INTERVAL);
-            else
+            try
             {
-                this.state = WORKING;
-                this.job.execute();
-                this.count = this.count.add(BigInteger.ONE);
-                this.state = FINISHED;
-                this.job = null;
+                iteration();
             }
+            catch(Exception e)
+            {
+                logger.warn("Worker", "Worker " + id + " ran into a " + e.getClass().getSimpleName() + " while operating on a job with the error " + e.getMessage());
+            }
+        }
+    }
+
+    private void iteration() 
+    {
+        if ( this.job == null)
+            cooldown(EventManager.COOLDOWN_INTERVAL);
+        else
+        {
+            this.state = WORKING;
+            this.job.execute();
+            this.count = this.count.add(BigInteger.ONE);
+            this.state = FINISHED;
+            this.job = null;
         }
     }
 

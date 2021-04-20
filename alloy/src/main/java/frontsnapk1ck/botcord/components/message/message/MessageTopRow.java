@@ -6,7 +6,6 @@ import frontsnapk1ck.botcord.components.gui.BCPanel;
 import frontsnapk1ck.botcord.components.message.message.button.UserButton;
 import frontsnapk1ck.botcord.components.message.message.button.util.DisMessageButtons;
 
-@SuppressWarnings("serial")
 public class MessageTopRow extends BCPanel {
 
     private UserButton user;

@@ -16,7 +16,7 @@ import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -68,7 +68,7 @@ public class WarnCommand extends AbstractCommand {
 
         if (target == null) 
         {
-            Template t = Templates.userNotFound(args[0]);
+            AlloyTemplate t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -80,7 +80,7 @@ public class WarnCommand extends AbstractCommand {
         Member warner = g.getMember(author);
         if (!DisPermUtil.checkPermission(warner, getPermission())) 
         {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -97,7 +97,7 @@ public class WarnCommand extends AbstractCommand {
         try {
             PrivateChannel pc = target.getUser().openPrivateChannel().complete();
                 
-            Template warn = Templates.getWarn(w);
+            AlloyTemplate warn = Templates.getWarn(w);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(pc);
             sm.setFrom(getClass());
@@ -107,7 +107,7 @@ public class WarnCommand extends AbstractCommand {
         }
         catch (Exception e) 
         {
-            Template t = Templates.privateMessageFailed(m);
+            AlloyTemplate t = Templates.privateMessageFailed(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -124,7 +124,7 @@ public class WarnCommand extends AbstractCommand {
             
         }
     
-        Template t = Templates.warnSuccess(target, w, author);
+        AlloyTemplate t = Templates.warnSuccess(target, w, author);
         SendableMessage sm2 = new SendableMessage();
         sm2.setChannel(chan);
         sm2.setFrom(getClass());
@@ -157,7 +157,7 @@ public class WarnCommand extends AbstractCommand {
         Member m = guild.getMember(author);
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -167,7 +167,7 @@ public class WarnCommand extends AbstractCommand {
         }
 
         if (!AdminHandler.warningExists(guild, args[1])) {
-            Template t = Templates.warningNotFound(args[1]);
+            AlloyTemplate t = Templates.warningNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -178,7 +178,7 @@ public class WarnCommand extends AbstractCommand {
 
         Member warned = AdminHandler.removeWarnings(guild, args[1]);
 
-        Template t = Templates.warningsRemovedSuccess(args[0], warned);
+        AlloyTemplate t = Templates.warningsRemovedSuccess(args[0], warned);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

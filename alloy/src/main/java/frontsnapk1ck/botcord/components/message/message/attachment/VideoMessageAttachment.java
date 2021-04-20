@@ -2,7 +2,6 @@ package frontsnapk1ck.botcord.components.message.message.attachment;
 
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
-@SuppressWarnings("serial")
 public class VideoMessageAttachment extends AbstractMessageAttachment {
 
 	private String link;

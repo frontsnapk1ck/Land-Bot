@@ -7,7 +7,6 @@ import frontsnapk1ck.botcord.components.gui.BCPanel;
 import frontsnapk1ck.botcord.event.BCListener;
 import frontsnapk1ck.botcord.util.BCUtil;
 
-@SuppressWarnings("serial")
 public class AlloySelector extends BCPanel {
 
     public static final float SCALE = 0.8f;

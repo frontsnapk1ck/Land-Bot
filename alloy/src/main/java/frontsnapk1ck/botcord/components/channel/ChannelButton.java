@@ -9,7 +9,6 @@ import frontsnapk1ck.botcord.event.SwitchTarget;
 import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.GuildChannel;
 
-@SuppressWarnings("serial")
 public class ChannelButton extends BCButton {
 
 	private GuildChannel channel;

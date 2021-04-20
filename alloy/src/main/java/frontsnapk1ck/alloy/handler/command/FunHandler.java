@@ -25,7 +25,7 @@ import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.alloy.utility.job.jobs.AddUserXPCooldownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserXPCooldownJob;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.utility.event.Job;
 import net.dv8tion.jda.api.entities.Guild;
@@ -246,7 +246,7 @@ public class FunHandler {
             return;
         
         String out = msg.getContentRaw().toString().substring(5);
-        Template t = Templates.sayAdmin(out, msg);
+        AlloyTemplate t = Templates.sayAdmin(out, msg);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(FunHandler.class);
@@ -422,7 +422,7 @@ public class FunHandler {
         int level = findLevel(stock, xp);
         String progress = findProgress(xp, level, stock);
 
-        Template t = Templates.rank(target, level, progress);
+        AlloyTemplate t = Templates.rank(target, level, progress);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(FunHandler.class);

@@ -15,7 +15,7 @@ import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.perm.AlloyPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.input.ActionMap;
 import frontsnapk1ck.input.InputMap;
 import frontsnapk1ck.input.InputSystem;
@@ -92,8 +92,8 @@ public class CommandHandler {
 
     private static boolean isConsoleInterpret(AlloyInput in) 
     {
-        final long guildID = 771814337420460072L;
-        final long channelID = 828455936351535185L;
+        final long guildID      = 833530318790459412L;
+        final long channelID    = 833530319407546373L;
         
         TextChannel chan = in.getChannel();
 
@@ -129,7 +129,7 @@ public class CommandHandler {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        Template t = Templates.botStillLoading();
+        AlloyTemplate t = Templates.botStillLoading();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(CommandHandler.class);

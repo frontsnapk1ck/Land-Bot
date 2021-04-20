@@ -10,7 +10,7 @@ import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -39,7 +39,7 @@ public class BankCommand extends AbstractCommand {
             p = AlloyUtil.loadPlayer(DisUtil.findMember(g, args[0]));
 
         if (p != null) {
-            Template t = Templates.bankCurrentBalance(p);
+            AlloyTemplate t = Templates.bankCurrentBalance(p);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -61,7 +61,7 @@ public class BankCommand extends AbstractCommand {
             return;
         }
 
-        Template t = Templates.argumentsNotRecognized(msg);
+        AlloyTemplate t = Templates.argumentsNotRecognized(msg);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -80,27 +80,27 @@ public class BankCommand extends AbstractCommand {
         int amount = EconHandler.getAmount(args);
 
         if (amount == EconHandler.INVALID_FORMAT) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             return t.getEmbed();
         }
 
         if (amount < 0) {
-            Template t = Templates.onlyPositiveNumbers(amount);
+            AlloyTemplate t = Templates.onlyPositiveNumbers(amount);
             return t.getEmbed();
         }
 
         if (amount < EconHandler.MINIUM_BALANCE) {
-            Template t = Templates.bankTransferMinimum();
+            AlloyTemplate t = Templates.bankTransferMinimum();
             return t.getEmbed();
         }
 
         if (!p.canSpend(amount)) {
-            Template t = Templates.bankInsufficientFunds(author, amount);
+            AlloyTemplate t = Templates.bankInsufficientFunds(author, amount);
             return t.getEmbed();
         }
 
         if (targetUser == null) {
-            Template t = Templates.userNotFound(args[0]);
+            AlloyTemplate t = Templates.userNotFound(args[0]);
             return t.getEmbed();
         }
 
@@ -109,7 +109,7 @@ public class BankCommand extends AbstractCommand {
         targetP.addBal(amount);
         p.spend(amount);
 
-        Template t = Templates.bankTransferSuccess(p, targetP, amount, message);
+        AlloyTemplate t = Templates.bankTransferSuccess(p, targetP, amount, message);
         return t.getEmbed();
     }
 

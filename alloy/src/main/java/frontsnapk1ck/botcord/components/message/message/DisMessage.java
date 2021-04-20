@@ -19,7 +19,6 @@ import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Message.Attachment;
 
-@SuppressWarnings("serial")
 public class DisMessage extends BCPanel {
 
     private Message message;

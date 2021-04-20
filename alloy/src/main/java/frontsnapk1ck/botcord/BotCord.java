@@ -16,7 +16,6 @@ import frontsnapk1ck.botcord.util.event.BotCordLogger;
 import frontsnapk1ck.gui.WindowFramework;
 import net.dv8tion.jda.api.JDA;
 
-@SuppressWarnings("serial")
 public class BotCord extends WindowFramework{
 
     public static final BotCordLogger LOGGER = new BotCordLogger();

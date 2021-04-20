@@ -9,7 +9,7 @@ import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -51,7 +51,7 @@ public class CooldownCommand extends AbstractCommand {
         Member m = g.getMember(author);
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -65,7 +65,7 @@ public class CooldownCommand extends AbstractCommand {
             ConfigHandler.setXpCooldown(g, newTime);
             ConfigHandler.showXPCooldown(data);
         } catch (NumberFormatException e) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -94,7 +94,7 @@ public class CooldownCommand extends AbstractCommand {
         Member m = g.getMember(author);
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -108,7 +108,7 @@ public class CooldownCommand extends AbstractCommand {
             ConfigHandler.setCooldown(g, newTime);
             ConfigHandler.showCooldown(data);
         } catch (NumberFormatException e) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

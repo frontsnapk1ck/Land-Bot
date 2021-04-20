@@ -11,7 +11,6 @@ import frontsnapk1ck.botcord.components.message.message.button.util.AbstractMess
 import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Message;
 
-@SuppressWarnings("serial")
 public class MessageGetLinkButton extends AbstractMessageButtons {
 
     public MessageGetLinkButton(Message message) 

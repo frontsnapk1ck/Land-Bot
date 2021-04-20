@@ -4,7 +4,7 @@ import frontsnapk1ck.alloy.command.util.AbstractCommand;
 import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -21,7 +21,7 @@ public class LeaveCommand extends AbstractCommand {
         try {
             VoiceChannel vc = g.getAudioManager().getConnectedChannel();
             g.getAudioManager().closeAudioConnection();
-            Template t = Templates.voiceDisconnectSuccess(vc);
+            AlloyTemplate t = Templates.voiceDisconnectSuccess(vc);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -29,7 +29,7 @@ public class LeaveCommand extends AbstractCommand {
             bot.send(sm);
 
         } catch (Exception e) {
-            Template t = Templates.voiceDisconnectFail();
+            AlloyTemplate t = Templates.voiceDisconnectFail();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

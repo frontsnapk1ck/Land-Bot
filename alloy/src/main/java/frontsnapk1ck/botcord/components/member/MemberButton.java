@@ -5,7 +5,6 @@ import java.util.Set;
 import frontsnapk1ck.botcord.components.gui.BCButton;
 import net.dv8tion.jda.api.entities.Member;
 
-@SuppressWarnings("serial")
 public class MemberButton extends BCButton {
 
     private Member member;

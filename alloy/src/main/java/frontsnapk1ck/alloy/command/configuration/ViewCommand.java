@@ -5,7 +5,7 @@ import frontsnapk1ck.alloy.input.AlloyInputUtil;
 import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -21,7 +21,7 @@ public class ViewCommand extends AbstractCommand {
 
         if (args.length != 1 )
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage() );
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage() );
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -43,7 +43,7 @@ public class ViewCommand extends AbstractCommand {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        Template t = Templates.workOptions(g);
+        AlloyTemplate t = Templates.workOptions(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -57,7 +57,7 @@ public class ViewCommand extends AbstractCommand {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        Template t = Templates.buildingsList(g);
+        AlloyTemplate t = Templates.buildingsList(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

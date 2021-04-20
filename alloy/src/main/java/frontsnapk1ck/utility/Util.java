@@ -32,6 +32,30 @@ public class Util {
         }
     }
 
+    public static long parseLong(String num) throws NumberFormatException 
+    {
+        try
+        {
+            return Long.parseLong(num);
+        }
+        catch (NumberFormatException e) 
+        {
+            throw e;
+        }
+    }
+
+    public static long parseLong(String num, long defaultNum) 
+    {
+        try
+        {
+            return Long.parseLong(num);
+        }
+        catch (Exception e) 
+        {
+            return defaultNum;
+        }
+    }
+
     public static <T> List<T> copy(List<T> put, List<? extends T> from) 
     {
         for (T obj : from)
@@ -75,6 +99,19 @@ public class Util {
         try 
         {
             parseInt(num);
+            return true;
+        }
+        catch (NumberFormatException e) 
+        {
+            return false;
+        }
+    }
+
+    public static boolean validLong(String num) 
+    {
+        try 
+        {
+            parseLong(num);
             return true;
         }
         catch (NumberFormatException e) 

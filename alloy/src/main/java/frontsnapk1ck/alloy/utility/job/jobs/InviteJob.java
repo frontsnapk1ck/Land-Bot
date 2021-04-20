@@ -2,7 +2,7 @@ package frontsnapk1ck.alloy.utility.job.jobs;
 
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -23,7 +23,7 @@ public class InviteJob extends Job {
     public void execute() 
     {
         PrivateChannel pc = m.getUser().openPrivateChannel().complete();
-        Template t = Templates.inviteActual(m);
+        AlloyTemplate t = Templates.inviteActual(m);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(pc);
         sm.setMessage(t.getEmbed());

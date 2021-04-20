@@ -15,7 +15,7 @@ import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.utility.StringUtil;
 import frontsnapk1ck.utility.Util;
 import net.dv8tion.jda.api.entities.Guild;
@@ -46,7 +46,7 @@ public class CaseCommand extends AbstractCommand {
 
         if (!DisPermUtil.checkPermission(guild.getMember(author), getPermission())) 
         {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -57,7 +57,7 @@ public class CaseCommand extends AbstractCommand {
 
         if (args.length < 1) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -83,7 +83,7 @@ public class CaseCommand extends AbstractCommand {
 
         if (args.length < 2) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -94,7 +94,7 @@ public class CaseCommand extends AbstractCommand {
 
         if (!Util.validInt(args[1])) 
         {
-            Template t = Templates.invalidNumberFormat(args[1]);
+            AlloyTemplate t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -145,7 +145,7 @@ public class CaseCommand extends AbstractCommand {
         Member target = DisUtil.findMember(guild, args[1]);
         if (target == null)
         {
-            Template t = Templates.userNotFound(args[1]);
+            AlloyTemplate t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -155,7 +155,7 @@ public class CaseCommand extends AbstractCommand {
         }
         List<Case> cases = AdminHandler.allCases(target);
 
-        Template t = Templates.caseList(cases);
+        AlloyTemplate t = Templates.caseList(cases);
         SendableMessage sm = new SendableMessage();
         sm.setFrom(getClass());
         sm.setChannel(channel);
@@ -168,7 +168,7 @@ public class CaseCommand extends AbstractCommand {
     {
         Case c = AdminHandler.getCase(guild.getIdLong(), caseId);
         if (c == null) {
-            Template t = Templates.caseNotFound(caseId);
+            AlloyTemplate t = Templates.caseNotFound(caseId);
             return t.getEmbed();
         }
 
@@ -177,7 +177,7 @@ public class CaseCommand extends AbstractCommand {
         Server s = AlloyUtil.loadServer(guild);
         TextChannel tc = guild.getTextChannelById(s.getModLogChannel());
         if (tc == null) {
-            Template t = Templates.modlogNotFound();
+            AlloyTemplate t = Templates.modlogNotFound();
             return t.getEmbed();
         }
 
@@ -186,7 +186,7 @@ public class CaseCommand extends AbstractCommand {
             m.editMessage(AdminHandler.toEmbed(c)).complete();
         } catch (Exception e) 
         {
-            Template t = Templates.caseEditFailed();
+            AlloyTemplate t = Templates.caseEditFailed();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -195,7 +195,7 @@ public class CaseCommand extends AbstractCommand {
     
         }
 
-        Template t = Templates.caseReasonModified(reason);
+        AlloyTemplate t = Templates.caseReasonModified(reason);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

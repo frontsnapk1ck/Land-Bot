@@ -15,7 +15,7 @@ import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -41,7 +41,7 @@ public class SetCommand extends AbstractCommand {
         Member m = g.getMember(author);
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -52,7 +52,7 @@ public class SetCommand extends AbstractCommand {
 
         if (args.length < 1) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -88,7 +88,7 @@ public class SetCommand extends AbstractCommand {
 
         if (!DisPermUtil.checkPermission(g.getSelfMember(), DisPerm.MANAGE_ROLES))
         {
-            Template t = Templates.noPermission(DisPerm.MANAGE_ROLES, g.getSelfMember().getUser());
+            AlloyTemplate t = Templates.noPermission(DisPerm.MANAGE_ROLES, g.getSelfMember().getUser());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -101,7 +101,7 @@ public class SetCommand extends AbstractCommand {
         {
             s.changeAssignRolesOnBuy(false);
 
-            Template t = Templates.assignRolesOnBuy(false);
+            AlloyTemplate t = Templates.assignRolesOnBuy(false);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -112,7 +112,7 @@ public class SetCommand extends AbstractCommand {
         
         if (args.length < 2) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -126,7 +126,7 @@ public class SetCommand extends AbstractCommand {
         {
             s.changeAssignRolesOnBuy(false);
 
-            Template t = Templates.assignRolesOnBuy(false);
+            AlloyTemplate t = Templates.assignRolesOnBuy(false);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -137,7 +137,7 @@ public class SetCommand extends AbstractCommand {
         {
             s.changeAssignRolesOnBuy(true);
 
-            Template t = Templates.assignRolesOnBuy(true);
+            AlloyTemplate t = Templates.assignRolesOnBuy(true);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -146,7 +146,7 @@ public class SetCommand extends AbstractCommand {
         }
         else
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -164,7 +164,7 @@ public class SetCommand extends AbstractCommand {
         
         if (args.length < 2) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -180,7 +180,7 @@ public class SetCommand extends AbstractCommand {
         }
         catch (MalformedURLException e) 
         {
-            Template t = Templates.invalidURL(args[1]);
+            AlloyTemplate t = Templates.invalidURL(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -192,7 +192,7 @@ public class SetCommand extends AbstractCommand {
         Server s = AlloyUtil.loadServer(g);
         s.setBanAppealLink(args[1]);
 
-        Template t = Templates.banAppealChanged(args[1]);
+        AlloyTemplate t = Templates.banAppealChanged(args[1]);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
@@ -209,7 +209,7 @@ public class SetCommand extends AbstractCommand {
         
         if (args.length < 2) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -223,7 +223,7 @@ public class SetCommand extends AbstractCommand {
         Role r = DisUtil.parseRole( role , g );
         if (r == null && !role.equalsIgnoreCase("none"))
         {
-            Template t = Templates.roleNotFound(role);
+            AlloyTemplate t = Templates.roleNotFound(role);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
@@ -235,7 +235,7 @@ public class SetCommand extends AbstractCommand {
         Server s = AlloyUtil.loadServer(g);
         s.setMuteRole(r.getIdLong());
 
-        Template t = Templates.muteRoleChanged(role);
+        AlloyTemplate t = Templates.muteRoleChanged(role);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
@@ -252,7 +252,7 @@ public class SetCommand extends AbstractCommand {
         
         if (args.length < 2) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -267,7 +267,7 @@ public class SetCommand extends AbstractCommand {
         TextChannel tc = DisUtil.findChannel(g, channelT);
         if (tc == null && !channelT.equalsIgnoreCase("none"))
         {
-            Template t = Templates.channelNotFound(channelT);
+            AlloyTemplate t = Templates.channelNotFound(channelT);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
@@ -285,7 +285,7 @@ public class SetCommand extends AbstractCommand {
             s.setModLog(0);
         }
 
-        Template t = Templates.modLogChanged(channelT);
+        AlloyTemplate t = Templates.modLogChanged(channelT);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
@@ -302,7 +302,7 @@ public class SetCommand extends AbstractCommand {
         
         if (args.length < 2) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -317,7 +317,7 @@ public class SetCommand extends AbstractCommand {
         {
             s.changeAdminCooldownBypass(false);
 
-            Template t = Templates.adminBypassCooldown(false);
+            AlloyTemplate t = Templates.adminBypassCooldown(false);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -328,7 +328,7 @@ public class SetCommand extends AbstractCommand {
         {
             s.changeAdminCooldownBypass(true);
 
-            Template t = Templates.adminBypassCooldown(true);
+            AlloyTemplate t = Templates.adminBypassCooldown(true);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -337,7 +337,7 @@ public class SetCommand extends AbstractCommand {
         }
         else
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -358,7 +358,7 @@ public class SetCommand extends AbstractCommand {
 
         if (args.length < 3) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -368,7 +368,7 @@ public class SetCommand extends AbstractCommand {
         }
 
         if (tarU == null) {
-            Template t = Templates.userNotFound(args[1]);
+            AlloyTemplate t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -380,7 +380,7 @@ public class SetCommand extends AbstractCommand {
         Member target = g.getMember(tarU);
 
         if (target == null) {
-            Template t = Templates.userNotFound(args[1]);
+            AlloyTemplate t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -390,7 +390,7 @@ public class SetCommand extends AbstractCommand {
         }
 
         if (!Util.validInt(args[2])) {
-            Template t = Templates.invalidNumberFormat(args[2]);
+            AlloyTemplate t = Templates.invalidNumberFormat(args[2]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -402,7 +402,7 @@ public class SetCommand extends AbstractCommand {
         int xp = Integer.parseInt(args[2]);
 
         FunHandler.setXP(target, xp);
-        Template t = Templates.xpSetSuccess(target, xp);
+        AlloyTemplate t = Templates.xpSetSuccess(target, xp);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -420,7 +420,7 @@ public class SetCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
 
         if (args.length < 2) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -431,7 +431,7 @@ public class SetCommand extends AbstractCommand {
 
         TextChannel target = DisUtil.findChannel(g, DisUtil.mentionToId(args[1]));
         if (target == null) {
-            Template t = Templates.invalidChannel(args[1]);
+            AlloyTemplate t = Templates.invalidChannel(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -442,7 +442,7 @@ public class SetCommand extends AbstractCommand {
 
         Server s = AlloyUtil.loadServer(g);
         s.changeSpamChannel(target.getIdLong());
-        Template t = Templates.spamChannelChanged(target);
+        AlloyTemplate t = Templates.spamChannelChanged(target);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

@@ -21,7 +21,6 @@ import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
-@SuppressWarnings("serial")
 public class GuildButton extends BCButton {
 
     private Guild guild;

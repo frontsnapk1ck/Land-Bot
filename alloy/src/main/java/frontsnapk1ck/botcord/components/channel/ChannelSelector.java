@@ -7,7 +7,6 @@ import frontsnapk1ck.botcord.event.BCListener;
 import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Guild;
 
-@SuppressWarnings("serial")
 public class ChannelSelector extends BCScrollPanel {
 
     private ChannelSelectorPanel panel;

@@ -10,7 +10,6 @@ import frontsnapk1ck.botcord.event.BCListener;
 import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.User;
 
-@SuppressWarnings("serial")
 public class PMChannelSelectorPanel extends BCPanel {
 
     public static final int COMP_HEIGHT = 30;

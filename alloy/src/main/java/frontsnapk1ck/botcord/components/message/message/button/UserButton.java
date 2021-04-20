@@ -6,7 +6,6 @@ import frontsnapk1ck.botcord.components.gui.BCButton;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 
-@SuppressWarnings("serial")
 public class UserButton extends BCButton {
 
     private User user;

@@ -11,7 +11,6 @@ import javax.swing.JButton;
 
 import frontsnapk1ck.botcord.event.BCListener;
 
-@SuppressWarnings("serial")
 public abstract class BaseBCButton extends JButton  {
 
     private List<BCListener> listeners;

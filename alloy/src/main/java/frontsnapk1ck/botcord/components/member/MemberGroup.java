@@ -9,7 +9,6 @@ import frontsnapk1ck.botcord.components.gui.BCPanel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 
-@SuppressWarnings("serial")
 public class MemberGroup extends BCPanel {
 
     public static final int COMP_HEIGHT = 30;

@@ -53,12 +53,14 @@ public class Templates {
 	public static final int MAX_SERVER_ROLE_SHOW = 30;
 	public static final int MAX_ROLE_MEMBERS_SHOW = 30;
 
-	public static List<MessageEmbed> getEmbeds(Template t) 
+	public static List<MessageEmbed> getEmbeds(AlloyTemplate t) 
     {
         List<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
-        try {
+        try
+		{
             embeds.add(t.getEmbed());
-        } catch (Exception ex) 
+        }
+		catch (Exception ex) 
         {
             String[] arr = t.getText().split("\n");
             String title = arr[0];
@@ -86,221 +88,255 @@ public class Templates {
         return embeds;
     }
 
-	public static Template noPermission(DisPerm p, User u) {
+	public static AlloyTemplate noPermission(DisPerm p, User u)
+	{
 		String s = "The user " + u.getAsMention() + " does not have the permission `" + p.getName() + "`";
-		Template t = new Template("No Permissions", s);
+		AlloyTemplate t = new AlloyTemplate("No Permissions", s);
 		return t;
 	}
 
-	public static Template bankTransferMinimum() {
+	public static AlloyTemplate bankTransferMinimum()
+	{
 		String s = "you must transfer a minimum of $" + EconHandler.MINIUM_BALANCE;
-		Template t = new Template("Minimum Bank Transfer", s);
+		AlloyTemplate t = new AlloyTemplate("Minimum Bank Transfer", s);
 		return t;
 	}
 
-	public static Template bankTransferSuccess(Player from, Player to, int amount, String message) {
+	public static AlloyTemplate bankTransferSuccess(Player from, Player to, int amount, String message)
+	{
 		String s = from.getAsMention() + " has transferred `$" + amount + "` to " + to.getAsMention();
 		if (!message.equalsIgnoreCase(""))
 			s += "\n" + message;
-		Template t = new Template("Bank Transfer Success", s);
+		AlloyTemplate t = new AlloyTemplate("Bank Transfer Success", s);
 		return t;
 	}
 
-	public static Template bankTransferFailed() {
-		Template t = new Template("Bank Transfer Failed", "the transfer has failed");
+	public static AlloyTemplate bankTransferFailed()
+	{
+		AlloyTemplate t = new AlloyTemplate("Bank Transfer Failed", "the transfer has failed");
 		return t;
 	}
 
-	public static Template bankInsufficientFunds(User author, int amount) {
+	public static AlloyTemplate bankInsufficientFunds(User author, int amount)
+	{
 		String s = author.getAsMention() + ", you do not have enough funds to make that payment";
-		Template t = new Template("Bank Transfer Failed", s);
+		AlloyTemplate t = new AlloyTemplate("Bank Transfer Failed", s);
 		return t;
 	}
 
-	public static Template prefixIs(String prefix) {
-		Template t = new Template("Prefix", "the prefix is currently\n`" + prefix + "`");
+	public static AlloyTemplate prefixIs( String prefix )
+	{
+		AlloyTemplate t = new AlloyTemplate("Prefix", "the prefix is currently\n`" + prefix + "`");
 		return t;
 	}
 
-	public static Template modlogNotFound() {
-		Template t = new Template("Mod Log not found", "the mod log could not be found for this server");
+	public static AlloyTemplate modlogNotFound ()
+	{
+		AlloyTemplate t = new AlloyTemplate("Mod Log not found", "the mod log could not be found for this server");
 		return t;
 
 	}
 
-	public static Template moderationActionEmpty(TextChannel chan, PunishType punishType) {
-		Template t = new Template("Moderation Action Empty", "Moderation Action Empty\n" + punishType);
+	public static AlloyTemplate moderationActionEmpty(TextChannel chan, PunishType punishType)
+	{
+		AlloyTemplate t = new AlloyTemplate("Moderation Action Empty", "Moderation Action Empty\n" + punishType);
 		return t;
 	}
 
-	public static Template cannotModerateSelf() {
-		Template t = new Template("Cannot Moderate Self", "you cannot moderate me, i am too powerful");
+	public static AlloyTemplate cannotModerateSelf()
+	{
+		AlloyTemplate t = new AlloyTemplate("Cannot Moderate Self", "you cannot moderate me, i am too powerful");
 		return t;
 	}
 
-	public static Template moderationActionFailed(PunishType punishType, String message) {
-		Template t = new Template("Moderation Action Failed",
+	public static AlloyTemplate moderationActionFailed(PunishType punishType, String message)
+	{
+		AlloyTemplate t = new AlloyTemplate("Moderation Action Failed",
 				"the moderation action `" + punishType + "` has failed with the error\n" + message);
 		return t;
 	}
 
-	public static Template moderationActionSuccess(TextChannel chan, Member targetUser, String verb) {
-		Template t = new Template("Moderation Action Success", "the moderation action `" + verb
+	public static AlloyTemplate moderationActionSuccess( TextChannel chan, Member targetUser, String verb )
+	{
+		AlloyTemplate t = new AlloyTemplate("Moderation Action Success", "the moderation action `" + verb
 				+ "` has succeeded, lol.\nused in " + chan.getAsMention() + " against " + targetUser.getAsMention());
 		return t;
 	}
 
-	public static Template bankCurrentBalance(Player p) {
-		Template t = new Template("Current Balance", p.getAsMention() + "'s balance is `$" + p.getBal() + "`");
+	public static AlloyTemplate bankCurrentBalance(Player p)
+	{
+		AlloyTemplate t = new AlloyTemplate("Current Balance", p.getAsMention() + "'s balance is `$" + p.getBal() + "`");
 		return t;
 
 	}
 
-	public static Template argumentsNotRecognized(Message msg) {
-		Template t = new Template("Arguments not Recognized",
+	public static AlloyTemplate argumentsNotRecognized( Message msg )
+	{
+		AlloyTemplate t = new AlloyTemplate("Arguments not Recognized",
 				"`" + msg.getContentRaw() + "`\nthat didn't make sense to me, lol");
 		return t;
 	}
 
-	public static Template daySuccess(Guild guild) {
-		Template t = new Template("Day Success", "the day has advanced in this server");
+	public static AlloyTemplate daySuccess(Guild guil
+	)
+	{
+		AlloyTemplate t = new AlloyTemplate("Day Success", "the day has advanced in this server");
 		return t;
 
 	}
 
-	public static Template moderationLog(TextChannel chan, Guild guild, User author, PunishType punishType,
-			String[] args) {
+	public static AlloyTemplate moderationLog(TextChannel chan, Guild guild, User author, PunishType punishType, String[] args)
+	{
 		String out = "";
 		for (String string : args)
 			out += string + " ";
-		Template t = new Template("Moderation Action Used", author.getAsMention() + " used " + punishType
+		AlloyTemplate t = new AlloyTemplate("Moderation Action Used", author.getAsMention() + " used " + punishType
 				+ " in the channel " + chan.getAsMention() + "\n`" + out + "`");
 		return t;
 
 	}
 
-	public static Template invalidNumberFormat(String[] args) {
+	public static AlloyTemplate invalidNumberFormat(String[] args)
+	{
 		String out = "";
 		for (String string : args)
 			out += string + " ";
 
-		Template t = new Template("Invalid Number format", " this is wrong, lol\n`" + out + "`");
+		AlloyTemplate t = new AlloyTemplate("Invalid Number format", " this is wrong, lol\n`" + out + "`");
 		return t;
 
 	}
 
-	public static Template onlyPositiveNumbers(int amount) {
-		Template t = new Template("Only Positive Numbers", "i dont think that `" + amount + "` is positive");
+	public static AlloyTemplate onlyPositiveNumbers(int amount)
+	{
+		AlloyTemplate t = new AlloyTemplate("Only Positive Numbers", "i dont think that `" + amount + "` is positive");
 		return t;
 	}
 
-	public static Template spamRunnableCreated(Long id) {
-		Template t = new Template("ID to stop this spam",
+	public static AlloyTemplate spamRunnableCreated(Long id)
+	{
+		AlloyTemplate t = new AlloyTemplate("ID to stop this spam",
 				"to stop this spam, use the command \n`!spam stop " + id + "`");
 		return t;
 	}
 
-	public static Template invalidUse(MessageChannel channel) {
-		Template t = new Template("Invalid Use",
+	public static AlloyTemplate invalidUse(MessageChannel channel)
+	{
+		AlloyTemplate t = new AlloyTemplate("Invalid Use",
 				"you cant do that, thats illegal, almost like my creator spelling things correctly. we all know thats illegal");
 		return t;
 
 	}
 
-	public static Template caseNotFound(String caseId) {
-		Template t = new Template("case not found", "could not find the case `" + caseId + "`");
+	public static AlloyTemplate caseNotFound(String caseId)
+	{
+		AlloyTemplate t = new AlloyTemplate("case not found", "could not find the case `" + caseId + "`");
 		return t;
 
 	}
 
-	public static Template caseReasonModified(String reason) {
-		Template t = new Template("Case Reason Modified", "the reason was modified to\n\n" + reason + "");
+	public static AlloyTemplate caseReasonModified(String reason)
+	{
+		AlloyTemplate t = new AlloyTemplate("Case Reason Modified", "the reason was modified to\n\n" + reason + "");
 		return t;
 	}
 
-	public static Template bulkDeleteSuccessful(TextChannel channel, int size) {
-		Template t = new Template("Purge success", "deleted `" + size + "` messages in " + channel.getAsMention());
+	public static AlloyTemplate bulkDeleteSuccessful(TextChannel channel, int size)
+	{
+		AlloyTemplate t = new AlloyTemplate("Purge success", "deleted `" + size + "` messages in " + channel.getAsMention());
 		return t;
 
 	}
 
-	public static Template privateMessageFailed(Member m) {
-		Template t = new Template("Private Message Failed", "i could not PM the member " + m.getAsMention());
+	public static AlloyTemplate privateMessageFailed(Member m)
+	{
+		AlloyTemplate t = new AlloyTemplate("Private Message Failed", "i could not PM the member " + m.getAsMention());
 		return t;
 	}
 
-	public static Template getWarn(Warning w) {
-		Template t = new Template("Warning",
+	public static AlloyTemplate getWarn(Warning w)
+	{
+		AlloyTemplate t = new AlloyTemplate("Warning",
 				"reason: " + w.getReason() + "\nissuer: " + w.getIssuer() + "\nid:" + w.getId());
 		return t;
 	}
 
-	public static Template warnSuccess(Member m, Warning w, User author) {
-		Template t = new Template("Warn Success",
+	public static AlloyTemplate warnSuccess(Member m, Warning w, User author)
+	{
+		AlloyTemplate t = new AlloyTemplate("Warn Success",
 				"the member " + m.getAsMention() + "has been warned\n\nwith the reason: `" + w.getReason() + "`");
 		t.setFooterName(author.getAsTag());
 		t.setFooterURL(author.getAvatarUrl());
 		return t;
 	}
 
-	public static Template warnings(String table) {
-		Template t = new Template("Warnings", table);
+	public static AlloyTemplate warnings(String table)
+	{
+		AlloyTemplate t = new AlloyTemplate("Warnings", table);
 		return t;
 	}
 
-	public static Template warningNotFound(String string) {
-		Template t = new Template("Warning not found", "the warning with the id `" + string + "` could not be found");
+	public static AlloyTemplate warningNotFound(String string)
+	{
+		AlloyTemplate t = new AlloyTemplate("Warning not found", "the warning with the id `" + string + "` could not be found");
 		return t;
 	}
 
-	public static Template warningsRemovedSuccess(String string, Member warned) {
-		Template t = new Template("Warning removed Successfully",
+	public static AlloyTemplate warningsRemovedSuccess(String string, Member warned)
+	{
+		AlloyTemplate t = new AlloyTemplate("Warning removed Successfully",
 				"the warning has been removed from the user " + warned.getAsMention());
 		return t;
 	}
 
-	public static Template invalidBuildingName(String name) {
-		Template t = new Template("Invalid building name", "The name `" + name + "` is invalid");
+	public static AlloyTemplate invalidBuildingName(String name)
+	{
+		AlloyTemplate t = new AlloyTemplate("Invalid building name", "The name `" + name + "` is invalid");
 		return t;
 
 	}
 
-	public static Template argumentsNotSupplied(String[] args, String[] usage) {
+	public static AlloyTemplate argumentsNotSupplied(String[] args, String[] usage)
+	{
 		String got = "";
 		for (String s : args)
 			got += s + " ";
 		got = got.trim();
 
 		String expected = "\n```txt\n";
-		if (usage != null) {
+		if (usage != null)
+		{
 			for (String s : usage)
 				expected += s + "\n\n";
 		}
 		expected += "```";
 		expected = expected.trim();
 
-		Template t = new Template("Arguments not supplied", "expected:\t " + expected + "\ngot:\t\t```" + (got.equals("") ? "nothing" : got ) + "```");
+		AlloyTemplate t = new AlloyTemplate("Arguments not supplied", "expected:\t " + expected + "\ngot:\t\t```" + (got.equals("") ? "nothing" : got ) + "```");
 		return t;
 	}
 
-	public static Template buildingsNameOutOfBounds(Building b) {
-		Template t = new Template("Building Name out of bounds",
+	public static AlloyTemplate buildingsNameOutOfBounds(Building b)
+	{
+		AlloyTemplate t = new AlloyTemplate("Building Name out of bounds",
 				"the name for that building is too long bro \\**hehe*\\*");
 		return t;
 	}
 
-	public static Template buildingSaveSuccess(List<Building> buildings) {
+	public static AlloyTemplate buildingSaveSuccess(List<Building> buildings)
+	{
 		String names = "";
 		String costs = "";
 		String gener = "";
 
-		for (Building b : buildings) {
+		for (Building b : buildings)
+		{
 			names += "" + b.getName() + "\n";
 			costs += "" + b.getCost() + "\n";
 			gener += "" + b.getGeneration() + "\n";
 
 		}
-		Template t = new Template("Building Save Success", "All available buildings");
+		AlloyTemplate t = new AlloyTemplate("Building Save Success", "All available buildings");
 		t.addFelid("Name", names, true);
 		t.addFelid("Cost", costs, true);
 		t.addFelid("Generation", gener, true);
@@ -308,82 +344,96 @@ public class Templates {
 		return t;
 	}
 
-	public static Template workOptionAddSuccess(String[] args) {
+	public static AlloyTemplate workOptionAddSuccess(String[] args)
+	{
 		String out = "";
 		for (String string : args)
 			out += string + " ";
 
-		Template t = new Template("Work Option Add Success",
+		AlloyTemplate t = new AlloyTemplate("Work Option Add Success",
 				"you've added the following to the work options in this server\n\n" + out);
 		return t;
 	}
 
-	public static Template numberOutOfBounds(IndexOutOfBoundsException e) 
+	public static AlloyTemplate numberOutOfBounds(IndexOutOfBoundsException e)
+
 	{
-		Template t = new Template("Number out of bounds",
+		AlloyTemplate t = new AlloyTemplate("Number out of bounds",
 				"lol, that number threw an error, you're lucky i caught it\n\n" + e.getMessage());
 		return t;
 	}
 
-	public static Template buildingsRemoveSuccess(Building b) {
-		Template t = new Template("Building Remove Success", "removed the building " + b.getName());
+	public static AlloyTemplate buildingsRemoveSuccess(Building b)
+	{
+		AlloyTemplate t = new AlloyTemplate("Building Remove Success", "removed the building " + b.getName());
 		return t;
 	}
 
-	public static Template workRemoveSuccess(String s) {
-		Template t = new Template("WOrk Remove Success", "removed the Work Option `" + s + "`");
+	public static AlloyTemplate workRemoveSuccess(String s)
+	{
+		AlloyTemplate t = new AlloyTemplate("WOrk Remove Success", "removed the Work Option `" + s + "`");
 		return t;
 	}
 
-	public static Template spamRunnableStopped(Long id) {
-		Template t = new Template("Spam Stopped", "the spam with the id `" + id + "` has stopped");
+	public static AlloyTemplate spamRunnableStopped(Long id)
+	{
+		AlloyTemplate t = new AlloyTemplate("Spam Stopped", "the spam with the id `" + id + "` has stopped");
 		return t;
 	}
 
-	public static Template spamRunnableIdNotFound(Long id) {
-		Template t = new Template("Spam ID not found", "could not find the id `" + id + "`");
+	public static AlloyTemplate spamRunnableIdNotFound(Long id)
+	{
+		AlloyTemplate t = new AlloyTemplate("Spam ID not found", "could not find the id `" + id + "`");
 		return t;
 	}
 
-	public static Template voiceJoinSuccess(VoiceChannel vc) {
-		Template t = new Template("Voice Join Success", "joined channel " + vc.getName());
+	public static AlloyTemplate voiceJoinSuccess(VoiceChannel vc)
+	{
+		AlloyTemplate t = new AlloyTemplate("Voice Join Success", "joined channel " + vc.getName());
 		return t;
 	}
 
-	public static Template voiceJoinFail(VoiceChannel vc) {
-		Template t = new Template("Voice Join Fail", "could not join channel " + vc.getName());
+	public static AlloyTemplate voiceJoinFail(VoiceChannel vc)
+	{
+		AlloyTemplate t = new AlloyTemplate("Voice Join Fail", "could not join channel " + vc.getName());
 		return t;
 	}
 
-	public static Template voiceMemberNotInChannel(Member m) {
-		Template t = new Template("Not In Voice Channel", "you have to be in a voice channel to use that command");
+	public static AlloyTemplate voiceMemberNotInChannel(Member m)
+	{
+		AlloyTemplate t = new AlloyTemplate("Not In Voice Channel", "you have to be in a voice channel to use that command");
 		return t;
 	}
 
-	public static Template showXPCooldown(int cooldown) {
-		Template t = new Template("XP cooldown Time",
+	public static AlloyTemplate showXPCooldown(int cooldown)
+	{
+		AlloyTemplate t = new AlloyTemplate("XP cooldown Time",
 				"the xp cooldown time in this guild is currently `" + cooldown + "`");
 		return t;
 	}
 
-	public static Template showCooldown(int cooldown) {
-		Template t = new Template("Cooldown Time", "the cooldown time in this guild is currently `" + cooldown + "`");
+	public static AlloyTemplate showCooldown(int cooldown)
+	{
+		AlloyTemplate t = new AlloyTemplate("Cooldown Time", "the cooldown time in this guild is currently `" + cooldown + "`");
 		return t;
 
 	}
 
-	public static Template invalidNumberFormat(String num) {
-		Template t = new Template("Invalid Number Format", "`" + num + "` isn't a number now, is it?");
+	public static AlloyTemplate invalidNumberFormat(String num)
+	{
+		AlloyTemplate t = new AlloyTemplate("Invalid Number Format", "`" + num + "` isn't a number now, is it?");
 		return t;
 	}
 
-	public static Template viewStartingBalance(int startingBalance) {
-		Template t = new Template("Starting Balance",
+	public static AlloyTemplate viewStartingBalance(int startingBalance)
+	{
+		AlloyTemplate t = new AlloyTemplate("Starting Balance",
 				"the starting ballance in this server is `$" + startingBalance + "`");
 		return t;
 	}
 
-	public static Template workOptions(Guild g) {
+	public static AlloyTemplate workOptions(Guild g)
+	{
 		String path = AlloyUtil.getGuildPath(g);
 		String[] wo = FileReader
 				.read(path + AlloyUtil.SUB + AlloyUtil.SETTINGS_FOLDER + AlloyUtil.SUB + AlloyUtil.WORK_OPTIONS_FILE);
@@ -391,23 +441,25 @@ public class Templates {
 		for (String string : wo)
 			out += string + "\n";
 
-		Template t = new Template("Work Options", "the work options are \n\n" + out);
+		AlloyTemplate t = new AlloyTemplate("Work Options", "the work options are \n\n" + out);
 		return t;
 	}
 
-	public static Template buildingsList(Guild g) {
+	public static AlloyTemplate buildingsList(Guild g)
+	{
 		List<Building> buildings = AlloyUtil.loadBuildings(g);
 		String names = "";
 		String costs = "";
 		String gener = "";
 
-		for (Building b : buildings) {
+		for (Building b : buildings)
+		{
 			names += "" + b.getName() + "\n";
 			costs += "" + b.getCost() + "\n";
 			gener += "" + b.getGeneration() + "\n";
 
 		}
-		Template t = new Template("Building list", "All available buildings");
+		AlloyTemplate t = new AlloyTemplate("Building list", "All available buildings");
 		t.addFelid("Name", names, true);
 		t.addFelid("Cost", costs, true);
 		t.addFelid("Generation", gener, true);
@@ -415,41 +467,48 @@ public class Templates {
 		return t;
 	}
 
-	public static Template voiceDisconnectSuccess(VoiceChannel vc) {
-		Template t = new Template("Voice Disconnect Success", "I have left " + vc.getName());
+	public static AlloyTemplate voiceDisconnectSuccess(VoiceChannel vc)
+	{
+		AlloyTemplate t = new AlloyTemplate("Voice Disconnect Success", "I have left " + vc.getName());
 		return t;
 	}
 
-	public static Template voiceDisconnectFail() {
-		Template t = new Template("Voice Disconnect Fail", "I have not left the vc i am in");
+	public static AlloyTemplate voiceDisconnectFail()
+	{
+		AlloyTemplate t = new AlloyTemplate("Voice Disconnect Fail", "I have not left the vc i am in");
 		return t;
 	}
 
-	public static Template onCooldown(Member m) {
-		Template t = new Template("Slow down there", "you are on cooldown " + m.getAsMention());
+	public static AlloyTemplate onCooldown(Member m)
+	{
+		AlloyTemplate t = new AlloyTemplate("Slow down there", "you are on cooldown " + m.getAsMention());
 		return t;
 	}
 
-	public static Template sayAdmin(String out, Message msg) {
-		Template t = new Template("Announcement", out);
+	public static AlloyTemplate sayAdmin(String out, Message msg)
+	{
+		AlloyTemplate t = new AlloyTemplate("Announcement", out);
 		t.setFooterName(msg.getAuthor().getAsTag());
 		t.setFooterURL(msg.getAuthor().getAvatarUrl());
 		return t;
 
 	}
 
-	public static Template help(String out) {
-		Template t = new Template("HELP", out);
+	public static AlloyTemplate help(String out)
+	{
+		AlloyTemplate t = new AlloyTemplate("HELP", out);
 		return t;
 	}
 
-	public static Template helpSentTemplate() {
-		Template t = new Template("Help has been sent", "albeit in the form of a DM");
+	public static AlloyTemplate helpSentAlloyTemplate()
+	{
+		AlloyTemplate t = new AlloyTemplate("Help has been sent", "albeit in the form of a DM");
 		return t;
 	}
 
-	public static Template infoSelf() {
-		Template t = new Template("My name is alloy",
+	public static AlloyTemplate infoSelf()
+	{
+		AlloyTemplate t = new AlloyTemplate("My name is alloy",
 				"I am Alloy and i am a Discord Bot frontsnapk1ck has been working on for a little while now. if you have any question feel free to reach out to him and join the official Alloy Support Server here https://discord.gg/7UNxyXRxBh \n\nthanks!");
 		t.setFooterName("frontsnapk1ck");
 		t.setFooterURL("https://cdn.discordapp.com/avatars/312743142828933130/7c63b41c5ed601b3314c1dce0d0e0065.png");
@@ -457,7 +516,8 @@ public class Templates {
 
 	}
 
-	public static Template infoUser(Member m) {
+	public static AlloyTemplate infoUser(Member m)
+	{
 		String perm = loadPermString(m);
 		String nick = (m.getNickname() == null ? "No Nickname" : m.getNickname());
 		String username = "```txt\n" + m.getUser().getAsTag() + "\n```";
@@ -492,7 +552,7 @@ public class Templates {
 		Field joinF = new Field("Joined this server on (MM/DD/YYYY)", joinOn, false);
 		Field createF = new Field("Account created on  (MM/DD/YYYY)", createOn, false);
 
-		Template t = new Template("User Info", "");
+		AlloyTemplate t = new AlloyTemplate("User Info", "");
 		t.addFelid(userF);
 		t.addFelid(userIDF);
 
@@ -511,20 +571,24 @@ public class Templates {
 		return t;
 	}
 
-	private static String getURL(Member m) {
+	private static String getURL(Member m) 
+	{
 		String url = m.getUser().getAvatarUrl();
 		if (url == null)
 			url = m.getUser().getDefaultAvatarUrl();
 		return url;
 	}
 
-	private static Field loadRolesField(Member m) {
+	private static Field loadRolesField(Member m)
+	{
 		String roleOut = "```txt\n";
 		List<Role> roles = m.getRoles();
 
 		int i = 0;
-		for (Role r : roles) {
-			if (i < MAX_ROLE_SHOW) {
+		for (Role r : roles)
+		{
+			if (i < MAX_ROLE_SHOW)
+			{
 				roleOut += r.getName() + "\n";
 				i++;
 			}
@@ -537,7 +601,8 @@ public class Templates {
 		return f;
 	}
 
-	private static String loadPermString(Member m) {
+	private static String loadPermString(Member m)
+	{
 		String permOut = "```txt\n";
 		List<DisPerm> perms = DisPermUtil.parsePerms(m.getPermissions());
 		for (DisPerm p : perms)
@@ -546,7 +611,8 @@ public class Templates {
 		return permOut;
 	}
 
-	public static Template infoServer(Guild g) {
+	public static AlloyTemplate infoServer(Guild g)
+	{
 		String name = "```txt\n" + g.getName() + "\n```";
 		String owner = "```txt\n" + g.getOwner().getUser().getAsTag() + "\n```";
 		String id = "```txt\n" + g.getId() + "\n```";
@@ -579,7 +645,7 @@ public class Templates {
 
 		Field createdF = new Field("Server created on (MM/DD/YYYY)", created, false);
 
-		Template t = new Template("Server Info", "");
+		AlloyTemplate t = new AlloyTemplate("Server Info", "");
 
 		t.addFelid(nameF);
 		t.addFelid(ownerF);
@@ -605,19 +671,22 @@ public class Templates {
 		return t;
 	}
 
-	private static String getURL(Guild g) {
+	private static String getURL(Guild g)
+	{
 		String url = g.getIconUrl();
 		if (url == null)
 			url = AlloyUtil.DEFAULT_DISCORD_PHOTO;
 		return url;
 	}
 
-	private static Field loadGuildRoles(Guild g) {
+	private static Field loadGuildRoles(Guild g)
+	{
 		List<Role> roles = g.getRoles();
 		String roleOut = "```txt\n";
 
 		int i = 0;
-		for (Role r : roles) {
+		for (Role r : roles)
+		{
 			boolean last = i == MAX_SERVER_ROLE_SHOW - 1 || i == roles.size() - 1;
 			boolean stop = i >= MAX_SERVER_ROLE_SHOW || i >= roles.size();
 			if (last)
@@ -631,11 +700,13 @@ public class Templates {
 		return new Field(name, roleOut, false);
 	}
 
-	private static Field loadEmojis(Guild g) {
+	private static Field loadEmojis(Guild g)
+	{
 		List<Emote> emojis = g.getEmotes();
 		int animated = 0;
 		int normal = 0;
-		for (Emote e : emojis) {
+		for (Emote e : emojis)
+		{
 			if (e.isAnimated())
 				animated++;
 			else
@@ -646,14 +717,17 @@ public class Templates {
 		return new Field(name, value, false);
 	}
 
-	private static Field loadChannelsFelid(Guild g) {
+	private static Field loadChannelsFelid(Guild g)
+	{
 		List<GuildChannel> channels = g.getChannels();
 		List<Category> catagories = g.getCategories();
 		int text = 0;
 		int voice = 0;
 		int announcement = 0;
-		for (GuildChannel c : channels) {
-			if (c instanceof TextChannel) {
+		for (GuildChannel c : channels)
+		{
+			if (c instanceof TextChannel)
+			{
 				text++;
 				TextChannel chan = (TextChannel) c;
 				if (chan.isNews())
@@ -668,11 +742,13 @@ public class Templates {
 		return new Field(name, value, false);
 	}
 
-	private static Field loadMembersFelid(Guild g) {
+	private static Field loadMembersFelid(Guild g)
+	{
 		List<Member> members = g.getMembers();
 		int user = 0;
 		int bot = 0;
-		for (Member member : members) {
+		for (Member member : members)
+		{
 			if (member.getUser().isBot())
 				bot++;
 			else
@@ -684,12 +760,14 @@ public class Templates {
 		return new Field(name, value, false);
 	}
 
-	public static Template roleNotFound(String role) {
-		Template t = new Template("Role not found", " i couldn't find the role " + role);
+	public static AlloyTemplate roleNotFound(String role)
+	{
+		AlloyTemplate t = new AlloyTemplate("Role not found", " i couldn't find the role " + role);
 		return t;
 	}
 
-	public static Template infoRole(Role r) {
+	public static AlloyTemplate infoRole(Role r)
+	{
 		Guild g = r.getGuild();
 
 		String name = "```txt\n" + r.getName() + "\n```";
@@ -719,7 +797,7 @@ public class Templates {
 
 		Field createdF = new Field("Role created on (MM/DD/YYYY)", createdOn, false);
 
-		Template t = new Template("Role Info", "");
+		AlloyTemplate t = new AlloyTemplate("Role Info", "");
 
 		t.addFelid(nameF);
 		t.addFelid(idF);
@@ -737,7 +815,8 @@ public class Templates {
 		return t;
 	}
 
-	private static String getRoleColor(Role role) {
+	private static String getRoleColor(Role role)
+	{
 		Color c = role.getColor();
 		int r = c.getRed();
 		int g = c.getGreen();
@@ -747,13 +826,15 @@ public class Templates {
 		return hex;
 	}
 
-	private static Field loadRoleMembers(Role r) {
+	private static Field loadRoleMembers(Role r)
+	{
 		Guild g = r.getGuild();
 		List<Member> members = g.getMembersWithRoles(r);
 		String out = "```txt\n";
 
 		int i = 0;
-		for (Member member : members) {
+		for (Member member : members)
+		{
 			boolean stop = i >= MAX_ROLE_MEMBERS_SHOW || i >= members.size();
 			boolean last = i == MAX_ROLE_MEMBERS_SHOW - 1 || i == members.size() - 1;
 
@@ -767,7 +848,8 @@ public class Templates {
 		return new Field(name, out, false);
 	}
 
-	private static String loadRolePerms(Role r) {
+	private static String loadRolePerms(Role r)
+	{
 		List<DisPerm> perms = DisPermUtil.parsePerms(r.getPermissions());
 		String permOut = "```txt\n";
 		for (DisPerm p : perms)
@@ -776,134 +858,156 @@ public class Templates {
 		return permOut;
 	}
 
-	public static Template invite() {
-		Template t = new Template("Invite", "Thanks for thinking of me");
+	public static AlloyTemplate invite()
+	{
+		AlloyTemplate t = new AlloyTemplate("Invite", "Thanks for thinking of me");
 		String rickroll = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 		t.setTitle("Click here to invite me", rickroll);
 		return t;
 	}
 
-	public static Template inviteActual(Member m) {
+	public static AlloyTemplate inviteActual(Member m)
+	{
 		String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=762825892006854676&permissions=435514430&scope=bot";
-		Template t = new Template("This is your actual invite",
+		AlloyTemplate t = new AlloyTemplate("This is your actual invite",
 				"my creator will never miss an opportunity to rick roll someone\n\nclick [here](" + inviteLink + ")");
 		return t;
 
 	}
 
-	public static Template uptime(String relativeTime) {
+	public static AlloyTemplate uptime(String relativeTime)
+	{
 		String date = TimeUtil.date();
 		String time = TimeUtil.time();
-		Template t = new Template("Uptime",
+		AlloyTemplate t = new AlloyTemplate("Uptime",
 				"i have been up for `" + relativeTime + "`\nthe time on my host is `" + date + "`\t`" + time + "`");
 		return t;
 	}
 
-	public static Template noBlacklistedChannels() {
-		Template t = new Template("No blacklisted Channels", "this guild doesn't have any blacklisted channels ");
+	public static AlloyTemplate noBlacklistedChannels()
+	{
+		AlloyTemplate t = new AlloyTemplate("No blacklisted Channels", "this guild doesn't have any blacklisted channels ");
 		return t;
 	}
 
-	public static Template listBlackListedChannels(List<Long> blacklisted) {
+	public static AlloyTemplate listBlackListedChannels(List<Long> blacklisted)
+	{
 		String out = "";
 		for (Long id : blacklisted)
 			out += "<#" + id + ">\n";
 
-		Template t = new Template("Black Listed Channels for XP ", out);
+		AlloyTemplate t = new AlloyTemplate("Black Listed Channels for XP ", out);
 		return t;
 	}
 
-	public static Template invalidChannel(String c) {
-		Template t = new Template("Invalid Channel", c);
+	public static AlloyTemplate invalidChannel(String c)
+	{
+		AlloyTemplate t = new AlloyTemplate("Invalid Channel", c);
 		return t;
 	}
 
-	public static Template channelIsNotBlacklisted(String c) {
-		Template t = new Template("Channel is not blacklisted", "the channel " + c + " is not blacklisted");
+	public static AlloyTemplate channelIsNotBlacklisted(String c)
+	{
+		AlloyTemplate t = new AlloyTemplate("Channel is not blacklisted", "the channel " + c + " is not blacklisted");
 		return t;
 	}
 
-	public static Template blackListRemoveSuccess(String c) {
-		Template t = new Template("Blacklist Removed Success",
+	public static AlloyTemplate blackListRemoveSuccess(String c)
+	{
+		AlloyTemplate t = new AlloyTemplate("Blacklist Removed Success",
 				"removed channel " + c + " from the blacklisted channels");
 		return t;
 	}
 
-	public static Template blackListAddSuccess(String c) {
-		Template t = new Template("Blacklist Add Success", "added channel " + c + " to the blacklisted channels");
+	public static AlloyTemplate blackListAddSuccess(String c)
+	{
+		AlloyTemplate t = new AlloyTemplate("Blacklist Add Success", "added channel " + c + " to the blacklisted channels");
 		return t;
 	}
 
-	public static Template leaderboard(List<String> lb) {
+	public static AlloyTemplate leaderboard(List<String> lb)
+	{
 		String out = "";
 		for (String string : lb)
 			out += string + "\n";
 
-		Template t = new Template("leaderboard", out);
+		AlloyTemplate t = new AlloyTemplate("leaderboard", out);
 		return t;
 	}
 
-	public static Template userNotFound(String user) {
-		Template t = new Template("User not found", "i could not find the user " + user);
+	public static AlloyTemplate userNotFound(String user)
+	{
+		AlloyTemplate t = new AlloyTemplate("User not found", "i could not find the user " + user);
 		return t;
 	}
 
-	public static Template rank(Member target, int level, String progress) {
-		Template t = new Template("Rank", target.getAsMention() + "\nlevel: `" + level + "`\nxp: `" + progress + "`");
+	public static AlloyTemplate rank(Member target, int level, String progress)
+	{
+		AlloyTemplate t = new AlloyTemplate("Rank", target.getAsMention() + "\nlevel: `" + level + "`\nxp: `" + progress + "`");
 		return t;
 	}
 
-	public static Template invalidRole(String string) {
-		Template t = new Template("invalid role", "i did not recognize the role " + string);
+	public static AlloyTemplate invalidRole(String string)
+	{
+		AlloyTemplate t = new AlloyTemplate("invalid role", "i did not recognize the role " + string);
 		return t;
 	}
 
-	public static Template duplicateRankup(int level) {
-		Template t = new Template("duplicate level detected",
+	public static AlloyTemplate duplicateRankup(int level)
+	{
+		AlloyTemplate t = new AlloyTemplate("duplicate level detected",
 				"you may have tried to make a level get announced twice - level" + level);
 		return t;
 	}
 
-	public static Template levelNotFound(String string) {
-		Template t = new Template("Level not found", string);
+	public static AlloyTemplate levelNotFound(String string)
+	{
+		AlloyTemplate t = new AlloyTemplate("Level not found", string);
 		return t;
 	}
 
-	public static Template rankupAddSuccess(RankUp ru) {
-		Template t = new Template("rank up add Success", "added a rankup messaged to level " + ru.getLevel());
+	public static AlloyTemplate rankupAddSuccess(RankUp ru)
+	{
+		AlloyTemplate t = new AlloyTemplate("rank up add Success", "added a rankup messaged to level " + ru.getLevel());
 		return t;
 	}
 
-	public static Template rankupRemoveSuccess(RankUp toRm) {
-		Template t = new Template("rankup remove Success", "removed a rankup messaged from level " + toRm.getLevel());
+	public static AlloyTemplate rankupRemoveSuccess(RankUp toRm)
+	{
+		AlloyTemplate t = new AlloyTemplate("rankup remove Success", "removed a rankup messaged from level " + toRm.getLevel());
 		return t;
 	}
 
-	public static Template viewRankUps(List<RankUp> rus) {
+	public static AlloyTemplate viewRankUps(List<RankUp> rus)
+	{
 		String out = "";
 		for (RankUp rankUp : rus)
 			out += "level `" + rankUp.getLevel() + "`\n";
-		Template t = new Template("Levels with Rankups", out);
+		AlloyTemplate t = new AlloyTemplate("Levels with Rankups", out);
 		return t;
 	}
 
-	public static Template xpSetSuccess(Member target, int xp) {
-		Template t = new Template("XP set Success", "set " + target.getAsMention() + "'s xp to `" + xp + "`");
+	public static AlloyTemplate xpSetSuccess(Member target, int xp)
+	{
+		AlloyTemplate t = new AlloyTemplate("XP set Success", "set " + target.getAsMention() + "'s xp to `" + xp + "`");
 		return t;
 	}
 
-	public static Template cannotModerateModerators() {
-		Template t = new Template("Cannot Moderate Moderators",
+	public static AlloyTemplate cannotModerateModerators()
+	{
+		AlloyTemplate t = new AlloyTemplate("Cannot Moderate Moderators",
 				"sorry, i cant moderate the moderators. if you need to punish them remove their perms first");
 		return t;
 	}
 
-	public static Template showBuildings(User author, Map<Building, Integer> owned) {
+	public static AlloyTemplate showBuildings(User author, Map<Building, Integer> owned)
+	{
 		Set<Building> bs = owned.keySet();
 		String[][] data = new String[3][bs.size()];
 
 		int i = 0;
-		for (Building building : bs) {
+		for (Building building : bs)
+		{
 			int num = owned.get(building);
 			String name = building.getName();
 			int gener = building.getGeneration();
@@ -915,78 +1019,87 @@ public class Templates {
 			i++;
 		}
 
-		Template t = new Template(author.getAsTag(), "the buildings you own");
+		AlloyTemplate t = new AlloyTemplate(author.getAsTag(), "the buildings you own");
 		t.addFelid("Name", StringUtil.joinStrings(data[0]), true);
 		t.addFelid("Generation", StringUtil.joinStrings(data[1]), true);
 		t.addFelid("Quantity", StringUtil.joinStrings(data[2]), true);
 		return t;
 	}
 
-	public static Template buildingNameNotRecognized(String args) {
-		Template t = new Template("Building Name Not recognized",
+	public static AlloyTemplate buildingNameNotRecognized(String args)
+	{
+		AlloyTemplate t = new AlloyTemplate("Building Name Not recognized",
 				"i couldn't find a building with the name " + args + " in this guild\nmake sure to check spelling");
 		return t;
 	}
 
-	public static Template buildingBuySuccess(Building toBuy, User author) {
-		Template t = new Template("Building Bought", "you have bought the building `" + toBuy.getName() + "` "
+	public static AlloyTemplate buildingBuySuccess(Building toBuy, User author)
+	{
+		AlloyTemplate t = new AlloyTemplate("Building Bought", "you have bought the building `" + toBuy.getName() + "` "
 				+ author.getAsMention() + " for the price of `$" + toBuy.getCost() + "`");
 		return t;
 	}
 
-	public static Template workSuccess(String option, int amt) {
-		Template t = new Template("Work", option + "\nyou made $" + amt);
+	public static AlloyTemplate workSuccess(String option, int amt)
+	{
+		AlloyTemplate t = new AlloyTemplate("Work", option + "\nyou made $" + amt);
 		return t;
 	}
 
-	public static Template spamChannelChanged(TextChannel target) {
-		Template t = new Template("Spam Channel Changed",
+	public static AlloyTemplate spamChannelChanged(TextChannel target)
+	{
+		AlloyTemplate t = new AlloyTemplate("Spam Channel Changed",
 				"the spam channel has been changed to " + target.getAsMention());
 		return t;
 	}
 
-	public static Template channelIsAlreadyBlacklisted(TextChannel channel) {
-		Template t = new Template("Channel Already Blacklisted",
+	public static AlloyTemplate channelIsAlreadyBlacklisted(TextChannel channel)
+	{
+		AlloyTemplate t = new AlloyTemplate("Channel Already Blacklisted",
 				"this channel " + channel.getAsMention() + " is already blacklisted");
 		return t;
 	}
 
-	public static Template remindMe(String out) {
-		Template t = new Template("Reminder", "you have a reminder with the message:\n" + out);
+	public static AlloyTemplate remindMe(String out)
+	{
+		AlloyTemplate t = new AlloyTemplate("Reminder", "you have a reminder with the message:\n" + out);
 		return t;
 	}
 
-	public static Template timeNotRecognized(String time) {
-		Template t = new Template("Time not recognized", "i didn't recognize the time `" + time + "`");
+	public static AlloyTemplate timeNotRecognized(String time)
+	{
+		AlloyTemplate t = new AlloyTemplate("Time not recognized", "i didn't recognize the time `" + time + "`");
 		return t;
 	}
 
-	public static Template remindCard(String time, String out) {
-		Template t = new Template("Reminder", "I will remind you in `" + time + "` with the message:\n" + out);
+	public static AlloyTemplate remindCard(String time, String out)
+	{
+		AlloyTemplate t = new AlloyTemplate("Reminder", "I will remind you in `" + time + "` with the message:\n" + out);
 		return t;
 	}
 
-	public static Template remindMeDM(String out, Message msg) {
+	public static AlloyTemplate remindMeDM(String out, Message msg)
+	{
 		String link = DisUtil.getLink(msg);
-		Template t = new Template("Reminder",
+		AlloyTemplate t = new AlloyTemplate("Reminder",
 				"you have a reminder with the message:\n" + out + "\n\nlink [here](" + link + ")");
 		return t;
 	}
 
-	public static Template linkEmbed(String link, String text) 
+	public static AlloyTemplate linkEmbed(String link, String text)
 	{
-		Template t = new Template ("link" , "[" + text + "](" + link + ")" );
+		AlloyTemplate t = new AlloyTemplate ("link" , "[" + text + "](" + link + ")" );
 		return t;
 	}
 
-	public static Template donate(User author) 
+	public static AlloyTemplate donate(User author)
 	{
 		String link = "http://paypal.me/frontsnapk1ckmedia";
-		Template t = new Template("Donations"  , "thank you so much for thinking of me " + author.getAsMention() + "\n\nyou can donate to me [here](" + link + ")" );
+		AlloyTemplate t = new AlloyTemplate("Donations"  , "thank you so much for thinking of me " + author.getAsMention() + "\n\nyou can donate to me [here](" + link + ")" );
 		return t;
 	}
 
-	public static Template debug(DebugEvent e) 
+	public static Template debug(DebugEvent e)
 	{
 		if (e.getLevel() == Level.ERROR)
 			return error(e);
@@ -996,7 +1109,7 @@ public class Templates {
 			return warn(e);
 		if (e.getLevel() == Level.DEBUG)
 			return debugInfo(e);
-		return new Template("Something Happened" , "You should take a look, ig");
+		return new AlloyTemplate("Something Happened" , "You should take a look, ig");
 	}
 
 	private static Template debugInfo(DebugEvent e) 
@@ -1031,73 +1144,73 @@ public class Templates {
 		return t;
 	}
 
-	public static Template banAppeal(String link) 
+	public static AlloyTemplate banAppeal(String link)
 	{
-		Template t = new Template("Ban Appeal" , "[click here to appeal your ban](" + link +  ")");
+		AlloyTemplate t = new AlloyTemplate("Ban Appeal" , "[click here to appeal your ban](" + link +  ")");
 		return t;
 	}
 
-	public static Template invalidURL(String string) 
+	public static AlloyTemplate invalidURL(String string)
 	{
-		Template t = new Template("Invalid URL", "the URL `" + string + "` is invalid" );
+		AlloyTemplate t = new AlloyTemplate("Invalid URL", "the URL `" + string + "` is invalid" );
 		return t;
 	}
 
-	public static Template channelNotFound(String channelT) 
+	public static AlloyTemplate channelNotFound(String channelT)
 	{
-		Template t = new Template ("Channel Not Found" , " i couldn't find the channel " + channelT );
+		AlloyTemplate t = new AlloyTemplate ("Channel Not Found" , " i couldn't find the channel " + channelT );
 		return t;
 	}
 
-	public static Template adminBypassCooldown(boolean b) 
+	public static AlloyTemplate adminBypassCooldown(boolean b)
 	{
-		Template t = new Template("Admin Bypass Cooldown" , "the admin bypass cooldown had been change to `" + (b?"on`":"off`"));
+		AlloyTemplate t = new AlloyTemplate("Admin Bypass Cooldown" , "the admin bypass cooldown had been change to `" + (b?"on`":"off`"));
 		return t;
 	}
 
-	public static Template modLogChanged(String channelT) 
+	public static AlloyTemplate modLogChanged(String channelT)
 	{
-		return new Template ("Mod Log Changed" , "the mod log has been changed to " + channelT);
+		return new AlloyTemplate ("Mod Log Changed" , "the mod log has been changed to " + channelT);
 	}
 
-	public static Template muteRoleChanged(String role) 
+	public static AlloyTemplate muteRoleChanged(String role)
 	{
-		return new Template ("Mute Role Changed" , "the mute role has been changed to " + role);
+		return new AlloyTemplate ("Mute Role Changed" , "the mute role has been changed to " + role);
 	}
 
-	public static Template banAppealChanged(String string) 
+	public static AlloyTemplate banAppealChanged(String string)
 	{
-		return new Template ("Ban Appeal Link Changed" , "the Ban Appeal Link has been changed to " + string);
+		return new AlloyTemplate ("Ban Appeal Link Changed" , "the Ban Appeal Link has been changed to " + string);
 	}
 
-	public static Template logBan(Guild guild, User user) 
+	public static AlloyTemplate logBan(Guild guild, User user)
 	{
-		Template t = new Template("USER BANNED", "the user " + user.getAsMention() + "has been banned from this server");
+		AlloyTemplate t = new AlloyTemplate("USER BANNED", "the user " + user.getAsMention() + "has been banned from this server");
 		t.setImageURL(user.getAvatarUrl());
 		return t;
 	}
 
-	public static Template kicked(User u) 
+	public static AlloyTemplate kicked(User u)
 	{
-		return new Template("Member Kicked", "the user " + u.getAsTag() + " has been kicked from this server");
+		return new AlloyTemplate("Member Kicked", "the user " + u.getAsTag() + " has been kicked from this server");
 	}
 
-	public static Template banned(User u) 
+	public static AlloyTemplate banned(User u)
 	{
-		return new Template("Member Banned", "the user " + u.getAsTag() + " has been Banned from this server");
+		return new AlloyTemplate("Member Banned", "the user " + u.getAsTag() + " has been Banned from this server");
 	}
 
-	public static Template muted(Member member) 
+	public static AlloyTemplate muted(Member member)
 	{
-		return new Template("Member Muted", "the user " + member.getUser().getAsTag() + " has been muted");
+		return new AlloyTemplate("Member Muted", "the user " + member.getUser().getAsTag() + " has been muted");
 	}
 
-	public static Template unMuted(Member member) 
+	public static AlloyTemplate unMuted(Member member)
 	{
-		return new Template("Member Unmuted", "the user " + member.getUser().getAsTag() + " has been unmuted");
+		return new AlloyTemplate("Member Unmuted", "the user " + member.getUser().getAsTag() + " has been unmuted");
 	}
 
-	public static Template showHelpMessage() 
+	public static AlloyTemplate showHelpMessage()
 	{
 		String commands = "https://sites.google.com/view/alloybot/docs/commands";
 		String faq = "https://sites.google.com/view/alloybot/docs/frequently-asked-questions";
@@ -1108,12 +1221,12 @@ public class Templates {
 						":red_circle: [click here](" + faq + ") to see our FAQs\n\n" + 
 						":white_circle: [click here](" + discordInv + ") to get support in the Alloy Support Server";
 
-		Template t = new Template("Alloy Help", body);
+		AlloyTemplate t = new AlloyTemplate("Alloy Help", body);
 		t.setTitle("Alloy Help", alloyURL);
 		return t;
 	}
 
-    public static Template musicQueue(BlockingQueue<AudioTrack> queue, AudioTrack nowPlaying) 
+    public static AlloyTemplate musicQueue(BlockingQueue<AudioTrack> queue, AudioTrack nowPlaying)
 	{
 		String out = "";
 		int i = 1;
@@ -1131,7 +1244,7 @@ public class Templates {
 		
 		if (nowPlaying == null)
 		{
-			Template t = new Template("Music Queue", out);
+			AlloyTemplate t = new AlloyTemplate("Music Queue", out);
 			return t;
 		}
 
@@ -1141,44 +1254,44 @@ public class Templates {
 		trackInfo += TimeUtil.getTimeShortFromRelative(nowPlaying.getDuration()) + "`";
 		out = "Now Playing:\n" + trackInfo + "\n\nQueue:\n" + out;
 
-		Template t = new Template("Music Queue", out);
+		AlloyTemplate t = new AlloyTemplate("Music Queue", out);
 		return t;
     }
 
-    public static Template notingFoundBy(String[] args) 
+    public static AlloyTemplate notingFoundBy(String[] args)
 	{
 		String search = StringUtil.joinStrings(args);
-		Template t = new Template("Nothing Found", "I could not find anything by the name: `" + search + "`");
+		AlloyTemplate t = new AlloyTemplate("Nothing Found", "I could not find anything by the name: `" + search + "`");
         return t;
     }
 
-    public static Template couldNotPlay(FriendlyException exception) 
+    public static AlloyTemplate couldNotPlay(FriendlyException exception)
 	{
-		Template t = new Template("Could Not Play", exception.getMessage());
+		AlloyTemplate t = new AlloyTemplate("Could Not Play", exception.getMessage());
 		return t;
     }
 
-    public static Template addedToMusicQueue(AudioPlaylist playlist) 
+    public static AlloyTemplate addedToMusicQueue(AudioPlaylist playlist)
 	{
 		AudioTrack firstTrack = playlist.getSelectedTrack();
         
 		if (firstTrack == null)
 			firstTrack = playlist.getTracks().get(0);
 		String message = "Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")";
-		Template t = new Template ("Queue" , message);
+		AlloyTemplate t = new AlloyTemplate ("Queue" , message);
 		return t;
     }
 
-	public static Template addedToMusicQueue(AudioTrack track) 
+	public static AlloyTemplate addedToMusicQueue(AudioTrack track)
 	{
-		Template t = new Template("Queue" , "Adding to queue " + track.getInfo().title);
+		AlloyTemplate t = new AlloyTemplate("Queue" , "Adding to queue " + track.getInfo().title);
 		return t;
 	}
 
-    public static Template nowPlaying(AudioTrack nowPlaying) 
+    public static AlloyTemplate nowPlaying(AudioTrack nowPlaying)
 	{
 		if (nowPlaying == null)
-			return new Template("Now Playing" , "Nothing is playing right now");
+			return new AlloyTemplate("Now Playing" , "Nothing is playing right now");
 		
 		String title = nowPlaying.getInfo().title;
 
@@ -1195,22 +1308,22 @@ public class Templates {
 			total 
 		);
 
-		Template t = new Template("Now Playing", trackInfo);
+		AlloyTemplate t = new AlloyTemplate("Now Playing", trackInfo);
 		return t;
     }
 
-    public static Template musicSkipped() 
+    public static AlloyTemplate musicSkipped()
 	{
-		Template t = new Template("Skipped", "The song has been skipped");
+		AlloyTemplate t = new AlloyTemplate("Skipped", "The song has been skipped");
 		return t;
     }
 
-	public static Template botStillLoading() 
+	public static AlloyTemplate botStillLoading()
 	{
-		return new Template("Still Loading", "please wait a moment before using any commands, the bot is still loading");
+		return new AlloyTemplate("Still Loading", "please wait a moment before using any commands, the bot is still loading");
 	}
 
-	public static Template caseList(List<Case> cases) 
+	public static AlloyTemplate caseList(List<Case> cases)
 	{
 		String title = "Cases - " + cases.size();
 		String out = "";
@@ -1223,90 +1336,91 @@ public class Templates {
 			out += tmp + "\n\n";
 		}
 		out = out.trim();
-		return new Template(title, out);
+		return new AlloyTemplate(title, out);
 	}
 
-	public static Template musicForceSkipped() 
+	public static AlloyTemplate musicForceSkipped()
 	{
-		return new Template("Skipped" , "The song has been force skipped");
+		return new AlloyTemplate("Skipped" , "The song has been force skipped");
 	}
 
-    public static Template alreadyVotedSkip() 
+    public static AlloyTemplate alreadyVotedSkip()
 	{
-		return new Template("Already Voted" , "You have already voted to skip this song");
+		return new AlloyTemplate("Already Voted" , "You have already voted to skip this song");
     }
 
-    public static Template notInVoiceChannel() 
+    public static AlloyTemplate notInVoiceChannel()
 	{
-		return new Template("Not In Voice Channel", "To use that command, i must be in a " +  EmojiConstants.VOICE + " Voice Channel" );
+		return new AlloyTemplate("Not In Voice Channel", "To use that command, i must be in a " +  EmojiConstants.VOICE + " Voice Channel" );
     }
 
-    public static Template voteSkip(int voteNum, int majority) 
+    public static AlloyTemplate voteSkip(int voteNum, int majority)
 	{
-		return new Template("Vote Skipped", "You are the `" + voteNum + "` of the `" + majority + "` needed to skip this song");
+		return new AlloyTemplate("Vote Skipped", "You are the `" + voteNum + "` of the `" + majority + "` needed to skip this song");
     }
 
-    public static Template noMusicPlaying() 
+    public static AlloyTemplate noMusicPlaying()
 	{
-		return new Template("No Music Playing", "To use that command, music must be playing");
+		return new AlloyTemplate("No Music Playing", "To use that command, music must be playing");
     }
 
-    public static Template noLyricsFound(String name) 
+    public static AlloyTemplate noLyricsFound(String name)
 	{
-        return new Template("No Lyrics Found", String.format("I couldn't find anything for the song: `%s`", name));
+        return new AlloyTemplate("No Lyrics Found", String.format("I couldn't find anything for the song: `%s`", name));
     }
 
-    public static Template songLyrics(Song song) 
+    public static AlloyTemplate songLyrics(Song song)
 	{
         String name = song.songFullName();
 		String lyrics = song.songLyrics();
 
-		Template t = new Template(name , lyrics);
+		AlloyTemplate t = new AlloyTemplate(name , lyrics);
 		return t;
     }
 
-	public static Template addedSongToTop(AudioPlaylist playlist) 
+	public static AlloyTemplate addedSongToTop(AudioPlaylist playlist)
 	{
 		AudioTrack firstTrack = playlist.getSelectedTrack();
         
 		if (firstTrack == null)
 			firstTrack = playlist.getTracks().get(0);
 		String message = "Adding to top of queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")";
-		Template t = new Template ("Queue" , message);
+		AlloyTemplate t = new AlloyTemplate ("Queue" , message);
 		return t;
 	}
 
-    public static Template addedSongToTop(AudioTrack track) 
+    public static AlloyTemplate addedSongToTop(AudioTrack track)
 	{
-        Template t = new Template("Queue" , "Adding to top of queue " + track.getInfo().title);
+        AlloyTemplate t = new AlloyTemplate("Queue" , "Adding to top of queue " + track.getInfo().title);
 		return t;
     }
 
-    public static Template playingSongNow(AudioTrack track) 
+    public static AlloyTemplate playingSongNow(AudioTrack track)
 	{
-		Template t = new Template("Queue" , "Playing now: " + track.getInfo().title);
+		AlloyTemplate t = new AlloyTemplate("Queue" , "Playing now: " + track.getInfo().title);
 		return t;
     }
 
-    public static Template playingSongNow(AudioPlaylist playlist) 
+    public static AlloyTemplate playingSongNow(AudioPlaylist playlist)
 	{
 		AudioTrack firstTrack = playlist.getSelectedTrack();
         
 		if (firstTrack == null)
 			firstTrack = playlist.getTracks().get(0);
 		String message = "Playing now: " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")";
-		Template t = new Template ("Queue" , message);
+		AlloyTemplate t = new AlloyTemplate ("Queue" , message);
 		return t;
     }
 
-	public static Template songRemove(AudioTrack removed) 
+	public static AlloyTemplate songRemove(AudioTrack removed)
 	{
-		return new Template("Removed Song", "removed song: " + removed.getInfo().title);
+		return new AlloyTemplate("Removed Song", "removed song: " + removed.getInfo().title);
 	}
 
-	public static Template songNotFound(String song) 
+	public static AlloyTemplate songNotFound(String song)
 	{
-		return new Template( 
+		return new AlloyTemplate
+		( 
 			"Nothing Found", 
 			String.format(
 				"I couldn't find anything by the name: `%s` on %s YouTube" ,
@@ -1316,15 +1430,15 @@ public class Templates {
 		);
 	}
 
-	public static Template assignRolesOnBuy(boolean b) 
+	public static AlloyTemplate assignRolesOnBuy(boolean b)
 	{
-		Template t = new Template("Role Assign on Buy" , "the role assign on buy had been change to `" + (b?"on`":"off`"));
+		AlloyTemplate t = new AlloyTemplate("Role Assign on Buy" , "the role assign on buy had been change to `" + (b?"on`":"off`"));
 		return t;
 	}
 
-	public static Template caseEditFailed() 
+	public static AlloyTemplate caseEditFailed()
 	{
-		return new Template("Case Edit Failed" , "the edit you requested failed");
+		return new AlloyTemplate("Case Edit Failed" , "the edit you requested failed");
 	}
 
 }

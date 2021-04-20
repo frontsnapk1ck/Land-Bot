@@ -10,8 +10,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 public class DisPrintProxy extends PrintStream {
 
-    public final long GUILD_ID = 771814337420460072L;
-    public final long CHANNEL_ID = 828455936351535185L;
+    public final long GUILD_ID      = 833530318790459412L;
+    public final long CHANNEL_ID    = 833530319407546373L;
 
     private TextChannel channel;
     private Sendable sendable;

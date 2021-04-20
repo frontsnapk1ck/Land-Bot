@@ -13,7 +13,7 @@ import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -37,7 +37,7 @@ public class WarningsCommand extends AbstractCommand {
         Member m = guild.getMember(author);
 
         if (!DisPermUtil.checkPermission(m, getPermission())) {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -47,7 +47,7 @@ public class WarningsCommand extends AbstractCommand {
         }
 
         if (args.length < 1) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -59,7 +59,7 @@ public class WarningsCommand extends AbstractCommand {
         Member target = DisUtil.findMember(guild, args[0]);
 
         if (target == null) {
-            Template t = Templates.userNotFound(args[0]);
+            AlloyTemplate t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -71,7 +71,7 @@ public class WarningsCommand extends AbstractCommand {
         Long id = target.getIdLong();
         List<Warning> warnings = AdminHandler.getWarnings(guild, id);
         String warningString = AdminHandler.makeWaringTable(warnings);
-        Template t = Templates.warnings(warningString);
+        AlloyTemplate t = Templates.warnings(warningString);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

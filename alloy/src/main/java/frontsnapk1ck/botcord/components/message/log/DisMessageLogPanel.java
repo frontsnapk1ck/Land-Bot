@@ -11,7 +11,6 @@ import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
 
-@SuppressWarnings("serial")
 public class DisMessageLogPanel extends BCPanel {
 
     public static final int     BATCH_SIZE      = 50;

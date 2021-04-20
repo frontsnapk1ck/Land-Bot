@@ -7,7 +7,7 @@ import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -30,7 +30,7 @@ public class RankCommand extends AbstractCommand {
             target = FunHandler.findUser(args[0], bot, channel);
 
         if (target == null) {
-            Template t = Templates.userNotFound(args[0]);
+            AlloyTemplate t = Templates.userNotFound(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);

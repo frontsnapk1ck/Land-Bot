@@ -11,7 +11,7 @@ import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -39,7 +39,7 @@ public class JoinCommand extends AbstractCommand {
             }
         }
 
-        Template t = Templates.voiceMemberNotInChannel(m);
+        AlloyTemplate t = Templates.voiceMemberNotInChannel(m);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -51,7 +51,7 @@ public class JoinCommand extends AbstractCommand {
     {
         if (AudioHandler.join(vc)) 
         {
-            Template t = Templates.voiceJoinSuccess(vc);
+            AlloyTemplate t = Templates.voiceJoinSuccess(vc);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -63,7 +63,7 @@ public class JoinCommand extends AbstractCommand {
 
         else
         {
-            Template t = Templates.voiceJoinFail(vc);
+            AlloyTemplate t = Templates.voiceJoinFail(vc);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

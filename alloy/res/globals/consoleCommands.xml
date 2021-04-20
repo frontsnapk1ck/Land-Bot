@@ -13,6 +13,9 @@
 
         <command name = "members" type = "CONSOLE" >
             <trigger text = "members"  />
+
+            <subcommand text = ""
+                        description = "showns the number of members that are in all severs"/>
                     
             <subcommand text = "{guild id}"
                         description = "gets a list of all the members in a server"/>
@@ -130,7 +133,7 @@
             <trigger text = "guild"  />
             
             <subcommand text = ""
-                        description = "shows the number of messages the bot has recived" />
+                        description = "shows information about all the guild the bot is in" />
                     
             <subcommand text = "{id} bans"
                         description = "shows the banned useres in a guild"/>

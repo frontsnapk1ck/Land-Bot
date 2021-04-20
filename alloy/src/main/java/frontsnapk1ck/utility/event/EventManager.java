@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
-import frontsnapk1ck.alloy.main.Alloy;
-import frontsnapk1ck.alloy.utility.job.jobs.RemindJob;
 import frontsnapk1ck.utility.logger.Logger;
 
 public class EventManager {
@@ -36,6 +34,7 @@ public class EventManager {
 
     private void makeWorkers() 
     {
+        Worker.setLogger(logger);
         for (int i = 0; i < MAX_WORKERS; i++) 
             this.workers.add(new Worker("" + i));
     }
@@ -144,7 +143,7 @@ public class EventManager {
         }
         catch (InterruptedException ex)
         {
-            Alloy.LOGGER.debug("EventManager", ex );
+            logger.debug("EventManager", ex );
         }
     }
 
@@ -182,10 +181,8 @@ public class EventManager {
     {
         this.jobQueue = jobQueue;
     }
-    
 
-
-    public static ScheduledJob newScheduledJob(Long time, RemindJob job) 
+    public static ScheduledJob newScheduledJob(Long time, Job job) 
     {
         return new ScheduledJob(time , job);
     }

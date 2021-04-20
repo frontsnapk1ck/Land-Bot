@@ -10,7 +10,7 @@ import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -37,7 +37,7 @@ public class PayCommand extends AbstractCooldownCommand {
         Member m = g.getMember(author);
 
         if (args.length < 2) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -47,7 +47,7 @@ public class PayCommand extends AbstractCooldownCommand {
         }
 
         if (userOnCooldown(author, g, handler)) {
-            Template t = Templates.onCooldown(m);
+            AlloyTemplate t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -59,7 +59,7 @@ public class PayCommand extends AbstractCooldownCommand {
         String numString = args[1];
         int amount = Util.parseInt(numString, -379246534);
         if (amount == -379246534) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -68,7 +68,7 @@ public class PayCommand extends AbstractCooldownCommand {
             return;
         }
         if (amount < EconHandler.MINIUM_BALANCE) {
-            Template t = Templates.bankTransferMinimum();
+            AlloyTemplate t = Templates.bankTransferMinimum();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -87,7 +87,7 @@ public class PayCommand extends AbstractCooldownCommand {
 
         if (EconHandler.canPay(from, amount)) {
             EconHandler.pay(to, from, amount);
-            Template t = Templates.bankTransferSuccess(from, to, amount, message);
+            AlloyTemplate t = Templates.bankTransferSuccess(from, to, amount, message);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -95,7 +95,7 @@ public class PayCommand extends AbstractCooldownCommand {
             bot.send(sm);
             return;
         } else {
-            Template t = Templates.bankInsufficientFunds(author, amount);
+            AlloyTemplate t = Templates.bankInsufficientFunds(author, amount);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

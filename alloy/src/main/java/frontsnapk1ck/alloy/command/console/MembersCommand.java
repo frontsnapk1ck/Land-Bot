@@ -10,12 +10,29 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import frontsnapk1ck.utility.StringUtil;
+import frontsnapk1ck.utility.Util;
 
 public class MembersCommand extends AbstractConsoleCommand {
 
     @Override
     public void execute(ConsoleInputData data) 
-    {        
+    {
+        List<String> args = data.getArgs();
+
+        if (args.size() == 1)
+            sizeMembers(data);
+        else if (Util.validLong(args.get(1)))
+            guildMembers(data);
+    }
+
+    private void sizeMembers(ConsoleInputData data) 
+    {
+        int size = data.getJda().getUsers().size();
+        System.out.println("There are " + size + " users that i can see");
+    }
+
+    private void guildMembers(ConsoleInputData data) 
+    {
         Consumer<ConsoleInputData> con = new Consumer<ConsoleInputData>()
         {
             @Override

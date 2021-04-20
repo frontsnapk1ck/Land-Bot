@@ -11,7 +11,7 @@ import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.perm.AlloyPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -37,7 +37,7 @@ public class ForceSkipCommand extends AbstractCommand {
 
         if (!DisPermUtil.checkPermission(m, getPermission()))
         {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -48,7 +48,7 @@ public class ForceSkipCommand extends AbstractCommand {
 
         if(!AudioHandler.isConnected(g))
         {
-            Template t = Templates.notInVoiceChannel();
+            AlloyTemplate t = Templates.notInVoiceChannel();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -61,7 +61,7 @@ public class ForceSkipCommand extends AbstractCommand {
         
         if (musicManager.getPlayer().getPlayingTrack() == null)
         {
-            Template t = Templates.noMusicPlaying();
+            AlloyTemplate t = Templates.noMusicPlaying();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -71,7 +71,7 @@ public class ForceSkipCommand extends AbstractCommand {
         }
         
         musicManager.nextTrack();
-        Template t = Templates.musicForceSkipped();
+        AlloyTemplate t = Templates.musicForceSkipped();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

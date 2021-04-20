@@ -18,7 +18,7 @@ import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
@@ -63,7 +63,7 @@ public class LyricsCommand extends AbstractCommand {
         AudioTrack track = audible.getGuildAudioPlayer(g).getPlayer().getPlayingTrack();
         if (track == null)
         {
-            Template t = Templates.noMusicPlaying();
+            AlloyTemplate t = Templates.noMusicPlaying();
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -96,7 +96,7 @@ public class LyricsCommand extends AbstractCommand {
         List<SongSearchResult> searchResults = client.performSongSearch(name);
         if (searchResults == null || searchResults.size() == 0)
         {
-            Template t = Templates.noLyricsFound(name);
+            AlloyTemplate t = Templates.noLyricsFound(name);
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -112,7 +112,7 @@ public class LyricsCommand extends AbstractCommand {
         }
         catch (SongNotFoundException e) 
         {
-            Template t = Templates.noLyricsFound(name);
+            AlloyTemplate t = Templates.noLyricsFound(name);
             SendableMessage sm = new SendableMessage();
             sm.setFrom(getClass());
             sm.setChannel(channel);
@@ -127,7 +127,7 @@ public class LyricsCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Sendable bot = data.getSendable();
         
-        Template t = Templates.songLyrics(song);
+        AlloyTemplate t = Templates.songLyrics(song);
 
         try 
         {

@@ -19,6 +19,7 @@ import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
 import frontsnapk1ck.disterface.MessageData.Destination;
 import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.io.Saver;
+import frontsnapk1ck.utility.event.annotation.RequiredJob;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -54,7 +55,6 @@ import net.dv8tion.jda.api.events.role.update.RoleUpdateColorEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import frontsnapk1ck.utility.event.annotation.RequiredJob;
 
 public class JDAEvents extends ListenerAdapter {
 
@@ -210,7 +210,8 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMemberUpdateNickname(GuildMemberUpdateNicknameEvent event) {
+    public void onGuildMemberUpdateNickname(GuildMemberUpdateNicknameEvent event)
+    {
         super.onGuildMemberUpdateNickname(event);
     }
 
@@ -231,6 +232,14 @@ public class JDAEvents extends ListenerAdapter {
     protected void onMemberJoinImp(GuildMemberJoinEvent e) 
     {
         Member m = e.getMember();
+        Guild g = e.getGuild();
+
+        String tag = m.getUser().getAsTag();
+        String mid = m.getId();
+        String gName = g.getName();
+        String gid = g.getId();
+
+        Alloy.LOGGER.debug("JDAEvents", "Member " + tag + " " + mid + " joined guild " + gName + " " + gid);
         EventHandler.onMemberJoinEvent(m);
     }
 
@@ -238,8 +247,18 @@ public class JDAEvents extends ListenerAdapter {
     public void onGuildMemberRemove(GuildMemberRemoveEvent e) 
     {
 
-        try {
+        try
+        {
             Member m = e.getMember();
+            Guild g = e.getGuild();
+    
+            String tag = m.getUser().getAsTag();
+            String mid = m.getId();
+            String gName = g.getName();
+            String gid = g.getId();
+    
+            Alloy.LOGGER.debug("JDAEvents", "Member " + tag + " " + mid + " left guild " + gName + " " + gid);
+
             EventHandler.onMemberLeaveEvent(m);
         } catch (Exception ex) 
         {

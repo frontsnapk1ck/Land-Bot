@@ -8,7 +8,7 @@ import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -31,7 +31,7 @@ public class LinkCommand extends AbstractCommand {
         
         if (args.length < 2)
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -41,7 +41,7 @@ public class LinkCommand extends AbstractCommand {
         }
         String link = args[0];
         String text = StringUtil.joinStrings(args,1);
-        Template t = Templates.linkEmbed(link,text);
+        AlloyTemplate t = Templates.linkEmbed(link,text);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

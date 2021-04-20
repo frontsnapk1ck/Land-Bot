@@ -8,7 +8,7 @@ import frontsnapk1ck.alloy.main.intefs.Audible;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -28,7 +28,7 @@ public class SkipCommand extends AbstractCommand {
 
         if(!AudioHandler.isConnected(g))
         {
-            Template t = Templates.notInVoiceChannel();
+            AlloyTemplate t = Templates.notInVoiceChannel();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -43,7 +43,7 @@ public class SkipCommand extends AbstractCommand {
 
         if (musicManager.getPlayer().getPlayingTrack() == null)
         {
-            Template t = Templates.noMusicPlaying();
+            AlloyTemplate t = Templates.noMusicPlaying();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -54,7 +54,7 @@ public class SkipCommand extends AbstractCommand {
 
         if (alreadyVoted(musicManager , data))
         {
-            Template t = Templates.alreadyVotedSkip();
+            AlloyTemplate t = Templates.alreadyVotedSkip();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -65,7 +65,7 @@ public class SkipCommand extends AbstractCommand {
 
         musicManager.addSkipped(author);
         int voteNum = musicManager.getSkipped().size();
-        Template t = Templates.voteSkip( voteNum , majority );
+        AlloyTemplate t = Templates.voteSkip( voteNum , majority );
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -74,7 +74,7 @@ public class SkipCommand extends AbstractCommand {
 
         if (enoughVotes(musicManager , majority))
         {
-            Template t2 = Templates.musicSkipped();
+            AlloyTemplate t2 = Templates.musicSkipped();
             SendableMessage sm2 = new SendableMessage();
             sm2.setChannel(channel);
             sm2.setFrom(getClass());

@@ -16,7 +16,6 @@ import frontsnapk1ck.botcord.event.PressEvent;
 import frontsnapk1ck.botcord.event.SwitchTarget;
 import frontsnapk1ck.botcord.util.BCUtil;
 
-@SuppressWarnings("serial")
 public class PMButton extends BCButton {
 
     public PMButton() 

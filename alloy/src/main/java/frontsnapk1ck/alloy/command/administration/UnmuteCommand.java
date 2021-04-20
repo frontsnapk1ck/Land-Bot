@@ -8,7 +8,7 @@ import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -40,7 +40,7 @@ public class UnmuteCommand extends AbstractModerationCommand {
         {
             guild.removeRoleFromMember(member, mute).complete();
 
-            Template t = Templates.unMuted(member);
+            AlloyTemplate t = Templates.unMuted(member);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

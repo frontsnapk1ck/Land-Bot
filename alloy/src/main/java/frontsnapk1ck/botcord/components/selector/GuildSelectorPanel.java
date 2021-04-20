@@ -10,7 +10,6 @@ import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 
-@SuppressWarnings("serial")
 public class GuildSelectorPanel extends BCPanel {
     
     public static final float SCALE = 0.8f;

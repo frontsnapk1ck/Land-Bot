@@ -15,7 +15,7 @@ import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -149,7 +149,7 @@ public class InfoHandler {
         Server s = AlloyUtil.loadServer(g);
         String prefix = s.getPrefix();
 
-        Template t = Templates.prefixIs(prefix);
+        AlloyTemplate t = Templates.prefixIs(prefix);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(tc);
         sm.setFrom(InfoHandler.class);

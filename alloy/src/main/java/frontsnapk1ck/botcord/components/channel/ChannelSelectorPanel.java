@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import frontsnapk1ck.utility.Util;
 
-@SuppressWarnings("serial")
 public class ChannelSelectorPanel extends BCPanel {
 
     private Guild guild;

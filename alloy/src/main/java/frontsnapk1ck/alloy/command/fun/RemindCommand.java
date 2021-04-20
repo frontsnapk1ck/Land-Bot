@@ -6,7 +6,7 @@ import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.job.jobs.RemindJob;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -28,7 +28,7 @@ public class RemindCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
 
         if (args.length < 1) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -55,7 +55,7 @@ public class RemindCommand extends AbstractCommand {
         long delay = TimeUtil.toMillis(args[0]);
 
         if (delay == 0l) {
-            Template t = Templates.timeNotRecognized(args[0]);
+            AlloyTemplate t = Templates.timeNotRecognized(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -66,9 +66,9 @@ public class RemindCommand extends AbstractCommand {
 
         String out = StringUtil.joinStrings(args, 1);
 
-        Template template = Templates.remindCard(args[0], out);
+        AlloyTemplate template = Templates.remindCard(args[0], out);
 
-        Template t = Templates.remindMe(out);
+        AlloyTemplate t = Templates.remindMe(out);
         Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
@@ -96,7 +96,7 @@ public class RemindCommand extends AbstractCommand {
         Queueable q = data.getQueue();
 
         if (args.length < 2) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -108,7 +108,7 @@ public class RemindCommand extends AbstractCommand {
         long delay = TimeUtil.toMillis(args[1]);
 
         if (delay == 0l) {
-            Template t = Templates.timeNotRecognized(args[1]);
+            AlloyTemplate t = Templates.timeNotRecognized(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -119,7 +119,7 @@ public class RemindCommand extends AbstractCommand {
 
         PrivateChannel pc = m.getUser().openPrivateChannel().complete();
         if (pc == null) {
-            Template t = Templates.privateMessageFailed(m);
+            AlloyTemplate t = Templates.privateMessageFailed(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -130,9 +130,9 @@ public class RemindCommand extends AbstractCommand {
 
         String out = StringUtil.joinStrings(args, 2);
 
-        Template template = Templates.remindCard(args[1], out);
+        AlloyTemplate template = Templates.remindCard(args[1], out);
 
-        Template t = Templates.remindMeDM(out, msg);
+        AlloyTemplate t = Templates.remindMeDM(out, msg);
         Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(pc);

@@ -11,7 +11,7 @@ import frontsnapk1ck.alloy.main.intefs.Audible;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -29,7 +29,7 @@ public class QueueCommand extends AbstractCommand {
         AudioTrack nowPlaying = musicManager.getPlayer().getPlayingTrack();
         BlockingQueue<AudioTrack> queue = musicManager.getScheduler().getQueue();
 
-        Template t = Templates.musicQueue(queue,nowPlaying);
+        AlloyTemplate t = Templates.musicQueue(queue,nowPlaying);
         SendableMessage sm = new SendableMessage();
         sm.setFrom(getClass());
         sm.setChannel(channel);

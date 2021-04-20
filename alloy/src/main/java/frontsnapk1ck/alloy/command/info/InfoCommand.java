@@ -5,7 +5,7 @@ import frontsnapk1ck.alloy.input.AlloyInputUtil;
 import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import net.dv8tion.jda.api.entities.Guild;
@@ -36,7 +36,7 @@ public class InfoCommand extends AbstractCommand {
         }
 
         if (args.length != 2) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
@@ -53,7 +53,7 @@ public class InfoCommand extends AbstractCommand {
     }
 
     private void self(Sendable bot, TextChannel channel) {
-        Template t = Templates.infoSelf();
+        AlloyTemplate t = Templates.infoSelf();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
@@ -68,7 +68,7 @@ public class InfoCommand extends AbstractCommand {
 
         if (u == null)
         {
-            Template t = Templates.userNotFound( user );
+            AlloyTemplate t = Templates.userNotFound( user );
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -79,7 +79,7 @@ public class InfoCommand extends AbstractCommand {
 
         Member m = g.getMember(u);
         
-        Template t = Templates.infoUser(m);
+        AlloyTemplate t = Templates.infoUser(m);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
@@ -89,7 +89,7 @@ public class InfoCommand extends AbstractCommand {
 
     private void server (Guild g, Sendable bot, TextChannel channel)
     {
-        Template t = Templates.infoServer(g);
+        AlloyTemplate t = Templates.infoServer(g);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
@@ -104,7 +104,7 @@ public class InfoCommand extends AbstractCommand {
 
         if (r == null)
         {
-            Template t = Templates.roleNotFound(role);
+            AlloyTemplate t = Templates.roleNotFound(role);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setMessage(t.getEmbed());
@@ -112,7 +112,7 @@ public class InfoCommand extends AbstractCommand {
             bot.send(sm);
         }
 
-        Template t = Templates.infoRole(r);
+        AlloyTemplate t = Templates.infoRole(r);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());

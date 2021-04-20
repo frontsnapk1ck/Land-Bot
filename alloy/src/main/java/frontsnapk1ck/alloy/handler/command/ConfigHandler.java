@@ -10,17 +10,17 @@ import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.settings.RankUpSettings;
-import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.io.FileReader;
+import frontsnapk1ck.utility.StringUtil;
+import frontsnapk1ck.utility.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
-import frontsnapk1ck.utility.StringUtil;
-import frontsnapk1ck.utility.Util;
 
 public class ConfigHandler {
 
@@ -94,7 +94,7 @@ public class ConfigHandler {
 
         Server s = AlloyUtil.loadServer(g);
 
-        Template t = Templates.viewStartingBalance(s.getStartingBalance());
+        AlloyTemplate t = Templates.viewStartingBalance(s.getStartingBalance());
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(ConfigHandler.class);
@@ -117,7 +117,7 @@ public class ConfigHandler {
         }
         catch (NumberFormatException e)
         {
-            Template t = Templates.invalidNumberFormat(balS);
+            AlloyTemplate t = Templates.invalidNumberFormat(balS);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -142,7 +142,7 @@ public class ConfigHandler {
         boolean vRole = DisUtil.isRole(args[2], g);
 
         if (!vNum) {
-            Template t = Templates.invalidNumberFormat(args[1]);
+            AlloyTemplate t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -152,7 +152,7 @@ public class ConfigHandler {
         }
 
         if (!vRole) {
-            Template t = Templates.invalidRole(args[2]);
+            AlloyTemplate t = Templates.invalidRole(args[2]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -166,7 +166,7 @@ public class ConfigHandler {
         int level = Integer.parseInt(args[1]);
 
         if (isDuplicateRankup(level, s)) {
-            Template t = Templates.duplicateRankup(level);
+            AlloyTemplate t = Templates.duplicateRankup(level);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -199,7 +199,7 @@ public class ConfigHandler {
         boolean vNum = Util.validInt(args[1]);
 
         if (!vNum) {
-            Template t = Templates.invalidNumberFormat(args[1]);
+            AlloyTemplate t = Templates.invalidNumberFormat(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -211,7 +211,7 @@ public class ConfigHandler {
         int level = Integer.parseInt(args[1]);
 
         if (isDuplicateRankup(level, s)) {
-            Template t = Templates.duplicateRankup(level);
+            AlloyTemplate t = Templates.duplicateRankup(level);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -233,7 +233,7 @@ public class ConfigHandler {
     }
 
     private static void rankupAddSuccess(Sendable bot, TextChannel channel, RankUp ru) {
-        Template t = Templates.rankupAddSuccess(ru);
+        AlloyTemplate t = Templates.rankupAddSuccess(ru);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(ConfigHandler.class);
@@ -254,7 +254,7 @@ public class ConfigHandler {
 
         if (toRm != null) {
             s.removeRankUp(toRm);
-            Template t = Templates.rankupRemoveSuccess(toRm);
+            AlloyTemplate t = Templates.rankupRemoveSuccess(toRm);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -264,7 +264,7 @@ public class ConfigHandler {
         }
 
         else {
-            Template t = Templates.levelNotFound("" + level);
+            AlloyTemplate t = Templates.levelNotFound("" + level);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(ConfigHandler.class);
@@ -316,7 +316,7 @@ public class ConfigHandler {
         Server s = AlloyUtil.loadServer(g);
         int cooldown = s.getXPCooldown();
 
-        Template t = Templates.showXPCooldown(cooldown);
+        AlloyTemplate t = Templates.showXPCooldown(cooldown);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(CooldownHandler.class);
@@ -332,7 +332,7 @@ public class ConfigHandler {
         Server s = AlloyUtil.loadServer(g);
         int cooldown = s.getWorkCooldown();
 
-        Template t = Templates.showCooldown(cooldown);
+        AlloyTemplate t = Templates.showCooldown(cooldown);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(CooldownHandler.class);
@@ -344,7 +344,7 @@ public class ConfigHandler {
     {
         Server s = AlloyUtil.loadServer(g);
         List<Long> blacklisted = s.getBlacklistedChannels();
-        Template t;
+        AlloyTemplate t;
         if ( blacklisted == null || blacklisted.size() == 0 )
             t = Templates.noBlacklistedChannels();
         else

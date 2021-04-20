@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 
-@SuppressWarnings("serial")
 public class MemberListPanel extends BCPanel {
 
     private Guild guild;

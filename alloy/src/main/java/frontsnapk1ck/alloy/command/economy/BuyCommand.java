@@ -14,7 +14,7 @@ import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -39,7 +39,7 @@ public class BuyCommand extends AbstractCooldownCommand {
         Queueable q = data.getQueue();
 
         if (args.length == 0) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -50,7 +50,7 @@ public class BuyCommand extends AbstractCooldownCommand {
 
         List<Building> buildings = AlloyUtil.loadBuildings(g);
         if (!EconHandler.validBuildingName(args[0], buildings)) {
-            Template t = Templates.buildingNameNotRecognized(args[0]);
+            AlloyTemplate t = Templates.buildingNameNotRecognized(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -62,7 +62,7 @@ public class BuyCommand extends AbstractCooldownCommand {
         Building toBuy = EconHandler.getToBuy(args[0], buildings);
         Player p = AlloyUtil.loadPlayer(g, m);
         if (!EconHandler.canPay(p, toBuy.getCost())) {
-            Template t = Templates.bankInsufficientFunds(author, toBuy.getCost());
+            AlloyTemplate t = Templates.bankInsufficientFunds(author, toBuy.getCost());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -72,7 +72,7 @@ public class BuyCommand extends AbstractCooldownCommand {
         }
 
         p.buyBuilding(toBuy);
-        Template t = Templates.buildingBuySuccess(toBuy, author);
+        AlloyTemplate t = Templates.buildingBuySuccess(toBuy, author);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

@@ -9,8 +9,8 @@ import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Audible;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
-import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.utility.Util;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -29,7 +29,7 @@ public class RemoveCommand extends AbstractCommand {
 
         if (args.length < 1) 
         {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -40,7 +40,7 @@ public class RemoveCommand extends AbstractCommand {
         
         if (!Util.validInt(args[0])) 
         {
-            Template t = Templates.invalidNumberFormat(args[0]);
+            AlloyTemplate t = Templates.invalidNumberFormat(args[0]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -54,7 +54,7 @@ public class RemoveCommand extends AbstractCommand {
 
         if (index < 0 || index > musicManager.getScheduler().getQueue().size())
         {
-            Template t = Templates.numberOutOfBounds(new IndexOutOfBoundsException(index - 1));
+            AlloyTemplate t = Templates.numberOutOfBounds(new IndexOutOfBoundsException(index - 1));
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -65,7 +65,7 @@ public class RemoveCommand extends AbstractCommand {
 
         AudioTrack removed = musicManager.getScheduler().removeSong(index - 1);
 
-        Template t = Templates.songRemove(removed);
+        AlloyTemplate t = Templates.songRemove(removed);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

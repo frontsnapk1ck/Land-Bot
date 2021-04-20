@@ -16,7 +16,7 @@ import frontsnapk1ck.alloy.utility.job.jobs.RemindJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserCoolDownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.RmUserXPCooldownJob;
 import frontsnapk1ck.alloy.utility.job.jobs.SendMessageJob;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.io.DataLoader;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.utility.event.EventManager;
@@ -97,7 +97,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
         String mention = args[3];
         String message = args[4];
     
-        Template t = Templates.remindMe( message );
+        AlloyTemplate t = Templates.remindMe( message );
         Message outM = new MessageBuilder()
                             .setEmbed(t.getEmbed())
                             .append(mention)

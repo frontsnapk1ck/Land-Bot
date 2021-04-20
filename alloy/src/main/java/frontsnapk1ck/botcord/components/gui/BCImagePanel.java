@@ -5,7 +5,6 @@ import java.io.File;
 import frontsnapk1ck.botcord.components.gui.base.BaseBCImagePanel;
 import frontsnapk1ck.botcord.util.BCComponent;
 
-@SuppressWarnings("serial")
 public abstract class BCImagePanel extends BaseBCImagePanel implements BCComponent {
 
     public BCImagePanel(String path) 

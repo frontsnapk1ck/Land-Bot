@@ -7,7 +7,7 @@ import frontsnapk1ck.alloy.gameobjects.Server;
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.io.Saver;
@@ -143,7 +143,7 @@ public class EventHandler {
     private static void dmBanned(User user, String banAppealLink, Sendable bot) 
     {
         PrivateChannel channel = user.openPrivateChannel().complete();
-        Template t = Templates.banAppeal(banAppealLink);
+        AlloyTemplate t = Templates.banAppeal(banAppealLink);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setMessage(t.getEmbed());
@@ -153,7 +153,7 @@ public class EventHandler {
 
     private static void logBan(Guild guild, Sendable bot, User user, long l) 
     {
-        Template t = Templates.logBan(guild , user);
+        AlloyTemplate t = Templates.logBan(guild , user);
         TextChannel channel = guild.getTextChannelById(l);
 
         SendableMessage sm = new SendableMessage();

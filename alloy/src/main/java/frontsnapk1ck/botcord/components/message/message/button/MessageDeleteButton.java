@@ -7,7 +7,6 @@ import frontsnapk1ck.botcord.components.message.message.button.util.AbstractMess
 import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Message;
 
-@SuppressWarnings("serial")
 public class MessageDeleteButton extends AbstractMessageButtons {
 
     public MessageDeleteButton(Message message) 

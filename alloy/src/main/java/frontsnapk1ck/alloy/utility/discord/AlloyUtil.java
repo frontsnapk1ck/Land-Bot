@@ -40,7 +40,7 @@ import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.utility.cache.AlloyCache;
 import frontsnapk1ck.alloy.utility.discord.paths.AlloyFiles;
 import frontsnapk1ck.alloy.utility.discord.paths.AlloyImages;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.JDA;
@@ -63,12 +63,12 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
     //|     message
     //+======================================
 
-    public static void send(Template t , MessageChannel destination , Sendable send)
+    public static void send(AlloyTemplate t , MessageChannel destination , Sendable send)
     {
         AlloyUtil.send(t, destination , send , SendType.EMBED );
     }
     
-    private static void send(Template t, MessageChannel destination, Sendable send, SendType sendType)
+    private static void send(AlloyTemplate t, MessageChannel destination, Sendable send, SendType sendType)
     {
         SendableMessage sm = new SendableMessage();
 

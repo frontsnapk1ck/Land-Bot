@@ -10,7 +10,7 @@ import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import net.dv8tion.jda.api.entities.Guild;
@@ -34,7 +34,7 @@ public class WorkCommand extends AbstractCooldownCommand {
         Queueable q = data.getQueue();
 
         if (userOnCooldown(author, g, handler)) {
-            Template t = Templates.onCooldown(m);
+            AlloyTemplate t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -48,7 +48,7 @@ public class WorkCommand extends AbstractCooldownCommand {
         Player p = AlloyUtil.loadPlayer(g, m);
         p.addBal(amt);
 
-        Template t = Templates.workSuccess(option, amt);
+        AlloyTemplate t = Templates.workSuccess(option, amt);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());

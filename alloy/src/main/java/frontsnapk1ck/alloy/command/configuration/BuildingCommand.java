@@ -16,7 +16,7 @@ import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.alloy.utility.settings.BuildingSettings;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -41,7 +41,7 @@ public class BuildingCommand extends AbstractCommand {
 
         if (!DisPermUtil.checkPermission(m, getPermission())) 
         {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -55,7 +55,7 @@ public class BuildingCommand extends AbstractCommand {
         {
             s.changeAssignRolesOnBuy(false);
 
-            Template t = Templates.assignRolesOnBuy(false);
+            AlloyTemplate t = Templates.assignRolesOnBuy(false);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -85,7 +85,7 @@ public class BuildingCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
 
         if (args.length < 4) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -102,7 +102,7 @@ public class BuildingCommand extends AbstractCommand {
             cost = Integer.parseInt(args[1]);
             generation = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -113,7 +113,7 @@ public class BuildingCommand extends AbstractCommand {
 
         if (!EconHandler.validName(name , g)) 
         {
-            Template t = Templates.invalidBuildingName(name);
+            AlloyTemplate t = Templates.invalidBuildingName(name);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -129,7 +129,7 @@ public class BuildingCommand extends AbstractCommand {
         Building b = new Building(settings);
 
         if (EconHandler.nameOutOfBounds(b, buildings)) {
-            Template t = Templates.buildingsNameOutOfBounds(b);
+            AlloyTemplate t = Templates.buildingsNameOutOfBounds(b);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -141,7 +141,7 @@ public class BuildingCommand extends AbstractCommand {
         EconHandler.saveBuilding(g, b);
         buildings = AlloyUtil.loadBuildings(g);
 
-        Template t = Templates.buildingSaveSuccess(buildings);
+        AlloyTemplate t = Templates.buildingSaveSuccess(buildings);
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -157,7 +157,7 @@ public class BuildingCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
 
         if (args.length < 2) {
-            Template t = Templates.argumentsNotSupplied(args, getUsage());
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -169,14 +169,14 @@ public class BuildingCommand extends AbstractCommand {
         try {
             int i = Integer.parseInt(args[1]);
             Building b = EconHandler.removeBuilding(i - 1, g);
-            Template t = Templates.buildingsRemoveSuccess(b);
+            AlloyTemplate t = Templates.buildingsRemoveSuccess(b);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
             sm.setMessage(t.getEmbed());
             bot.send(sm);
         } catch (NumberFormatException e) {
-            Template t = Templates.invalidNumberFormat(args);
+            AlloyTemplate t = Templates.invalidNumberFormat(args);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -184,7 +184,7 @@ public class BuildingCommand extends AbstractCommand {
             bot.send(sm);
             return;
         } catch (IndexOutOfBoundsException e) {
-            Template t = Templates.numberOutOfBounds(e);
+            AlloyTemplate t = Templates.numberOutOfBounds(e);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

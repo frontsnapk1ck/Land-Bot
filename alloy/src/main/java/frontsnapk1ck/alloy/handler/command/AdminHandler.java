@@ -22,7 +22,7 @@ import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.DisUtil;
 import frontsnapk1ck.alloy.utility.settings.CaseSettings;
 import frontsnapk1ck.alloy.utility.settings.WarningSettings;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.io.Saver;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -283,7 +283,7 @@ public class AdminHandler {
 
         if (modLog == null) 
         {
-            Template t = Templates.modlogNotFound();
+            AlloyTemplate t = Templates.modlogNotFound();
             SendableMessage sm = new SendableMessage();
             sm.setChannel(chan);
             sm.setFrom(AdminHandler.class);
@@ -293,7 +293,7 @@ public class AdminHandler {
         }
 
         String[] fixed = fixModLogArgs(args, g);
-        Template log = Templates.moderationLog(chan, chan.getGuild(), author, punishType , fixed);
+        AlloyTemplate log = Templates.moderationLog(chan, chan.getGuild(), author, punishType , fixed);
         Server s = AlloyUtil.loadServer(chan.getGuild());
         TextChannel tc = DisUtil.findChannel(chan.getGuild(), s.getModLogChannel());
         SendableMessage sm = new SendableMessage();

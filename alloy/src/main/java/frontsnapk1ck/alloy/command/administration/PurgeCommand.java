@@ -20,7 +20,7 @@ import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
 import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
 import frontsnapk1ck.alloy.utility.job.jobs.DeleteMessageJob;
-import frontsnapk1ck.disterface.util.template.Template;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.utility.StringUtil;
 import frontsnapk1ck.utility.Util;
 import frontsnapk1ck.utility.event.Job;
@@ -91,7 +91,7 @@ public class PurgeCommand extends AbstractCooldownCommand {
                 || channel.getJDA().getSelfUser().equals(author);
         if (!valid) 
         {
-            Template t = Templates.noPermission(getPermission(), author);
+            AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -102,7 +102,7 @@ public class PurgeCommand extends AbstractCooldownCommand {
 
         if (userOnCooldown(author, guild, handler))
         {
-            Template t = Templates.onCooldown(m);
+            AlloyTemplate t = Templates.onCooldown(m);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());
@@ -296,7 +296,7 @@ public class PurgeCommand extends AbstractCooldownCommand {
                 cooldown(2000l);
             }
             
-            Template t = Templates.bulkDeleteSuccessful(channel, messagesToDelete.size() - 1);
+            AlloyTemplate t = Templates.bulkDeleteSuccessful(channel, messagesToDelete.size() - 1);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
             sm.setFrom(getClass());

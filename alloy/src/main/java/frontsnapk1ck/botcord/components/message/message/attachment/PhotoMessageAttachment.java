@@ -1,6 +1,5 @@
 package frontsnapk1ck.botcord.components.message.message.attachment;
 
-@SuppressWarnings("serial")
 public class PhotoMessageAttachment extends AbstractMessageAttachment {
 
 	private String link;

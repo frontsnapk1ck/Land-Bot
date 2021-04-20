@@ -13,7 +13,6 @@ import frontsnapk1ck.botcord.components.gui.BCButton;
 import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Message;
 
-@SuppressWarnings("serial")
 public abstract class AbstractMessageButtons extends BCButton {
 
     private Message message;

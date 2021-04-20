@@ -110,18 +110,19 @@ public class GuildsCommand extends AbstractConsoleCommand {
     {
         JDA jda = data.getJda();
         List<Guild> guilds = jda.getGuilds();
-        String[][] tableData = new String[guilds.size()][4];
+        String[][] tableData = new String[guilds.size()][5];
         
         int i = 0;
         for (Guild g : guilds) 
         {
             tableData[i][0] = "" + (i+1);
-            tableData[i][1] = g.getOwner().getUser().getAsTag();
-            tableData[i][2] = g.getId();
-            tableData[i][3] = g.getName();
+            tableData[i][1] = "" + g.getMemberCount();
+            tableData[i][2] = g.getOwner().getUser().getAsTag();
+            tableData[i][3] = g.getId();
+            tableData[i][4] = g.getName();
             i++;
         }
-        String out = StringUtil.makeTable(tableData, new String[]{"~~num~~" , "~~owner~~" , "~~id~~" , "~~name~~"});
+        String out = StringUtil.makeTable(tableData, new String[]{"~~num~~" , "~~members~~" ,  "~~owner~~" , "~~id~~" , "~~name~~"});
         System.out.println(out);
     }
     

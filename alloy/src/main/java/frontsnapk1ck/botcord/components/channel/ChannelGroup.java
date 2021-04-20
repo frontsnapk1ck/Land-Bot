@@ -11,7 +11,6 @@ import frontsnapk1ck.botcord.util.BCUtil;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.GuildChannel;
 
-@SuppressWarnings("serial")
 public class ChannelGroup extends BCPanel {
 
     public static final int COMP_HEIGHT = 30;

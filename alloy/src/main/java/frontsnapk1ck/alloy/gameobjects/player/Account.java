@@ -31,6 +31,11 @@ public class Account extends GameObject {
 		return this.settings.getBal();
 	}
 
+    public void setBalance(int bal) 
+    {
+        this.settings.setBal(bal);
+    }
+
     public void add(int bal) 
     {
         int newBal = this.settings.getBal() + bal;

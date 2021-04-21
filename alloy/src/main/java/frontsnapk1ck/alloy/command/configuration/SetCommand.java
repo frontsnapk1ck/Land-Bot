@@ -65,6 +65,8 @@ public class SetCommand extends AbstractCommand {
             setSpam(data);
         else if (args[0].equalsIgnoreCase("xp"))
             setXp(data);
+        else if (args[0].equalsIgnoreCase("bal"))
+            setBal(data);
         else if (args[0].equalsIgnoreCase("admin-bypass"))
             adminBypass(data);
         else if (args[0].equalsIgnoreCase("mod-log"))
@@ -79,7 +81,70 @@ public class SetCommand extends AbstractCommand {
     }
     
 
-    private void econRole(AlloyInputData data) 
+    private void setBal(AlloyInputData data)
+    {
+        Guild g = data.getGuild();
+        String[] args = AlloyInputUtil.getArgs(data);
+        Sendable bot = data.getSendable();
+        TextChannel channel = data.getChannel();
+        User tarU = DisUtil.parseUser(args[1]);
+
+        if (args.length < 3) 
+        {
+            AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        if (tarU == null) {
+            AlloyTemplate t = Templates.userNotFound(args[1]);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        Member target = g.getMember(tarU);
+
+        if (target == null) {
+            AlloyTemplate t = Templates.userNotFound(args[1]);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        if (!Util.validInt(args[2])) {
+            AlloyTemplate t = Templates.invalidNumberFormat(args[2]);
+            SendableMessage sm = new SendableMessage();
+            sm.setChannel(channel);
+            sm.setFrom(getClass());
+            sm.setMessage(t.getEmbed());
+            bot.send(sm);
+            return;
+        }
+
+        int bal = Integer.parseInt(args[2]);
+
+        FunHandler.setBal(target, bal);
+        AlloyTemplate t = Templates.balSetSuccess(target, bal);
+        SendableMessage sm = new SendableMessage();
+        sm.setChannel(channel);
+        sm.setFrom(getClass());
+        sm.setMessage(t.getEmbed());
+        bot.send(sm);
+        return;
+	}
+
+	private void econRole(AlloyInputData data) 
     {
         Guild g = data.getGuild();
         String[] args = AlloyInputUtil.getArgs(data);

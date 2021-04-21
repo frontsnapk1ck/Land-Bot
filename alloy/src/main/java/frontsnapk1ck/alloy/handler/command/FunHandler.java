@@ -521,4 +521,10 @@ public class FunHandler {
 		return out;
 	}
 
+    public static void setBal(Member target, int bal)
+    {
+        Player p = AlloyUtil.loadPlayer(target);
+        p.setBalance(bal);
+    }
+
 }

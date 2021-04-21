@@ -145,4 +145,9 @@ public class PlayerSettings extends AbstractSettings {
         return settings;
     }
 
+    public void setBalance(int bal)
+    {
+        this.account.setBalance(bal);
+    }
+
 }

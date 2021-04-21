@@ -1448,4 +1448,10 @@ public class Templates {
 		return new AlloyTemplate("Case Edit Failed" , "the edit you requested failed");
 	}
 
+	public static AlloyTemplate balSetSuccess(Member target, int bal)
+	{
+		AlloyTemplate t = new AlloyTemplate("Bal set Success", "set " + target.getAsMention() + "'s balance to `" + bal + "`");
+		return t;
+	}
+
 }

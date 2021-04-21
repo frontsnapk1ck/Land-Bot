@@ -151,6 +151,9 @@
         <subcommand text = "xp {user} {xp}"
                         description = "sets the xp of a given user to a given ammount"/>
 
+        <subcommand text = "bal {user} {money}"
+                        description = "sets the xp of a given user to a given ammount"/>
+
         <subcommand text = "admin-bypass {true/false}"
                         description = "changed the starting balance in this server"/>
         

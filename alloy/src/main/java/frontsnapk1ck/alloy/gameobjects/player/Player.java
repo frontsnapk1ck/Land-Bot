@@ -242,4 +242,10 @@ public class Player extends GameObject{
         return this;
     }
 
+    public void setBalance(int bal)
+    {
+        this.settings.setBalance(bal);
+        this.save();
+    }
+
 }

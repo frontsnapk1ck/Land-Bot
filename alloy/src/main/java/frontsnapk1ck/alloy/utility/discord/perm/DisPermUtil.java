@@ -42,7 +42,6 @@ public class DisPermUtil {
         perms.add(DisPerm.KICK_MEMBERS);
         perms.add(DisPerm.BAN_MEMBERS);
         perms.add(DisPerm.MESSAGE_MANAGE);
-        perms.add(DisPerm.VIEW_AUDIT_LOGS);
         perms.add(DisPerm.VOICE_MUTE_OTHERS);
         perms.add(DisPerm.VOICE_DEAF_OTHERS);
         perms.add(DisPerm.VOICE_MOVE_OTHERS);

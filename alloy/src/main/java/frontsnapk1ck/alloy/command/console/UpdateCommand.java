@@ -12,10 +12,12 @@ import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
 import frontsnapk1ck.io.Saver;
+import frontsnapk1ck.utility.StringUtil;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import frontsnapk1ck.utility.StringUtil;
 
 public class UpdateCommand extends AbstractConsoleCommand {
 
@@ -80,29 +82,50 @@ public class UpdateCommand extends AbstractConsoleCommand {
     {
         JDA jda = data.getJda();
         List<Guild> guilds = jda.getGuilds();
+        final ProgressBar memberPB = new ProgressBarBuilder().setTaskName("Members")
+                                                             .setUpdateIntervalMillis(1)
+                                                             .build();
+
+        final ProgressBar guildPB = new ProgressBarBuilder().setTaskName("Guilds")
+                                                            .setUpdateIntervalMillis(1)
+                                                            .setInitialMax(guilds.size())
+                                                            .build();
         for (Guild guild : guilds)
-            updateGuild(guild);
+        {
+            guildPB.setExtraMessage(guild.getId() + " " + guild.getName());
+            guildPB.step();
+            updateGuild(guild,memberPB);
+        }
         String[][] table = new String[2][2];
         table[0][0] = "Guild Changes";
         table[0][1] = "Member Changes";
         table[1][0] = "" + this.guildChanges;
         table[1][1] = "" + this.memberChanges;
         System.out.println(StringUtil.makeTable(table));
+
+        memberPB.close();
+        guildPB.close();
     }
 
-    private void updateGuild(Guild guild) 
+    private void updateGuild(Guild guild, final ProgressBar pb) 
     {
         AlloyUtil.loadServer(guild).setLoaded(false);
         String path = AlloyUtil.getGuildPath(guild);
         if (!new File(path).exists())
         {
             EventHandler.onGuildJoinEvent(guild);
-
+            
             guildChanges++;
         }
         List<Member> members = guild.getMembers();
+        pb.maxHint(members.size());
+        pb.stepTo(0);
         for (Member member : members) 
+        {
+            pb.setExtraMessage(member.getId() + " " + member.getEffectiveName());
             updateMember(member);
+            pb.step();
+        }
         AlloyUtil.loadServer(guild).setLoaded(true);
     }
 

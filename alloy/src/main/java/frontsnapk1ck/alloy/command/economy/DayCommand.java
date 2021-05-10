@@ -65,7 +65,18 @@ public class DayCommand extends AbstractCommand {
         {
             List<Player> players = AlloyUtil.loadAllPlayers(guild);
             for (Player p : players)
-                p.day();  
+            {
+                try
+                {
+                    p.day();      
+                }
+                catch (Exception e)
+                {
+                    User u = AlloyUtil.getMember(p, guild.getJDA()).getUser();
+                    Alloy.LOGGER.warn("DayCommand", "Could not do the day command for the user " + u.getAsTag() + " " + u.getId() + " in the guild " + guild.getName() + " " + guild.getId() + " with the error type of " + e.getClass().getSimpleName() + " with the message: " + e.getMessage());
+                }
+
+            }
         }
         Alloy.LOGGER.info("DayCommand", "the day has advanced for all guilds");
 	}

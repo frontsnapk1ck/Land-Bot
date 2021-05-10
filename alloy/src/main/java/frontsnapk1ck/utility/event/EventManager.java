@@ -145,6 +145,10 @@ public class EventManager {
         {
             logger.debug("EventManager", ex );
         }
+        catch (RuntimeException ex)
+        {
+            logger.warn("EventManager", ex.getMessage());
+        }
     }
 
     private Worker getWorker() 

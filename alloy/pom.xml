@@ -52,7 +52,7 @@
       <id>dv8tion</id>
       <name>m2-dv8tion</name>
       <url>https://m2.dv8tion.net/releases</url>
-  </repository>
+    </repository>
 
   </repositories>
 
@@ -147,6 +147,12 @@
       <artifactId>google-api-client-util</artifactId>
       <version>1.2.3-alpha</version>
     </dependency>
+
+    <dependency>
+      <groupId>me.tongfei</groupId>
+      <artifactId>progressbar</artifactId>
+      <version>0.9.1</version>
+  </dependency>
   
   </dependencies>
   <build>

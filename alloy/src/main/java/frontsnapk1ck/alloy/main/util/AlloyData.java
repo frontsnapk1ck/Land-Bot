@@ -22,7 +22,6 @@ import frontsnapk1ck.alloy.io.loader.util.JobQueueData;
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.job.AlloyEventHandler;
-import frontsnapk1ck.alloy.utility.job.jobs.DayJob;
 import frontsnapk1ck.io.Saver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -203,8 +202,9 @@ public class AlloyData {
 
     public void makeJobs() 
     {
-        Job j = new DayJob( this.jda );
-        this.eventManger.queueIn( j, 86400000L );
+        // temporarily disabled 
+        // Job j = new DayJob( this.jda );
+        // this.eventManger.queueIn( j, 86400000L );
 	}
 
     public DebugListener getDiscordInterface() 

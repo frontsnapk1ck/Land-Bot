@@ -26,7 +26,8 @@ import frontsnapk1ck.utility.Util;
 public class SetCommand extends AbstractCommand {
 
     @Override
-    public DisPerm getPermission() {
+    public DisPerm getPermission()
+    {
         return DisPerm.ADMINISTRATOR;
     }
 
@@ -40,7 +41,8 @@ public class SetCommand extends AbstractCommand {
         TextChannel channel = data.getChannel();
         Member m = g.getMember(author);
 
-        if (!DisPermUtil.checkPermission(m, getPermission())) {
+        if (!DisPermUtil.checkPermission(m, getPermission()))
+        {
             AlloyTemplate t = Templates.noPermission(getPermission(), author);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -100,7 +102,8 @@ public class SetCommand extends AbstractCommand {
             return;
         }
 
-        if (tarU == null) {
+        if (tarU == null)
+        {
             AlloyTemplate t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -112,7 +115,8 @@ public class SetCommand extends AbstractCommand {
 
         Member target = g.getMember(tarU);
 
-        if (target == null) {
+        if (target == null)
+        {
             AlloyTemplate t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -122,7 +126,8 @@ public class SetCommand extends AbstractCommand {
             return;
         }
 
-        if (!Util.validInt(args[2])) {
+        if (!Util.validInt(args[2]))
+        {
             AlloyTemplate t = Templates.invalidNumberFormat(args[2]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -432,7 +437,8 @@ public class SetCommand extends AbstractCommand {
             return;
         }
 
-        if (tarU == null) {
+        if (tarU == null)
+        {
             AlloyTemplate t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -444,7 +450,8 @@ public class SetCommand extends AbstractCommand {
 
         Member target = g.getMember(tarU);
 
-        if (target == null) {
+        if (target == null)
+        {
             AlloyTemplate t = Templates.userNotFound(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -454,7 +461,8 @@ public class SetCommand extends AbstractCommand {
             return;
         }
 
-        if (!Util.validInt(args[2])) {
+        if (!Util.validInt(args[2]))
+        {
             AlloyTemplate t = Templates.invalidNumberFormat(args[2]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -484,7 +492,8 @@ public class SetCommand extends AbstractCommand {
         Sendable bot = data.getSendable();
         TextChannel channel = data.getChannel();
 
-        if (args.length < 2) {
+        if (args.length < 2)
+        {
             AlloyTemplate t = Templates.argumentsNotSupplied(args, getUsage());
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);
@@ -495,7 +504,8 @@ public class SetCommand extends AbstractCommand {
         }
 
         TextChannel target = DisUtil.findChannel(g, DisUtil.mentionToId(args[1]));
-        if (target == null) {
+        if (target == null)
+        {
             AlloyTemplate t = Templates.invalidChannel(args[1]);
             SendableMessage sm = new SendableMessage();
             sm.setChannel(channel);

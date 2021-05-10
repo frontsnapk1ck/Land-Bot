@@ -601,6 +601,9 @@ public class Templates {
 			}
 		}
 		roleOut += "```";
+		
+		if (roles.size() == 0 )
+			roleOut = "```\nNo Roles```";
 
 		String name = "Roles [" + i + "] (shows up to " + MAX_ROLE_SHOW + ")";
 

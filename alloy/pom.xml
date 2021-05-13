@@ -138,7 +138,7 @@
     <dependency>
       <groupId>com.google.http-client</groupId>
       <artifactId>google-http-client</artifactId>
-      <version>1.39.2</version>
+      <version>1.39.2-sp.1</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-util -->

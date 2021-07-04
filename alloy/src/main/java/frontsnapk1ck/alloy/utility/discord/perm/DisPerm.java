@@ -36,6 +36,7 @@ public class DisPerm {
     public static final DisPerm MANAGE_PERMISSIONS          = new DisPerm(  "MANAGE_PERMISSIONS"        );
     public static final DisPerm MANAGE_WEBHOOKS             = new DisPerm(  "MANAGE_WEBHOOKS"           );
     public static final DisPerm MANAGE_EMOTES               = new DisPerm(  "MANAGE_EMOTES"             );
+    public static final DisPerm REQUEST_TO_SPEAK            = new DisPerm(  "REQUEST_TO_SPEAK"          );
 
     public static final DisPerm MOD                         = new DisPerm(  "MOD"                       );
     public static final DisPerm MANAGER                     = new DisPerm(  "MANAGER"                   );

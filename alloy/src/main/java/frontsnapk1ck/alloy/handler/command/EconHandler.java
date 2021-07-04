@@ -179,7 +179,7 @@ public class EconHandler {
 
     private static void writeBuildings(List<Building> list, Guild g) 
     {
-        String path = AlloyUtil.getGuildPath(g) + "\\settings\\buildings.txt";
+        String path = AlloyUtil.getGuildPath(g) + "/settings/buildings.txt";
         String[] arr = new String[list.size()];
         for (int i = 0; i < arr.length; i++)
             arr[i] = list.get(i).toString();
@@ -190,7 +190,7 @@ public class EconHandler {
     private static void writeBuilding(Building b, Guild g) 
     {
         String save = b.toString();
-        String path = AlloyUtil.getGuildPath(g) + "\\settings\\buildings.txt";
+        String path = AlloyUtil.getGuildPath(g) + "/settings/buildings.txt";
 
         Saver.saveAppend(path, save);
     }
@@ -307,13 +307,13 @@ public class EconHandler {
     {
         String out = StringUtil.joinStrings(args, 1);
 
-        String path = AlloyUtil.getGuildPath(g) + "\\settings\\work.options";
+        String path = AlloyUtil.getGuildPath(g) + "/settings/work.options";
         Saver.saveAppend(path, out);
     }
 
     public static String removeWork(int rm, Guild g) throws IndexOutOfBoundsException 
     {
-        String path = AlloyUtil.getGuildPath(g) + "\\settings\\work.options";
+        String path = AlloyUtil.getGuildPath(g) + "/settings/work.options";
         String[] options = FileReader.read(path);
 
         if (rm > 0 && rm <= options.length) 

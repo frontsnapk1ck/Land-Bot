@@ -184,8 +184,7 @@ public class Templates {
 		return t;
 	}
 
-	public static AlloyTemplate daySuccess(Guild guil
-	)
+	public static AlloyTemplate daySuccess(Guild gui )
 	{
 		AlloyTemplate t = new AlloyTemplate("Day Success", "the day has advanced in this server");
 		return t;
@@ -326,7 +325,7 @@ public class Templates {
 	public static AlloyTemplate buildingsNameOutOfBounds(Building b)
 	{
 		AlloyTemplate t = new AlloyTemplate("Building Name out of bounds",
-				"the name for that building is too long bro \\**hehe*\\*");
+				"the name for that building is too long bro /**hehe*/*");
 		return t;
 	}
 
@@ -626,7 +625,7 @@ public class Templates {
 		String name = "```txt\n" + g.getName() + "\n```";
 		String owner = "```txt\n" + g.getOwner().getUser().getAsTag() + "\n```";
 		String id = "```txt\n" + g.getId() + "\n```";
-		String region = "```txt\n" + g.getRegionRaw() + "\n```";
+		String region = "```txt\n" + getRegion(g) + "\n```";
 		String boost = "```txt\n" + g.getBoostTier() + "\n```";
 		String boosts = "```txt\n" + g.getBoostCount() + "\n```";
 
@@ -679,6 +678,14 @@ public class Templates {
 		t.setImageURL(getURL(g));
 
 		return t;
+	}
+
+	private static String getRegion( Guild g )
+	{
+		List<VoiceChannel> channels = g.getVoiceChannels();
+		if (channels.size() == 0)
+			return "N/a";
+		return channels.get(0).getRegionRaw();
 	}
 
 	private static String getURL(Guild g)

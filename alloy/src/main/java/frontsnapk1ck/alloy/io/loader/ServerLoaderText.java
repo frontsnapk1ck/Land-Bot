@@ -46,7 +46,7 @@ public class ServerLoaderText extends DataLoader<Server, String> {
         Long spamChannel            = Long.parseLong(spamString);
         List<Long> blacklist        = loadBlacklist(combinedBlackList);
         int xpCooldown              = Integer.parseInt(xpCooldownString);
-        List<RankUp> rankUps        = rult.loadALl(file + "\\settings\\rank.ups");
+        List<RankUp> rankUps        = rult.loadALl(file + "/settings/rank.ups");
         long id                     = Long.parseLong(idString);
         long modLog                 = modLogString != null ? Long.parseLong(modLogString) : 0l;
         long userLog                = userLogString != null ? Long.parseLong(userLogString) : 0l;

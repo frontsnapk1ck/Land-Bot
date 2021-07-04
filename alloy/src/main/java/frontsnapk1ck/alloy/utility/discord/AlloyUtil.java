@@ -285,7 +285,7 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
 
     public static Member getMember(Player p, JDA jda) 
     {
-        String id = p.getPath().split("\\\\")[8];
+        String id = p.getPath().split("//")[8];
         Guild g = jda.getGuildById(id);
         return g.getMemberById(p.getId());
 
@@ -307,7 +307,7 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
 
     public static List<Long> getWhitelisted() 
     {
-        String path = AlloyUtil.ALLOY_PATH + "res\\perms\\white.listed";
+        String path = AlloyUtil.ALLOY_PATH + "res/perms/white.listed";
         String[] sArr = FileReader.read(path);
         List<Long> list = new ArrayList<>();
         for (String id : sArr) {
@@ -321,7 +321,7 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
 
     public static List<Long> getBlacklisted() 
     {
-        String path = AlloyUtil.ALLOY_PATH + "res\\perms\\black.listed";
+        String path = AlloyUtil.ALLOY_PATH + "res/perms/black.listed";
         String[] sArr = FileReader.read(path);
         List<Long> list = new ArrayList<>();
         for (String id : sArr) {
@@ -344,7 +344,7 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
 
     public static long parseID(String file) {
         String name = file;
-        int numSlash = StringUtil.getNumCharsInString(name, "\\");
+        int numSlash = StringUtil.getNumCharsInString(name, "/");
         for (int i = 0; i < numSlash; i++) {
             int index = name.indexOf(AlloyUtil.SUB);
             name = name.substring(index + 1);
@@ -395,6 +395,9 @@ public class AlloyUtil implements AlloyFiles, AlloyImages {
     public static String getVersion() 
     {
         File xmlFile = new File(POM_FILE);
+
+        if (!xmlFile.exists())
+            return "UNKNOWN";
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;

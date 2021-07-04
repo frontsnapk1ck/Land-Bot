@@ -2,13 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>frontsnapk1ck</groupId>
   <artifactId>alloy</artifactId>
-  <version>0.3.4</version>
+  <version>0.3.9</version>
 
   <name>Alloy</name>
   <description>
     A moderation and an economy bot that makes your server that much better.
     Also includes a level system and numerous fun commands.
   </description>
+  
 
   <licenses>
     <license>
@@ -199,13 +200,13 @@
           <skip>${skipTests}</skip>
         </configuration>
         <executions>
-          <execution>
+          <!-- <execution>
             <id>checkstyle</id>
             <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>
-          </execution>
+          </execution> -->
         </executions>
       </plugin>
       <plugin>

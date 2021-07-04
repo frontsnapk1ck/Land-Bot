@@ -99,7 +99,7 @@ public class JobQueueLoaderText extends DataLoader<PriorityBlockingQueue<Schedul
     
         AlloyTemplate t = Templates.remindMe( message );
         Message outM = new MessageBuilder()
-                            .setEmbed(t.getEmbed())
+                            .setEmbeds(t.getEmbed())
                             .append(mention)
                             .build();
         SendableMessage sm = new SendableMessage();

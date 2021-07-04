@@ -107,9 +107,19 @@ public class Alloy implements AlloyIntefs {
     private void start() throws LoginException 
     {
         String key = loadKey();
-        jda = JDABuilder.createDefault(key).enableIntents(GatewayIntent.GUILD_MEMBERS)
-                .setMemberCachePolicy(MemberCachePolicy.ALL).setChunkingFilter(ChunkingFilter.ALL).build();
+        jda = JDABuilder.createDefault(key)
+                        .enableIntents(GatewayIntent.GUILD_MEMBERS)
+                        .setMemberCachePolicy(MemberCachePolicy.ALL)
+                        .setChunkingFilter(ChunkingFilter.ALL)
+                        .build();
         jda.addEventListener(new JDAEvents(this));
+        registerSlashCommands();
+    }
+
+    private void registerSlashCommands()
+    {
+        // CommandListUpdateAction commands = jda.updateCommands();
+        // commands.addCommands(CommandInfoLoader.loadSlashCommands());
     }
 
     private String loadKey()
@@ -324,7 +334,7 @@ public class Alloy implements AlloyIntefs {
         try
         {
             List<AttachedFile> files = message.getFiles();
-            MessageAction action = channel.sendMessage(messageE);
+            MessageAction action = channel.sendMessageEmbeds(messageE);
             for (AttachedFile attFile : files)
                 action.addFile(attFile.file);
             Message m = action.complete();
@@ -427,7 +437,7 @@ public class Alloy implements AlloyIntefs {
         try
         {
             List<AttachedFile> files = message.getFiles();
-            MessageAction action = channel.sendMessage(messageE);
+            MessageAction action = channel.sendMessageEmbeds(messageE);
             for (AttachedFile file : files)
                 action.addFile(file.file);
             if (action == null)

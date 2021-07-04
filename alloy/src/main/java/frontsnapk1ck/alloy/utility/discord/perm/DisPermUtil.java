@@ -51,7 +51,11 @@ public class DisPermUtil {
         
     }
 
-    public static Permission parseStockPerm(String perm) throws PermissionParseException {
+    public static Permission parseStockPerm(String perm) throws PermissionParseException 
+    {
+        if (perm.equalsIgnoreCase("REQUEST_TO_SPEAK"))
+            return Permission.REQUEST_TO_SPEAK;
+        
         if (perm.equalsIgnoreCase("CREATE_INSTANT_INVITE"))
             return Permission.CREATE_INSTANT_INVITE;
 
@@ -157,7 +161,11 @@ public class DisPermUtil {
         throw new PermissionParseException(perm);
     }
 
-    public static Permission parseStockPerm(DisPerm perm) throws PermissionParseException {
+    public static Permission parseStockPerm(DisPerm perm) throws PermissionParseException 
+    {
+        if (perm.getName().equalsIgnoreCase("REQUEST_TO_SPEAK"))
+            return Permission.REQUEST_TO_SPEAK;
+        
         if (perm.getName().equalsIgnoreCase("CREATE_INSTANT_INVITE"))
             return Permission.CREATE_INSTANT_INVITE;
 
@@ -263,7 +271,11 @@ public class DisPermUtil {
         throw new PermissionParseException(perm);
     }
 
-    public static DisPerm parse(String perm) throws PermissionParseException {
+    public static DisPerm parse(String perm) throws PermissionParseException 
+    {
+        if (perm.equalsIgnoreCase("REQUEST_TO_SPEAK"))
+            return DisPerm.REQUEST_TO_SPEAK;
+
         if (perm.equalsIgnoreCase("CREATE_INSTANT_INVITE"))
             return DisPerm.CREATE_INSTANT_INVITE;
 
@@ -376,7 +388,12 @@ public class DisPermUtil {
         throw new PermissionParseException(perm);
     }
 
-    public static DisPerm parse(Permission perm) throws PermissionParseException {
+    public static DisPerm parse(Permission perm) throws PermissionParseException 
+    {
+
+        if (perm == Permission.REQUEST_TO_SPEAK)
+            return DisPerm.REQUEST_TO_SPEAK;
+
         if (perm == Permission.CREATE_INSTANT_INVITE)
             return DisPerm.CREATE_INSTANT_INVITE;
 

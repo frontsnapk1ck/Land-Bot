@@ -1,6 +1,8 @@
 package frontsnapk1ck.botcord;
 
 import java.awt.Image;
+import java.awt.GraphicsEnvironment;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -16,18 +18,40 @@ import frontsnapk1ck.botcord.util.event.BotCordLogger;
 import frontsnapk1ck.gui.WindowFramework;
 import net.dv8tion.jda.api.JDA;
 
-public class BotCord extends WindowFramework{
+public class BotCord extends WindowFramework {
 
     public static final BotCordLogger LOGGER = new BotCordLogger();
+    public static final boolean IS_ENABLED;
 
     private Alloy alloy;
     private ScreenManager manager;
+
+    static {
+        IS_ENABLED = findIsEnabled();
+    }
 
 
     public BotCord(Alloy alloy) 
     {
         this.alloy = alloy;
-        init();
+        System.err.println(IS_ENABLED);
+        if (IS_ENABLED)
+        {
+            System.out.println("BotCord.BotCord()");
+            try
+            {
+                init();
+            }
+            catch (Exception e){
+            }
+        }
+        else
+            LOGGER.info("BotCord", "No Display detected, GUI not initializing");
+    }
+
+    private static boolean findIsEnabled()
+    {
+        return !GraphicsEnvironment.isHeadless();
     }
 
     private void config() 
@@ -108,6 +132,11 @@ public class BotCord extends WindowFramework{
 
 	public void finishInit() 
     {
+        if (!IS_ENABLED)
+        {
+            LOGGER.info("BotCord", "I caught what would've been an error. you're welcome");
+            return;
+        }
         config();
         update();
 	}

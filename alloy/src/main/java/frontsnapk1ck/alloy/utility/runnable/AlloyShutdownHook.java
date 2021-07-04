@@ -31,7 +31,7 @@ public class AlloyShutdownHook extends Thread {
     {
         saveQueue();
         EventQueueSaver eqs = new EventQueueSaver();
-        eqs.save(queue.getQueue(), "H:\\Coding\\Discord Bots\\Alloy\\Alloy\\alloy\\res\\queue.xml" );
+        eqs.save(queue.getQueue(), AlloyUtil.ALLOY_PATH + "res/queue.xml" );
     }
 
     private void saveQueue() 

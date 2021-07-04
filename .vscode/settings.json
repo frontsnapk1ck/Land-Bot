@@ -5,6 +5,7 @@
         "BOTTAG",
         "BUGHUNTER",
         "Cooldown",
+        "Gson",
         "HYPESQUAD",
         "Leaderboard",
         "PARTNERNEW",
@@ -41,5 +42,6 @@
         "sjob",
         "youtu"
     ],
-    "java.dependency.packagePresentation": "hierarchical"
+    "java.dependency.packagePresentation": "hierarchical",
+    "discord.enabled": false
 }

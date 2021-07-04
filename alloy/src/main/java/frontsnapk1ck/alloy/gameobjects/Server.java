@@ -92,8 +92,8 @@ public class Server extends GameObject {
             IS_LOADED               + ":" + this.settings.isLoaded() ,
 
         };
-        Saver.saveOverwrite(this.settings.getPath() + "\\settings\\bot.settings", out );
-        Saver.saveOverwrite(this.settings.getPath() + "\\settings\\rank.ups", rankups );
+        Saver.saveOverwrite(this.settings.getPath() + "/settings/bot.settings", out );
+        Saver.saveOverwrite(this.settings.getPath() + "/settings/rank.ups", rankups );
         
     }
 

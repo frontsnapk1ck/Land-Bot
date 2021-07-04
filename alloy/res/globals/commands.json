@@ -1,0 +1,59 @@
+{
+    "commands": [
+        {
+            "name" : "purge" ,
+            "permission" : "ADMINISTRATOR" , 
+            "cooldown" : "false",
+            "type" : "DISCORD", 
+            "triggers": [
+                "purge",
+                "clear",
+                "delete"
+            ],
+
+            "usages" : [
+                {
+                    "args": [
+                        {}
+                    ],
+                    "description" : "deletes up to **100** non-pinned messages"
+                },
+                {
+                    "args": [
+                        {
+                            "option" : "{num}" ,
+                            "type" : "INTEGER",
+                            "required" : true
+                        }
+                    ],
+                    "description" : "deletes {num} (**max 2500** ) messages"
+                },
+                {
+                    "args": [
+                        {
+                            "option" : "{time}" ,
+                            "type" : "STRING", 
+                            "required" : true
+                        }
+                    ],
+                    "description" : "deletes messages newer than now - (use dhms)"
+                },
+                {
+                    "args": [
+                        {
+                            "option" : "{user}",
+                            "type" : "USER",
+                            "required" : true
+                        },
+                        {
+                            "option" : "{num}" ,
+                            "type" : "INTEGER",
+                            "required" : false
+                        }
+                    ],
+                    "description" : "deletes {num} mesages from {user}"
+                }
+            ]        
+        }
+    ]
+}

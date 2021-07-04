@@ -69,7 +69,7 @@ public class RemindCommand extends AbstractCommand {
         AlloyTemplate template = Templates.remindCard(args[0], out);
 
         AlloyTemplate t = Templates.remindMe(out);
-        Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
+        Message outM = new MessageBuilder().setEmbeds(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
@@ -133,7 +133,7 @@ public class RemindCommand extends AbstractCommand {
         AlloyTemplate template = Templates.remindCard(args[1], out);
 
         AlloyTemplate t = Templates.remindMeDM(out, msg);
-        Message outM = new MessageBuilder().setEmbed(t.getEmbed()).append(m.getAsMention()).build();
+        Message outM = new MessageBuilder().setEmbeds(t.getEmbed()).append(m.getAsMention()).build();
         SendableMessage sm = new SendableMessage();
         sm.setChannel(pc);
         sm.setFrom(getClass());

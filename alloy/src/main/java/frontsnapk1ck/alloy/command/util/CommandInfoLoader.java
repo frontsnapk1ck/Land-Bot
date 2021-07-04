@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.reflections.Reflections;
 
 import frontsnapk1ck.alloy.input.AlloyInputUtil;
 import frontsnapk1ck.alloy.input.discord.AlloyInput;
 import frontsnapk1ck.alloy.main.Alloy;
+import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.input.Input;
 import frontsnapk1ck.input.InputMap;
 import frontsnapk1ck.utility.Util;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class CommandInfoLoader {
 
@@ -21,11 +26,7 @@ public class CommandInfoLoader {
         MAP = configMap();
     }
 
-    public CommandInfoLoader() {
-        super();
-    }
-
-    private static Map<String, String> configMap() 
+    private static final Map<String, String> configMap() 
     {
         Map<String,String> map  = new HashMap<String, String>();
 
@@ -105,6 +106,24 @@ public class CommandInfoLoader {
 
         
         return map;
+    }
+
+    public static List<AbstractCommand> loadAll()
+    {
+        List<AbstractCommand> abstractCommands = new ArrayList<AbstractCommand>();
+        Reflections reflections = new Reflections(AlloyUtil.COMMANDS_PATH);
+        Set<Class<? extends AbstractCommand>> commands = reflections.getSubTypesOf(AbstractCommand.class);
+        for (Class<? extends AbstractCommand> clazz : commands) 
+            abstractCommands.add(getData(clazz));
+        return abstractCommands;
+    }
+
+    public static List<CommandData> loadSlashCommands() 
+    {
+        List<CommandData> out = new ArrayList<CommandData>();
+        out.add(new CommandData("!rank", "!rank"));
+
+        return out;
     }
 
     public static AbstractCommand getData(Class<? extends AbstractCommand> c)

@@ -4,6 +4,10 @@ handle large queues
 
 if a message action fails because of permssions let the user know
 
+fix the music channel bugs
+    lryics
+    not playing cold
+
 make it store the role names in a map somewhere
     maybe switch the server over to json
 

@@ -45,6 +45,7 @@ import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateNicknameE
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
@@ -155,6 +156,12 @@ public class JDAEvents extends ListenerAdapter {
 
         AlloyInput in = new AlloyInput("USER", event);
         bot.handleMessage(in);
+    }
+
+    @Override
+    public void onSlashCommand(SlashCommandEvent event)
+    {
+        
     }
 
     @Override

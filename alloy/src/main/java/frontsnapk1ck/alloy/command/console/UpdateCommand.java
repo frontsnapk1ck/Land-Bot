@@ -92,7 +92,7 @@ public class UpdateCommand extends AbstractConsoleCommand {
                                                             .build();
         for (Guild guild : guilds)
         {
-            guildPB.setExtraMessage(guild.getId() + " " + guild.getName());
+            guildPB.setExtraMessage(guild.getId());
             guildPB.step();
             updateGuild(guild,memberPB);
         }
@@ -101,10 +101,11 @@ public class UpdateCommand extends AbstractConsoleCommand {
         table[0][1] = "Member Changes";
         table[1][0] = "" + this.guildChanges;
         table[1][1] = "" + this.memberChanges;
-        System.out.println(StringUtil.makeTable(table));
-
+        
         memberPB.close();
         guildPB.close();
+        
+        System.out.println(StringUtil.makeTable(table));
     }
 
     private void updateGuild(Guild guild, final ProgressBar pb) 
@@ -122,7 +123,7 @@ public class UpdateCommand extends AbstractConsoleCommand {
         pb.stepTo(0);
         for (Member member : members) 
         {
-            pb.setExtraMessage(member.getId() + " " + member.getEffectiveName());
+            pb.setExtraMessage(member.getId());
             updateMember(member);
             pb.step();
         }

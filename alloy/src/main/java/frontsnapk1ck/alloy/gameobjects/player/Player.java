@@ -158,7 +158,7 @@ public class Player extends GameObject{
 
     private void saveXP() 
     {
-        String path = this.settings.getPath() + "\\rank.txt";
+        String path = this.settings.getPath() + "/rank.txt";
         String[] out = new String[1];
         out[0] = "" + this.settings.getXp();
 

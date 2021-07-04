@@ -2,19 +2,63 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "build",
+			"dependsOn": [
+				"buildAlloy",
+				"shell: copyFiles:Alloy/src",
+				"shell: copyFiles:Alloy/pom",
+				"shell: copyFiles:Alloy/jar"
+			],
+			"dependsOrder": "sequence",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
 			"type": "java",
-			"label": "java: exportjar:Alloy",
-			"mainClass": "alloy.main.Launcher",
+			"label": "buildAlloy",
+			"mainClass": "frontsnapk1ck.alloy.main.Launcher",
 			"targetPath": "${workspaceFolder}/builds/${workspaceFolderBasename}.jar",
 			"elements": [
 				"${compileOutput}",
 				"${dependencies}"
 			],
 			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "shell: copyFiles:Alloy/src",
+			"command": "scp",
+			"args": [
+				"-r",
+				"H:/Coding/Discord Bots/Alloy/Alloy/alloy/src/",
+				"shawn@frontsnapk1ck:/home/shawn/Alloy/src/"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "shell: copyFiles:Alloy/pom",
+			"command": "scp",
+			"args": [
+				"H:/Coding/Discord Bots/Alloy/Alloy/alloy/pom.xml",
+				"shawn@frontsnapk1ck:/home/shawn/Alloy/pom.xml"
+			],
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "shell: copyFiles:Alloy/jar",
+			"command": "scp",
+			"args": [
+				"H:/Coding/Discord Bots/Alloy/Alloy/builds/Alloy.jar",
+				"shawn@frontsnapk1ck:/home/shawn/Alloy/alloy.jar"
+			],
+			"group": "build"
 		}
 	],
 	

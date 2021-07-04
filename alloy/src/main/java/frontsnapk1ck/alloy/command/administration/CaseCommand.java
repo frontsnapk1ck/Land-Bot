@@ -183,7 +183,7 @@ public class CaseCommand extends AbstractCommand {
 
         Message m = tc.getHistory().getMessageById(c.getMessageId());
         try {
-            m.editMessage(AdminHandler.toEmbed(c)).complete();
+            m.editMessageEmbeds(AdminHandler.toEmbed(c)).complete();
         } catch (Exception e) 
         {
             AlloyTemplate t = Templates.caseEditFailed();

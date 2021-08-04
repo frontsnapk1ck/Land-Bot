@@ -3,7 +3,7 @@ package frontsnapk1ck.alloy.command.console;
 
 import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
 import me.tongfei.progressbar.ProgressBar;
 
 public class TestCommand extends AbstractConsoleCommand {
@@ -11,7 +11,7 @@ public class TestCommand extends AbstractConsoleCommand {
     @Override
     public void execute(ConsoleInputData data) 
     {
-        DelayJob<String> j = new DelayJob<String>( (v) -> 
+        AlloyDelayJob<String> j = new AlloyDelayJob<String>( (v) -> 
         {
             try
             (

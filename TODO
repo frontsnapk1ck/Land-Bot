@@ -8,8 +8,16 @@ fix the music channel bugs
     lryics
     not playing cold
 
-make it store the role names in a map somewhere
+make it store the role names for building roles in a map somewhere
     maybe switch the server over to json
+
+revamp update
+    reload commands
+    fix missing guilds
+
+make custom future
+
+clean up vc text interface - add emojis
 
 add in support for more languages
 

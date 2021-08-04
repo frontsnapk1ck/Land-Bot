@@ -15,7 +15,7 @@ import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.intefs.handler.AlloyHandler;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
 import frontsnapk1ck.disterface.MessageData.Destination;
 import frontsnapk1ck.disterface.util.template.Template;
 import frontsnapk1ck.io.Saver;
@@ -84,7 +84,7 @@ public class JDAEvents extends ListenerAdapter {
                 onGuildJoinImp(e);    
             };
         };
-        DelayJob<GuildJoinEvent> j = new DelayJob<GuildJoinEvent>(con , e );
+        AlloyDelayJob<GuildJoinEvent> j = new AlloyDelayJob<GuildJoinEvent>(con , e );
         this.queueable.queue(j);
     }
 
@@ -118,7 +118,7 @@ public class JDAEvents extends ListenerAdapter {
                 onGuildLeaveImp(e);    
             };
         };
-        DelayJob<GuildLeaveEvent> j = new DelayJob<GuildLeaveEvent>(con , e );
+        AlloyDelayJob<GuildLeaveEvent> j = new AlloyDelayJob<GuildLeaveEvent>(con , e );
         this.queueable.queue(j);
     }
 
@@ -159,9 +159,17 @@ public class JDAEvents extends ListenerAdapter {
     }
 
     @Override
-    public void onSlashCommand(SlashCommandEvent event)
+    public void onSlashCommand(SlashCommandEvent e)
     {
-        
+        // Guild g = e.getGuild();
+        // MessageChannel c = e.getChannel();
+        // User u = e.getUser();
+        // Message m = e.getMess
+
+        // AlloyInputEvent event = new AlloyInputEvent(g, c, u, m, e);
+
+        // AlloyInput in = new AlloyInput("USER", event);
+        // bot.handleMessage(in);
     }
 
     @Override
@@ -174,7 +182,7 @@ public class JDAEvents extends ListenerAdapter {
                 onPrivateMessageReceivedImp(e);
             }
         };
-        DelayJob<PrivateMessageReceivedEvent> j = new DelayJob<PrivateMessageReceivedEvent>(con , e );
+        AlloyDelayJob<PrivateMessageReceivedEvent> j = new AlloyDelayJob<PrivateMessageReceivedEvent>(con , e );
         this.queueable.queue(j);
     }
 
@@ -232,7 +240,7 @@ public class JDAEvents extends ListenerAdapter {
                 onMemberJoinImp(t);    
             };
         };
-        DelayJob<GuildMemberJoinEvent> j = new DelayJob<GuildMemberJoinEvent>(con, e);
+        AlloyDelayJob<GuildMemberJoinEvent> j = new AlloyDelayJob<GuildMemberJoinEvent>(con, e);
         this.queueable.queue(j);
     }
     

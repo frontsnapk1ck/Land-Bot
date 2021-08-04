@@ -8,9 +8,9 @@ import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
-import frontsnapk1ck.alloy.templates.Templates;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
 import frontsnapk1ck.alloy.templates.AlloyTemplate;
+import frontsnapk1ck.alloy.templates.Templates;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -23,12 +23,12 @@ public class PingCommand extends AbstractCooldownCommand {
     @Override
     public void execute(AlloyInputData data) 
     {
-        DelayJob<AlloyInputData> j = new DelayJob<AlloyInputData>(getConsumer(), data);
+        AlloyDelayJob<AlloyInputData> j = new AlloyDelayJob<AlloyInputData>(getConsumer(), data);
         data.getQueue().queue(j);
 
     }
 
-    private Consumer<? super AlloyInputData> getConsumer() 
+    private Consumer<AlloyInputData> getConsumer() 
     {
         return new Consumer<AlloyInputData>()
         {

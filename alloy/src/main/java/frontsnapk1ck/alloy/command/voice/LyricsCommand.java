@@ -15,10 +15,10 @@ import frontsnapk1ck.alloy.input.discord.AlloyInputData;
 import frontsnapk1ck.alloy.main.intefs.Audible;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
-import frontsnapk1ck.alloy.templates.AlloyTemplate;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
 import frontsnapk1ck.io.FileReader;
 import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
@@ -39,7 +39,7 @@ public class LyricsCommand extends AbstractCommand {
             }    
         };
 
-        DelayJob<AlloyInputData> j = new DelayJob<AlloyInputData>(consumer, data);
+        AlloyDelayJob<AlloyInputData> j = new AlloyDelayJob<AlloyInputData>(consumer, data);
         data.getQueue().queue(j);
     }
 

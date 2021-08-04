@@ -5,6 +5,7 @@ import frontsnapk1ck.alloy.main.intefs.Audible;
 import frontsnapk1ck.alloy.main.intefs.Moderator;
 import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
+import frontsnapk1ck.alloy.main.intefs.handler.AlloyHandler;
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.input.device.InputType;
@@ -28,6 +29,7 @@ public class AlloyInputData {
     private CooldownHandler cooldownHandler;
     private Queueable queue;
     private Audible audible;
+    private AlloyHandler bot;
 
     public AlloyInputData() 
     {
@@ -104,6 +106,10 @@ public class AlloyInputData {
 		return this.event.getMessageActual();
 	}
 
+    public AlloyHandler getBot() {
+        return bot;
+    }
+
     public boolean isCooldown() 
     {
         return cooldown;
@@ -127,6 +133,11 @@ public class AlloyInputData {
     public void setBot(Sendable sendable) 
     {
         this.sendable = sendable;
+    }
+
+    public void setBotHandler( AlloyHandler handler)
+    {
+        this.bot = handler;
     }
 
     public void setCooldown(boolean cooldown) 

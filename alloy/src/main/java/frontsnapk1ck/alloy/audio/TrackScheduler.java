@@ -37,10 +37,11 @@ public class TrackScheduler extends AudioEventAdapter {
      *
      * @param track The track to play or add to queue.
      */
-    public void queue(AudioTrack track) 
+    public int queue(AudioTrack track) 
     {
         int index = queue.size();
         queue(track , index);
+        return index;
     }
 
     public void queueTop(AudioTrack track)

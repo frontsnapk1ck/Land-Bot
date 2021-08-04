@@ -1,10 +1,12 @@
 package frontsnapk1ck.alloy.utility.job.jobs;
 
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
+import frontsnapk1ck.alloy.utility.job.JobUtil;
+import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.Result;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import frontsnapk1ck.utility.event.Job;
 
 public class RmUserCoolDownJob extends Job {
 
@@ -20,10 +22,12 @@ public class RmUserCoolDownJob extends Job {
 	}
 
     @Override
-    public void execute() 
+    @SuppressWarnings("unchecked")
+    public Result<Void> execute() 
     {
         Member m = guild.getMember(author);
         handler.removeCooldownUser( m );
+        return JobUtil.VOID_RESULT;
     }
 
     

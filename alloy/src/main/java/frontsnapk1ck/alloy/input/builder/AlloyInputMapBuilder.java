@@ -101,14 +101,14 @@ public class AlloyInputMapBuilder {
         return des;
     }
 
-    private static Input makeInput(Element elem, String command, String descrption) 
+    private static Input makeInput(Element elem, String command, String description) 
     {
         String name = getName(elem);
         DisPerm perm = getPerm(elem);
         boolean cooldown = isCooldown(elem);
         InputType type = getType(elem);
 
-        Input in = new AlloyInput(name, command, perm , cooldown , descrption , type );
+        Input in = new AlloyInput(name, command, perm , cooldown , description , type );
         return in;
     }
 

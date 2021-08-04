@@ -30,6 +30,7 @@ public abstract class AbstractConsoleCommand extends AbstractCommand {
         dataC.setJda(jda);
         dataC.setQueue(data.getQueue());
         dataC.setSendable(data.getSendable());
+        dataC.setBot(data.getBot());
         
         execute(dataC);
     }

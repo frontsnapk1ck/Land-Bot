@@ -4,10 +4,12 @@ import java.util.function.Consumer;
 
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
+import frontsnapk1ck.alloy.utility.job.JobUtil;
+import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.Result;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.ErrorResponse;
-import frontsnapk1ck.utility.event.Job;
 
 public class DeleteMessageJob extends Job {
 
@@ -18,8 +20,9 @@ public class DeleteMessageJob extends Job {
         this.sm = sm;
 	}
 
-	@Override
-    public void execute() 
+    @Override
+    @SuppressWarnings("unchecked")
+    public Result<Void> execute() 
     {
         Consumer<ErrorResponseException> consumer = new Consumer<ErrorResponseException>() 
         {
@@ -39,6 +42,8 @@ public class DeleteMessageJob extends Job {
 
         if (sm.hasSent())
             sm.getSent().delete().queue(null,handler);
+        return JobUtil.VOID_RESULT;
+        
     }
     
 }

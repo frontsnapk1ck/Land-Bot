@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 
 import com.github.connyscode.ctils.jTrack.Song;
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
@@ -835,6 +834,8 @@ public class Templates {
 	private static String getRoleColor(Role role)
 	{
 		Color c = role.getColor();
+		if (c == null)
+			return "None";
 		int r = c.getRed();
 		int g = c.getGreen();
 		int b = c.getBlue();
@@ -1150,12 +1151,22 @@ public class Templates {
 	private static Template error(DebugEvent e) 
 	{
 		String trace = "";
-		StackTraceElement[] stack = e.getError().getStackTrace();
+		try
+		{
+			StackTraceElement[] stack = e.getError().getStackTrace();
+			
+			for (StackTraceElement s : stack) 
+				trace += s.toString() + "\n";
+		}
+		catch (Exception stackError)
+		{
+			trace = "ERROR READING TRACE";
+		}
 
-		for (StackTraceElement s : stack) 
-			trace += s.toString() + "\n";
+		String message	= e.getError() == null ? "ERROR READING MESSAGE" : e.getError().getMessage();
+		String name 	= e.getError() == null ? "ERROR READING CLASS NAME" : e.getError().getClass().getSimpleName();
 
-		String err = e.getError().getClass().getSimpleName() + "\t:\t" + e.getError().getMessage() ;
+		String err =  name + "\t:\t" + message;
 
 		Template t = new Template(e.getLevel().toString(),  err + "\n\nstackTrace:\n" + trace );
 		return t;
@@ -1282,7 +1293,7 @@ public class Templates {
         return t;
     }
 
-    public static AlloyTemplate couldNotPlay(FriendlyException exception)
+    public static AlloyTemplate couldNotPlay(Exception exception)
 	{
 		AlloyTemplate t = new AlloyTemplate("Could Not Play", exception.getMessage());
 		return t;

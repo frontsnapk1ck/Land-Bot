@@ -8,20 +8,20 @@ public abstract class Job {
 
     private boolean toExecute;
 
-	/** Create a job */
+    /** Create a job */
 	public Job()
 	{
 		this( null );
 	}
-	
-	/** Create a job with given id */
+
+    /** Create a job with given id */
 	public Job( String id )
 	{
         this.id = id;
         this.enable();
 	}
 
-    public abstract void execute();
+    public abstract <R> Result<R>  execute();
 
 
     /** Returns the ID of this job */

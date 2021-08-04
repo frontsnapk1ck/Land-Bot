@@ -7,6 +7,8 @@ public interface AlloyHandler {
 
     public void handleMessage(AlloyInput in);
 
+    public void handleSlashMessage(AlloyInput in);
+
     public void guildCountUpdate();
 
 	public void addGuildMap(Guild g);

@@ -105,6 +105,7 @@ public class AlloyInput extends Input {
     public void setBot(Alloy bot) 
     {
         this.data.setBot( bot );
+        this.data.setBotHandler( bot );
         this.data.setMod( bot );
         this.data.setCooldown( bot );
         this.data.setQueue( bot );

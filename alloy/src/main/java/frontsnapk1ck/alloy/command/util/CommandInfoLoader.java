@@ -121,7 +121,7 @@ public class CommandInfoLoader {
     public static List<CommandData> loadSlashCommands() 
     {
         List<CommandData> out = new ArrayList<CommandData>();
-        out.add(new CommandData("!rank", "!rank"));
+        out.add(new CommandData("rank", "shows your rank in the server"));
 
         return out;
     }

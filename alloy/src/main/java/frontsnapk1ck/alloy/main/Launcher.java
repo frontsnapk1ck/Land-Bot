@@ -65,8 +65,13 @@ public class Launcher {
                     e.printStackTrace();
                 }
                 alloy.finishInit();
-                botCord.finishInit();
-                botCord.addLoggerListener(alloy.getInterfaceListener());
+                try
+                {
+                    botCord.finishInit();
+                    botCord.addLoggerListener(alloy.getInterfaceListener());
+                } catch (Exception e) {
+                    Alloy.LOGGER.error("Launcher", e);
+                }
             }
         };
 

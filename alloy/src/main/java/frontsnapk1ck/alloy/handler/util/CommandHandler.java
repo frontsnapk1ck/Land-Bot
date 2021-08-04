@@ -85,6 +85,7 @@ public class CommandHandler {
         data.setJda(in.getJDA());
         data.setQueue(in.getData().getQueue());
         data.setSendable(in.getData().getSendable());
+        data.setBot(in.getData().getBot());
         
         ConsoleInput out = new ConsoleInput("FAUX_CONSOLE", in.getTrigger() , data);
         return out;

@@ -32,9 +32,10 @@ import frontsnapk1ck.utility.event.Worker;
 
 public class AlloyData {
 
-    private Map<Long, TextChannel> modLogs = new HashMap<Long, TextChannel>();
+    protected Map<Long, TextChannel> modLogs = new HashMap<Long, TextChannel>();
     protected Map<Long, List<Long>> cooldownUsers = new HashMap<Long, List<Long>>();
     protected Map<Long, List<Long>> xpCooldownUsers = new HashMap<Long, List<Long>>();
+    
     private List<Job> tmpQueue = new ArrayList<Job>();
     private Console console = new Console();
     private AlloyEventHandler eventManger;
@@ -54,7 +55,7 @@ public class AlloyData {
         this.jda = jda;
         this.alloy = alloy;
         this.messages = BigInteger.ZERO;
-        console.setHandler(alloy,alloy);
+        console.setHandler(alloy);
         configHandlers();
     }
     
@@ -147,7 +148,7 @@ public class AlloyData {
         this.eventManger = loadEventManager();
         this.updateCooldownUsers();
         this.updateXpCooldownUsers();
-        this.console.setHandler(alloy, alloy);
+        this.console.setHandler(alloy);
     }
 
     private void updateXpCooldownUsers() 
@@ -163,6 +164,7 @@ public class AlloyData {
 
     private void updateCooldownUsers() 
     {
+        System.out.println("AlloyData.updateCooldownUsers()");
         List<Guild> guilds = this.jda.getGuilds();
         for (Guild guild : guilds) 
         {

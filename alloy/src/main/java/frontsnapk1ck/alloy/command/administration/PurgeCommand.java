@@ -14,13 +14,13 @@ import frontsnapk1ck.alloy.main.intefs.Queueable;
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
+import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPerm;
 import frontsnapk1ck.alloy.utility.discord.perm.DisPermUtil;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
 import frontsnapk1ck.alloy.utility.job.jobs.DeleteMessageJob;
-import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.utility.StringUtil;
 import frontsnapk1ck.utility.Util;
 import frontsnapk1ck.utility.event.Job;
@@ -63,7 +63,7 @@ public class PurgeCommand extends AbstractCooldownCommand {
                 exeImp(t);
             }
         };
-        DelayJob<AlloyInputData> j = new DelayJob<AlloyInputData>(consumer, data);
+        AlloyDelayJob<AlloyInputData> j = new AlloyDelayJob<AlloyInputData>(consumer, data);
         data.getQueue().queue(j);
     }
 

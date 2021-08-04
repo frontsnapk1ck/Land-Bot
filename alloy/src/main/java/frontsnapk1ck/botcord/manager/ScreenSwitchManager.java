@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import frontsnapk1ck.alloy.main.intefs.Queueable;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
 import frontsnapk1ck.botcord.event.BCListener;
 import frontsnapk1ck.botcord.event.PressEvent;
 import frontsnapk1ck.botcord.event.SwitchTarget;
@@ -14,11 +14,11 @@ import frontsnapk1ck.botcord.manager.util.SwitchEvent;
 import frontsnapk1ck.botcord.manager.util.Switchable;
 import frontsnapk1ck.botcord.screen.GuildScreen;
 import frontsnapk1ck.botcord.screen.PMScreen;
+import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.annotation.RequiredJob;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
-import frontsnapk1ck.utility.event.Job;
-import frontsnapk1ck.utility.event.annotation.RequiredJob;
 
 public class ScreenSwitchManager implements BCListener {
 
@@ -51,7 +51,7 @@ public class ScreenSwitchManager implements BCListener {
                 onPressImp(e);
             }
         };
-        DelayJob<PressEvent> j = new DelayJob<PressEvent>(c, e);
+        AlloyDelayJob<PressEvent> j = new AlloyDelayJob<PressEvent>(c, e);
         if (this.queueable == null)
             this.tmpQueue.add(j);
         else

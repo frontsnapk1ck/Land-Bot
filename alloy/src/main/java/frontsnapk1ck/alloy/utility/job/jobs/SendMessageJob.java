@@ -2,9 +2,11 @@ package frontsnapk1ck.alloy.utility.job.jobs;
 
 import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
+import frontsnapk1ck.alloy.utility.job.JobUtil;
+import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.Result;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import frontsnapk1ck.utility.event.Job;
 
 public class SendMessageJob extends Job {
 
@@ -20,13 +22,15 @@ public class SendMessageJob extends Job {
     }
 
     @Override
-    public void execute() 
+    @SuppressWarnings("unchecked")
+    public Result<Void> execute() 
     {
         SendableMessage sm = new SendableMessage();
         sm.setChannel(channel);
         sm.setFrom(getClass());
         sm.setMessage(this.message);
         this.sendable.send(sm);
+        return JobUtil.VOID_RESULT;
     }
     
 }

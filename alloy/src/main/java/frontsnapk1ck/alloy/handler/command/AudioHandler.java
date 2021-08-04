@@ -16,17 +16,19 @@ import frontsnapk1ck.alloy.handler.security.Auth;
 import frontsnapk1ck.alloy.main.intefs.Audible;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
 import frontsnapk1ck.io.FileReader;
+import frontsnapk1ck.utility.StringUtil;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
-import frontsnapk1ck.utility.StringUtil;
 
 public class AudioHandler {
 
     public static final long        NUMBER_OF_VIDEOS_RETURNED   = 10;
     
     public static final String      YOUTUBE_LINK_BASE           = "https://www.youtube.com/watch?v=";
+
+    public static final Long MAX_TIME = 7200000L;
 
     /**
      * Define a global instance of a Youtube object, which will be used
@@ -36,7 +38,8 @@ public class AudioHandler {
 
     private static Audible audible;
 
-    public static boolean join(VoiceChannel channel) {
+    public static boolean join(VoiceChannel channel)
+    {
         AudioManager manager = channel.getGuild().getAudioManager();
         try {
             manager.openAudioConnection(channel);
@@ -46,7 +49,8 @@ public class AudioHandler {
         }
     }
 
-    public static boolean memberIn(VoiceChannel vc, Member m) {
+    public static boolean memberIn(VoiceChannel vc, Member m)
+    {
         List<Member> members = vc.getMembers();
         for (Member member : members) 
         {
@@ -82,7 +86,7 @@ public class AudioHandler {
         }
     }
 
-    private static boolean isLink(String[] args) 
+    public static boolean isLink(String[] args) 
     {
         URL url;
         try {

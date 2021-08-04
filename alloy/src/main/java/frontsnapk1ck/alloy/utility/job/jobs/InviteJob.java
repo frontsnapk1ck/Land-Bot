@@ -4,9 +4,11 @@ import frontsnapk1ck.alloy.main.intefs.Sendable;
 import frontsnapk1ck.alloy.main.util.SendableMessage;
 import frontsnapk1ck.alloy.templates.AlloyTemplate;
 import frontsnapk1ck.alloy.templates.Templates;
+import frontsnapk1ck.alloy.utility.job.JobUtil;
+import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.Result;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.PrivateChannel;
-import frontsnapk1ck.utility.event.Job;
 
 public class InviteJob extends Job {
 
@@ -20,7 +22,8 @@ public class InviteJob extends Job {
     }
 
     @Override
-    public void execute() 
+    @SuppressWarnings("unchecked")
+    public Result<Void> execute() 
     {
         PrivateChannel pc = m.getUser().openPrivateChannel().complete();
         AlloyTemplate t = Templates.inviteActual(m);
@@ -29,6 +32,7 @@ public class InviteJob extends Job {
         sm.setMessage(t.getEmbed());
         sm.setFrom(getClass());
         bot.send(sm);
+        return JobUtil.VOID_RESULT;
     }
     
 }

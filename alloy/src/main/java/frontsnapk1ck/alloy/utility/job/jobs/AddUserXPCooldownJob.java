@@ -1,8 +1,10 @@
 package frontsnapk1ck.alloy.utility.job.jobs;
 
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
-import net.dv8tion.jda.api.entities.Member;
+import frontsnapk1ck.alloy.utility.job.JobUtil;
 import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.Result;
+import net.dv8tion.jda.api.entities.Member;
 
 public class AddUserXPCooldownJob extends Job {
 
@@ -16,9 +18,11 @@ public class AddUserXPCooldownJob extends Job {
 	}
 
 	@Override
-    public void execute() 
+    @SuppressWarnings("unchecked")
+    public Result<Void> execute() 
     {
         handler.addXpCooldownUser(m);
+        return JobUtil.VOID_RESULT;
     }
 
     

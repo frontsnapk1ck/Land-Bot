@@ -1,6 +1,5 @@
 package frontsnapk1ck.alloy.input.console;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +30,9 @@ public class Console implements DeviceListener  {
     }
 
 
-    public void setHandler(ConsoleHandler consoleHandler, UncaughtExceptionHandler alloy)
+    public void setHandler(ConsoleHandler consoleHandler)
     {
         this.consoleHandler = consoleHandler;
-        Thread.setDefaultUncaughtExceptionHandler(alloy);
     }
 
     public boolean hasHandler()

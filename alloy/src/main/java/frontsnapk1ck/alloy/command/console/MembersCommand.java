@@ -5,12 +5,12 @@ import java.util.function.Consumer;
 
 import frontsnapk1ck.alloy.command.util.AbstractConsoleCommand;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
+import frontsnapk1ck.utility.StringUtil;
+import frontsnapk1ck.utility.Util;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import frontsnapk1ck.utility.StringUtil;
-import frontsnapk1ck.utility.Util;
 
 public class MembersCommand extends AbstractConsoleCommand {
 
@@ -41,7 +41,7 @@ public class MembersCommand extends AbstractConsoleCommand {
                 membersImp(t);
             }
         };
-        DelayJob<ConsoleInputData> j = new DelayJob<ConsoleInputData>(con, data);
+        AlloyDelayJob<ConsoleInputData> j = new AlloyDelayJob<ConsoleInputData>(con, data);
         data.getQueue().queue(j);
     }
 

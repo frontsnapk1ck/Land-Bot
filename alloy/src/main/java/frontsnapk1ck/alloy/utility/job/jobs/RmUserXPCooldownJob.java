@@ -1,8 +1,10 @@
 package frontsnapk1ck.alloy.utility.job.jobs;
 
 import frontsnapk1ck.alloy.main.intefs.handler.CooldownHandler;
-import net.dv8tion.jda.api.entities.Member;
+import frontsnapk1ck.alloy.utility.job.JobUtil;
 import frontsnapk1ck.utility.event.Job;
+import frontsnapk1ck.utility.event.Result;
+import net.dv8tion.jda.api.entities.Member;
 
 public class RmUserXPCooldownJob extends Job {
 
@@ -15,10 +17,12 @@ public class RmUserXPCooldownJob extends Job {
         this.handler = handler;
 	}
 
-	@Override
-    public void execute() 
+    @Override
+    @SuppressWarnings("unchecked")
+    public Result<Void> execute() 
     {
         handler.removeXpCooldownUser(m);
+        return JobUtil.VOID_RESULT;
     }
 
     

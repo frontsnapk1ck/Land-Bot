@@ -12,6 +12,7 @@ import javax.security.auth.login.LoginException;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 import frontsnapk1ck.alloy.audio.GuildMusicManager;
+import frontsnapk1ck.alloy.command.util.CommandInfoLoader;
 import frontsnapk1ck.alloy.event.AlloyLogger;
 import frontsnapk1ck.alloy.event.DebugListener;
 import frontsnapk1ck.alloy.event.DiscordInterface;
@@ -46,6 +47,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -118,8 +120,9 @@ public class Alloy implements AlloyIntefs {
 
     private void registerSlashCommands()
     {
-        // CommandListUpdateAction commands = jda.updateCommands();
-        // commands.addCommands(CommandInfoLoader.loadSlashCommands());
+        CommandListUpdateAction commands = jda.updateCommands();
+        commands.addCommands(CommandInfoLoader.loadSlashCommands());
+        commands.queue();
     }
 
     private String loadKey()
@@ -191,6 +194,7 @@ public class Alloy implements AlloyIntefs {
     {
         in.getData().setQueue(this);
         in.getData().setSendable(this);
+        in.getData().setBot(this);
         CommandHandler.process(in);
     }
 
@@ -217,6 +221,28 @@ public class Alloy implements AlloyIntefs {
     public TextChannel getModLogChannel(long gid)
     {
         return data.getModLogChannel(gid);
+    }
+
+    @Override
+    public void edit(Message oldMsg, SendableMessage newMsg)
+    {
+        try
+        {
+            oldMsg.editMessage(newMsg.getMessage()).complete();
+        } catch (Exception e)
+        {
+            MessageChannel channel = oldMsg.getChannel();
+
+            String from = newMsg.getFrom();
+
+            String info = "";
+            if (channel instanceof TextChannel)
+                info += "Guild: " + ((TextChannel) channel).getGuild().getName() + "\t";
+            info += "Channel: " + channel.getName() + "\t";
+            info += "Error Type: " + e.getClass().getSimpleName();
+
+            LOGGER.warn(from, e.getMessage() + "\t" + info);
+        }
     }
 
     @Override
@@ -493,7 +519,7 @@ public class Alloy implements AlloyIntefs {
 
     private void configDiscordInterface() 
     {
-        final long ALLOY_ID = 771814337420460072L;
+        final long ALLOY_ID = 833530318790459412L;
 
         final long ERROR_ID = 805626387100467210L;
         final long DEBUG_ID = 809178603345805352L;
@@ -516,6 +542,11 @@ public class Alloy implements AlloyIntefs {
     @Override
     public void uncaughtException(Thread t, Throwable e) 
     {
+        for (int i = 0; i < 4; i++)
+        {
+            StackTraceElement element = e.getStackTrace()[i];
+            System.out.println("ERROR: " + element.getFileName() + "@" + element.getLineNumber());    
+        }
         LOGGER.error(t.getName(), e);
         t.run();
         this.update();
@@ -594,6 +625,7 @@ public class Alloy implements AlloyIntefs {
     {
         this.update();
         data.makeJobs();
+        LOGGER.info("Alloy", mentionMeAlias);
     }
 
     public DebugListener getInterfaceListener()
@@ -628,6 +660,12 @@ public class Alloy implements AlloyIntefs {
     public AlloyData getData() 
     {
         return data;
+    }
+
+    @Override
+    public void handleSlashMessage(AlloyInput in)
+    {
+        
     }
 
 }

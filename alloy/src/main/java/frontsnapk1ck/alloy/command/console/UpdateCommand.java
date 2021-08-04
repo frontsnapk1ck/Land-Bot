@@ -10,7 +10,7 @@ import frontsnapk1ck.alloy.handler.util.EventHandler;
 import frontsnapk1ck.alloy.input.console.ConsoleInputData;
 import frontsnapk1ck.alloy.main.Alloy;
 import frontsnapk1ck.alloy.utility.discord.AlloyUtil;
-import frontsnapk1ck.alloy.utility.job.jobs.DelayJob;
+import frontsnapk1ck.alloy.utility.job.jobs.AlloyDelayJob;
 import frontsnapk1ck.io.Saver;
 import frontsnapk1ck.utility.StringUtil;
 import me.tongfei.progressbar.ProgressBar;
@@ -74,8 +74,10 @@ public class UpdateCommand extends AbstractConsoleCommand {
                 updateFilesImp(data);
             };
         };
-        DelayJob<ConsoleInputData> j = new DelayJob<ConsoleInputData>(con , data);
+        AlloyDelayJob<ConsoleInputData> j = new AlloyDelayJob<ConsoleInputData>(con , data);
         data.getQueue().queue(j);
+        data.getBot().guildCountUpdate();
+        ((Alloy)data.getBot()).update();
     }
 
     protected void updateFilesImp(ConsoleInputData data) 

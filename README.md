@@ -1,3 +1,6 @@
+# SUNSET
+alloy is no longer a supported bot and as of currenent there are no plans to bring it back online. the year we had together was great, i look back on the times with joy, but this project was never meant to be what it became. this started off as a custom bot fora server i was in with my friends, but it turned into so much more. this was a great way for me to expand my skills at coding and in turn not only finding something i enjoy but am good at. i look forward to seeing you guys next time, but for now this is the end of Alloy.
+
 # Alloy
 A moderation and an economy bot that makes your server that much better. also includes a level system and numerous fun commands. this bot is still a work in progress and I ask that you keep that in mind while you are using Alloy. whatever feedback you provide is greatly appreciated. I have big plans for this bot, and I hope that you can see those come to fruition with me. 
 

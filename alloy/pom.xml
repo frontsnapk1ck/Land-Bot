@@ -127,7 +127,7 @@
     <dependency>
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-youtube</artifactId>
-      <version>v3-rev20220409-1.32.1</version>
+      <version>v3-rev20220418-1.32.1</version>
     </dependency>
 
     <dependency>
